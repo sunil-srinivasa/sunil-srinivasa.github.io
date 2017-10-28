@@ -172,7 +172,8 @@ Second, we attempt to generate samples for a bi-modal Gaussian distribution. The
 We see that the generated samples' histogram matches the true data distribution reasonably well. We did not tweak the network parameters here further to potentially improve performance.
 
 ***Code***
-This [jupyter notebook]({{site.baseurl}}/assets/notebooks/2017-04-07-Understanding GAN.ipynb) using TensorFlow helped to generate all the results shown here.
+
+This [jupyter notebook]({{site.baseurl}}/assets/codes/2017-04-07-Understanding GAN.ipynb){:target="_blank"} using TensorFlow helped to generate all the results shown here.
 
 ***Closing Notes***
 
