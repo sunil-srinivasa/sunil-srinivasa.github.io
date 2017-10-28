@@ -16,7 +16,7 @@ author: "Sunil Srinivasa"
 
 **What is Inverse Transform Sampling?**
 
-[Inverse transform sampling](https://en.wikipedia.org/wiki/Inverse_transform_sampling) (ITS) is a generic technique used for generating independent sample numbers at random given any underlying probability distribution. It is akin to other random number generation techniques such as [rejection sampling](https://en.wikipedia.org/wiki/Rejection_sampling), [Ziggurat algorithm](https://en.wikipedia.org/wiki/Ziggurat_algorithm) and [Box-Muller transform](https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform). It operates as follows:
+[Inverse transform sampling](https://en.wikipedia.org/wiki/Inverse_transform_sampling){:target="_blank"} (ITS) is a generic technique used for generating independent sample numbers at random given any underlying probability distribution. It is akin to other random number generation techniques such as [rejection sampling](https://en.wikipedia.org/wiki/Rejection_sampling), [Ziggurat algorithm](https://en.wikipedia.org/wiki/Ziggurat_algorithm) and [Box-Muller transform](https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform). It operates as follows:
 suppose we wish to generate samples from a continuous probability distribution with cumulative density function (CDF) $$F_X(x)$$. ITS takes a uniform sample of a random variable $$U$$ that is disributed between $$[0,1]$$, interprets it as a probability, and generates sample $$x$$ for which $$F_X(x) = u$$, i.e., $$x = F^{-1}_X(u)$$.
 
 As an illustration, consider the case when we wish to generate samples from an exponential distribution, i.e., $$F_X(x)=(1-e^{-\lambda x})$$ for $$x\geq 0$$ and $$0$$ otherwise. Using ITS, we obtain $$F_X(x) = u$$, or equivalently, $$x=-\frac{1}{\lambda}\ln(1-u)$$.
