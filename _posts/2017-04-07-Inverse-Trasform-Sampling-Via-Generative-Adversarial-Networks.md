@@ -171,6 +171,9 @@ Second, we attempt to generate samples for a bi-modal Gaussian distribution. The
 
 We see that the generated samples' histogram matches the true data distribution reasonably well. We did not tweak the network parameters here further to potentially improve performance.
 
+***Code***
+This [jupyter notebook]({{site.baseurl}}/assets/notebooks/2017-04-07-Understanding GAN.ipynb) using TensorFlow helped to generate all the results shown here.
+
 ***Closing Notes***
 
 In this blog, we have provided an introduction to how Generative Adversarial Networks can overcome some of the shortcomings of Inverse Transform Sampling methods. We have also illustrated via a couple of fundamental examples that GANs can emulate Gaussian distribution mixtures very effectively with basic neural network architectures. The ideas presented here can be extended (without much deliberation) to generate multi-dimensional distributions that represent more tangible data such as images. GANs of late are able to generate high compleling high-resolution examples using convolutional neural networks from diverse image classes. The GAN we introduced in this blog is the barebones or vanilla GAN. This model has been improved upon by several variants of GAN such as Deep Convolutional GANs, Conditional GANs, Autoencoding GANs and Infomation Maximizing GANs [[4]](http://people.ee.duke.edu/~lcarin/Yunchen9.30.2016.pdf){:target="_blank"}
