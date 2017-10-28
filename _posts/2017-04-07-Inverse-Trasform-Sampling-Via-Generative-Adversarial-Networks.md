@@ -173,7 +173,7 @@ We see that the generated samples' histogram matches the true data distribution 
 
 ***Code***
 
-This [jupyter notebook]({{site.baseurl}}/assets/codes/2017-04-07-Understanding GAN.ipynb){:target="_blank"} using TensorFlow helped to generate all the results shown here.
+This [Jupyter notebook]({{site.baseurl}}/assets/codes/2017-04-07-Understanding GAN.ipynb){:target="_blank"} using TensorFlow helped generate all the results shown here.
 
 ***Closing Notes***
 
