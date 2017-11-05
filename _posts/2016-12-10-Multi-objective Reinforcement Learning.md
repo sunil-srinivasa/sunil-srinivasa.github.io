@@ -30,7 +30,7 @@ In this blog post, we explain how to obtain the Pareto front for the [Cartpole](
 
 A pole is attached by an un-actuated joint to a cart, which moves along a frictionless track (see the gif below). The system is controlled by applying a force between $$+10$$ to $$-10$$ to the cart. The pendulum starts upright, and the goal is to prevent it from falling over. A reward of $$+10$$ is provided for every timestep that the pole remains upright. The episode ends when the pole is more than $$15$$ degrees from vertical, or the cart moves more than $$2.4$$ units from the center.
 
-![Cartpole.]({{site.baseurl}}/assets/images/2016-12-10-MORL/cartpole.html){: .center-image}
+![The Cartpole environment.]({{site.baseurl}}/assets/images/2016-12-10-MORL/cartpole.gif){: .center-image}
 
 Current implementations of the Cartpole environment on well-known frameworks such as [rllab](https://github.com/rll/rllab){:target="_blank"} compute consider three separate rewards: a constant cost, ucost and xcost.
 
@@ -46,23 +46,23 @@ Along the lines of the single-objective or scalar reward function, the overall r
 
 In the context of multi-objective optimization, there does not typically exist a feasible solution that minimizes (or maximizes) all objective functions simultaneously. Therefore, attention is paid to *Pareto-optimal* (or *Pareto-dominant*) solutions, which are defined to be solutions that cannot be improved in any of the objectives without degrading at least one of the other objectives.
 
-Let us focus on a two-objective optimization problem for the purpose of understanding where we are looking to maximize both the objectives. Consider two distinct solutions on this two-dimensional space: $S_1 = (x_1,y_1)$ and $S_2 = (x_2,y_2)$. $S_1$ is said to (pareto)-dominate solution $S_2$ if
-* $x_1 > x_2$ and $y_1 \geq y_2$
+Let us focus on a two-objective optimization problem for the purpose of understanding where we are looking to maximize both the objectives. Consider two distinct solutions on this two-dimensional space: $$S_1 = (x_1,y_1)$$ and $$S_2 = (x_2,y_2)$$. $$S_1$$ is said to (pareto)-dominate solution $$S_2$$ if
+* $$x_1 > x_2$$ and $$y_1 \geq y_2$$
 
 OR
 
-* $x_1 \geq x_2$ and $y_1 > y_2$
+* $$x_1 \geq x_2$$ and $$y_1 > y_2$$
 
 The figure below provides a depiction of a Pareto front for the two-dimensional case. Notice that there are multiple solutions to this two-objective problem, that are marked blue. However, while most of these solutions are dominated by other solutions; it is only the red points that are non-dominated, and those points form the Pareto boundary (or front). Points under the Pareto front are feasible while those beyond the Pareto front are infeasible.
 
 
 ![alt text](http://pubs.rsc.org/services/images/RSCpubs.ePlatform.Service.FreeContent.ImageService.svc/ImageService/Articleimage/2010/CP/b914552d/b914552d-f4.gif "Pareto front depiction")
 
-In this following, we delve on the Pareto strategy. Specifically, we split this into two separate reward functions or objectives, xcost and ucost (Note: 10 is just a constant that can be added on top). We aim to find an approximation of the Pareto frontier by finding points that are not strictly dominated by any other.
+In this following, we delve on the Pareto strategy. Specifically, we split this into two separate reward functions or objectives, $$xcost$$ and $$ucost$$ (Note: $$10$$ is just a constant that can be added on top). We aim to find an approximation of the Pareto frontier by finding points that are not strictly dominated by any other.
 
 ### Algorithm
 
-We use the $\textbf{radial algorithm}$ approach presented in Parisi et al., ``Policy gradient approaches for multi-objective sequential decision making,'' IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
+We use the $$\textbf{radial algorithm}$$ approach presented in Parisi et al., ``Policy gradient approaches for multi-objective sequential decision making,'' IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
 
 The idea behind this algorithm is the following:
 Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $\theta_1=\nabla{_\theta} J_1(\theta)$ and $\theta_2=\nabla{_\theta} J_2(\theta)$, where $J_i=\mathbb{E}R_i$, and $R_i$ is the reward along axis $i$. Any direction in between $\theta_1$ and $\theta_2$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $\lambda\in\{0,1\}$ and use the ascent direction
