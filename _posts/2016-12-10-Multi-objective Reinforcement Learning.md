@@ -1,3 +1,4 @@
+
 ---
 layout: post
 title: Multi-objective Reinforcement Learning
@@ -12,7 +13,7 @@ author: "Sunil Srinivasa"
 }
 </style>
 
-## How do we handle a vector of rewards in the context of reinforcement learning?
+## How can we handle a vector of rewards in the context of reinforcement learning?
 
 **What is Multi-objective Reinforcement Learning**
 
@@ -20,9 +21,9 @@ Reinforcement learning is classically known to optimize a policy that maximizes 
 
 In the MORL domain, there are two standard approaches that are usually taken:
 
-1) The $$\textbf{single-objective}$$ practice is to use a scalar objective function that is a weighted sum or a function of all the objectives. In this regard, it is sometimes common to order or rank the objectives for choosing the appropriate weights; and also order or rank the solutions obtained. However, it is not only difficult to determine how to weigh the objectives, but also often harder to balance the factors to achieve satisfactory performance along all the objectives.
+1) The $\textbf{single-objective}$ practice is to use a scalar objective function that is a weighted sum or a function of all the objectives. In this regard, it is sometimes common to order or rank the objectives for choosing the appropriate weights; and also order or rank the solutions obtained. However, it is not only difficult to determine how to weigh the objectives, but also often harder to balance the factors to achieve satisfactory performance along all the objectives.
 
-2) The alternative $$\textbf{Pareto}$$ starategy tries to find multiple solutions to the MORL problem that offer trade-offs among the various objectives. In other words, these multiple solutions, also called $$\textbf{Pareto solutions}$$, are non-superior or non-dominating over each other. The set of Pareto-optimal solutions constitute what is called the $$\textbf{Pareto front}$$ or $$\textbf{Pareto boundary}$$. It is left to the discretion of the end-user to then select the operating solution point. Pareto methods are also called filter methods (see [[1]](http://users.iems.northwestern.edu/~nocedal/book/index.html){:target="_blank"}, chapter 15.4), which are classical algorithms from multi-objective optimization literature that seek to generate a sequence of points, so that each one is not strictly dominated by a previous one .
+2) The alternative $\textbf{Pareto}$ starategy tries to find multiple solutions to the MORL problem that offer trade-offs among the various objectives. In other words, these multiple solutions, also called $\textbf{Pareto solutions}$, are non-superior or non-dominating over each other. The set of Pareto-optimal solutions constitute what is called the $\textbf{Pareto front}$ or $\textbf{Pareto boundary}$. It is left to the discretion of the end-user to then select the operating solution point. Pareto methods are also called filter methods (see [[1]](http://users.iems.northwestern.edu/~nocedal/book/index.html){:target="_blank"}, chapter 15.4), which are classical algorithms from multi-objective optimization literature that seek to generate a sequence of points, so that each one is not strictly dominated by a previous one .
 
 In this blog post, we explain how to obtain the Pareto front for the [Cartpole](https://gym.openai.com/envs/CartPole-v0/){:target="_blank"} environment.
 
@@ -32,15 +33,15 @@ A pole is attached by an un-actuated joint to a cart, which moves along a fricti
 
 ![The Cartpole environment.]({{site.baseurl}}/assets/images/2016-12-10-MORL/cartpole.gif){: .center-image}
 
-Current implementations of the Cartpole environment on well-known frameworks such as [rllab](https://github.com/rll/rllab){:target="_blank"} compute consider three separate rewards: a constant cost, ucost and xcost.
+Current implementations of the Cartpole environment on well-known frameworks such as [rllab](https://github.com/rll/rllab){:target="_blank"} compute consider three separate terms (or objectives) for the reward function: a constant reward, ucost and xcost.
 
 1) $$\mathbf{10}$$: this is a constant reward that is provided for every instant that the cart is upright.
 
-2) **$$ucost$$ = $$-1e-5*(action^2)$$** : this is a reward that takes the action into account. Ideally, we do not want to apply too much force on the cart to make it stand
+2) $$\mathbf{ucost$$ = $$-1e-5*(action^2)}$$ : this is a cost that takes the action into account. Higher the action, the more negative this objective. Ideally, we want to apply as little force on the cart as required to make it stand.
 
-3) $$xcost = -(1 - np.cos(self.pole.angle))$$ : this is a reward that is based on how upright the cart is, the more vertical the better
+3) $$\mathbf{xcost = -(1 - np.cos(pole_angle))}$$ : this is a cost that is based on how upright the cart is, the more vertical the better. Note that the angle here is measured from the pole's upright position. Accordingly, when $$pole_angle=0$$, $$xcost = 0$$, while $$xcost=-1$$ for a fallen pole that's lying on the ground.
 
-Along the lines of the single-objective or scalar reward function, the overall reward is simply taken to be the sum of the three costs, i.e., $$10+ucost+xcost$$, and is a scalar.
+Along the lines of the single-objective or scalar reward function, the overall reward is simply taken to be the sum of the three terms, i.e., $$10+ucost+xcost$$, and is a scalar.
 
 ***A methodology for considering the rewards separately***
 
@@ -58,11 +59,11 @@ The figure below provides a depiction of a Pareto front for the two-dimensional 
 
 ![alt text](http://pubs.rsc.org/services/images/RSCpubs.ePlatform.Service.FreeContent.ImageService.svc/ImageService/Articleimage/2010/CP/b914552d/b914552d-f4.gif "Pareto front depiction")
 
-In this following, we delve on the Pareto strategy. Specifically, we split this into two separate reward functions or objectives, $$xcost$$ and $$ucost$$ (Note: $$10$$ is just a constant that can be added on top). We aim to find an approximation of the Pareto frontier by finding points that are not strictly dominated by any other.
+In this following, we delve on the Pareto strategy. Specifically, we split this into two separate reward functions or objectives, xcost and ucost (Note: 10 is just a constant that can be added on top). We aim to find an approximation of the Pareto frontier by finding points that are not strictly dominated by any other.
 
 ### Algorithm
 
-We use the $$\textbf{radial algorithm}$$ approach presented in Parisi et al., ``Policy gradient approaches for multi-objective sequential decision making,'' IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
+We use the $\textbf{radial algorithm}$ approach presented in Parisi et al., ``Policy gradient approaches for multi-objective sequential decision making,'' IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
 
 The idea behind this algorithm is the following:
 Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $\theta_1=\nabla{_\theta} J_1(\theta)$ and $\theta_2=\nabla{_\theta} J_2(\theta)$, where $J_i=\mathbb{E}R_i$, and $R_i$ is the reward along axis $i$. Any direction in between $\theta_1$ and $\theta_2$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $\lambda\in\{0,1\}$ and use the ascent direction
