@@ -34,9 +34,9 @@ A pole is attached by an un-actuated joint to a cart, which moves along a fricti
 
 Current implementations of the Cartpole environment on well-known frameworks such as [rllab](https://github.com/rll/rllab){:target="_blank"} compute consider three separate rewards: a constant cost, ucost and xcost.
 
-1) $$10$$: this is a constant reward that is provided for every instant that the cart is upright.
+1) **$$10$$**: this is a constant reward that is provided for every instant that the cart is upright.
 
-2) $$ucost$$ = $$-1e-5*(action^2)$$ : this is a reward that takes the action into account. Ideally, we do not want to apply too much force on the cart to make it stand
+2) **$$ucost$$ = $$-1e-5*(action^2)$$** : this is a reward that takes the action into account. Ideally, we do not want to apply too much force on the cart to make it stand
 
 3) $$xcost = -(1 - np.cos(self.pole.angle))$$ : this is a reward that is based on how upright the cart is, the more vertical the better
 
