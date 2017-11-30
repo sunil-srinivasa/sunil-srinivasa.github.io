@@ -23,7 +23,7 @@ In the MORL domain, there are two standard approaches that are usually taken:
 
 1) The $\textbf{single-objective}$ practice is to use a scalar objective function that is a weighted sum or a function of all the objectives. In this regard, it is sometimes common to order or rank the objectives for choosing the appropriate weights; and also order or rank the solutions obtained. However, it is not only difficult to determine how to weigh the objectives, but also often harder to balance the factors to achieve satisfactory performance along all the objectives.
 
-2) The alternative $\textbf{Pareto}$ starategy tries to find multiple solutions to the MORL problem that offer trade-offs among the various objectives. In other words, these multiple solutions, also called $\textbf{Pareto solutions}$, are non-superior or non-dominating over each other. The set of Pareto-optimal solutions constitute what is called the $\textbf{Pareto front}$ or $\textbf{Pareto boundary}$. It is left to the discretion of the end-user to then select the operating solution point. Pareto methods are also called filter methods (see [[1]](http://users.iems.northwestern.edu/~nocedal/book/index.html){:target="_blank"}, chapter 15.4), which are classical algorithms from multi-objective optimization literature that seek to generate a sequence of points, so that each one is not strictly dominated by a previous one .
+2) The alternative $\textbf{Pareto}$ starategy tries to find multiple solutions to the MORL problem that offer trade-offs among the various objectives. In other words, these multiple solutions, also called $\textbf{Pareto solutions}$, are non-superior or non-dominating over each other. The set of Pareto-optimal solutions constitute what is called the $\textbf{Pareto front}$ (or $\textbf{Pareto boundary}$). It is left to the discretion of the end-user to then select the operating solution point. Pareto methods are also called filter methods (see [[1]](http://users.iems.northwestern.edu/~nocedal/book/index.html){:target="_blank"}, chapter 15.4), which are classical algorithms from multi-objective optimization literature that seek to generate a sequence of points, so that each one is not strictly dominated by a previous one .
 
 In this blog post, we explain how to obtain the Pareto front for the [Cartpole](https://gym.openai.com/envs/CartPole-v0/){:target="_blank"} environment.
 
@@ -35,72 +35,73 @@ A pole is attached by an un-actuated joint to a cart, which moves along a fricti
 
 Current implementations of the Cartpole environment on well-known frameworks such as [rllab](https://github.com/rll/rllab){:target="_blank"} compute consider three separate terms (or objectives) for the reward function: a constant reward, ucost and xcost.
 
-1) $$\mathbf{10}$$: this is a constant reward that is provided for every instant that the cart is upright.
+1) $$\mathbf{10}$$: this is the constant reward that is provided for every instant that the cart is upright.
 
-2) $$\mathbf{ucost$$ = $$-1e-5*(action^2)}$$ : this is a cost that takes the action into account. Higher the action, the more negative this objective. Ideally, we want to apply as little force on the cart as required to make it stand.
+2) $$\mathbf{\text{ucost} = -1e-5*(\text{action}^2)}$$ : this is a cost that takes the action into account. Higher the action, the more negative this objective. Ideally, we want to apply as little force on the cart as required to make it stand.
 
-3) $$\mathbf{xcost = -(1 - np.cos(pole_angle))}$$ : this is a cost that is based on how upright the cart is, the more vertical the better. Note that the angle here is measured from the pole's upright position. Accordingly, when $$pole_angle=0$$, $$xcost = 0$$, while $$xcost=-1$$ for a fallen pole that's lying on the ground.
+3) $$\mathbf{\text{xcost} = -(1 - np.cos(\text{pole_angle}))}$$ : this is a cost that is based on how upright the cart is, the more vertical the better. Note that the angle here is measured from the pole's upright position. Accordingly, when $$\text{pole_angle}=0$$, $$\text{xcost} = 0$$, while $$\text{xcost}=-1$$ for a fallen pole that's lying on the ground.
 
-Along the lines of the single-objective or scalar reward function, the overall reward is simply taken to be the sum of the three terms, i.e., $$10+ucost+xcost$$, and is a scalar.
+Along the lines of the single-objective or scalar reward function, the overall reward is simply taken to be the scalar sum of the three terms, i.e., $$10+\text{ucost}+\text{xcost}$$.
 
-***A methodology for considering the rewards separately***
+***The Pareto front***
 
 In the context of multi-objective optimization, there does not typically exist a feasible solution that minimizes (or maximizes) all objective functions simultaneously. Therefore, attention is paid to *Pareto-optimal* (or *Pareto-dominant*) solutions, which are defined to be solutions that cannot be improved in any of the objectives without degrading at least one of the other objectives.
 
-Let us focus on a two-objective optimization problem for the purpose of understanding where we are looking to maximize both the objectives. Consider two distinct solutions on this two-dimensional space: $$S_1 = (x_1,y_1)$$ and $$S_2 = (x_2,y_2)$$. $$S_1$$ is said to (pareto)-dominate solution $$S_2$$ if
+Let us focus on a two-objective optimization problem for the purpose of understanding where we are looking to maximize both the objectives. Consider two distinct solutions on a two-dimensional space: $$S_1 = (x_1,y_1)$$ and $$S_2 = (x_2,y_2)$$. $$S_1$$ is said to (pareto)-dominate solution $$S_2$$ if
 * $$x_1 > x_2$$ and $$y_1 \geq y_2$$
 
 OR
 
 * $$x_1 \geq x_2$$ and $$y_1 > y_2$$
 
-The figure below provides a depiction of a Pareto front for the two-dimensional case. Notice that there are multiple solutions to this two-objective problem, that are marked blue. However, while most of these solutions are dominated by other solutions; it is only the red points that are non-dominated, and those points form the Pareto boundary (or front). Points under the Pareto front are feasible while those beyond the Pareto front are infeasible.
+In other words, $$S_1$$ is better than (or equal to) $$S_2$$ with respect to both the objectives, and hence dominates it.
+
+The figure below provides a depiction of a Pareto front for the two-dimensional case. Notice that there are multiple solutions to this two-objective problem, that are marked blue. However, while many of these solutions are dominated by other solutions; it is only the red points that are non-dominated, and those form the Pareto front. Points under the Pareto front are feasible while those beyond the Pareto front are infeasible.
+
+In the case of two continuous objectives, the Pareto front is a curve obviously consisting of potentially an infinite number of points. In practise the Pareto front is discretized and the points are tried to be located as evenly as possible on the front.
 
 
 ![alt text](http://pubs.rsc.org/services/images/RSCpubs.ePlatform.Service.FreeContent.ImageService.svc/ImageService/Articleimage/2010/CP/b914552d/b914552d-f4.gif "Pareto front depiction")
 
-In this following, we delve on the Pareto strategy. Specifically, we split this into two separate reward functions or objectives, xcost and ucost (Note: 10 is just a constant that can be added on top). We aim to find an approximation of the Pareto frontier by finding points that are not strictly dominated by any other.
+***A methodology for considering the rewards separately***
 
-### Algorithm
+So, how do we algorithmically obtain the points on the Pareto front? We now present the $$\textbf{radial}$$ method introduced in [[2]](http://ieeexplore.ieee.org/document/6889738/) 
 
-We use the $\textbf{radial algorithm}$ approach presented in Parisi et al., ``Policy gradient approaches for multi-objective sequential decision making,'' IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
+We elucidate the idea for a two-dimensional scenario. Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $$\theta_1=\nabla{_\theta} J_1(\theta)$$ and $$\theta_2=\nabla{_\theta} J_2(\theta)$$, where $$J_i=\mathbb{E}R_i$$, and $$R_i$$ is the reward along axis $$i$$. Any direction in between $$\theta_1$$ and $$\theta_2$$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $$\lambda\in\{0,1\}$$ and use the ascent direction
+$$\theta_{\lambda}=\lambda\times\theta_1+(1-\lambda)\times\theta_2$$.
 
-The idea behind this algorithm is the following:
-Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $\theta_1=\nabla{_\theta} J_1(\theta)$ and $\theta_2=\nabla{_\theta} J_2(\theta)$, where $J_i=\mathbb{E}R_i$, and $R_i$ is the reward along axis $i$. Any direction in between $\theta_1$ and $\theta_2$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $\lambda\in\{0,1\}$ and use the ascent direction
-$\theta_{\lambda}=\lambda\times\theta_1+(1-\lambda)\times\theta_2$.
+Equivalently, we may set the overall reward to $$R=\lambda\times R_1 + (1-\lambda)\times R_2$$ and perform policy optimization with this modified reward function. This is because
 
-Equivalently, we may set the overall reward to $R=\lambda\times R_1 + (1-\lambda)\times R_2$ and perform policy optimization with this modified reward function. This is because
+$$\theta_{\lambda}=\lambda\times\nabla{_\theta} J_1(\theta)+(1-\lambda)\times\nabla{_\theta} J_2(\theta)$$
 
-$\theta_{\lambda}=\lambda\times\nabla{_\theta} J_1(\theta)+(1-\lambda)\times\nabla{_\theta} J_2(\theta)$
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$$=\nabla_{\theta}(\lambda\times J_1(\theta)+(1-\lambda)\times J_2(\theta))$$
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$=\nabla_{\theta}(\lambda\times J_1(\theta)+(1-\lambda)\times J_2(\theta))$
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$$=\nabla_{\theta}(\lambda\times\mathbb{E}R_1+(1-\lambda)\times\mathbb{E}R_2$$
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$=\nabla_{\theta}(\lambda\times\mathbb{E}R_1+(1-\lambda)\times\mathbb{E}R_2$
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$$=\nabla_{\theta}\mathbb{E}R$$,
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$=\nabla_{\theta}\mathbb{E}R$,
-
-where $R=\lambda\times R_1 + (1-\lambda)\times R_2$
+where $$R=\lambda\times R_1 + (1-\lambda)\times R_2$$
 
 Each direction provides an unique solution to our optimization problem. By determining the set of non-dominated solutions, the Pareto boundary can be well approximated.
 
 The psuedo-code for the algorithm for a two-dimensional reward function is as follows:
 
 
-* $\{\lambda_i\}_{i=1}^p$ <-- uniform sampling of $[0,1]$.
+* $$\{\lambda_i\}_{i=1}^p$$ <-- uniform sampling of $$[0,1]$$.
 
-* $\textbf{for}$ $i=1,\ldots,p$ $\textbf{do}$:
+* $$\textbf{for}$$ $$i=1,\ldots,p$$ $$\textbf{do}$$:
 
- * Initialize policy network parameter $\theta$ randomly.
+ * Initialize policy network parameter $$\theta$$ randomly.
     
- * $\textbf{for}$ iteration in $1,\ldots,N$ $\textbf{do}$:
+ * $$\textbf{for}$$ iteration in $$1,\ldots,N$$ $$\textbf{do}$$:
     
    * Collect trajectories with features (State, Action, Reward:(ucost,xcost), nextState).
         
-   * Set net reward $R=\lambda\times R_1+(1-\lambda)\times R_2$.
+   * Set net reward $$R=\lambda\times R_1+(1-\lambda)\times R_2$$.
     
-   * Implement a policy optimization algorithm using reward function $R$.
+   * Implement a policy optimization algorithm using reward function $$R$$.
         
- * Record the optimal value $\theta_i$ for $\lambda_i$.
+ * Record the optimal value $$\theta_i$$ for $$\lambda_i$$.
     
 * Determine the set of Pareto-optimal points, i.e., the set of objective values that are not dominated by one another.
 * The Patero front is obtained by piecewise-linearly connecting the set of Pareto-optimal points obtained. Each point on any of these lines is attainable by time sharing between the end points of that line.
@@ -108,6 +109,8 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
 ***References***
 
 [1] Jorge Nocedal and Stephen J. Wright, [Numerical Optimization](http://users.iems.northwestern.edu/~nocedal/book/index.html)
+
+[2] Simone Parisi et al., [Policy gradient approaches for multi-objective sequential decision making](http://ieeexplore.ieee.org/document/6889738/) IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
 
 
 ```python
