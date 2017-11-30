@@ -67,7 +67,7 @@ In the case of two continuous objectives, the Pareto front is a curve obviously 
 
 So, how do we algorithmically obtain the points on the Pareto front? We now present the $$\textbf{radial}$$ method introduced in [[2]](http://ieeexplore.ieee.org/document/6889738/) 
 
-We elucidate the idea for a two-dimensional scenario. Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $$\theta_1=\nabla{_\theta} J_1(\theta)$$ and $$\theta_2=\nabla{_\theta} J_2(\theta)$$, where $$J_i=\mathbb{E}R_i$$, and $$R_i$$ is the reward along axis $$i$$. Any direction in between $$\theta_1$$ and $$\theta_2$$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $$\lambda\in\{0,1\}$$ and use the ascent direction
+We elucidate the idea for a two-dimensional scenario in the context of Policy Gradient algorithms. Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $$\theta_1=\nabla{_\theta} J_1(\theta)$$ and $$\theta_2=\nabla{_\theta} J_2(\theta)$$, where $$J_i=\mathbb{E}R_i$$, and $$R_i$$ is the reward along axis $$i$$. Any direction in between $$\theta_1$$ and $$\theta_2$$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $$\lambda\in\{0,1\}$$ and use the ascent direction
 $$\theta_{\lambda}=\lambda\times\theta_1+(1-\lambda)\times\theta_2$$.
 
 Equivalently, we may set the overall reward to $$R=\lambda\times R_1 + (1-\lambda)\times R_2$$ and perform policy optimization with this modified reward function. This is because
@@ -95,7 +95,7 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
     
  * $$\textbf{for}$$ iteration in $$1,\ldots,N$$ $$\textbf{do}$$:
     
-   * Collect trajectories with features (State, Action, Reward:(ucost,xcost), nextState).
+   * Collect trajectories with features (State, Action, Reward:($$R_1$$,$$R_2$$), nextState).
         
    * Set net reward $$R=\lambda\times R_1+(1-\lambda)\times R_2$$.
     
@@ -316,7 +316,7 @@ plt.grid()
 ```
 
 
-![png](output_14_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_14_0.png)
 
 
 ### Finding the Pareto optimal points considering two objectives
@@ -417,7 +417,7 @@ plt.tight_layout()
 ```
 
 
-![png](output_20_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_20_0.png)
 
 
 ### Finding the Pareto Optimal points considering the three rewards separately
@@ -666,5 +666,5 @@ ax.set_zlabel('\n'+'Normalized uCost')
 
 
 
-![png](output_28_1.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_28_1.png)
 
