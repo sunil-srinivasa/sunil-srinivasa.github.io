@@ -71,15 +71,19 @@ $$\theta_{\lambda}=\lambda\times\theta_1+(1-\lambda)\times\theta_2$$.
 
 Equivalently, we may set the overall reward to $$R=\lambda\times R_1 + (1-\lambda)\times R_2$$ and perform policy optimization with this modified reward function. This is because
 
+$$
 \begin{aligned}
-$$\theta_{\lambda}=\lambda\times\nabla{_\theta} J_1(\theta)+(1-\lambda)\times\nabla{_\theta} J_2(\theta)$$
 
-$$=\nabla_{\theta}(\lambda\times J_1(\theta)+(1-\lambda)\times J_2(\theta))$$
+\theta_{\lambda}&=&\lambda\times\nabla{_\theta} J_1(\theta)+(1-\lambda)\times\nabla{_\theta} J_2(\theta) \\
 
-$$=\nabla_{\theta}(\lambda\times\mathbb{E}R_1+(1-\lambda)\times\mathbb{E}R_2$$
+&=&\nabla_{\theta}(\lambda\times J_1(\theta)+(1-\lambda)\times J_2(\theta)) \\
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$$=\nabla_{\theta}\mathbb{E}R$$,
+&=&\nabla_{\theta}(\lambda\times\mathbb{E}R_1+(1-\lambda)\times\mathbb{E}R_2 \\
+
+&=&\nabla_{\theta}\mathbb{E}R,
+
 \end{aligned}
+$$
 
 where $$R=\lambda\times R_1 + (1-\lambda)\times R_2$$
 
