@@ -1,3 +1,4 @@
+
 ---
 layout: post
 title: Multi-objective Reinforcement Learning
@@ -36,9 +37,9 @@ Current implementations of the Cartpole environment on well-known frameworks suc
 
 1) $$\mathbf{10}$$: this is the constant reward that is provided for every instant that the cart is upright.
 
-2) $$\mathbf{\text{ucost} = -1e-5*(\text{action}^2)}$$ : this is a cost that takes the action into account. Higher the action, the more negative this objective. Ideally, we want to apply as little force on the cart as required to make it stand.
+2) $$\mathbf{\text{ucost} = -1e-5*(\text{action}^2)}$$ : this is a penalty that takes the action into account. Higher the action, the more negative this objective. Ideally, we want to apply as little force on the cart as required to make it stand. With $$\text{action}=0$$, there is no penalty.
 
-3) $$\mathbf{\text{xcost} = -(1 - np.cos(\text{pole_angle}))}$$ : this is a cost that is based on how upright the cart is, the more vertical the better. Note that the angle here is measured from the pole's upright position. Accordingly, when $$\text{pole_angle}=0$$, $$\text{xcost} = 0$$, while $$\text{xcost}=-1$$ for a fallen pole that's lying on the ground.
+3) $$\mathbf{\text{xcost} = -(1 - np.cos(\text{pole_angle}))}$$ : this is a penalty that is based on how upright the cart is, the more vertical the better. Note that the angle here is measured from the pole's upright position. Accordingly, for a perfectly vertical pole, $$\text{pole_angle}=0$$ and $$\text{xcost} = 0$$, while $$\text{xcost}=-1$$ for a fallen pole that's lying on the ground.
 
 Along the lines of the single-objective or scalar reward function, the overall reward is simply taken to be the scalar sum of the three terms, i.e., $$10+\text{ucost}+\text{xcost}$$.
 
@@ -55,18 +56,18 @@ OR
 
 In other words, $$S_1$$ is better than (or equal to) $$S_2$$ with respect to both the objectives, and hence dominates it.
 
-The figure below provides a depiction of a Pareto front for the two-dimensional case. Notice that there are multiple solutions to this two-objective problem, that are marked blue. However, while many of these solutions are dominated by other solutions; it is only the red points that are non-dominated, and those form the Pareto front. Points under the Pareto front are feasible while those beyond the Pareto front are infeasible.
+The figure below (image courtesy:[3](http://lipas.uwasa.fi/~TAU/AUTO3120)) provides a depiction of a Pareto front for the two-dimensional case. Notice that there are multiple solutions to this two-objective problem, that are marked blue. However, while many of these solutions are dominated by other solutions; it is only the red points that are non-dominated, and those form the Pareto front. Points under the Pareto front are feasible while those beyond the Pareto front are infeasible.
 
 In the case of two continuous objectives, the Pareto front is a curve obviously consisting of potentially an infinite number of points. In practise the Pareto front is discretized and the points are tried to be located as evenly as possible on the front.
 
 
-![alt text](http://pubs.rsc.org/services/images/RSCpubs.ePlatform.Service.FreeContent.ImageService.svc/ImageService/Articleimage/2010/CP/b914552d/b914552d-f4.gif){: .center-image}
+![alt text]({{site.baseurl}}/assets/images/2016-12-10-MORL/ParetoFront.PNG){: .center-image}
 
 ***A methodology for considering the rewards separately***
 
-So, how do we algorithmically obtain the points on the Pareto front? We now present the $$\textbf{radial}$$ method introduced in [[2]](http://ieeexplore.ieee.org/document/6889738/) 
+We now describe the $$\textbf{radial algorithm}$$ introduced in [[2]](http://ieeexplore.ieee.org/document/6889738/) that presents a method to obtain the points on the Pareto front. We elucidate the concept for a two-dimensional scenario in the context of Policy Gradient algorithms.
 
-We elucidate the idea for a two-dimensional scenario in the context of Policy Gradient algorithms. Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $$\theta_1=\nabla{_\theta} J_1(\theta)$$ and $$\theta_2=\nabla{_\theta} J_2(\theta)$$, where $$J_i=\mathbb{E}R_i$$, and $$R_i$$ is the reward along axis $$i$$. Any direction in between $$\theta_1$$ and $$\theta_2$$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $$\lambda\in\{0,1\}$$ and use the ascent direction
+Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $$\theta_1=\nabla{_\theta} J_1(\theta)$$ and $$\theta_2=\nabla{_\theta} J_2(\theta)$$, where $$J_i=\mathbb{E}R_i$$, and $$R_i$$ is the reward along axis $$i$$. Any direction in between $$\theta_1$$ and $$\theta_2$$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $$\lambda\in\{0,1\}$$ and use the ascent direction
 $$\theta_{\lambda}=\lambda\times\theta_1+(1-\lambda)\times\theta_2$$.
 
 Equivalently, we may set the overall reward to $$R=\lambda\times R_1 + (1-\lambda)\times R_2$$ and perform policy optimization with this modified reward function. This is because
@@ -74,13 +75,13 @@ Equivalently, we may set the overall reward to $$R=\lambda\times R_1 + (1-\lambd
 $$
 \begin{aligned}
 
-\theta_{\lambda}&=&\lambda\times\nabla{_\theta} J_1(\theta)+(1-\lambda)\times\nabla{_\theta} J_2(\theta) \\
+\theta_{\lambda}&=\lambda\times\nabla{_\theta} J_1(\theta)+(1-\lambda)\times\nabla{_\theta} J_2(\theta) \\
 
-&=&\nabla_{\theta}(\lambda\times J_1(\theta)+(1-\lambda)\times J_2(\theta)) \\
+&=\nabla_{\theta}(\lambda\times J_1(\theta)+(1-\lambda)\times J_2(\theta)) \\
 
-&=&\nabla_{\theta}(\lambda\times\mathbb{E}R_1+(1-\lambda)\times\mathbb{E}R_2 \\
+&=\nabla_{\theta}(\lambda\times\mathbb{E}R_1+(1-\lambda)\times\mathbb{E}R_2 \\
 
-&=&\nabla_{\theta}\mathbb{E}R,
+&=\nabla_{\theta}\mathbb{E}R,
 
 \end{aligned}
 $$
@@ -113,9 +114,11 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
 
 ***References***
 
-[1] Jorge Nocedal and Stephen J. Wright, [Numerical Optimization](http://users.iems.northwestern.edu/~nocedal/book/index.html)
+[1] J. Nocedal and S. J. Wright, [Numerical Optimization](http://users.iems.northwestern.edu/~nocedal/book/index.html)
 
-[2] Simone Parisi et al., [Policy gradient approaches for multi-objective sequential decision making](http://ieeexplore.ieee.org/document/6889738/) IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
+[2] S. Parisi et al., [Policy gradient approaches for multi-objective sequential decision making](http://ieeexplore.ieee.org/document/6889738/) IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
+
+[3] A course on Evolutionary Computing
 
 
 ```python
