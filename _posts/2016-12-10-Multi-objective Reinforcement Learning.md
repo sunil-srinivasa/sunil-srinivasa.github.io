@@ -23,7 +23,7 @@ In the MORL domain, there are two standard approaches that are usually taken:
 
 1) The $$\textbf{single-objective}$$ practice is to use a scalar objective function that is a weighted sum or a function of all the objectives. In this regard, it is sometimes common to order or rank the objectives for choosing the appropriate weights; and also order or rank the solutions obtained. However, it is not only difficult to determine how to weigh the objectives, but also often harder to balance the factors to achieve satisfactory performance along all the objectives.
 
-2) The alternative $$\textbf{Pareto}$$ starategy tries to find multiple solutions to the MORL problem that offer trade-offs among the various objectives. In other words, these multiple solutions, also called $$\textbf{Pareto solutions}$$, are non-superior or non-dominating over each other. The set of Pareto-optimal solutions constitute what is called the $$\textbf{Pareto front}$$ (or $$\textbf{Pareto boundary}$$). It is left to the discretion of the end-user to then select the operating solution point. Pareto methods are also called filter methods (see [[1]](http://users.iems.northwestern.edu/~nocedal/book/index.html){:target="_blank"}, chapter 15.4), which are classical algorithms from multi-objective optimization literature that seek to generate a sequence of points, so that each one is not strictly dominated by a previous one .
+2) The alternative $$\textbf{Pareto}$$ starategy tries to find multiple solutions to the MORL problem that offer trade-offs among the various objectives. In other words, these multiple solutions, also called $$\textbf{Pareto solutions}$$, are non-superior or non-dominating over each other. The set of Pareto-optimal solutions constitute what is called the $$\textbf{Pareto front(ier)}$$ (or $$\textbf{Pareto boundary}$$). It is left to the discretion of the end-user to then select the operating solution point. Pareto methods are also called filter methods (see [[1]](http://users.iems.northwestern.edu/~nocedal/book/index.html){:target="_blank"}, chapter 15.4), which are classical algorithms from multi-objective optimization literature that seek to generate a sequence of points, so that each one is not strictly dominated by a previous one .
 
 In this blog post, we explain how to obtain the Pareto front for the [Cartpole](https://gym.openai.com/envs/CartPole-v0/){:target="_blank"} environment.
 
@@ -37,11 +37,11 @@ Current implementations of the Cartpole environment on well-known frameworks suc
 
 1) $$\mathbf{10}$$: this is the constant reward that is provided for every instant that the cart is upright.
 
-2) $$\mathbf{\text{ucost} = -1e-5*(\text{action}^2)}$$ : this is a penalty that takes the action into account. Higher the action, the more negative this objective. Ideally, we want to apply as little force on the cart as required to make it stand. With $$\text{action}=0$$, there is no penalty.
+2) $$\mathbf{\text{uCost} = -1e-5*(\text{action}^2)}$$ : this is a penalty that takes the action into account. Higher the action, the more negative this objective. Ideally, we want to apply as little force on the cart as required to make it stand. With $$\text{action}=0$$, there is no penalty.
 
-3) $$\mathbf{\text{xcost} = -(1 - np.cos(\text{pole_angle}))}$$ : this is a penalty that is based on how upright the cart is, the more vertical the better. Note that the angle here is measured from the pole's upright position. Accordingly, for a perfectly vertical pole, $$\text{pole_angle}=0$$ and $$\text{xcost} = 0$$, while $$\text{xcost}=-1$$ for a fallen pole that's lying on the ground.
+3) $$\mathbf{\text{xCost} = -(1 - np.cos(\text{pole_angle}))}$$ : this is a penalty that is based on how upright the cart is, the more vertical the better. Note that the angle here is measured from the pole's upright position. Accordingly, for a perfectly vertical pole, $$\text{pole_angle}=0$$ and $$\text{xCost} = 0$$, while $$\text{xCost}=-1$$ for a fallen pole that's lying on the ground.
 
-Along the lines of the single-objective or scalar reward function, the overall reward is simply taken to be the scalar sum of the three terms, i.e., $$10+\text{ucost}+\text{xcost}$$.
+Along the lines of the single-objective or scalar reward function, the overall reward is simply taken to be the scalar sum of the three terms, i.e., $$10+\text{uCost}+\text{xCost}$$.
 
 ***The Pareto front***
 
@@ -56,7 +56,7 @@ OR
 
 In other words, $$S_1$$ is better than (or equal to) $$S_2$$ with respect to both the objectives, and hence dominates it.
 
-The figure below (image courtesy:[3](http://lipas.uwasa.fi/~TAU/AUTO3120)) provides a depiction of a Pareto front for the two-dimensional case. Notice that there are multiple solutions to this two-objective problem, that are marked blue. However, while many of these solutions are dominated by other solutions; it is only the red points that are non-dominated, and those form the Pareto front. Points under the Pareto front are feasible while those beyond the Pareto front are infeasible.
+The figure below (image courtesy [[3]](http://lipas.uwasa.fi/~TAU/AUTO3120)) provides a depiction of a Pareto front for the two-dimensional case. Notice that there are multiple solutions to this two-objective problem, that are marked blue. However, while many of these solutions are dominated by other solutions; it is only the red points that are non-dominated, and those form the Pareto front. Points under the Pareto front are feasible while those beyond the Pareto front are infeasible.
 
 In the case of two continuous objectives, the Pareto front is a curve obviously consisting of potentially an infinite number of points. In practise the Pareto front is discretized and the points are tried to be located as evenly as possible on the front.
 
@@ -65,7 +65,7 @@ In the case of two continuous objectives, the Pareto front is a curve obviously 
 
 ***A methodology for considering the rewards separately***
 
-We now describe the $$\textbf{radial algorithm}$$ introduced in [[2]](http://ieeexplore.ieee.org/document/6889738/) that presents a method to obtain the points on the Pareto front. We elucidate the concept for a two-dimensional scenario in the context of Policy Gradient algorithms.
+We now describe the $$\textbf{radial algorithm}$$ introduced in [[2]](http://ieeexplore.ieee.org/document/6889738/) that presents a method to obtain the points on the Pareto front. We elucidate the concept for a two-dimensional scenario, specifically in the context of Policy Gradient algorithms.
 
 Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $$\theta_1=\nabla{_\theta} J_1(\theta)$$ and $$\theta_2=\nabla{_\theta} J_2(\theta)$$, where $$J_i=\mathbb{E}R_i$$, and $$R_i$$ is the reward along axis $$i$$. Any direction in between $$\theta_1$$ and $$\theta_2$$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $$\lambda\in\{0,1\}$$ and use the ascent direction
 $$\theta_{\lambda}=\lambda\times\theta_1+(1-\lambda)\times\theta_2$$.
@@ -112,20 +112,32 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
 * Determine the set of Pareto-optimal points, i.e., the set of objective values that are not dominated by one another.
 * The Patero front is obtained by piecewise-linearly connecting the set of Pareto-optimal points obtained. Each point on any of these lines is attainable by time sharing between the end points of that line.
 
+***Solutions to the Cartpole problem for the single and multiple objective cases***
+
+In the following, we solve the Cartpole problem using the vanilla policy gradient algorithm. We also consider three variants of the reward function. The following scenarios of objective functions are analyzed separately
+* Scalar objective
+    * $$R=10+\text{xCost}+\text{uCost}$$
+* Two objectives
+    * We decompose the scalar reward used above into two objectives - $$R_1 = 10 + \text{xCost}$$ and $$R_2=\text{uCost}$$
+* Three objectives
+    * Here, we treat all the reward components separately: $$R_1=10$$, $$R_2=\text{xCost}$$ and $$R_3=\text{uCost}$$.
+    
+For the latter cases, we employ the radial algorithm to obtain the Pareto frontiers.
+
 ***References***
 
 [1] J. Nocedal and S. J. Wright, [Numerical Optimization](http://users.iems.northwestern.edu/~nocedal/book/index.html)
 
 [2] S. Parisi et al., [Policy gradient approaches for multi-objective sequential decision making](http://ieeexplore.ieee.org/document/6889738/) IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
 
-[3] A course on Evolutionary Computing
+[3] J. Alander, [A course on Evolutionary Computing](http://lipas.uwasa.fi/~TAU/AUTO3120)
 
 
 ```python
 
 ```
 
-### Implementation of the Cartpole problem with VPG
+
 
 
 ```python
@@ -324,7 +336,7 @@ plt.grid()
 ```
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_14_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_16_0.png)
 
 
 ### Finding the Pareto optimal points considering two objectives
@@ -425,7 +437,7 @@ plt.tight_layout()
 ```
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_20_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_22_0.png)
 
 
 ### Finding the Pareto Optimal points considering the three rewards separately
@@ -674,5 +686,5 @@ ax.set_zlabel('\n'+'Normalized uCost')
 
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_28_1.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_30_1.png)
 
