@@ -127,22 +127,18 @@ For the latter cases, we employ the radial algorithm to obtain the Pareto fronti
 ***Scenario 1: The 1-D Reward Function***
 We ran the cartpole environment with the following hyperparameters:
 ```
-# We will collect N trajectories per iteration
-N = 200
-# Each trajectory will have at most T time steps (horizon)
-H = 100 # Horizon (each trajectory)
+N = 200 # number of trajectories per iteration
+H = 100 # Horizon (each trajectory will have at most H time steps)
 n_itr = 50 # number of iterations
 discount = 0.99 # discounting factor
-# Learning rate for the gradient update
-learning_rate = 0.01
+learning_rate = 0.01 # learning rate for the gradient update
 ```
-The learning curve is plotted below for a single run (In practice, it is recommended to average over several runs). We see that the vanilla policy gradient algorithm learns quickly within $$25$$ iterations. With a horizon of $$100$$ time steps, the net reward converges to $$1000$$. This corresponds to roughly $$10$$ per time step, which is expected.
+The learning curve is plotted below for a single run (In practice, it is recommended to average over several runs). We see that the vanilla policy gradient algorithm learns quickly within about $$25$$ iterations. With a horizon of $$100$$ time steps, the net reward converges to around $$1000$$ pertrajectory. This corresponds to a reward of $$10$$ per time step, which is expected to be the optimum reward (when action$$\approx0$$ and pole-angle$$\approx0$$).
 ![1D-Reward]({{site.baseurl}}/assets/images/2016-12-10-MORL/1DReward.PNG){: .center-image}
 
-
-```python
-
-```
+***Scenario 2: The 2-D Reward Function***
+In the two objective case, the total reward can be decomposed as $$R_1=10+\text{xCost}$$ and $$R_2=\text{uCost}$$. We use the radial algorithm to solve the cartpole problem for the 2-D reward scenario and the Pareto front is depicted below.
+![2D-Reward]({{site.baseurl}}/assets/images/2016-12-10-MORL/2DReward.PNG){: .center-image}
 
 
 ```python
@@ -163,270 +159,6 @@ The learning curve is plotted below for a single run (In practice, it is recomme
 ```
 
 
-
-
-```python
-from __future__ import print_function
-import matplotlib.pyplot as plt
-import numpy as np
-%matplotlib inline
-
-def MORL(lambda_array):
-    from cartpole_env import CartpoleEnv
-
-    from rllab.baselines.linear_feature_baseline import LinearFeatureBaseline
-    from rllab.policies.gaussian_mlp_policy import GaussianMLPPolicy
-    from normalized_env import normalize
-    import numpy as np
-    import theano
-    import theano.tensor as TT
-    from lasagne.updates import adam
-
-    # normalize() makes sure that the actions for the environment lies
-    # within the range [-1, 1] (only works for environments with continuous actions)
-    env = normalize(CartpoleEnv())
-
-    # We will collect N trajectories per iteration
-    N = 200
-    # Each trajectory will have at most T time steps
-    T = 100
-    # Number of iterations
-    n_itr = 50
-    # Set the discount factor for the problem
-    discount = 0.99
-    # Learning rate for the gradient update
-    learning_rate = 0.01
-
-    # Construct the computation graph
-    # Initialize a neural network policy with a single hidden layer of 8 hidden units
-    policy = GaussianMLPPolicy(env.spec, hidden_sizes=(32,32))
-    # Initialize a linear baseline estimator using default hand-crafted features
-    baseline = LinearFeatureBaseline(env.spec)
-
-    policy_init = policy.get_param_values()
-    baseline_init = baseline.get_param_values()
-
-    # Create a Theano variable for storing the observations
-    # We could have simply written `observations_var = TT.matrix('observations')` instead for this example.
-    # However, doing it in a slightly more abstract way allows us to delegate to the environment for handling
-    # the correct data type for the variable. For instance, for an environment with discrete observations,
-    # we might want to use integer types if the observations are represented as one-hot vectors.
-    observations_var = env.observation_space.new_tensor_variable(
-        'observations',
-        # It should have 1 extra dimension since we want to represent a list of observations
-        extra_dims=1
-    )
-    actions_var = env.action_space.new_tensor_variable(
-        'actions',
-        extra_dims=1
-    )
-    advantages_var = TT.vector('advantages')
-
-    # policy.dist_info_sym returns a dictionary, whose values are symbolic expressions for quantities related to the
-    # distribution of the actions. For a Gaussian policy, it contains the mean and (log) standard deviation.
-    dist_info_vars = policy.dist_info_sym(observations_var)
-
-    # policy.distribution returns a distribution object under rllab.distributions. It contains many utilities
-    # for computing distribution-related quantities, given the computed dist_info_vars. Below we use
-    # dist.log_likelihood_sym to compute the symbolic log-likelihood. For this example, the corresponding
-    # distribution is an instance of the class rllab.distributions.DiagonalGaussian
-    dist = policy.distribution
-
-    # Note that we negate the objective, since most optimizers assume a
-    # minimization problem
-    surr = - TT.mean(dist.log_likelihood_sym(actions_var, dist_info_vars) * advantages_var)
-
-    # Get the list of trainable parameters.
-    params = policy.get_params(trainable=True)
-    grads = theano.grad(surr, params)
-
-    f_train = theano.function(
-        inputs=[observations_var, actions_var, advantages_var],
-        outputs=None,
-        updates=adam(grads, params, learning_rate=learning_rate),
-        allow_input_downcast=True
-    )
-
-    solutions = []
-    solutions_iter = []
-    for l in lambda_array:
-        policy.set_param_values(policy_init)
-        baseline.set_param_values(baseline_init)
-
-        for itr in xrange(n_itr):
-            # Initialize paths list
-            paths = []
-
-            for _ in xrange(N):
-                observations = []
-                actions = []
-                rewards = []
-                rewardsC = [] # constant reward
-                rewardsX = [] # xcost
-                rewardsU = [] # ucost
-
-                observation = env.reset()
-
-                for _ in xrange(T):
-
-                    action, _ = policy.get_action(observation)
-                    next_observation, Reward, terminal, _ = env.step(action)
-                    reward, rewardC, rewardX, rewardU = Reward
-
-                    reward = l*(rewardC + rewardX) + (1-l)*rewardU # weighted reward
-
-                    observations.append(observation)
-                    actions.append(action)
-                    rewards.append(reward)
-
-                    rewardsC.append(rewardC)
-                    rewardsX.append(rewardX)
-                    rewardsU.append(rewardU)
-
-                    observation = next_observation
-                    if terminal:
-                        # Finish rollout if terminal state reached
-                        break
-
-                # We need to compute the empirical return for each time step along the
-                # trajectory
-                path = dict(
-                    observations=np.array(observations),
-                    actions=np.array(actions),
-                    rewards=np.array(rewards),
-                    rewardsC=np.array(rewardsC),
-                    rewardsX=np.array(rewardsX),
-                    rewardsU=np.array(rewardsU)
-                )
-                path_baseline = baseline.predict(path)
-                advantages = []
-                returns = []
-                return_so_far = 0
-                for t in xrange(len(rewards) - 1, -1, -1):
-                    return_so_far = rewards[t] + discount * return_so_far
-                    returns.append(return_so_far)
-                    advantage = return_so_far - path_baseline[t]
-                    advantages.append(advantage)
-                # The advantages are stored backwards in time, so we need to revert it
-                advantages = np.array(advantages[::-1])
-                # And we need to do the same thing for the list of returns
-                returns = np.array(returns[::-1])
-
-                advantages = (advantages - np.mean(advantages)) / (np.std(advantages) + 1e-8)
-
-                path["advantages"] = advantages
-                path["returns"] = returns
-
-                paths.append(path)
-
-            baseline.fit(paths)
-
-            observations = np.concatenate([p["observations"] for p in paths])
-            actions = np.concatenate([p["actions"] for p in paths])
-            advantages = np.concatenate([p["advantages"] for p in paths])
-            
-            AvgReturn = np.mean([sum(p["rewards"]) for p in paths])
-            AvgReturnC = np.mean([sum(p["rewardsC"]) for p in paths])
-            AvgReturnX = np.mean([sum(p["rewardsX"]) for p in paths])
-            AvgReturnU = np.mean([sum(p["rewardsU"]) for p in paths])
-            
-            solutions_iter.append(AvgReturn)
-
-            f_train(observations, actions, advantages)
-        #print('Iteration: {}; AverageReturn: {}; AverageReturnU: {}, AverageReturnX: {}'
-        #.format(itr,AvgReturn,AvgReturnU,AvgReturnX))
-
-        solutions.append([AvgReturnC,AvgReturnX,AvgReturnU,AvgReturn])
-    return solutions, solutions_iter
-```
-
-### Results when using a scalar reward function
-
-
-```python
-lambda_array = [0.5]
-solutions, solutions_iter = MORL(lambda_array)
-```
-
-
-    ---------------------------------------------------------------------------
-
-    ImportError                               Traceback (most recent call last)
-
-    <ipython-input-4-4b2498bf3a3f> in <module>()
-          1 lambda_array = [0.5]
-    ----> 2 solutions, solutions_iter = MORL(lambda_array)
-    
-
-    <ipython-input-3-589508826c58> in MORL(lambda_array)
-          5 
-          6 def MORL(lambda_array):
-    ----> 7     from cartpole_env import CartpoleEnv
-          8 
-          9     from rllab.baselines.linear_feature_baseline import LinearFeatureBaseline
-
-
-    ImportError: No module named cartpole_env
-
-
-
-```python
-plt.plot([x*2 for x in solutions_iter],'o-',linewidth=2)
-plt.xlabel('Iteration #')
-plt.ylabel('Average reward per iteration')
-plt.grid()
-```
-
-
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_19_0.png)
-
-
-### Finding the Pareto optimal points considering two objectives
-
-The total reward can be decomposed as $R_1=10+xCost$ and $R_2=uCost$. We use these as our two objectives in this section. We choose only two objectives here since the Pareto boundary can be easily depicted and explained using a two-dimensional plot.
-
-
-```python
-lambda_array = np.arange(0.0,1.01,0.01)
-solutions, solutions_iter = MORL(lambda_array)
-```
-
-
-```python
-# Returns
-retC = [x[0] for x in solutions]
-retX = [x[1] for x in solutions]
-retU = [x[2] for x in solutions]
-
-# Normalizing returns in [0,1]
-ret1 = list(np.array(retC) + np.array(retX))
-ret2 = retU
-
-ret1 = (ret1-min(ret1))/(max(ret1)-min(ret1))
-ret2 = (ret2-min(ret2))/(max(ret2)-min(ret2))
-```
-
-
-```python
-# Pareto frontier computation for 2D
-def pareto_frontier(Xs, Ys):
-    Xs, Ys = zip(*sorted(zip(Xs, Ys),reverse=True))
-    p_front = []
-    p_front.append([Xs[0],Ys[0]])
-    for idx in xrange(1,len(Xs)):
-        for j in xrange(0,idx):
-            if Ys[idx] < Ys[j]:
-                break;
-        else:
-            p_front.append([Xs[idx],Ys[idx]])
-
-    return [p[0] for p in p_front], [p[1] for p in p_front]
-```
-
-
-```python
-p1, p2 = pareto_frontier(ret1, ret2)
-```
 
 
 ```python
@@ -479,7 +211,7 @@ plt.tight_layout()
 ```
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_25_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_16_0.png)
 
 
 ### Finding the Pareto Optimal points considering the three rewards separately
@@ -728,5 +460,5 @@ ax.set_zlabel('\n'+'Normalized uCost')
 
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_33_1.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_24_1.png)
 
