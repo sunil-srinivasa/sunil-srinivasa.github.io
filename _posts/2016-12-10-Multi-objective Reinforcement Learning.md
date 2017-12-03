@@ -97,7 +97,7 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
 
 * $$\textbf{for}$$ $$i=1,\ldots,p$$ $$\textbf{do}$$:
 
-    * Initialize policy network parameter $$\theta$$ randomly.
+    * Initialize policy network parameters.
     
     * $$\textbf{for}$$ iteration in $$1,\ldots,N$$ $$\textbf{do}$$:
     
@@ -107,7 +107,7 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
     
         * Implement a policy optimization algorithm using reward function $$R$$.
         
-        * Record the optimal value $$\theta_i$$ for $$\lambda_i$$.
+    * Record the optimal network parameters $$\theta_i$$ for $$\lambda_i$$.
     
 * Determine the set of Pareto-optimal points, i.e., the set of objective values that are not dominated by one another.
 
