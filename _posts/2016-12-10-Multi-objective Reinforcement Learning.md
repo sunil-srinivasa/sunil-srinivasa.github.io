@@ -21,11 +21,11 @@ Reinforcement learning is classically known to optimize a policy that maximizes 
 
 In the MORL domain, there are two standard approaches that are usually taken:
 
-1) The $$\textbf{single-objective}$$ practice is to use a scalar objective function that is a weighted sum or a function of all the objectives. In this regard, it is sometimes common to order or rank the objectives for choosing the appropriate weights; and also order or rank the solutions obtained. However, it is not only difficult to determine how to weigh the objectives, but also often harder to balance the factors to achieve satisfactory performance along all the objectives.
+1) The $$\textbf{single-objective}$$ practice is to use a scalar objective function that is a weighted sum or a function of all the objectives. In this regard, it is sometimes common to order or rank the objectives for choosing the appropriate weights; and also order or rank the solutions obtained. However, it is not only difficult to determine how to weigh the objectives, but also often harder to balance the factors to achieve satisfactory performance along all the objectives. Often, the scalar objective is simply taken to be the sum of the individual objectives.
 
 2) The alternative $$\textbf{Pareto}$$ starategy tries to find multiple solutions to the MORL problem that offer trade-offs among the various objectives. In other words, these multiple solutions, also called $$\textbf{Pareto solutions}$$, are non-superior or non-dominating over each other. The set of Pareto-optimal solutions constitute what is called the $$\textbf{Pareto front(ier)}$$ (or $$\textbf{Pareto boundary}$$). It is left to the discretion of the end-user to then select the operating solution point. Pareto methods are also called filter methods (see [[1]](http://users.iems.northwestern.edu/~nocedal/book/index.html){:target="_blank"}, chapter 15.4), which are classical algorithms from multi-objective optimization literature that seek to generate a sequence of points, so that each one is not strictly dominated by a previous one .
 
-In this blog post, we explain how to obtain the Pareto front for the [Cartpole](https://gym.openai.com/envs/CartPole-v0/){:target="_blank"} environment.
+In this blog post, we focus on the latter approach and explain how to obtain the Pareto front for the [Cartpole](https://gym.openai.com/envs/CartPole-v0/){:target="_blank"} environment.
 
 **The Cartpole environment**
 
@@ -65,7 +65,7 @@ In the case of two continuous objectives, the Pareto front is a curve obviously 
 
 ***A methodology for considering the rewards separately***
 
-We now describe the $$\textbf{radial algorithm}$$ introduced in [[2]](http://ieeexplore.ieee.org/document/6889738/) that presents a method to obtain the points on the Pareto front. We elucidate the concept for a two-dimensional scenario, specifically in the context of Policy Gradient algorithms.
+We now describe the $$\textbf{radial algorithm}$$ introduced in [[2]](http://ieeexplore.ieee.org/document/6889738/) that presents a method to obtain the points on the Pareto front. We elucidate the concept for a two-dimensional scenario, specifically in the context of [Policy Gradient algorithms](http://www.scholarpedia.org/article/Policy_gradient_methods).
 
 Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $$\theta_1=\nabla{_\theta} J_1(\theta)$$ and $$\theta_2=\nabla{_\theta} J_2(\theta)$$, where $$J_i=\mathbb{E}R_i$$, and $$R_i$$ is the reward along axis $$i$$. Any direction in between $$\theta_1$$ and $$\theta_2$$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $$\lambda\in\{0,1\}$$ and use the ascent direction
 $$\theta_{\lambda}=\lambda\times\theta_1+(1-\lambda)\times\theta_2$$.
@@ -114,15 +114,40 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
 
 ***Solutions to the Cartpole problem for the single and multiple objective cases***
 
-In the following, we solve the Cartpole problem using the vanilla policy gradient algorithm. We also consider three variants of the reward function. The following scenarios of objective functions are analyzed separately
-* Scalar objective
-    * $$R=10+\text{xCost}+\text{uCost}$$
-* Two objectives
-    * We decompose the scalar reward used above into two objectives - $$R_1 = 10 + \text{xCost}$$ and $$R_2=\text{uCost}$$
-* Three objectives
+In the following, we solve the Cartpole problem using the [vanilla policy gradient](http://rllab.readthedocs.io/en/latest/user/implement_algo_basic.html) algorithm. We also consider three variants of the reward function. The following scenarios of objective functions are analyzed separately
+* One-dimensional objective
+    * We use the following simple scalar reward function: $$R=10+\text{xCost}+\text{uCost}$$.
+* Two-dimensional objective
+    * We decompose the scalar reward used above into two objectives: $$R_1 = 10 + \text{xCost}$$ and $$R_2=\text{uCost}$$.
+* Three-dimensional objectives
     * Here, we treat all the reward components separately: $$R_1=10$$, $$R_2=\text{xCost}$$ and $$R_3=\text{uCost}$$.
     
 For the latter cases, we employ the radial algorithm to obtain the Pareto frontiers.
+
+***Scenario 1: The 1-D Reward Function***
+We ran the cartpole environment with the following hyperparameters:
+```
+# We will collect N trajectories per iteration
+N = 200
+# Each trajectory will have at most T time steps (horizon)
+H = 100 # Horizon (each trajectory)
+n_itr = 50 # number of iterations
+discount = 0.99 # discounting factor
+# Learning rate for the gradient update
+learning_rate = 0.01
+```
+The learning curve is plotted below for a single run (In practice, it is recommended to average over several runs). We see that the vanilla policy gradient algorithm learns quickly within $$25$$ iterations. With a horizon of $$100$$ time steps, the net reward converges to $$1000$$. This corresponds to roughly $$10$$ per time step, which is expected.
+![1D-Reward]({{site.baseurl}}/assets/images/2016-12-10-MORL/1DReward.PNG){: .center-image}
+
+
+```python
+
+```
+
+
+```python
+
+```
 
 ***References***
 
@@ -323,20 +348,37 @@ lambda_array = [0.5]
 solutions, solutions_iter = MORL(lambda_array)
 ```
 
-    /home/sunil/anaconda2/envs/rllab/lib/python2.7/site-packages/theano/tensor/signal/downsample.py:6: UserWarning: downsample module has been moved to the theano.tensor.signal.pool module.
-      "downsample module has been moved to the theano.tensor.signal.pool module.")
+
+    ---------------------------------------------------------------------------
+
+    ImportError                               Traceback (most recent call last)
+
+    <ipython-input-4-4b2498bf3a3f> in <module>()
+          1 lambda_array = [0.5]
+    ----> 2 solutions, solutions_iter = MORL(lambda_array)
+    
+
+    <ipython-input-3-589508826c58> in MORL(lambda_array)
+          5 
+          6 def MORL(lambda_array):
+    ----> 7     from cartpole_env import CartpoleEnv
+          8 
+          9     from rllab.baselines.linear_feature_baseline import LinearFeatureBaseline
+
+
+    ImportError: No module named cartpole_env
 
 
 
 ```python
 plt.plot([x*2 for x in solutions_iter],'o-',linewidth=2)
 plt.xlabel('Iteration #')
-plt.ylabel('Net reward')
+plt.ylabel('Average reward per iteration')
 plt.grid()
 ```
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_16_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_19_0.png)
 
 
 ### Finding the Pareto optimal points considering two objectives
@@ -437,7 +479,7 @@ plt.tight_layout()
 ```
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_22_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_25_0.png)
 
 
 ### Finding the Pareto Optimal points considering the three rewards separately
@@ -686,5 +728,5 @@ ax.set_zlabel('\n'+'Normalized uCost')
 
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_30_1.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_33_1.png)
 
