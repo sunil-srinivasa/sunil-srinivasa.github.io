@@ -97,19 +97,20 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
 
 * $$\textbf{for}$$ $$i=1,\ldots,p$$ $$\textbf{do}$$:
 
- * Initialize policy network parameter $$\theta$$ randomly.
+    * Initialize policy network parameter $$\theta$$ randomly.
     
- * $$\textbf{for}$$ iteration in $$1,\ldots,N$$ $$\textbf{do}$$:
+    * $$\textbf{for}$$ iteration in $$1,\ldots,N$$ $$\textbf{do}$$:
     
-   * Collect trajectories with features (State, Action, Reward:($$R_1$$,$$R_2$$), nextState).
+        * Collect trajectories with features (State, Action, Reward:($$R_1$$,$$R_2$$), nextState).
         
-   * Set net reward $$R=\lambda\times R_1+(1-\lambda)\times R_2$$.
+        * Set net reward $$R=\lambda_i\times R_1+(1-\lambda_i)\times R_2$$.
     
-   * Implement a policy optimization algorithm using reward function $$R$$.
+        * Implement a policy optimization algorithm using reward function $$R$$.
         
- * Record the optimal value $$\theta_i$$ for $$\lambda_i$$.
+        * Record the optimal value $$\theta_i$$ for $$\lambda_i$$.
     
 * Determine the set of Pareto-optimal points, i.e., the set of objective values that are not dominated by one another.
+
 * The Patero front is obtained by piecewise-linearly connecting the set of Pareto-optimal points obtained. Each point on any of these lines is attainable by time sharing between the end points of that line.
 
 ***Solutions to the Cartpole problem for the single and multiple objective cases***
@@ -124,7 +125,8 @@ In the following, we solve the Cartpole problem using the [vanilla policy gradie
     
 For the latter cases, we employ the radial algorithm to obtain the Pareto frontiers.
 
-***Scenario 1: The 1-D Reward Function***
+***1) Scenario 1: The 1-D Reward Function***
+
 We ran the cartpole environment with the following hyperparameters:
 ```
 N = 200 # number of trajectories per iteration
@@ -136,8 +138,9 @@ learning_rate = 0.01 # learning rate for the gradient update
 The learning curve is plotted below for a single run (In practice, it is recommended to average over several runs). We see that the vanilla policy gradient algorithm learns quickly within about $$25$$ iterations. With a horizon of $$100$$ time steps, the net reward converges to around $$1000$$ pertrajectory. This corresponds to a reward of $$10$$ per time step, which is expected to be the optimum reward (when action$$\approx0$$ and pole-angle$$\approx0$$).
 ![1D-Reward]({{site.baseurl}}/assets/images/2016-12-10-MORL/1DReward.PNG){: .center-image}
 
-***Scenario 2: The 2-D Reward Function***
-In the two objective case, the total reward can be decomposed as $$R_1=10+\text{xCost}$$ and $$R_2=\text{uCost}$$. We use the radial algorithm to solve the cartpole problem for the 2-D reward scenario and the Pareto front is depicted below.
+***2) Scenario 2: The 2-D Reward Function***
+
+In the two objective case, the total reward can be decomposed as $$R_1=10+\text{xCost}$$ and $$R_2=\text{uCost}$$. We use the radial algorithm to solve the cartpole problem for the 2-D reward scenario and the Pareto front is depicted below. The figure on the left plots the achievable region and the figure on the right is a zoomed-in plot of the Pareto front. in this experiment, we considered $$100$$ unifrmly sampled points for $$\lambda$$, . i.e., $$p=100$$
 ![2D-Reward]({{site.baseurl}}/assets/images/2016-12-10-MORL/2DReward.PNG){: .center-image}
 
 
