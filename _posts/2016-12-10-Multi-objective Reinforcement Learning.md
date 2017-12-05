@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: Multi-objective Reinforcement Learning
@@ -67,7 +66,7 @@ In the case of two continuous objectives, the Pareto front is a curve obviously 
 
 We now describe the $$\textbf{radial algorithm}$$ introduced in [[2]](http://ieeexplore.ieee.org/document/6889738/) that presents a method to obtain the points on the Pareto front. We elucidate the concept for a two-dimensional scenario, specifically in the context of [Policy Gradient algorithms](http://www.scholarpedia.org/article/Policy_gradient_methods).
 
-Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $$\theta_1=\nabla{_\theta} J_1(\theta)$$ and $$\theta_2=\nabla{_\theta} J_2(\theta)$$, where $$J_i=\mathbb{E}R_i$$, and $$R_i$$ is the reward along axis $$i$$. Any direction in between $$\theta_1$$ and $$\theta_2$$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a parameter $$\lambda\in\{0,1\}$$ and use the ascent direction
+Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $$\theta_1=\nabla{_\theta} J_1(\theta)$$ and $$\theta_2=\nabla{_\theta} J_2(\theta)$$, where $$J_i=\mathbb{E}R_i$$, and $$R_i$$ is the reward along axis $$i$$. Any direction in between $$\theta_1$$ and $$\theta_2$$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a splitting parameter $$\lambda\in\{0,1\}$$ and use the ascent direction
 $$\theta_{\lambda}=\lambda\times\theta_1+(1-\lambda)\times\theta_2$$.
 
 Equivalently, we may set the overall reward to $$R=\lambda\times R_1 + (1-\lambda)\times R_2$$ and perform policy optimization with this modified reward function. This is because
@@ -88,12 +87,12 @@ $$
 
 where $$R=\lambda\times R_1 + (1-\lambda)\times R_2$$
 
-Each direction provides an unique solution to our optimization problem. By determining the set of non-dominated solutions, the Pareto boundary can be well approximated.
+Each direction (chosen by a specific $$\lambda$$) provides an unique solution to our optimization problem. By determining the set of non-dominated solutions, the Pareto boundary can be well approximated.
 
 The psuedo-code for the algorithm for a two-dimensional reward function is as follows:
 
 
-* $$\{\lambda_i\}_{i=1}^p$$ <-- uniform sampling of $$[0,1]$$.
+* $$\{\lambda^{(i)}\}_{i=1}^p$$ <-- uniform sampling of $$[0,1]$$.
 
 * $$\textbf{for}$$ $$i=1,\ldots,p$$ $$\textbf{do}$$:
 
@@ -103,15 +102,28 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
     
         * Collect trajectories with features (State, Action, Reward:($$R_1$$,$$R_2$$), nextState).
         
-        * Set net reward $$R=\lambda_i\times R_1+(1-\lambda_i)\times R_2$$.
+        * Set net reward $$R=\lambda^{(i)}\times R_1+(1-\lambda^{(i)})\times R_2$$.
     
         * Implement a policy optimization algorithm using reward function $$R$$.
         
-    * Record the optimal network parameters $$\theta_i$$ for $$\lambda_i$$.
+    * Record the optimal network parameters $$\theta_i$$ for the splitting parameter $$\lambda^{(i)}$$.
     
 * Determine the set of Pareto-optimal points, i.e., the set of objective values that are not dominated by one another.
 
 * The Patero front is obtained by piecewise-linearly connecting the set of Pareto-optimal points obtained. Each point on any of these lines is attainable by time sharing between the end points of that line.
+
+For a general case with $$n$$ objectives, the reward function becomes 
+$$
+\begin{aligned}
+R = \sum_{j=1}^n\lambda_jR_j, 0\leq{}\lambda_j\leq1\forall j, \sum_{j=1}^n\lambda_i = 1
+\end{aligned}
+$$
+and the Pareto frontier may be obtained by randomly sampling $$p$$ splitting parameters ($$\lambda_j^{(i)}$$s, $$1\leq{}j\leq{}n$$, $$1\leq{}i\leq{}p$$) from an $$n-1$$-dimensional hyperplane.
+
+
+```python
+
+```
 
 ***Solutions to the Cartpole problem for the single and multiple objective cases***
 
@@ -143,10 +155,8 @@ The learning curve is plotted below for a single run (In practice, it is recomme
 In the two objective case, the total reward can be decomposed as $$R_1=10+\text{xCost}$$ and $$R_2=\text{uCost}$$. We use the radial algorithm to solve the cartpole problem for the 2-D reward scenario and the Pareto front is depicted below. The figure on the left plots the achievable region and the figure on the right is a zoomed-in plot of the Pareto front. in this experiment, we considered $$100$$ unifrmly sampled points for $$\lambda$$, . i.e., $$p=100$$
 ![2D-Reward]({{site.baseurl}}/assets/images/2016-12-10-MORL/2DReward.PNG){: .center-image}
 
-
-```python
-
-```
+***3) Scenario 3: The 3-D Reward Function***
+Here, we decompose the total reward into $R_1=10$, $R_2=xCost$ and $R_3=uCost$. The weighting factors for the rewards $(\lambda_1,\lambda_2)$ now is uniformly sampled over the isosceles right triangle with vertices at $[0,0]$, $[0,1]$ and $[1,0]$. For the policy gradient, we use the reward function $R=\lambda_1\times R_1 + \lambda_2\times R_2+(1-\lambda-1-\lambda_2)\times R_3$.
 
 ***References***
 
@@ -214,7 +224,7 @@ plt.tight_layout()
 ```
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_16_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_18_0.png)
 
 
 ### Finding the Pareto Optimal points considering the three rewards separately
@@ -463,5 +473,5 @@ ax.set_zlabel('\n'+'Normalized uCost')
 
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_24_1.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_26_1.png)
 
