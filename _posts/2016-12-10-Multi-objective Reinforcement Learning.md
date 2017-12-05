@@ -116,9 +116,10 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
 For a general case with $$n$$ objectives, the reward function becomes 
 $$
 \begin{aligned}
-R = \sum_{j=1}^n\lambda_jR_j, 0\leq{}\lambda_j\leq1\forall j, \sum_{j=1}^n\lambda_i = 1
+R & = \sum_{j=1}^n_\substack{0\leq{}\lambda_j\leq1\forall j,\\ \sum_{j=1}^n\lambda_j = 1}\lambda_jR_j.
 \end{aligned}
 $$
+
 and the Pareto frontier may be obtained by randomly sampling $$p$$ splitting parameters ($$\lambda_j^{(i)}$$s, $$1\leq{}j\leq{}n$$, $$1\leq{}i\leq{}p$$) from an $$n-1$$-dimensional hyperplane.
 
 
