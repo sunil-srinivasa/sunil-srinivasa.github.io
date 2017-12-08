@@ -113,14 +113,7 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
 
 * The Patero front is obtained by piecewise-linearly connecting the set of Pareto-optimal points obtained. Each point on any of these lines is attainable by time sharing between the end points of that line.
 
-For a general case with $$n$$ objectives, the reward function becomes 
-$$
-\begin{equation}
-R & = \sum_{j=1}^n_\substack{0\leq\lambda_j\leq1\forall j,\\ \sum_{j=1}^n\lambda_j = 1}\lambda_j R_j.\\
-\end{equation}
-$$
-
-and the Pareto frontier may be obtained by randomly sampling $$p$$ sets of splitting parameters ($$\lambda_j^{(i)}$$s, $$1\leq{}j\leq{}n$$, $$1\leq{}i\leq{}p$$) from an $$n-1$$-dimensional hyperplane.
+For a general case with $$n$$ objectives, the Pareto front may be obtained by uniformly sampling from an $$n-1$$-dimensional hyperplane. Accordingly, we pick $$j=1,\ldots,p$$ sets of the splitting parameters $$(\lambda^{(j)}_1,\lambda^{(j)}_2,\ldots{},\lambda^{(j)}_n)$$ subject to $$\sum_{j=1}^n\lambda^{(j)}_i = 1$$, $$0 \leq\lambda^{(j)}_i\leq 1$$, and the reward function $$R = \sum_{j=1}^n\lambda_j R_j$$ is used.
 
 
 ```python
