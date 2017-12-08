@@ -115,10 +115,13 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
 
 For a general case with $$n$$ objectives, the Pareto front may be obtained by uniformly sampling from an $$n-1$$-dimensional hyperplane. Accordingly, we pick $$j=1,\ldots,p$$ sets of the splitting parameters $$(\lambda^{(j)}_1,\lambda^{(j)}_2,\ldots{},\lambda^{(j)}_n)$$ subject to $$\sum_{j=1}^n\lambda^{(j)}_i = 1$$, $$0 \leq\lambda^{(j)}_i\leq 1$$, and the reward function $$R = \sum_{j=1}^n\lambda_j R_j$$ is used.
 
+* When $$n=2$$, $$\lambda_1$$ and $$\lambda_2$$ are sampled from the line $$\lambda_1+\lambda_2=1$$. The figure below shows $$200$$ sampled points for the 2-D case.
 
-```python
+![]({{site.baseurl}}/assets/images/2016-12-10-MORL/lambda_2D.PNG){: .center-image}
 
-```
+* When $$n=3$$, $$\lambda_1$$, $$\lambda_2$$ and $$\lambda_3$$ are chosen from the equilateral triangle given by $$\lambda_1+\lambda_2+\lambda_3=1$$ (see the figure below).
+
+![]({{site.baseurl}}/assets/images/2016-12-10-MORL/lambda_3D.PNG){: .center-image}
 
 ***Solutions to the Cartpole problem for the single and multiple objective cases***
 
@@ -219,12 +222,58 @@ plt.tight_layout()
 ```
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_18_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_17_0.png)
 
 
 ### Finding the Pareto Optimal points considering the three rewards separately
 
 Here, we decompose the total reward into $R_1=10$, $R_2=xCost$ and $R_3=uCost$. The weighting factors for the rewards $(\lambda_1,\lambda_2)$ now is uniformly sampled over the isosceles right triangle with vertices at $[0,0]$, $[0,1]$ and $[1,0]$. For the policy gradient, we use the reward function $R=\lambda_1\times R_1 + \lambda_2\times R_2+(1-\lambda-1-\lambda_2)\times R_3$.
+
+
+```python
+import numpy as np
+import matplotlib
+matplotlib.rcParams.update({'font.size': 16})
+
+l1 = np.random.rand(200)
+l2 = 1-l1
+plt.figure(figsize=(5,5))
+plt.plot(l1,l2,'.')
+plt.xlabel('$\lambda_1$')
+plt.ylabel('$\lambda_2$')
+plt.grid()
+```
+
+
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_20_0.png)
+
+
+
+```python
+L = 500
+l1 = np.random.rand(3*L)
+l2 = np.random.rand(3*L)
+l3 = 1 - l1 - l2
+mask = (0 <= l3) & (l3 <= 1)
+
+l1 = l1[mask][:L]
+l2 = l2[mask][:L]
+l3 = l3[mask][:L]
+from mpl_toolkits.mplot3d import Axes3D
+fig = plt.figure(figsize=(8,8))
+ax = Axes3D(fig)
+
+ax.scatter(l1,l2,l3)
+ax.view_init(20,30)
+ax.set_xlabel('$\lambda_1$',labelpad=20)
+ax.set_ylabel('$\lambda_2$',labelpad=20)
+ax.set_zlabel('$\lambda_3$',labelpad=10)
+plt.grid()
+```
+
+
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_21_0.png)
+
 
 
 ```python
@@ -468,5 +517,5 @@ ax.set_zlabel('\n'+'Normalized uCost')
 
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_26_1.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_27_1.png)
 
