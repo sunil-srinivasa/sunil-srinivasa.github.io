@@ -55,7 +55,7 @@ OR
 
 In other words, $$S_1$$ is better than (or equal to) $$S_2$$ with respect to both the objectives, and hence dominates it.
 
-The figure below (image courtesy [[3]](http://lipas.uwasa.fi/~TAU/AUTO3120)) provides a depiction of a Pareto front for the two-dimensional case. Notice that there are multiple solutions to this two-objective problem, that are marked blue. However, while many of these solutions are dominated by other solutions; it is only the red points that are non-dominated, and those form the Pareto front. Points under the Pareto front are feasible while those beyond the Pareto front are infeasible.
+The figure below (image courtesy [[2]](http://lipas.uwasa.fi/~TAU/AUTO3120)) provides a depiction of a Pareto front for the two-dimensional case. Notice that there are multiple solutions to this two-objective problem, that are marked blue. However, while many of these solutions are dominated by other solutions; it is only the red points that are non-dominated, and those form the Pareto front. Points under the Pareto front are feasible while those beyond the Pareto front are infeasible.
 
 In the case of two continuous objectives, the Pareto front is a curve obviously consisting of potentially an infinite number of points. In practise the Pareto front is discretized and the points are tried to be located as evenly as possible on the front.
 
@@ -64,7 +64,7 @@ In the case of two continuous objectives, the Pareto front is a curve obviously 
 
 ***A methodology for considering the rewards separately***
 
-We now describe the $$\textbf{radial algorithm}$$ introduced in [[2]](http://ieeexplore.ieee.org/document/6889738/) that presents a method to obtain the points on the Pareto front. We elucidate the concept for a two-dimensional scenario, specifically in the context of [Policy Gradient algorithms](http://www.scholarpedia.org/article/Policy_gradient_methods).
+We now describe the $$\textbf{radial algorithm}$$ introduced in [[3]](http://ieeexplore.ieee.org/document/6889738/) that presents a method to obtain the points on the Pareto front. We elucidate the concept for a two-dimensional scenario, specifically in the context of [Policy Gradient algorithms](http://www.scholarpedia.org/article/Policy_gradient_methods).
 
 Consider the two extreme steepest ascent directions (one for each objective) that maximize each objective and neglect the other objective. These directions are given by $$\theta_1=\nabla{_\theta} J_1(\theta)$$ and $$\theta_2=\nabla{_\theta} J_2(\theta)$$, where $$J_i=\mathbb{E}R_i$$, and $$R_i$$ is the reward along axis $$i$$. Any direction in between $$\theta_1$$ and $$\theta_2$$ will simultaneously increase both the objectives. As a consequence, a sampling of directions amidst the two extreme directions corresponds to pointing at different locations on the Pareto frontier. Every direction intrinsically defines a preference ratio over the two objectives. We uniformly sample the ascent direction space via a splitting parameter $$\lambda\in\{0,1\}$$ and use the ascent direction
 $$\theta_{\lambda}=\lambda\times\theta_1+(1-\lambda)\times\theta_2$$.
@@ -166,6 +166,11 @@ In this blog post, we have demonstrated how to handle reinforcement learning pro
 
 [1] J. Nocedal and S. J. Wright, [Numerical Optimization](http://users.iems.northwestern.edu/~nocedal/book/index.html)
 
-[2] S. Parisi et al., [Policy gradient approaches for multi-objective sequential decision making](http://ieeexplore.ieee.org/document/6889738/) IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
+[2] J. Alander, [A course on Evolutionary Computing](http://lipas.uwasa.fi/~TAU/AUTO3120)
 
-[3] J. Alander, [A course on Evolutionary Computing](http://lipas.uwasa.fi/~TAU/AUTO3120)
+[3] S. Parisi et al., [Policy gradient approaches for multi-objective sequential decision making](http://ieeexplore.ieee.org/document/6889738/) IEEE International Joint Conference on Neural Networks (IJCNN), July 2014.
+
+
+```python
+
+```
