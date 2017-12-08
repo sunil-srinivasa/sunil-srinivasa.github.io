@@ -160,7 +160,7 @@ Here, we extend the 2-D case by decomposing the total reward into $$R_1=10$$, $$
 
 ***Concluding Remarks***
 
-In this blog post, we have explained how to handle reinforcement learning problems with multiple objectives and introduced the notion of a Pareto frontier. In the context of policy gradient algorithms, we have shown how to extend the mathematical concepts derived for the scalar reward case to higher dimensions via the radial algorithm. With $$p$$ splitting parameters, the time complexity grows $$p$$-fold!
+In this blog post, we have demonstrated how to handle reinforcement learning problems with multiple objectives by introducing the notion of a Pareto frontier. We also explain how to extend the mathematical concepts derived for the scalar reward case in the specific context of policy gradient algorihms to higher dimensions via the radial algorithm. A key point to note is with $$p$$ splitting parameters, the time complexity grows $$p$$-fold, i.e., linearly with $$p$$. More importantly, for an $$n$$-dimensional reward function, the number of sampling points $$p$$ required to cover the sampling space grows exponentially with $$n$$ ($$n-1$$ to be precise). Thus, in comparison to an $$O(T)$$ time complexity for the policy gradient algorithm using the scalar reward function, the policy gradient algorithm employing a $$n$$-dimensional reward function imbibes a time complexity of $$O(T^n)$$!
 
 ***References***
 
