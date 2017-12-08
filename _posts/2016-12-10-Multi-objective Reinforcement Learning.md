@@ -61,7 +61,7 @@ The figure below (image courtesy [[3]](http://lipas.uwasa.fi/~TAU/AUTO3120)) pro
 In the case of two continuous objectives, the Pareto front is a curve obviously consisting of potentially an infinite number of points. In practise the Pareto front is discretized and the points are tried to be located as evenly as possible on the front.
 
 
-![alt text]({{site.baseurl}}/assets/images/2016-12-10-MORL/ParetoFront.PNG){: .center-image}
+![The Pareto Front]({{site.baseurl}}/assets/images/2016-12-10-MORL/ParetoFront.PNG){: .center-image}
 
 ***A methodology for considering the rewards separately***
 
@@ -101,7 +101,7 @@ The psuedo-code for the algorithm for a two-dimensional reward function is as fo
     
     * $$\textbf{for}$$ iteration in $$1,\ldots,N$$ $$\textbf{do}$$:
     
-        * Collect trajectories with features (State, Action, Reward:($$R_1$$,$$R_2$$), nextState).
+        * Collect trajectories with features (state, action, reward:($$R_1$$,$$R_2$$), nextState).
         
         * Set net reward $$R=\lambda^{(i)}\times R_1+(1-\lambda^{(i)})\times R_2$$.
     
@@ -119,7 +119,7 @@ For a general case with $$n$$ objectives, the Pareto front may be obtained by un
 
 ![]({{site.baseurl}}/assets/images/2016-12-10-MORL/lambda_2D.PNG){: .center-image}
 
-* When $$n=3$$, $$\lambda_1$$, $$\lambda_2$$ and $$\lambda_3$$ are chosen from the equilateral triangle given by $$\lambda_1+\lambda_2+\lambda_3=1$$ (see the figure below).
+* When $$n=3$$, $$\lambda_1$$, $$\lambda_2$$ and $$\lambda_3$$ are chosen from the equilateral triangle given by $$\lambda_1+\lambda_2+\lambda_3=1$$ (see the figure below for a depiction of $$200$$ randomly sampled points in this space).
 
 ![]({{site.baseurl}}/assets/images/2016-12-10-MORL/lambda_3D.PNG){: .center-image}
 
