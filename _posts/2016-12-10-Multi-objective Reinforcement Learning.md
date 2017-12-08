@@ -1,3 +1,4 @@
+
 ---
 layout: post
 title: Multi-objective Reinforcement Learning
@@ -129,7 +130,7 @@ In the following, we solve the Cartpole problem using the [vanilla policy gradie
     * We use the following simple scalar reward function: $$R=10+\text{xCost}+\text{uCost}$$.
 * Two-dimensional objective
     * We decompose the scalar reward used above into two objectives: $$R_1 = 10 + \text{xCost}$$ and $$R_2=\text{uCost}$$.
-* Three-dimensional objectives
+* Three-dimensional objective
     * Here, we treat all the reward components separately: $$R_1=10$$, $$R_2=\text{xCost}$$ and $$R_3=\text{uCost}$$.
     
 For the latter cases, we employ the radial algorithm to obtain the Pareto frontiers.
