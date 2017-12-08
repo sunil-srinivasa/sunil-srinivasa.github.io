@@ -154,7 +154,7 @@ In the two objective case, the total reward can be decomposed as $$R_1=10+\text{
 ![2D-Reward]({{site.baseurl}}/assets/images/2016-12-10-MORL/2DReward.PNG){: .center-image}
 
 ***3) Scenario 3: The 3-D Reward Function***
-Here, we extend the 2-D case by decomposing the total reward into $$R_1=10$$, $$R_2=xCost$$ and $$R_3=uCost$$. The weighting factors for the rewards $$(\lambda_1,\lambda_2,\lambda_3)$$ are uniformly sampled from the equilateral triangle with vertices at $$[0,0,1]$$, $$[0,1,0]$$ and $$[1,0,0]$$. For the vanilla policy gradient, we use the reward function $$R=\lambda_1\times R_1 + \lambda_2\times R_2+(1-\lambda-1-\lambda_2)\times R_3$$. See the figure below for a depiction of some Pareto-optimal solutions in the 3-D case.
+Here, we extend the 2-D case by decomposing the total reward into $$R_1=10$$, $$R_2=\text{xCost}$$ and $$R_3=\text{uCost}$$. The weighting factors for the rewards $$(\lambda_1,\lambda_2,\lambda_3)$$ are uniformly sampled from the equilateral triangle with vertices at $$[0,0,1]$$, $$[0,1,0]$$ and $$[1,0,0]$$. For the vanilla policy gradient, we use the reward function $$R=\lambda_1\times R_1 + \lambda_2\times R_2+(1-\lambda-1-\lambda_2)\times R_3$$. See the figure below for a depiction of some Pareto-optimal solutions in the 3-D case.
 
 ![3D-Reward]({{site.baseurl}}/assets/images/2016-12-10-MORL/3DReward.PNG){: .center-image}
 
