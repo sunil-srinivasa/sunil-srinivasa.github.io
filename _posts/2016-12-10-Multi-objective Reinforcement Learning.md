@@ -150,11 +150,17 @@ The learning curve is plotted below for a single run (In practice, it is recomme
 
 ***2) Scenario 2: The 2-D Reward Function***
 
-In the two objective case, the total reward can be decomposed as $$R_1=10+\text{xCost}$$ and $$R_2=\text{uCost}$$. We use the radial algorithm to solve the cartpole problem for the 2-D reward scenario and the Pareto front is depicted below. The figure on the left plots the achievable region and the figure on the right is a zoomed-in plot of the Pareto front. in this experiment, we considered $$100$$ unifrmly sampled points for $$\lambda$$, . i.e., $$p=100$$
+In the two objective case, the total reward can be decomposed as $$R_1=10+\text{xCost}$$ and $$R_2=\text{uCost}$$. We use the radial algorithm to solve the cartpole problem for the 2-D reward scenario and the Pareto front is depicted below. The figure on the left plots the achievable region and the figure on the right is a zoomed-in plot of the Pareto front. in this experiment, we considered $$p=100$$ uniformly sampled values of $$\lambda_1$$ and $$\lambda_2$$.
+
 ![2D-Reward]({{site.baseurl}}/assets/images/2016-12-10-MORL/2DReward.PNG){: .center-image}
 
 ***3) Scenario 3: The 3-D Reward Function***
-Here, we decompose the total reward into $R_1=10$, $R_2=xCost$ and $R_3=uCost$. The weighting factors for the rewards $(\lambda_1,\lambda_2)$ now is uniformly sampled over the isosceles right triangle with vertices at $[0,0]$, $[0,1]$ and $[1,0]$. For the policy gradient, we use the reward function $R=\lambda_1\times R_1 + \lambda_2\times R_2+(1-\lambda-1-\lambda_2)\times R_3$.
+Here, we extend the 2-D case by decomposing the total reward into $$R_1=10$$, $$R_2=xCost$$ and $$R_3=uCost$$. The weighting factors for the rewards $$(\lambda_1,\lambda_2,lambda_3)$$ are uniformly sampled from the equilateral triangle with vertices at $$[0,0,1]$$, $$[0,1,0]$$ and $$[1,0,0]$$. For the vanilla policy gradient, we use the reward function $$R=\lambda_1\times R_1 + \lambda_2\times R_2+(1-\lambda-1-\lambda_2)\times R_3$$. See the figure below for a depiction of some Pareto-optimal solutions in the 3-D case.
+
+![3D-Reward]({{site.baseurl}}/assets/images/2016-12-10-MORL/3DReward.PNG){: .center-image}
+
+***Concluding Remarks***
+In this blog post, we have explained how to handle reinforcement learning problems with multiple objectives and touched upon the notion of a Pareto frontier. In the context of policy gradient algorithms, we have shown how to extend the mathematical concepts derived for the scalar reward case to higher dimensions. With $$p$$ splitting parameters, the time complexity grows $$p$$-fold!
 
 ***References***
 
@@ -222,7 +228,7 @@ plt.tight_layout()
 ```
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_17_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_18_0.png)
 
 
 ### Finding the Pareto Optimal points considering the three rewards separately
@@ -245,7 +251,7 @@ plt.grid()
 ```
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_20_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_21_0.png)
 
 
 
@@ -272,7 +278,7 @@ plt.grid()
 ```
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_21_0.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_22_0.png)
 
 
 
@@ -517,5 +523,5 @@ ax.set_zlabel('\n'+'Normalized uCost')
 
 
 
-![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_27_1.png)
+![png](2016-12-10-Multi-objective%20Reinforcement%20Learning_files/2016-12-10-Multi-objective%20Reinforcement%20Learning_28_1.png)
 
