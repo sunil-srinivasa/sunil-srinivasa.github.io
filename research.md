@@ -3,6 +3,8 @@ layout: page
 title: Publications
 permalink: /reseach/
 ---
+[Google Scholar Profile](https://scholar.google.com/citations?user=-F8394IAAAAJ&hl=en){:target="_blank"}
+
 ***Conferences*** (# indicates equal contribution)
 * N. Kota(#), A. Mishra(#), S.Srinivasa(#), X. Chen and P. Abbeel., "***A K-fold Method for Baseline Estimation in Policy Gradient Algorithms***," in NIPS Deep Reinforcement Learning Workshop, (Barcelona, Spain), Dec. 2016, [[pdf]](https://arxiv.org/pdf/1701.00867.pdf){:target="_blank"}
 * A. Malipatil(#), M. Mobin(#), A. Nayak(#), S. Srinivasa(#), and H. Xia(#), "***SerDes steady state adaptation challenges over PVT in existing SAS/SATA and emerging PCIe Gen4/SAS4 application and their solutions with real time pattern discriminator constrained adaptation***," in DesignCon, (Santa Clara, CA), Jan. 2015. [[pdf]](https://designcon.tech.ubm.com/eventAssets/descon_all_Proceedings_150202154121/files/DC15%20Paper%20Titles.pdf){:target="_blank"}
