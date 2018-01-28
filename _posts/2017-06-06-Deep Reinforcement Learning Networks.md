@@ -190,7 +190,7 @@ author: "Sunil Srinivasa"
 
 ## 14. [Proximal Policy Optimization (PPO)](https://arxiv.org/abs/1707.0634 "Proximal Policy Optimization Algorithms")
 
-## 15. [Evolutionary Strategies (ES)](https://arxiv.org/abs/1703.03864"Evolution Strategies as a Scalable Alternative to Reinforcement Learning")
+## 15. [Evolutionary Strategies (ES)](https://arxiv.org/abs/1703.03864 "Evolution Strategies as a Scalable Alternative to Reinforcement Learning")
 
 ## 16. [Policy Gradients = Q-Learning](https://arxiv.org/abs/1704.06440 "Equivalence Between Policy Gradients and Soft Q-Learning")
 
