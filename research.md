@@ -22,6 +22,11 @@ Networks (SECON), (Rome, Italy), June 2009. [[pdf]]({{site.baseurl}}/assets/publ
 
 ***Journals***
 * S. Srinivasa and M. Haenggi, "***Combining Stochastic Geometry and Statistical Mechanics for the Analysis and Design of Mesh Networks***," Elsevier Ad Hoc Networks, vol. 13, pp. 110-122, Feb. 2014. [[pdf]]({{site.baseurl}}/assets/publications/14Elsevier.pdf){:target="_blank"}
-* S. Vanka, S. Srinivasa, Z. Gong, P. Vizi, K. Stamatiou, and M. Haenggi, "***Superposition Coding Strategies: Design and Experimental Evaluation***," IEEE Transactions on Wireless Communications, vol. 11, pp. 2628-2639, July 2012. [[pdf]]({{site.baseurl}}/assets/publications/12TWC.pdf){:target="_blank"}
+* S. Vanka, S. Srinivasa, Z. Gong, P. Vizi, K. Stamatiou, and M. Haenggi, "***Superposition Coding Strategies: Design and Experimental Evaluation***," IEEE Transactions on Wireless Communications, vol. 11, pp. 2628-2639, July 2012. [[pdf]]({{site.baseurl}}/assets/publications/12TWC.pdf){:target="_blank"} [[technical report]]({{site.baseurl}}/assets/publications/12TWC_technical_report.pdf){:target="_blank"}
 * S. Srinivasa and M. Haenggi, "***A Statistical Mechanics-Based Framework to Analyze Ad Hoc Networks with Random Access***," IEEE Transactions on Mobile Computing, vol. 11, pp. 618-630, Apr. 2012. [[pdf]]({{site.baseurl}}/assets/publications/12TMC.pdf){:target="_blank"}
 * S. Srinivasa and M. Haenggi, "***Distance Distributions in Finite Uniformly Random Networks: Theory and Applications***," IEEE Transactions on Vehicular Technology, vol. 59, pp. 940-949, Feb. 2010. [[pdf]]({{site.baseurl}}/assets/publications/10TVT.pdf){:target="_blank"}
+* S.Srinivasa and M. Haenggi, "***Path loss exponent estimation in a large field of interferers***," in preparation, IEEE Transactions on Information Theory. [[pdf]]({{site.baseurl}}/assets/publications/TIT.pdf){:target="_blank"}
+
+***Articles***
+* S. Srinivasa, "***A review on multivariate mutual information***". [[pdf]]({{site.baseurl}}/assets/publications/multivariate_mutual_information.pdf){:target="_blank"}
+* S. Srinivasa, "***Broadcast Channels***". [[pdf]]({{site.baseurl}}/assets/publications/broadcast_channels.pdf){:target="_blank"}
