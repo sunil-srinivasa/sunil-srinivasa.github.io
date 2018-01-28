@@ -188,7 +188,7 @@ author: "Sunil Srinivasa"
 
 ## 13. [Actor-Critic with Experience Replay (ACER)](https://arxiv.org/abs/1611.01224 "Sample Efficient Actor-Critic with Experience Replay")
 
-## 14. [Proximal Policy Optimization (PPO)](https://arxiv.org/abs/1707.0634 "Proximal Policy Optimization Algorithms")
+## 14. [Proximal Policy Optimization (PPO)](https://arxiv.org/abs/1707.06347 "Proximal Policy Optimization Algorithms")
 
 ## 15. [Evolutionary Strategies (ES)](https://arxiv.org/abs/1703.03864 "Evolution Strategies as a Scalable Alternative to Reinforcement Learning")
 
