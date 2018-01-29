@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About
+title: About Me
 permalink: /about/
 ---
 - ***Staff data scientist*** with over 6 years of industry-related experience. I am interested in opportunities relating to applied artificial intelligence research and product development.
