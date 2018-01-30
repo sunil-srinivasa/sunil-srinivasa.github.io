@@ -51,6 +51,9 @@ author: "Sunil Srinivasa"
   **Tricks:**
   - **Separate target network** for generating $$y_i$$ (which is cloned with the $$Q$$-network every $$C$$ updates).
   - **Gradient clipping**.
+  - **Huber loss** instead of squared loss on Bellman error.
+  - **RMSProp** instead of vanilla SGD.
+  - Anneal the exploration rate.
   - Like in the NIPS paper, **experience replay**.
 
   **Experiments:**
