@@ -34,8 +34,7 @@ You may assume the two numbers do not contain any leading zero, except the numbe
 
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.
 
-Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
-Output: 7 -> 0 -> 8
+> Input: (2 -> 4 -> 3) + (5 -> 6 -> 4), Output: 7 -> 0 -> 8
 
 
 ```python
@@ -83,13 +82,13 @@ class Solution(object):
 ## 3. Longest Substring Without Repeating Characters
 Given a string, find the length of the longest substring without repeating characters.
 
-Examples:
+> Examples:
 
-Given "abcabcbb", the answer is "abc", which the length is 3.
+> Given "abcabcbb", the answer is "abc", which the length is 3.
 
-Given "bbbbb", the answer is "b", with the length of 1.
+> Given "bbbbb", the answer is "b", with the length of 1.
 
-Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+> Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
 
 
 ```python
@@ -131,12 +130,12 @@ There are two sorted arrays nums1 and nums2 of size m and n respectively.
 
 Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
 
-Example 1:
+> Example 1:
 nums1 = [1, 3]
 nums2 = [2]
 The median is 2.0
 
-Example 2:
+> Example 2:
 nums1 = [1, 2]
 nums2 = [3, 4]
 The median is (2 + 3)/2 = 2.5
@@ -189,8 +188,9 @@ class Solution(object):
 ## 7. Reverse Integer
 Reverse digits of an integer.
 
-Example1: x = 123, return 321
-Example2: x = -123, return -321
+>Example1: x = 123, return 321
+
+>Example2: x = -123, return -321
 
 
 ```python
@@ -217,7 +217,6 @@ class Solution(object):
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
 
 Note: You may not slant the container and n is at least 2.
-
 
 ```python
 class Solution(object):
@@ -324,9 +323,7 @@ Given an array S of n integers, are there elements a, b, c in S such that a + b 
 
 Note: The solution set must not contain duplicate triplets.
 
-For example, given array S = [-1, 0, 1, 2, -1, -4],
-
-A solution set is:
+>For example, given array S = [-1, 0, 1, 2, -1, -4], A solution set is:
 [
   [-1, 0, 1],
   [-1, -1, 2]
@@ -404,9 +401,7 @@ class Solution(object):
 ### 16. 3Sum Closest
 Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target. Return the sum of the three integers. You may assume that each input would have exactly one solution.
 
-    For example, given array S = {-1 2 1 -4}, and target = 1.
-
-    The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+> For example, given array S = {-1 2 1 -4}, and target = 1. The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
 
 
 ```python
@@ -445,7 +440,7 @@ class Solution(object):
 ## 19. Remove Nth Node From End of List
 Given a linked list, remove the nth node from the end of list and return its head.
 
-For example, Given linked list: 1->2->3->4->5, and n = 2. After removing the second node from the end, the linked list becomes 1->2->3->5.
+> For example, Given linked list: 1->2->3->4->5, and n = 2. After removing the second node from the end, the linked list becomes 1->2->3->5.
 
 Note:
 Given n will always be valid.
@@ -597,10 +592,8 @@ Given a sorted array, remove the duplicates in place such that each element appe
 
 Do not allocate extra space for another array, you must do this in place with constant memory.
 
-For example,
-Given input array nums = [1,1,2],
-
-Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn't matter what you leave beyond the new length.
+> For example,
+Given input array nums = [1,1,2], Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn't matter what you leave beyond the new length.
 
 
 ```python
@@ -634,10 +627,8 @@ Do not allocate extra space for another array, you must do this in place with co
 
 The order of elements can be changed. It doesn't matter what you leave beyond the new length.
 
-Example:
-Given input array nums = [3,2,2,3], val = 3
-
-Your function should return length = 2, with the first two elements of nums being 2.
+> Example:
+Given input array nums = [3,2,2,3], val = 3, Your function should return length = 2, with the first two elements of nums being 2.
 
 
 ```python
@@ -679,9 +670,9 @@ class Solution(object):
 ### 32. Longest Valid Parentheses
 Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
 
-For "(()", the longest valid parentheses substring is "()", which has length = 2.
+>For "(()", the longest valid parentheses substring is "()", which has length = 2.
 
-Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
+>Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
 
 
 ```python
@@ -736,9 +727,8 @@ Your algorithm's runtime complexity must be in the order of O(log n).
 
 If the target is not found in the array, return [-1, -1].
 
-For example,
-Given [5, 7, 7, 8, 8, 10] and target value 8,
-return [3, 4].
+>For example,
+Given [5, 7, 7, 8, 8, 10] and target value 8, return [3, 4].
 
 
 ```python
@@ -760,13 +750,14 @@ Given an integer n, generate the nth term of the count-and-say sequence.
 
 Note: Each term of the sequence of integers will be represented as a string.
 
-Example 1:
+>Example 1:
 
-Input: 1
+>Input: 1
 Output: "1"
-Example 2:
 
-Input: 4
+>Example 2:
+
+>Input: 4
 Output: "1211"
 
 
@@ -810,14 +801,12 @@ The same repeated number may be chosen from C unlimited number of times.
 Note:
 All numbers (including target) will be positive integers.
 The solution set must not contain duplicate combinations.
-For example, given candidate set [2, 3, 6, 7] and target 7,
+>For example, given candidate set [2, 3, 6, 7] and target 7,
 A solution set is:
-```
 [
   [7],
   [2, 2, 3]
 ]
-```
 
 
 ```python
@@ -848,7 +837,7 @@ class Solution(object):
 ## 41. First Missing Positive
 Given an unsorted integer array, find the first missing positive integer.
 
-For example,
+>For example,
 Given [1,2,0] return 3,
 and [3,4,-1,1] return 2.
 
@@ -886,7 +875,7 @@ class Solution(object):
 ## 42. Trapping Rain Water
 Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
 
-For example,
+>For example,
 Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
 
 ![](http://www.leetcode.com/wp-content/uploads/2012/08/rainwatertrap.png)
@@ -925,9 +914,8 @@ class Solution:
 ### 46. Permutations
 Given a collection of distinct numbers, return all possible permutations.
 
-For example,
+>For example,
 [1,2,3] have the following permutations:
-```
 [
   [1,2,3],
   [1,3,2],
@@ -936,7 +924,6 @@ For example,
   [3,1,2],
   [3,2,1]
 ]
-```
 
 
 ```python
@@ -1006,15 +993,14 @@ class Solution(object):
 ### 49. Group Anagrams
 Given an array of strings, group anagrams together.
 
-For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"],
+>For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"],
 Return:
-```
 [
   ["ate", "eat","tea"],
   ["nat","tan"],
   ["bat"]
 ]
-```
+
 Note: All inputs will be in lower-case.
 
 
@@ -1054,7 +1040,7 @@ class Solution(object):
 ### 54. Spiral Matrix
 Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
 
-For example,
+>For example,
 Given the following matrix:
 ```
 [
@@ -1133,10 +1119,10 @@ Each element in the array represents your maximum jump length at that position.
 
 Determine if you are able to reach the last index.
 
-For example:
+>For example:
 A = [2,3,1,1,4], return true.
 
-A = [3,2,1,0,4], return false.
+>A = [3,2,1,0,4], return false.
 
 
 ```python
@@ -1156,14 +1142,13 @@ class Solution(object):
                 if farthest >= len(nums)-1:
                     return True
 
-        return False  
-
+        return False
 ```
 
 ### 56. Merge Intervals
 Given a collection of intervals, merge all overlapping intervals.
 
-For example,
+>For example,
 Given [1,3],[2,6],[8,10],[15,18],
 return [1,6],[8,10],[15,18].
 
@@ -1209,10 +1194,10 @@ Given a set of non-overlapping intervals, insert a new interval into the interva
 
 You may assume that the intervals were initially sorted according to their start times.
 
-Example 1:
+>Example 1:
 Given intervals [1,3],[6,9], insert and merge [2,5] in as [1,5],[6,9].
 
-Example 2:
+>Example 2:
 Given [1,2],[3,5],[6,7],[8,10],[12,16], insert and merge [4,9] in as [1,2],[3,10],[12,16].
 
 This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
@@ -1270,7 +1255,7 @@ If the last word does not exist, return 0.
 
 Note: A word is defined as a character sequence consists of non-space characters only.
 
-For example,
+>For example,
 Given s = "Hello World",
 return 5.
 
@@ -1303,9 +1288,8 @@ class Solution(object):
 ### 59. Spiral Matrix II
 Given an integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
 
-For example,
+>For example,
 Given n = 3,
-
 You should return the following matrix:
 ```
 [
@@ -1384,7 +1368,7 @@ class Solution(object):
 The set [1,2,3,…,n] contains a total of n! unique permutations.
 
 By listing and labeling all of the permutations in order,
-We get the following sequence (ie, for n = 3):
+>We get the following sequence (ie, for n = 3):
 ```
 "123"
 "132"
@@ -1393,6 +1377,7 @@ We get the following sequence (ie, for n = 3):
 "312"
 "321"
 ```
+
 Given n and k, return the kth permutation sequence.
 
 Note: Given n will be between 1 and 9 inclusive.
@@ -1434,7 +1419,9 @@ A robot is located at the top-left corner of a m x n grid (marked 'Start' in the
 The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
 
 How many possible unique paths are there?
+
 ![](http://leetcode.com/wp-content/uploads/2014/12/robot_maze.png)
+
 Note: m and n will be at most 100.
 
 
@@ -1457,7 +1444,7 @@ Now consider if some obstacles are added to the grids. How many unique paths wou
 
 An obstacle and empty space is marked as 1 and 0 respectively in the grid.
 
-For example,
+>For example,
 There is one obstacle in the middle of a 3x3 grid as illustrated below.
 ```
 [
@@ -1590,9 +1577,8 @@ Write an efficient algorithm that searches for a value in an m x n matrix. This 
 
 Integers in each row are sorted from left to right.
 The first integer of each row is greater than the last integer of the previous row.
-For example,
 
-Consider the following matrix:
+>For example, Consider the following matrix:
 ```
 [
   [1,   3,  5,  7],
@@ -1654,8 +1640,6 @@ Did you use extra space?
 A straight forward solution using O(mn) space is probably a bad idea.
 A simple improvement uses O(m + n) space, but still not the best solution.
 Could you devise a constant space solution?
-
-
 
 
 ```python
@@ -1760,10 +1744,8 @@ A message containing letters from A-Z is being encoded to numbers using the foll
 'Z' -> 26
 Given an encoded message containing digits, determine the total number of ways to decode it.
 
-For example,
-Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
-
-The number of ways decoding "12" is 2.
+>For example,
+Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12). The number of ways decoding "12" is 2.
 
 
 ```python
@@ -1813,7 +1795,7 @@ class Solution(object):
 ## 94. Binary Tree Inorder Traversal
 Given a binary tree, return the inorder traversal of its nodes' values.
 
-For example:
+>For example:
 Given binary tree [1,null,2,3],
 ```
    1
@@ -1861,7 +1843,7 @@ class Solution(object):
 ## 96. Unique Binary Search Trees
 Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
 
-For example,
+>For example,
 Given n = 3, there are a total of 5 unique BST's.
 ```
    1         3     3      2      1
@@ -1892,14 +1874,16 @@ Assume a BST is defined as follows:
 The left subtree of a node contains only nodes with keys less than the node's key.
 The right subtree of a node contains only nodes with keys greater than the node's key.
 Both the left and right subtrees must also be binary search trees.
-Example 1:
+
+>Example 1:
 ```
     2
    / \
   1   3
 ```    
 Binary tree [2,1,3], return true.
-Example 2:
+
+>Example 2:
 ```
     1
    / \
@@ -2084,7 +2068,7 @@ class Solution(object):
 ## 101. Symmetric Tree
 Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
 
-For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
+>For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
 ```
     1
    / \
@@ -2092,7 +2076,8 @@ For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
  / \ / \
 3  4 4  3
 ```
-But the following [1,2,2,null,3,null,3] is not:
+
+>But the following [1,2,2,null,3,null,3] is not:
 ```
     1
    / \
@@ -2100,6 +2085,7 @@ But the following [1,2,2,null,3,null,3] is not:
    \   \
    3    3
 ```
+
 Note:
 Bonus points if you could solve it both recursively and iteratively.
 
@@ -2135,7 +2121,7 @@ class Solution(object):
 ### 102. Binary Tree Level Order Traversal
 Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
 
-For example:
+>For example:
 Given binary tree [3,9,20,null,null,15,7],
 ```
     3
@@ -2191,7 +2177,7 @@ class Solution(object):
 ### 103. Binary Tree Zigzag Level Order Traversal
 Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).
 
-For example:
+>For example:
 Given binary tree [3,9,20,null,null,15,7],
 ```
     3
@@ -2445,7 +2431,7 @@ class Solution(object):
 ## 112. Path Sum
 Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
 
-For example:
+>For example:
 Given the below binary tree and sum = 22,
 ```
               5
@@ -2490,7 +2476,7 @@ class Solution(object):
 ## 113. Path Sum II
 Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
 
-For example:
+>For example:
 Given the below binary tree and sum = 22,
 ```
               5
@@ -2545,7 +2531,7 @@ class Solution(object):
 ### 120. Triangle
 Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
 
-For example, given the following triangle
+>For example, given the following triangle
 ```
 [
      [2],
@@ -2583,9 +2569,8 @@ class Solution(object):
 ### 125. Valid Palindrome
 Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
-For example,
-"A man, a plan, a canal: Panama" is a palindrome.
-"race a car" is not a palindrome.
+>For example,
+"A man, a plan, a canal: Panama" is a palindrome. "race a car" is not a palindrome.
 
 Note:
 Have you consider that the string might be empty? This is a good question to ask during an interview.
@@ -2625,16 +2610,13 @@ An example is the root-to-leaf path 1->2->3 which represents the number 123.
 
 Find the total sum of all root-to-leaf numbers.
 
-For example,
+>For example,
 ```
     1
    / \
   2   3
 ```
-The root-to-leaf path 1->2 represents the number 12.
-The root-to-leaf path 1->3 represents the number 13.
-
-Return the sum = 12 + 13 = 25.
+The root-to-leaf path 1->2 represents the number 12. The root-to-leaf path 1->3 represents the number 13. Return the sum = 12 + 13 = 25.
 
 
 ```python
@@ -2680,7 +2662,7 @@ Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surr
 
 A region is captured by flipping all 'O's into 'X's in that surrounded region.
 
-For example,
+>For example,
 ```
 X X X X
 X O O X
@@ -2764,11 +2746,9 @@ class Solution:
 ### 139. Word Break
 Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be segmented into a space-separated sequence of one or more dictionary words. You may assume the dictionary does not contain duplicate words.
 
-For example, given
+>For example, given
 s = "leetcode",
-dict = ["leet", "code"].
-
-Return true because "leetcode" can be segmented as "leet code".
+dict = ["leet", "code"]. Return true because "leetcode" can be segmented as "leet code".
 
 
 ```python
@@ -2803,7 +2783,7 @@ class Solution(object):
 ### 144. Binary Tree Preorder Traversal
 Given a binary tree, return the preorder traversal of its nodes' values.
 
-For example:
+>For example:
 Given binary tree {1,#,2,3},
 ```
    1
@@ -2845,18 +2825,9 @@ class Solution(object):
 ## 179. Largest Number
 Given a list of non negative integers, arrange them such that they form the largest number.
 
-For example, given [3, 30, 34, 5, 9], the largest formed number is 9534330.
+>For example, given [3, 30, 34, 5, 9], the largest formed number is 9534330.
 
 Note: The result may be very large, so you need to return a string instead of an integer.
-
-
-```python
-a = sorted(['30','3','300']); print a
-```
-
-    ['3', '30', '300']
-
-
 
 ```python
 class Solution:
@@ -2922,7 +2893,8 @@ class Solution(object):
 
 ## 199. Binary Tree Right Side View
 Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
-For example:
+
+>For example:
 Given the following binary tree,
 ```
    1            <---
@@ -2969,20 +2941,22 @@ class Solution(object):
 ## 200. Number of Islands
 Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
 
-Example 1:
-
+>Example 1:
+```
 11110
 11010
 11000
 00000
+```
 Answer: 1
 
-Example 2:
-
+>Example 2:
+```
 11000
 11000
 00100
 00011
+```
 Answer: 3
 
 
@@ -3025,13 +2999,13 @@ Write an algorithm to determine if a number is "happy".
 
 A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.
 
-Example: 19 is a happy number
-
-$$1^2 + 9^2 = 82\\
-8^2 + 2^2 = 68\\
-6^2 + 8^2 = 100\\
-1^2 + 0^2 + 0^2 = 1$$
-
+>Example: 19 is a happy number
+```
+1^2 + 9^2 = 82
+8^2 + 2^2 = 68
+6^2 + 8^2 = 100
+1^2 + 0^2 + 0^2 = 1
+```
 
 ```python
 class Solution(object):
@@ -3182,7 +3156,7 @@ class Solution(object):
 ## 215. Kth Largest Element in an Array
 Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
 
-For example,
+>For example,
 Given [3,2,1,5,6,4] and k = 2, return 5.
 
 Note:
@@ -3244,14 +3218,16 @@ class Solution(object):
 
 ## 218. The Skyline Problem
 A city's skyline is the outer contour of the silhouette formed by all the buildings in that city when viewed from a distance. Now suppose you are given the locations and height of all the buildings as shown on a cityscape photo (Figure A), write a program to output the skyline formed by these buildings collectively (Figure B).
+
 ![](https://leetcode.com/static/images/problemset/skyline1.jpg)![](https://leetcode.com/static/images/problemset/skyline2.jpg)
+
 The geometric information of each building is represented by a triplet of integers [Li, Ri, Hi], where Li and Ri are the x coordinates of the left and right edge of the ith building, respectively, and Hi is its height. It is guaranteed that 0 ≤ Li, Ri ≤ INT_MAX, 0 < Hi ≤ INT_MAX, and Ri - Li > 0. You may assume all buildings are perfect rectangles grounded on an absolutely flat surface at height 0.
 
-For instance, the dimensions of all buildings in Figure A are recorded as: [ [2 9 10], [3 7 15], [5 12 12], [15 20 10], [19 24 8] ] .
+>For instance, the dimensions of all buildings in Figure A are recorded as: [ [2 9 10], [3 7 15], [5 12 12], [15 20 10], [19 24 8] ] .
 
 The output is a list of "key points" (red dots in Figure B) in the format of [ [x1,y1], [x2, y2], [x3, y3], ... ] that uniquely defines a skyline. A key point is the left endpoint of a horizontal line segment. Note that the last key point, where the rightmost building ends, is merely used to mark the termination of the skyline, and always has zero height. Also, the ground in between any two adjacent buildings should be considered part of the skyline contour.
 
-For instance, the skyline in Figure B should be represented as:[ [2 10], [3 15], [7 12], [12 0], [15 10], [20 8], [24, 0] ].
+>For instance, the skyline in Figure B should be represented as:[ [2 10], [3 15], [7 12], [12 0], [15 10], [20 8], [24, 0] ].
 
 Notes:
 
@@ -3342,7 +3318,7 @@ class Solution(object):
 ### 221. Maximal Square
 Given a 2D binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its area.
 
-For example, given the following matrix:
+>For example, given the following matrix:
 ```
 1 0 1 0 0
 1 0 1 1 1
@@ -3449,7 +3425,9 @@ class Solution(object):
 ### 223. Find the total area covered by two rectilinear rectangles in a 2D plane.
 
 Each rectangle is defined by its bottom left corner and top right corner as shown in the figure.
+
 ![](https://leetcode.com/static/images/problemset/rectangle_area.png)
+
 Assume that the total area is never beyond the maximum possible value of int.
 
 
@@ -3482,6 +3460,7 @@ class Solution(object):
 
 ### 226. Invert Binary Tree
 Invert a binary tree.
+>
 ```
      4
    /   \
@@ -3531,13 +3510,14 @@ class Solution(object):
 
 ### 228. Summary Ranges
 Given a sorted integer array without duplicates, return the summary of its ranges.
+>Example 1:
 ```
-Example 1:
 Input: [0,1,2,4,5,7]
 Output: ["0->2","4->5","7"]
 ```
+
+>Example 2:
 ```
-Example 2:
 Input: [0,2,3,4,6,8,9]
 Output: ["0","2->4","6","8->9"]
 ```
@@ -3584,13 +3564,12 @@ class Solution(object):
 Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
 
 Note:
-You may assume k is always valid, 1 ? k ? BST's total elements.
+You may assume k is always valid, 1 <= k <= BST's total elements.
 
 Follow up:
 What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently? How would you optimize the kthSmallest routine?
 
-**If we need to find kth smallest frequently, we might need to use a heap structure??? **
-
+**If we need to find kth smallest frequently, we might need to use a heap structure???**
 
 ```python
 # Definition for a binary tree node.
@@ -3642,7 +3621,7 @@ According to the definition of LCA on Wikipedia: “The lowest common ancestor i
          /  \
          3   5
 ```            
-For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+>For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
 
 
 ```python
@@ -3682,7 +3661,7 @@ According to the definition of LCA on Wikipedia: “The lowest common ancestor i
          /  \
          7   4
 ```         
-For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
+>For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
 
 
 ```python
@@ -3734,9 +3713,7 @@ Write an efficient algorithm that searches for a value in an m x n matrix. This 
 
 Integers in each row are sorted in ascending from left to right.
 Integers in each column are sorted in ascending from top to bottom.
-For example,
-
-Consider the following matrix:
+>For example, consider the following matrix:
 ```
 [
   [1,   4,  7, 11, 15],
@@ -3746,9 +3723,10 @@ Consider the following matrix:
   [18, 21, 23, 26, 30]
 ]
 ```
-Given target = 5, return true.
 
-Given target = 20, return false.
+>Given target = 5, return true.
+
+> Given target = 20, return false.
 
 
 ```python
@@ -3780,7 +3758,7 @@ class Solution(object):
 ## 257. Binary Tree Paths
 Given a binary tree, return all root-to-leaf paths.
 
-For example, given the following binary tree:
+>For example, given the following binary tree:
 ```
    1
  /   \
@@ -3788,9 +3766,7 @@ For example, given the following binary tree:
  \
   5
 ```
-All root-to-leaf paths are:
-
-["1->2->5", "1->3"]
+All root-to-leaf paths are: ["1->2->5", "1->3"]
 
 
 ```python
@@ -3817,7 +3793,8 @@ class Solution(object):
 ### 263. Ugly Number
 Write a program to check whether a given number is an ugly number.
 
-Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 6, 8 are ugly while 14 is not ugly since it includes another prime factor 7.
+Ugly numbers are positive numbers whose prime factors only include 2, 3, 5.
+>For example, 6, 8 are ugly while 14 is not ugly since it includes another prime factor 7.
 
 Note that 1 is typically treated as an ugly number.
 
@@ -3848,7 +3825,8 @@ class Solution(object):
 ### 264. Ugly Number II
 Write a program to find the n-th ugly number.
 
-Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly numbers.
+Ugly numbers are positive numbers whose prime factors only include 2, 3, 5.
+>For example, 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly numbers.
 
 Note that 1 is typically treated as an ugly number, and n does not exceed 1690.
 
@@ -3882,7 +3860,7 @@ class Solution(object):
 ### 268. Missing Number
 Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
 
-For example,
+>For example,
 Given nums = [0, 1, 3] return 2.
 
 Note:
@@ -3903,7 +3881,7 @@ class Solution(object):
 
 According to the definition of h-index on Wikipedia: "A scientist has index h if h of his/her N papers have at least h citations each, and the other N − h papers have no more than h citations each."
 
-For example, given citations = [3, 0, 6, 1, 5], which means the researcher has 5 papers in total and each of them had received 3, 0, 6, 1, 5 citations respectively. Since the researcher has 3 papers with at least 3 citations each and the remaining two with no more than 3 citations each, his h-index is 3.
+>For example, given citations = [3, 0, 6, 1, 5], which means the researcher has 5 papers in total and each of them had received 3, 0, 6, 1, 5 citations respectively. Since the researcher has 3 papers with at least 3 citations each and the remaining two with no more than 3 citations each, his h-index is 3.
 
 Note: If there are several possible values for h, the maximum one is taken as the h-index.
 
@@ -3929,7 +3907,7 @@ class Solution(object):
 ## 279. Perfect Squares
 Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n.
 
-For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
+>For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
 
 
 ```python
@@ -3982,10 +3960,10 @@ According to the Wikipedia's article: "The Game of Life, also known simply as Li
 
 Given a board with m by n cells, each cell has an initial state live (1) or dead (0). Each cell interacts with its eight neighbors (horizontal, vertical, diagonal) using the following four rules (taken from the above Wikipedia article):
 
-Any live cell with fewer than two live neighbors dies, as if caused by under-population.
-Any live cell with two or three live neighbors lives on to the next generation.
-Any live cell with more than three live neighbors dies, as if by over-population..
-Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+- Any live cell with fewer than two live neighbors dies, as if caused by under-population.
+- Any live cell with two or three live neighbors lives on to the next generation.
+- Any live cell with more than three live neighbors dies, as if by over-population..
+- Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
 Write a function to compute the next state (after one update) of the board given its current state.
 
 Follow up:
@@ -4039,8 +4017,7 @@ class Solution(object):
 ## 299. Bulls and Cows
 You are playing the following Bulls and Cows game with your friend: You write down a number and ask your friend to guess what the number is. Each time your friend makes a guess, you provide a hint that indicates how many digits in said guess match your secret number exactly in both digit and position (called "bulls") and how many digits match the secret number but locate in the wrong position (called "cows"). Your friend will use successive guesses and hints to eventually derive the secret number.
 
-For example:
-
+>For example:
 Secret number:  "1807"
 Friend's guess: "7810"
 Hint: 1 bull and 3 cows. (The bull is 8, the cows are 0, 1 and 7.)
@@ -4048,7 +4025,7 @@ Write a function to return a hint according to the secret number and friend's gu
 
 Please note that both secret number and friend's guess may contain duplicate digits, for example:
 
-Secret number:  "1123"
+>Secret number:  "1123"
 Friend's guess: "0111"
 In this case, the 1st 1 in friend's guess is a bull, the 2nd or 3rd 1 is a cow, and your function should return "1A1B".
 You may assume that the secret number and your friend's guess only contain digits, and their lengths are always equal.
@@ -4100,7 +4077,7 @@ class Solution(object):
 ### 300. Longest Increasing Subsequence
 Given an unsorted array of integers, find the length of longest increasing subsequence.
 
-For example,
+>For example,
 Given [10, 9, 2, 5, 3, 7, 101, 18],
 The longest increasing subsequence is [2, 3, 7, 101], therefore the length is 4. Note that there may be more than one LIS combination, it is only necessary for you to return the length.
 
@@ -4138,10 +4115,8 @@ Note:
 (1) You may imagine nums[-1] = nums[n] = 1. They are not real therefore you can not burst them.
 (2) 0 ≤ n ≤ 500, 0 ≤ nums[i] ≤ 100
 
-Example:
-
-Given [3, 1, 5, 8]
-
+>Example:
+Given [3, 1, 5, 8],
 Return 167
 ```
     nums = [3,1,5,8] --> [3,5,8] -->   [3,8]   -->  [8]  --> []
@@ -4182,7 +4157,8 @@ class Solution(object):
 ### 313. Super Ugly Number
 Write a program to find the nth super ugly number.
 
-Super ugly numbers are positive numbers whose all prime factors are in the given prime list primes of size k. For example, [1, 2, 4, 7, 8, 13, 14, 16, 19, 26, 28, 32] is the sequence of the first 12 super ugly numbers given primes = [2, 7, 13, 19] of size 4.
+Super ugly numbers are positive numbers whose all prime factors are in the given prime list primes of size k.
+>For example, [1, 2, 4, 7, 8, 13, 14, 16, 19, 26, 28, 32] is the sequence of the first 12 super ugly numbers given primes = [2, 7, 13, 19] of size 4.
 
 Note:
 (1) 1 is a super ugly number for any given primes.
@@ -4217,11 +4193,11 @@ class Solution(object):
 ## 322. Coin Change
 You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
 
-Example 1:
+>Example 1:
 coins = [1, 2, 5], amount = 11
 return 3 (11 = 5 + 5 + 1)
 
-Example 2:
+>Example 2:
 coins = [2], amount = 3
 return -1.
 
@@ -4258,7 +4234,7 @@ class Solution(object):
 ## 344. Reverse String
 Write a function that takes a string as input and returns the string reversed.
 
-Example:
+>Example:
 Given s = "hello", return "olleh".
 
 
@@ -4270,7 +4246,6 @@ class Solution(object):
         :rtype: str
         """
         return s[::-1]
-
 ```
 
 ## 390. Elimination Game
@@ -4282,7 +4257,7 @@ We keep repeating the steps again, alternating left to right and right to left, 
 
 Find the last number that remains starting with a list of length n.
 
-Example:
+>Example:
 ```
 Input:
 n = 9,
@@ -4290,10 +4265,8 @@ n = 9,
 2 4 6 8
 2 6
 6
-
-Output:
-6
 ```
+Output: 6
 
 
 ```python
@@ -4317,9 +4290,8 @@ class Solution(object):
 
 ### 404. Sum of Left Leaves
 Find the sum of all left leaves in a given binary tree.
+>Example:
 ```
-Example:
-
     3
    / \
   9  20
@@ -4370,9 +4342,7 @@ Find the list of grid coordinates where water can flow to both the Pacific and A
 Note:
 The order of returned grid coordinates does not matter.
 Both m and n are less than 150.
-Example:
-
-Given the following 5x5 matrix:
+>Example: Given the following 5x5 matrix:
 ```
   Pacific ~   ~   ~   ~   ~
        ~  1   2   2   3  (5) *
@@ -4383,7 +4353,6 @@ Given the following 5x5 matrix:
           *   *   *   *   * Atlantic
 ```
 Return:
-
 [[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]] (positions with parentheses in above matrix).
 
 
@@ -4448,9 +4417,7 @@ Count the number of segments in a string, where a segment is defined to be a con
 
 Please note that the string does not contain any non-printable characters.
 
-Example:
-
-Input: "Hello, my name is John"
+>Example: Input: "Hello, my name is John"
 Output: 5
 
 
@@ -4467,14 +4434,13 @@ class Solution(object):
 ## 463. Island Perimeter
 You are given a map in form of a two-dimensional integer grid where 1 represents land and 0 represents water. Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells). The island doesn't have "lakes" (water inside that isn't connected to the water around the island). One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100. Determine the perimeter of the island.
 
-Example:
+>Example:
 ```    
  [[0,1,0,0],
  [1,1,1,0],
  [0,1,0,0],
  [1,1,0,0]]
-```    
-
+```
 Answer: 16
 
 
@@ -4513,20 +4479,16 @@ In the "100 game," two players take turns adding, to a running total, any intege
 
 What if we change the game so that players cannot re-use integers?
 
-For example, two players might take turns drawing from a common pool of numbers of 1..15 without replacement until they reach a total >= 100.
+>For example, two players might take turns drawing from a common pool of numbers of 1..15 without replacement until they reach a total >= 100.
 
 Given an integer maxChoosableInteger and another integer desiredTotal, determine if the first player to move can force a win, assuming both players play optimally.
 
 You can always assume that maxChoosableInteger will not be larger than 20 and desiredTotal will not be larger than 300.
 
-Example
-
-Input:
+>Example: Input:
 maxChoosableInteger = 10
 desiredTotal = 11
-
-Output:
-false
+Output: false
 
 Explanation:
 No matter which integer the first player choose, the first player will lose.
@@ -4571,7 +4533,7 @@ class Solution(object):
 ## 485. Max Consecutive Ones
 Given a binary array, find the maximum number of consecutive 1s in this array.
 
-Example 1:
+>Example 1:
 Input: [1,1,0,1,1,1]
 Output: 3
 Explanation: The first two digits or the last three digits are consecutive 1s.
@@ -4603,10 +4565,8 @@ Given an array of scores that are non-negative integers. Player 1 picks one of t
 
 Given an array of scores, predict whether player 1 is the winner. You can assume each player plays to maximize his score.
 
-Example 1:
-
+>Example 1:
 Input: [1, 5, 2]
-
 Output: False
 
 Explanation: Initially, player 1 can choose between 1 and 2.
@@ -4614,10 +4574,8 @@ If he chooses 2 (or 1), then player 2 can choose from 1 (or 2) and 5. If player 
 So, final score of player 1 is 1 + 2 = 3, and player 2 is 5.
 Hence, player 1 will never be the winner and you need to return False.
 
-Example 2:
-
+>Example 2:
 Input: [1, 5, 233, 7]
-
 Output: True
 
 Explanation: Player 1 first chooses 1. Then player 2 have to choose between 5 and 7. No matter which number player 2 choose, player 1 can choose 233.
@@ -4659,7 +4617,7 @@ class Solution(object):
 ## 513. Find Bottom Left Tree Value
 Given a binary tree, find the leftmost value in the last row of the tree.
 
-Example 1:
+>Example 1:
 Input:
 ```
     2
@@ -4669,7 +4627,7 @@ Input:
 Output:
 1
 
-Example 2:
+>Example 2:
 Input:
 ```
         1
@@ -4724,7 +4682,7 @@ Note: You can assume that
 1 <= coin <= 5000
 the number of coins is less than 500
 the answer is guaranteed to fit into signed 32-bit integer
-Example 1:
+>Example 1:
 ```
 Input: amount = 5, coins = [1, 2, 5]
 Output: 4
@@ -4734,13 +4692,15 @@ Explanation: there are four ways to make up the amount:
 5=2+1+1+1
 5=1+1+1+1+1
 ```
-Example 2:
+
+>Example 2:
 ```
 Input: amount = 3, coins = [2]
 Output: 0
 Explanation: the amount of 3 cannot be made up just with coins of 2.
 ```
-Example 3:
+
+>Example 3:
 ```
 Input: amount = 10, coins = [10]
 Output: 1
@@ -4768,7 +4728,7 @@ class Solution(object):
 Given a matrix consists of 0 and 1, find the distance of the nearest 0 for each cell.
 
 The distance between two adjacent cells is 1.
-Example 1:
+>Example 1:
 Input:
 ```
 0 0 0
@@ -4781,7 +4741,8 @@ Output:
 0 1 0
 0 0 0
 ```
-Example 2:
+
+>Example 2:
 Input:
 ```
 0 0 0
@@ -4846,7 +4807,7 @@ class Solution(object):
 ## 543. Diameter of Binary Tree
 Given a binary tree, you need to compute the length of the diameter of the tree. The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
 
-Example:
+>Example:
 Given a binary tree
 ```   
           1
@@ -4855,12 +4816,9 @@ Given a binary tree
        / \     
       4   5    
 ```
-
 Return 3, which is the length of the path [4,2,1,3] or [5,2,1,3].
 
 Note: The length of path between two nodes is represented by the number of edges between them.
-
-
 
 
 ```python
@@ -4909,7 +4867,7 @@ If your line go through the edge of a brick, then the brick is not considered as
 
 You cannot draw a line just along one of the two vertical edges of the wall, in which case the line will obviously cross no bricks.
 
-Example:
+>Example:
 Input:
 ```
 [[1,2,2,1],
@@ -4963,7 +4921,7 @@ The tilt of a tree node is defined as the absolute difference between the sum of
 
 The tilt of the whole tree is defined as the sum of all nodes' tilt.
 
-Example:
+>Example:
 Input:
 ```
          1
@@ -4971,6 +4929,7 @@ Input:
       2     3
 ```
 Output: 1
+
 Explanation:
 Tilt of node 2 : 0
 Tilt of node 3 : 0
@@ -5033,16 +4992,12 @@ Suppose you have a long flowerbed in which some of the plots are planted and som
 
 Given a flowerbed (represented as an array containing 0 and 1, where 0 means empty and 1 means not empty), and a number n, return if n new flowers can be planted in it without violating the no-adjacent-flowers rule.
 
-Example 1:
-
+>Example 1:
 Input: flowerbed = [1,0,0,0,1], n = 1
-
 Output: True
 
-Example 2:
-
+>Example 2:
 Input: flowerbed = [1,0,0,0,1], n = 2
-
 Output: False
 
 Note:
@@ -5075,11 +5030,11 @@ class Solution(object):
 ## 628. Maximum Product of Three Numbers
 Given an integer array, find three numbers whose product is maximum and output the maximum product.
 
-Example 1:
+>Example 1:
 Input: [1,2,3]
 Output: 6
 
-Example 2:
+>Example 2:
 Input: [1,2,3,4]
 Output: 24
 
@@ -5106,7 +5061,7 @@ Given a binary tree, write a function to get the maximum width of the given tree
 
 The width of one level is defined as the length between the end-nodes (the leftmost and right most non-null nodes in the level, where the null nodes between the end-nodes are also counted into the length calculation.
 
-Example 1:
+>Example 1:
 Input:
 ```
            1
@@ -5117,7 +5072,8 @@ Input:
 ```
 Output: 4
 Explanation: The maximum width existing in the third level with the length 4 (5,3,null,9).
-Example 2:
+
+>Example 2:
 Input:
 ```
           1
@@ -5128,7 +5084,8 @@ Input:
 ```
 Output: 2
 Explanation: The maximum width existing in the third level with the length 2 (5,3).
-Example 3:
+
+>Example 3:
 Input:
 ```
           1
@@ -5139,7 +5096,8 @@ Input:
 ```
 Output: 2
 Explanation: The maximum width existing in the second level with the length 2 (3,2).
-Example 4:
+
+>Example 4:
 Input:
 ```
           1
@@ -5166,8 +5124,8 @@ Implement a MapSum class with insert, and sum methods.
 For the method insert, you'll be given a pair of (string, integer). The string represents the key and the integer represents the value. If the key already existed, then the original key-value pair will be overridden to the new one.
 
 For the method sum, you'll be given a string representing the prefix, and you need to return the sum of all the pairs' value whose key starts with the prefix.
+>Example 1:
 ```
-Example 1:
 Input: insert("apple", 3), Output: Null
 Input: sum("ap"), Output: 3
 Input: insert("app", 2), Output: Null
@@ -5240,8 +5198,8 @@ class TrieNode(object):
 Given a non-empty 2D array grid of 0's and 1's, an island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.
 
 Find the maximum area of an island in the given 2D array. (If there is no island, the maximum area is 0.)
+>Example 1:
 ```
-Example 1:
 [[0,0,1,0,0,0,0,1,0,0,0,0,0],
  [0,0,0,0,0,0,0,1,1,1,0,0,0],
  [0,1,1,0,1,0,0,0,0,0,0,0,0],
@@ -5250,13 +5208,14 @@ Example 1:
  [0,0,0,0,0,0,0,0,0,0,1,0,0],
  [0,0,0,0,0,0,0,1,1,1,0,0,0],
  [0,0,0,0,0,0,0,1,1,0,0,0,0]]
+ ```
 Given the above grid, return 6. Note the answer is not 11, because the island must be connected 4-directionally.
-```
 ```
 Example 2:
 [[0,0,0,0,0,0,0,0]]
-Given the above grid, return 0.
 ```
+Given the above grid, return 0.
+
 Note: The length of each dimension in the given grid does not exceed 50.
 
 
@@ -5296,17 +5255,13 @@ class Solution(object):
 ### 728. Self Dividing Numbers
 A self-dividing number is a number that is divisible by every digit it contains.
 
-For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.
+>For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.
 
 Also, a self-dividing number is not allowed to contain the digit zero.
 
 Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.
-```
-Example 1:
-Input:
-left = 1, right = 22
-Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]
-```
+>Example 1: Input: left = 1, right = 22. Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]
+
 Note:
 The boundaries of each input argument are 1 <= left <= right <= 10000.
 
@@ -5335,13 +5290,14 @@ A double booking happens when two events have some non-empty intersection (ie., 
 For each call to the method MyCalendar.book, return true if the event can be added to the calendar successfully without causing a double booking. Otherwise, return false and do not add the event to the calendar.
 
 Your class will be called like this: MyCalendar cal = new MyCalendar(); MyCalendar.book(start, end)
+>Example 1:
 ```
-Example 1:
 MyCalendar();
 MyCalendar.book(10, 20); // returns true
 MyCalendar.book(15, 25); // returns false
 MyCalendar.book(20, 30); // returns true
 ```
+
 Explanation:
 The first event can be booked.  The second can't because time 15 is already booked by another event.
 The third event can be booked, as the first event takes every time less than 20, but not including 20.
@@ -5407,13 +5363,14 @@ Given a coordinate (sr, sc) representing the starting pixel (row and column) of 
 To perform a "flood fill", consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color as the starting pixel), and so on. Replace the color of all of the aforementioned pixels with the newColor.
 
 At the end, return the modified image.
+>Example 1:
 ```
-Example 1:
 Input:
 image = [[1,1,1],[1,1,0],[1,0,1]]
 sr = 1, sc = 1, newColor = 2
 Output: [[2,2,2],[2,2,0],[2,0,1]]
 ```
+
 Explanation:
 From the center of the image (with position (sr, sc) = (1, 1)), all pixels connected
 by a path of the same color as the starting pixel are colored with the new color.
@@ -5463,41 +5420,48 @@ We are given an array asteroids of integers representing asteroids in a row.
 For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
 
 Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
+>Example 1:
 ```
-Example 1:
 Input:
 asteroids = [5, 10, -5]
 Output: [5, 10]
 ```
+
 Explanation:
 The 10 and -5 collide resulting in 10.  The 5 and 10 never collide.
+
+>Example 2:
 ```
-Example 2:
 Input:
 asteroids = [8, -8]
 Output: []
 ```
+
 Explanation:
 The 8 and -8 collide exploding each other.
+
+>Example 3:
 ```
-Example 3:
 Input:
 asteroids = [10, 2, -5]
 Output: [10]
 ```
+
 Explanation:
 The 2 and -5 collide resulting in -5.  The 10 and -5 collide resulting in 10.
+
+>Example 4:
 ```
-Example 4:
 Input:
 asteroids = [-2, -1, 1, 2]
 Output: [-2, -1, 1, 2]
 ```
+
 Explanation:
 The -2 and -1 are moving left, while the 1 and 2 are moving right.
 Asteroids moving the same direction never meet, so no asteroids will meet each other.
-Note:
 
+Note:
 The length of asteroids will be at most 10000.
 Each asteroid will be a non-zero integer in the range [-1000, 1000]..
 
@@ -5537,7 +5501,7 @@ class Solution(object):
 ### 739. Daily Temperatures
 Given a list of daily temperatures, produce a list that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.
 
-For example, given the list temperatures = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].
+>For example, given the list temperatures = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].
 
 Note: The length of temperatures will be in the range [1, 30000]. Each temperature will be an integer in the range [30, 100].
 
@@ -5575,34 +5539,41 @@ The lock initially starts at '0000', a string representing the state of the 4 wh
 You are given a list of deadends dead ends, meaning if the lock displays any of these codes, the wheels of the lock will stop turning and you will be unable to open it.
 
 Given a target representing the value of the wheels that will unlock the lock, return the minimum total number of turns required to open the lock, or -1 if it is impossible.
+>Example 1:
 ```
-Example 1:
 Input: deadends = ["0201","0101","0102","1212","2002"], target = "0202"
 Output: 6
+```
+
 Explanation:
 A sequence of valid moves would be "0000" -> "1000" -> "1100" -> "1200" -> "1201" -> "1202" -> "0202".
 Note that a sequence like "0000" -> "0001" -> "0002" -> "0102" -> "0202" would be invalid,
 because the wheels of the lock become stuck after the display becomes the dead end "0102".
+
+>Example 2:
 ```
-```
-Example 2:
 Input: deadends = ["8888"], target = "0009"
 Output: 1
+```
+
 Explanation:
 We can turn the last wheel in reverse to move from "0000" -> "0009".
+
+>Example 3:
 ```
-```
-Example 3:
 Input: deadends = ["8887","8889","8878","8898","8788","8988","7888","9888"], target = "8888"
 Output: -1
+```
+
 Explanation:
 We can't reach the target without getting stuck.
+
+>Example 4:
 ```
-```
-Example 4:
 Input: deadends = ["0000"], target = "8888"
 Output: -1
 ```
+
 Note:
 The length of deadends will be in the range [1, 500].
 target will not be in the list deadends.
@@ -5649,10 +5620,8 @@ class Solution(object):
 A matrix is Toeplitz if every diagonal from top-left to bottom-right has the same element.
 
 Now given an M x N matrix, return True if and only if the matrix is Toeplitz.
-
+>Example 1:
 ```
-Example 1:
-
 Input: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]
 Output: True
 Explanation:
@@ -5660,20 +5629,23 @@ Explanation:
 5123
 9512
 ```
-In the above grid, the diagonals are "[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]", and in each diagonal all elements are the same, so the answer is True.
-```
-Example 2:
 
+In the above grid, the diagonals are "[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]", and in each diagonal all elements are the same, so the answer is True.
+
+>Example 2:
+```
 Input: matrix = [[1,2],[2,2]]
 Output: False
+```
+
 Explanation:
 The diagonal "[1, 2]" has different elements.
-```
+
 Note:
 
-matrix will be a 2D array of integers.
-matrix will have a number of rows and columns in range [1, 20].
-matrix[i][j] will be integers in range [0, 99].
+- matrix will be a 2D array of integers.
+- matrix will have a number of rows and columns in range [1, 20].
+- matrix[i][j] will be integers in range [0, 99].
 
 
 ```python
@@ -5694,15 +5666,15 @@ class Solution(object):
 Given a string S, check if the letters can be rearranged so that two characters that are adjacent to each other are not the same.
 
 If possible, output any possible result.  If not possible, return the empty string.
-```
-Example 1:
 
+>Example 1:
+```
 Input: S = "aab"
 Output: "aba"
 ```
-```
-Example 2:
 
+>Example 2:
+```
 Input: S = "aaab"
 Output: ""
 ```
@@ -5734,15 +5706,5 @@ class Solution(object):
                     return steps
                 queue.append(t-steps)
             steps += 1
-
-```
-
-
-```python
-
-```
-
-
-```python
 
 ```
