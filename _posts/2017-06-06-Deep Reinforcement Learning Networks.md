@@ -25,7 +25,7 @@ author: "Sunil Srinivasa"
 
   **Equations:**
   - $$\begin{aligned}
-      Q^*(s,a)= r+\gamma\mathbb{E}_{s'}[\max_{a'}Q^*(s',a')\big | s,a].
+  Q^*(s,a)= r+\gamma\mathbb{E}_{s'}[\max_{a'}Q^*(s',a')\big | s,a].
     \end{aligned}$$
   - Use a non-linear function approximator (deep neural network) to estimate the action-value function $$Q(s,a;\theta)\approx Q^*(s,a)$$.
   - The loss function at iteration $$i$$ is $$L_i(\theta_i)=\mathbb{E}_{s,a}\left[(y_i-Q(s,a;\theta_i))^2\right]$$, where $$\begin{aligned}
