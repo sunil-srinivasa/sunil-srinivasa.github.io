@@ -1,0 +1,5747 @@
+## LeetCode
+## 1. Two Sum
+Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+Given nums = [2, 7, 11, 15], target = 9,
+
+Because nums[0] + nums[1] = 2 + 7 = 9,
+return [0, 1].
+
+
+```
+class Solution(object):
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        index_dict = {}
+        for i in range(len(nums)):
+            if nums[i] in index_dict.keys():
+                return [i,index_dict[nums[i]]]
+            else:
+                index_dict[target-nums[i]] = i
+```
+
+## 2. Add Two Numbers
+
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 0 -> 8
+
+
+```
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def addTwoNumbers(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        carryOver = 0
+        sum_list = []
+
+        while l1 != None or l2 != None:
+            if l1 == None:
+                add = l2.val + carryOver
+                digit = add % 10
+                carryOver = add / 10
+                l2 = l2.next
+            elif l2 == None:
+                add = l1.val + carryOver
+                digit = add % 10
+                carryOver = add / 10
+                l1 = l1.next
+            else:
+                add = l1.val + l2.val + carryOver
+                digit = add % 10
+                carryOver = add / 10
+                l1 = l1.next
+                l2 = l2.next
+
+            sum_list.append(digit)
+        if carryOver != 0:
+            sum_list.append(carryOver)
+
+        return sum_list
+```
+
+## 3. Longest Substring Without Repeating Characters
+Given a string, find the length of the longest substring without repeating characters.
+
+Examples:
+
+Given "abcabcbb", the answer is "abc", which the length is 3.
+
+Given "bbbbb", the answer is "b", with the length of 1.
+
+Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+
+
+```
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        char_dict = {}
+        first_best,last_best = 0, 0
+        first, last = 0, 0
+
+        for i in range(len(s)):
+            if s[i] in char_dict.keys(): # repeating character
+                if (last - first) > (last_best - first_best):
+                    first_best = first
+                    last_best = last
+                    print "B", first_best, last_best
+                first = max(first,char_dict[s[i]]+1)
+                print first
+                char_dict[s[i]] = i
+                last += 1
+
+            else: # first-time occurrence
+                last += 1
+                char_dict[s[i]] = i
+
+        if (last - first) > (last_best - first_best):
+            first_best = first
+            last_best = last
+            print "S", first_best, last_best                
+
+        return last_best-first_best
+```
+
+## 4. Median of Two Sorted Arrays
+There are two sorted arrays nums1 and nums2 of size m and n respectively.
+
+Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+
+Example 1:
+nums1 = [1, 3]
+nums2 = [2]
+The median is 2.0
+
+Example 2:
+nums1 = [1, 2]
+nums2 = [3, 4]
+The median is (2 + 3)/2 = 2.5
+
+
+```
+class Solution(object):
+    def findMedianSortedArrays(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: float
+        """
+
+        median_index = (len(nums1) + len(nums2))/2
+        import math
+        median_indices = [math.floor(median_index), math.ceil(median_index)]
+
+        if len(nums1) == 0:
+            return mean([nums2[i] for i in median_indices])
+        if len(nums2) == 0:
+            return mean([nums1[i] for i in median_indices])
+
+        idx = median_index
+        print idx
+        while idx > 0:
+            index1 = int(min(len(nums1),median_index/2))
+            index2 = int(min(len(nums2),median_index/2 - index1))
+            index1 = int(min(len(nums1),median_index/2 - index2))
+
+            print index1, index2, nums1, nums2, idx
+            if len(nums1) == 0:
+                return nums2[index2]
+            elif len(nums2) == 0:
+                return nums1[index1]
+            elif nums1[index1] < nums2[index2]:
+                nums1 = nums1[index1+1:]
+                nums2 = nums2[:index2+1]
+                idx -= index1
+            elif nums1[index1] > nums2[index2]:
+                nums1 = nums1[:index1+1]
+                nums2 = nums2[index2+1:]
+                idx -= index2
+            else:
+                print nums1, nums2
+
+            median_index /= 2
+```
+
+## 7. Reverse Integer
+Reverse digits of an integer.
+
+Example1: x = 123, return 321
+Example2: x = -123, return -321
+
+
+```
+class Solution(object):
+    def reverse(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        s = str(x)
+        if s[0] == '-':
+            s_reversed = '-'+s[:0:-1]
+        else:    
+            s_reversed = s[::-1]
+
+        solution = int(s_reversed)
+        if solution > 2**31 or solution < -2**31:
+            solution = 0
+
+        return solution
+```
+
+## 11. Container With Most Water
+Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
+
+Note: You may not slant the container and n is at least 2.
+
+
+```
+class Solution(object):
+    def maxArea(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        # Use invariants
+        i = 0
+        j = len(height)-1
+        solution = 0
+        while i < j:
+            solution = max(solution, (j-i)*min(height[i],height[j]))
+            if height[i] < height[j]:
+                i += 1
+            elif height[i] > height[j]:
+                j -= 1
+            elif height[i] == height[j]:
+                i += 1
+                j -= 1
+
+        return solution
+```
+
+## 13. Roman to Integer
+Given a roman numeral, convert it to an integer.
+
+Input is guaranteed to be within the range from 1 to 3999.
+
+
+```
+class Solution:
+    # @param {string} s
+    # @return {integer}
+    def romanToInt(self, s):
+        output = 0
+        for i in range(0,len(s)):
+            if s[i] == 'M':
+                output += 1000
+            elif s[i] == 'D':
+                output += 500
+            elif s[i] == 'L':
+                output += 50
+            elif s[i] == 'V':
+                output += 5
+            elif s[i] == 'C':
+                if i != len(s)-1 and (s[i+1] == 'M' or s[i+1] == 'D'):
+                    output -= 100
+                else:
+                    output += 100
+            elif s[i] == 'X':
+                if i != len(s)-1 and (s[i+1] == 'C' or s[i+1] == 'L'):
+                    output -= 10
+                else:
+                    output += 10
+            elif s[i] == 'I':
+                if i != len(s)-1 and (s[i+1] == 'X' or s[i+1] == 'V'):
+                    output -= 1
+                else:
+                    output += 1                    
+
+        return output
+```
+
+## 14. Longest Common Prefix
+Write a function to find the longest common prefix string amongst an array of strings.
+
+
+```
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: str
+        """
+        condition = True
+        index = 0
+        solution = ''
+        if strs == []:
+            return solution
+        elif len(strs) == 1:
+            return strs[0]
+
+        while condition:
+            if index >= len(strs[0]):
+                condition = False
+                break
+            char = strs[0][index]
+            for str in strs[1:]:
+                if index >= len(str):
+                    condition = False
+                    return solution
+                if str[index] != char:
+                    condition = False
+                    return solution
+            solution += char
+            index += 1
+        return solution
+```
+
+## 15. 3Sum
+Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
+
+Note: The solution set must not contain duplicate triplets.
+
+For example, given array S = [-1, 0, 1, 2, -1, -4],
+
+A solution set is:
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+
+
+```
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        solution = []
+        if len(nums) < 3:
+            return solution
+
+        for i in range(len(nums)):
+            target = -nums[i]
+            partial_solution = self.twoSum(nums[:i]+nums[i+1:],target)
+            if partial_solution:
+                for ps in partial_solution:
+                    potential_solution = sorted([nums[i]] + ps)
+                    if potential_solution not in solution:
+                        solution.append(potential_solution)
+        return solution
+
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        index_dict = {}
+        solution = []
+        for i in range(len(nums)):
+            if nums[i] in index_dict.keys():
+                s = [nums[i],nums[index_dict[nums[i]]]]
+                if s not in solution:
+                    solution.append(s)
+            else:
+                index_dict[target-nums[i]] = i
+        if solution != []:        
+            return solution
+
+### Second method - first sort array and use invariants
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        nums = sorted(nums)
+        n = len(nums)
+        solutions = {}
+        for i in range(n-2):
+            a = nums[i]
+            first = i+1
+            last = n-1
+            while first < last:
+                b = nums[first]
+                c = nums[last]
+                if a+b+c == 0:
+                    if (a,b,c) not in solutions: # avoid duplicates
+                        solutions[(a,b,c)] = 0
+                    # Continue search for more combinations
+                    last -= 1
+                elif a+b+c > 0:
+                    last -= 1
+                else:
+                    first += 1
+        return solutions.keys()
+```
+
+### 16. 3Sum Closest
+Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target. Return the sum of the three integers. You may assume that each input would have exactly one solution.
+
+    For example, given array S = {-1 2 1 -4}, and target = 1.
+
+    The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+
+
+```
+class Solution(object):
+    def threeSumClosest(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        nums = sorted(nums)
+        L = len(nums)
+        solution = nums[0] + nums[1] + nums[2] # initialization
+
+        for i in range(L-2):
+            a = nums[i]
+            first = i+1
+            last = L-1
+            while first < last:
+                b = nums[first]
+                c = nums[last]
+                if a+b+c-target == 0:
+                    return target
+                elif a+b+c-target > 0:
+                    if abs(solution-target) > abs(a+b+c-target):
+                        solution = a+b+c
+                    last -= 1
+                else:
+                    if abs(solution-target) > abs(a+b+c-target):
+                        solution = a+b+c                 
+                    first += 1
+
+        return solution
+```
+
+## 19. Remove Nth Node From End of List
+Given a linked list, remove the nth node from the end of list and return its head.
+
+For example, Given linked list: 1->2->3->4->5, and n = 2. After removing the second node from the end, the linked list becomes 1->2->3->5.
+
+Note:
+Given n will always be valid.
+Try to do this in one pass.
+
+
+```
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def removeNthFromEnd(self, head, n):
+        """
+        :type head: ListNode
+        :type n: int
+        :rtype: ListNode
+        """
+        index = 0
+        tailNode = head
+        headNode = head
+
+        if head.next == None:
+            return []
+
+        while tailNode.next != None:
+            tailNode = tailNode.next
+            if index == n:
+                headNode = head
+            if index >= n:
+                headNode = headNode.next
+            index += 1
+
+        if n == 1:
+            headNode.next = None
+        elif index == n-1:
+            return head.next
+        else:                
+            headNode.next = headNode.next.next
+
+        return head
+
+```
+
+## 20. Valid Parentheses
+Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+The brackets must close in the correct order, "()" and "()[]{}" are all valid but "(]" and "([)]" are not.
+
+
+
+```
+class Solution(object):
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        # Idea: use a stack. We can simply use a list in  as a proxy
+        if len(s) == 0:
+            return True
+
+        symbols_dict = {}    
+        symbols_dict['('] = 1
+        symbols_dict['{'] = 2
+        symbols_dict['['] = 3
+        symbols_dict[')'] = -1
+        symbols_dict['}'] = -2
+        symbols_dict[']'] = -3
+
+        if symbols_dict[s[0]] < 0:
+            return False
+
+        symbols_stack = [s[0]]
+        for i in range(1,len(s)):
+            if symbols_stack == []:
+                if symbols_dict[s[i]] < 0:
+                    return False
+                symbols_stack.append(s[i])
+            else:
+                if symbols_dict[s[i]] == -symbols_dict[symbols_stack[-1]]: # matching parantheses
+                    symbols_stack = symbols_stack[:-1]
+                elif symbols_dict[s[i]] * symbols_dict[symbols_stack[-1]] > 0: # opening or closing parantheses
+                    symbols_stack.append(s[i])        
+                else:
+                    return False
+        if symbols_stack == []:
+            return True
+        else:
+            return False
+
+```
+
+## 21. Merge Two Sorted Lists
+Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+
+
+```
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def mergeTwoLists(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        if l1 == None:
+            return l2
+        elif l2 == None:
+            return l1
+
+        l3 = ListNode(0)
+        initialized = 0
+
+        while l1 != None or l2 != None:
+            if l1 == None:
+                next_val = l2.val
+                l2 = l2.next
+            elif l2 == None:
+                next_val = l1.val
+                l1 = l1.next
+            elif l2.val < l1.val:
+                next_val = l2.val
+                l2 = l2.next                
+            elif l1.val <= l2.val:
+                next_val = l1.val
+                l1 = l1.next                
+
+            if not initialized:
+                l3 = ListNode(next_val)
+                initialized = 1
+                l3_copy = l3
+            else:
+                l3_copy.next = ListNode(next_val)
+                l3_copy = l3_copy.next
+
+        return l3
+```
+
+## 26. Remove Duplicates from Sorted Array
+Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
+
+Do not allocate extra space for another array, you must do this in place with constant memory.
+
+For example,
+Given input array nums = [1,1,2],
+
+Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn't matter what you leave beyond the new length.
+
+
+```
+class Solution(object):
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if nums == []:
+            return 0
+
+        current_element = nums[0]
+        scan_index = 1
+        fill_index = 1
+
+        while scan_index < len(nums):
+            if nums[scan_index] != current_element:
+                nums[fill_index] = nums[scan_index]
+                fill_index += 1
+                current_element = nums[scan_index]
+            scan_index += 1
+
+        return fill_index
+```
+
+### 27. Remove Element
+Given an array and a value, remove all instances of that value in place and return the new length.
+
+Do not allocate extra space for another array, you must do this in place with constant memory.
+
+The order of elements can be changed. It doesn't matter what you leave beyond the new length.
+
+Example:
+Given input array nums = [3,2,2,3], val = 3
+
+Your function should return length = 2, with the first two elements of nums being 2.
+
+
+```
+class Solution(object):
+    def removeElement(self, nums, val):
+        """
+        :type nums: List[int]
+        :type val: int
+        :rtype: int
+        """
+        scan_index = 0 # element to scan
+
+        L = len(nums)
+        val_indices = []
+        non_val_indices = []
+        for i in range(L):
+            if nums[i] == val:
+                val_indices.append(i)
+            else:
+                non_val_indices.append(i)
+
+        N = len(non_val_indices)
+        if N == L or N == 0:
+            return N
+
+        # Replace the min element in val_indices with the max_element in non_val_indices and
+        # continue till min element index > max_element index
+        while val_indices[0] < non_val_indices[-1]:
+            nums[val_indices[0]], nums[non_val_indices[-1]] = nums[non_val_indices[-1]], nums[val_indices[0]]
+            val_indices = val_indices[1:]
+            non_val_indices = non_val_indices[:-1]
+
+            if len(val_indices) == 0 or len(non_val_indices) == 0:
+                return N
+
+        return N
+```
+
+### 32. Longest Valid Parentheses
+Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+
+For "(()", the longest valid parentheses substring is "()", which has length = 2.
+
+Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
+
+
+```
+class Solution(object):
+    def longestValidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if s == "":
+            return 0
+
+        stack = []
+        N = len(s)
+        LVS = [0 for _ in range(N)]
+
+        for idx in range(N):
+            if stack == [] or s[idx] == '(':
+                stack.append((s[idx],idx))
+            elif s[idx] == ')':
+                if stack[-1][0] == ')':
+                    stack.append((s[idx],idx))
+                else: # stack[-1] == (
+                    # pop top element of stack since a valid paranthesis is formed
+                    stack = stack[:-1]
+                    if stack == []:
+                        LVS[idx] = idx + 1
+                    else:
+                        LVS[idx] = idx - stack[-1][1]
+
+        return max(LVS)
+```
+
+### 33. Search in Rotated Sorted Array
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+You are given a target value to search. If found in the array return its index, otherwise return -1.
+
+You may assume no duplicate exists in the array.
+
+
+```
+
+```
+
+### 34. Search for a Range
+Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.
+
+Your algorithm's runtime complexity must be in the order of O(log n).
+
+If the target is not found in the array, return [-1, -1].
+
+For example,
+Given [5, 7, 7, 8, 8, 10] and target value 8,
+return [3, 4].
+
+
+```
+
+```
+
+## 38. Count and Say
+The count-and-say sequence is the sequence of integers with the first five terms as following:
+
+1.     1
+2.     11
+3.     21
+4.     1211
+5.     111221
+1 is read off as "one 1" or 11.
+11 is read off as "two 1s" or 21.
+21 is read off as "one 2, then one 1" or 1211.
+Given an integer n, generate the nth term of the count-and-say sequence.
+
+Note: Each term of the sequence of integers will be represented as a string.
+
+Example 1:
+
+Input: 1
+Output: "1"
+Example 2:
+
+Input: 4
+Output: "1211"
+
+
+```
+class Solution(object):
+    def countAndSay(self, n):
+        """
+        :type n: int
+        :rtype: str
+        """
+        outputs = ['' for _ in range(n)]
+        outputs[0] = '1'
+        for idx in range(1,n):
+            outputs[idx] = self.count_occurrences(outputs[idx-1])
+
+        return outputs[n-1]
+
+    def count_occurrences(self,s):
+        digit = s[0]
+        count = 1
+        solution=''
+        for idx in range(1,len(s)):
+            if s[idx] == s[idx-1]:
+                count += 1
+            else:
+                solution += str(count)
+                solution += s[idx-1]
+                count = 1
+
+        solution += str(count)
+        solution += s[-1]
+
+        return solution
+```
+
+### 39. Combination Sum
+Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+
+The same repeated number may be chosen from C unlimited number of times.
+
+Note:
+All numbers (including target) will be positive integers.
+The solution set must not contain duplicate combinations.
+For example, given candidate set [2, 3, 6, 7] and target 7,
+A solution set is:
+```
+[
+  [7],
+  [2, 2, 3]
+]
+```
+
+
+```
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        solution = {}
+        solution[0] = [[]]
+
+        for c in candidates:
+            for t in range(c,target+1):
+                if t-c in solution:
+                    for s in solution[t-c]:
+                        if t in solution:
+                            solution[t] += [s + [c]]
+                        else:
+                            solution[t] = [s + [c]]
+
+        if target not in solution:
+            return []
+        return solution[target]
+```
+
+## 41. First Missing Positive
+Given an unsorted integer array, find the first missing positive integer.
+
+For example,
+Given [1,2,0] return 3,
+and [3,4,-1,1] return 2.
+
+Your algorithm should run in O(n) time and uses constant space.
+
+
+```
+class Solution(object):
+    def firstMissingPositive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if nums == []:
+            return 1
+
+        L = len(nums)
+        fraction = 0.1
+
+        for i in range(len(nums)):
+            if nums[i] <=0 or nums[i] > L:
+                pass
+            else:
+                nums[int(nums[i])-1] += fraction
+        print nums
+
+        # One final pass to determine
+        for i in range(len(nums)):
+            if nums[i] == int(nums[i]):
+                return i+1
+
+        return L + 1
+```
+
+## 42. Trapping Rain Water
+Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+
+For example,
+Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
+
+![](http://www.leetcode.com/wp-content/uploads/2012/08/rainwatertrap.png)
+
+
+```
+class Solution:
+    # @param {integer[]} height
+    # @return {integer}
+    def trap(self, height):
+
+        if height == []:
+            return 0
+
+        area = 0
+        # Find index of maximum, say idx. Then treat 0->idx a,d idx+1->end separately.
+        idx = height.index(max(height))
+
+        # Index 0 to idx. For these buildings, idx is the max height on the right.
+        # Maintain max building height for buildings on left
+        max_left = 0
+        for i in range(0,idx):
+            max_left = max(max_left,height[i])
+            area += max(0,max_left-height[i])
+
+        # Index end to idx+1. For these buildings, idx is the max height on the left.
+        # Maintain max building height for buildings on right
+        max_right = 0
+        for i in range(len(height)-1,idx,-1):
+            max_right = max(max_right,height[i])
+            area += max(0,max_right-height[i])
+
+        return area
+```
+
+### 46. Permutations
+Given a collection of distinct numbers, return all possible permutations.
+
+For example,
+[1,2,3] have the following permutations:
+```
+[
+  [1,2,3],
+  [1,3,2],
+  [2,1,3],
+  [2,3,1],
+  [3,1,2],
+  [3,2,1]
+]
+```
+
+
+```
+class Solution(object):
+    def permute(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        if len(nums) < 2:
+            return [nums]
+        permutations = self.create_permutations([],nums)
+        # Permutations may be a nested list. Below is a hack to make it into one list. I need to fix it!
+        import math
+        while len(permutations) != math.factorial(len(nums)):
+            permutations = sum(permutations,[])
+        return permutations
+
+    def create_permutations(self, current, remaining):
+        if len(remaining) <= 1:
+            permutations = current+remaining
+        else:
+            permutations = []
+            for idx in range(len(remaining)):
+                permutations += [self.create_permutations(current + [remaining[idx]], remaining[:idx]+remaining[idx+1:])]
+
+        return permutations
+```
+
+### 48. Rotate Image
+You are given an n x n 2D matrix representing an image.
+
+Rotate the image by 90 degrees (clockwise).
+
+Follow up:
+Could you do this in-place?
+
+
+```
+class Solution(object):
+    def rotate(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        """
+        layer = 0
+        while layer < len(matrix)/2:
+            self.rotate_perimeter(matrix, layer)
+            print matrix
+            layer += 1
+        return
+
+    def rotate_perimeter(self,matrix,layer):
+        n = len(matrix)       
+        tmp = matrix[0+layer][1:]
+        for idx in range(layer, n-1-layer):
+            matrix[0+layer][idx+1] = matrix[n-2-idx][0+layer]
+        for idx in range(layer, n-1-layer):
+            matrix[idx][0+layer] = matrix[n-1-layer][idx]
+        for idx in range(layer, n-1-layer):
+            matrix[n-1-layer][idx] = matrix[n-1-idx][n-1-layer]
+        for idx in range(layer, n-1-layer):
+            matrix[1+idx][n-1-layer] = tmp[idx]
+        return
+```
+
+### 49. Group Anagrams
+Given an array of strings, group anagrams together.
+
+For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"],
+Return:
+```
+[
+  ["ate", "eat","tea"],
+  ["nat","tan"],
+  ["bat"]
+]
+```
+Note: All inputs will be in lower-case.
+
+
+```
+class Solution(object):
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        dictionary = {}
+        for string in strs:
+            rep = self.get_representation(string)
+            if rep in dictionary.keys():
+                dictionary[rep].append(string)
+            else:
+                dictionary[rep] = [string]
+        return dictionary.values()
+
+    def get_representation(self,string):
+        dictionary = {}
+        for s in string:
+            if s in dictionary:
+                dictionary[s] += 1
+            else:
+                dictionary[s] = 0
+
+        keys = sorted(dictionary.keys())
+        rep = ''
+        for key in keys:
+            rep += key
+            rep += str(dictionary[key])
+
+        return rep
+```
+
+### 54. Spiral Matrix
+Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
+
+For example,
+Given the following matrix:
+```
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+```
+You should return [1,2,3,6,9,8,7,4,5].
+
+
+```
+class Solution(object):
+    def spiralOrder(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[int]
+        """
+        m = len(matrix)
+        if m == 0:
+            return matrix
+        n = len(matrix[0])
+        visited_indices = {}
+        visited_indices[(0,0)] = 0
+        solution = [matrix[0][0]]
+        i = 0
+        j = 0
+        while len(visited_indices.keys()) < m*n:
+            # Increase j
+            while j < n-1:
+                j += 1
+                if  (i,j) not in visited_indices:
+                    visited_indices[(i,j)] = 0
+                    solution.append(matrix[i][j])
+                else:
+                    j -= 1
+                    break
+
+            # Increase i
+            while i < m-1:
+                i += 1
+                if (i,j) not in visited_indices:
+                    visited_indices[(i,j)] = 0
+                    solution.append(matrix[i][j])
+                else:
+                    i -= 1
+                    break
+
+            # Decrease j
+            while j > 0:
+                j -= 1
+                if (i,j) not in visited_indices:
+                    visited_indices[(i,j)] = 0
+                    solution.append(matrix[i][j])
+                else:
+                    j += 1
+                    break
+
+            # Decrease i
+            while i > 0:
+                i -= 1
+                if (i,j) not in visited_indices:                
+                    visited_indices[(i,j)] = 0
+                    solution.append(matrix[i][j])
+                else:
+                    i += 1
+                    break
+
+        return solution
+```
+
+## 55. Jump Game
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Determine if you are able to reach the last index.
+
+For example:
+A = [2,3,1,1,4], return true.
+
+A = [3,2,1,0,4], return false.
+
+
+```
+class Solution(object):
+    def canJump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        if nums == []:
+            return False
+
+        farthest = 0
+        for i in range(len(nums)):
+            if i <= farthest:
+                farthest = max(farthest, nums[i] + i)
+                if farthest >= len(nums)-1:
+                    return True
+
+        return False  
+
+```
+
+### 56. Merge Intervals
+Given a collection of intervals, merge all overlapping intervals.
+
+For example,
+Given [1,3],[2,6],[8,10],[15,18],
+return [1,6],[8,10],[15,18].
+
+
+```
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def merge(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: List[Interval]
+        """
+        solution = []
+        L = len(intervals)
+        if L == 0:
+            return solution
+
+        # Sort intervals by start time
+        intervals = sorted(intervals, key=lambda x: x.start)
+
+        start = intervals[0].start
+        final = intervals[0].end
+
+        for i in range(1,L):
+            if intervals[i].start <= final:
+                final = max(final,intervals[i].end)
+            else:
+                solution += [(start,final)]
+                start = intervals[i].start
+                final = intervals[i].end
+
+        solution += [(start,final)]
+        return solution
+```
+
+### 57. Insert Interval
+Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
+
+You may assume that the intervals were initially sorted according to their start times.
+
+Example 1:
+Given intervals [1,3],[6,9], insert and merge [2,5] in as [1,5],[6,9].
+
+Example 2:
+Given [1,2],[3,5],[6,7],[8,10],[12,16], insert and merge [4,9] in as [1,2],[3,10],[12,16].
+
+This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
+
+
+```
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def insert(self, intervals, newInterval):
+        """
+        :type intervals: List[Interval]
+        :type newInterval: Interval
+        :rtype: List[Interval]
+        """
+
+        intervals += [newInterval]
+        # Sort intervals by start time
+        intervals = sorted(intervals, key=lambda x: x.start)
+        return self.merge(intervals)
+
+    def merge(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: List[Interval]
+        """
+        solution = []
+        L = len(intervals)
+        if L == 0:
+            return solution
+
+        start = intervals[0].start
+        final = intervals[0].end
+
+        for i in range(1,L):
+            if intervals[i].start <= final:
+                final = max(final,intervals[i].end)
+            else:
+                solution += [(start,final)]
+                start = intervals[i].start
+                final = intervals[i].end
+
+        solution += [(start,final)]
+        return solution
+```
+
+### 58. Length of Last Word
+Given a string s consists of upper/lower-case alphabets and empty space characters ' ', return the length of last word in the string.
+
+If the last word does not exist, return 0.
+
+Note: A word is defined as a character sequence consists of non-space characters only.
+
+For example,
+Given s = "Hello World",
+return 5.
+
+
+```
+class Solution(object):
+    def lengthOfLastWord(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if s == "":
+            return 0
+
+        letter_found = 0
+        length = 0
+
+        for i in range(len(s)-1,-1,-1):
+            print i, s[i], letter_found
+            if s[i] == ' ':
+                if letter_found == 1:
+                    return length
+            else:
+                letter_found = 1
+                length += 1
+
+        return length
+```
+
+### 59. Spiral Matrix II
+Given an integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+
+For example,
+Given n = 3,
+
+You should return the following matrix:
+```
+[
+ [ 1, 2, 3 ],
+ [ 8, 9, 4 ],
+ [ 7, 6, 5 ]
+]
+```
+
+
+```
+class Solution(object):
+    def generateMatrix(self, n):
+        """
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        if n == 0:
+            return []
+        visited_indices = {}
+        visited_indices[(0,0)] = 0
+        matrix = [[0 for _ in range(n)] for _ in range(n)]
+        matrix[0][0] = 1
+        idx = 1
+        i = 0
+        j = 0
+        while len(visited_indices.keys()) < n*n:
+            # Increase j
+            while j < n-1:
+                j += 1
+                if  (i,j) not in visited_indices:
+                    idx += 1
+                    visited_indices[(i,j)] = 0
+                    matrix[i][j] = idx
+                else:
+                    j -= 1
+                    break
+
+            # Increase i
+            while i < n-1:
+                i += 1
+                if (i,j) not in visited_indices:
+                    idx += 1
+                    visited_indices[(i,j)] = 0
+                    matrix[i][j] = idx
+                else:
+                    i -= 1
+                    break
+
+            # Decrease j
+            while j > 0:
+                j -= 1
+                if (i,j) not in visited_indices:
+                    idx += 1
+                    visited_indices[(i,j)] = 0
+                    matrix[i][j] = idx
+                else:
+                    j += 1
+                    break
+
+            # Decrease i
+            while i > 0:
+                i -= 1
+                if (i,j) not in visited_indices:
+                    idx += 1
+                    visited_indices[(i,j)] = 0
+                    matrix[i][j] = idx
+                else:
+                    i += 1
+                    break
+
+        return matrix
+```
+
+### 60. Permutation Sequence
+The set [1,2,3,…,n] contains a total of n! unique permutations.
+
+By listing and labeling all of the permutations in order,
+We get the following sequence (ie, for n = 3):
+```
+"123"
+"132"
+"213"
+"231"
+"312"
+"321"
+```
+Given n and k, return the kth permutation sequence.
+
+Note: Given n will be between 1 and 9 inclusive.
+
+
+```
+class Solution(object):
+    def getPermutation(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: str
+        """
+        nums = range(1,n+1)
+        solution = ''
+        for idx in range(n):
+            nums, digit, k = self.get_next_digit(nums,k)
+            solution += str(digit)
+
+        return solution
+
+
+    def get_next_digit(self,nums,k):
+        n = len(nums)
+
+        import math
+        num_combinations = math.factorial(n-1)
+        quotient = int((k-1)/num_combinations)
+        digit = nums[quotient]
+        k -= quotient*num_combinations
+        nums.remove(digit)
+
+        return nums, digit, k
+```
+
+## 62. Unique Paths
+A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
+
+The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+
+How many possible unique paths are there?
+![](http://leetcode.com/wp-content/uploads/2014/12/robot_maze.png)
+Note: m and n will be at most 100.
+
+
+```
+class Solution(object):
+    def uniquePaths(self, m, n):
+        """
+        :type m: int
+        :type n: int
+        :rtype: int
+        """
+        import math
+        return math.factorial(m+n-2)/(math.factorial(m-1)*math.factorial(n-1))
+```
+
+### 63. Unique Paths II
+Follow up for "Unique Paths":
+
+Now consider if some obstacles are added to the grids. How many unique paths would there be?
+
+An obstacle and empty space is marked as 1 and 0 respectively in the grid.
+
+For example,
+There is one obstacle in the middle of a 3x3 grid as illustrated below.
+```
+[
+  [0,0,0],
+  [0,1,0],
+  [0,0,0]
+]
+```
+The total number of unique paths is 2.
+
+Note: m and n will be at most 100.
+
+
+```
+class Solution(object):
+    def uniquePathsWithObstacles(self, obstacleGrid):
+        """
+        :type obstacleGrid: List[List[int]]
+        :rtype: int
+        """
+        m = len(obstacleGrid)
+        n = len(obstacleGrid[0])
+        num_paths = [[0 for _ in range(n)] for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if obstacleGrid[i][j] == 1:
+                    num_paths[i][j] = 0
+                else:
+                    if i == 0:
+                        if j == 0:
+                            num_paths[i][j] = 1 - obstacleGrid[i][j]
+                        else:
+                            num_paths[i][j] = num_paths[i][j-1]
+                    elif j == 0:
+                        num_paths[i][j] = num_paths[i-1][j]
+                    else:
+                        num_paths[i][j] = num_paths[i][j-1] + num_paths[i-1][j]
+
+        return num_paths[i][j]   
+```
+
+### 64. Minimum Path Sum
+Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.
+
+Note: You can only move either down or right at any point in time.
+
+
+```
+class Solution(object):
+    def minPathSum(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        m = len(grid)
+        n = len(grid[0])
+        path_sum = [[0 for _ in range(n)] for _ in range(m)]
+
+        for i in range(m):
+            for j in range(n):
+                if i == 0:
+                    if j == 0:
+                        path_sum[i][j] = grid[i][j]
+                    else:
+                        path_sum[i][j] = path_sum[i][j-1] + grid[i][j]
+
+                elif j == 0:
+                    path_sum[i][j] = path_sum[i-1][j] + grid[i][j]
+
+                else:
+                    path_sum[i][j] = min(path_sum[i][j-1],path_sum[i-1][j]) + grid[i][j]
+
+        print path_sum
+        return path_sum[i][j]
+```
+
+### 72. Edit Distance
+Given two words word1 and word2, find the minimum number of steps required to convert word1 to word2. (each operation is counted as 1 step.)
+
+You have the following 3 operations permitted on a word:
+
+a) Insert a character
+b) Delete a character
+c) Replace a character
+
+
+```
+class Solution(object):
+    def minDistance(self, word1, word2):
+        """
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        l1 = len(word1)
+        l2 = len(word2)
+        if l1 == 0 or l2 == 0:
+            return max(l1,l2)
+        if l1 == 1 and l2 == 1:
+            return 1-(word1 == word2)
+
+        edit_distance = [[0 for _ in range(l2)] for _ in range(l1)]
+        found = 0 # used to avoid overcounting when same letter repeats
+        for j in range(l2):
+            if word2[j] == word1[0] and found == 0:
+                edit_distance[0][j] = edit_distance[0][j-1]
+                found = 1
+            else:
+                edit_distance[0][j] = edit_distance[0][j-1] + 1
+
+        found = 0
+        for i in range(l1):
+            if word1[i] == word2[0] and found == 0:
+                edit_distance[i][0] = edit_distance[i-1][0]
+                found = 1
+            else:
+                edit_distance[i][0] = edit_distance[i-1][0] + 1
+
+        for i in range(1,l1):
+            for j in range(1,l2):
+                if word1[i] == word2[j]:
+                    edit_distance[i][j] = edit_distance[i-1][j-1]
+                else:
+                    edit_distance[i][j] = min(edit_distance[i][j-1], edit_distance[i-1][j], edit_distance[i-1][j-1]) + 1
+        return edit_distance[i][j]
+```
+
+### 74. Search a 2D Matrix
+Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+
+Integers in each row are sorted from left to right.
+The first integer of each row is greater than the last integer of the previous row.
+For example,
+
+Consider the following matrix:
+```
+[
+  [1,   3,  5,  7],
+  [10, 11, 16, 20],
+  [23, 30, 34, 50]
+]
+```
+Given target = 3, return true.
+
+
+```
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        if matrix == [] or matrix == [[]]: # empty matrices
+            return False
+
+        m = len(matrix)
+        n = len(matrix[0])
+        i = 0
+        j = n-1
+        while i < m and j >= 0:
+            if matrix[i][j] == target:
+                return True
+            elif matrix[i][j] < target:
+                i += 1
+            else:
+                array = matrix[i][:-1]
+                return self.binarySearch(array, target)
+        return False
+
+    def binarySearch(self,array, target):
+        L = len(array)
+        if L == 0:
+            return False
+        if L == 1:
+            if array[0] == target:
+                return True
+            else:
+                return False
+        median = array[L/2]
+        if median == target:
+            return True
+        elif median < target:
+            return self.binarySearch(array[L/2:], target)
+        else:
+            return self.binarySearch(array[:L/2], target)
+```
+
+### 73. Set Matrix Zeroes
+Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.
+
+Follow up:
+Did you use extra space?
+A straight forward solution using O(mn) space is probably a bad idea.
+A simple improvement uses O(m + n) space, but still not the best solution.
+Could you devise a constant space solution?
+
+
+
+
+```
+class Solution(object):
+    def setZeroes(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        """
+        # first convert all th rows and columns having 0s to something else, say "A". Then, do one more sweep to convert A's to 0's.
+        m = len(matrix)
+        n = len(matrix[0])
+
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == 0:
+                    for k in range(m):
+                        if matrix[k][j] != 0:
+                            matrix[k][j] = 'A'
+                    for l in range(n):
+                        if matrix[i][l] != 0:
+                            matrix[i][l] = 'A'
+
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == 'A':
+                    matrix[i][j] = 0
+
+        return
+```
+
+## 75. Sort Colors
+Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue.
+
+Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
+
+Note:
+You are not suppose to use the library's sort function for this problem.
+
+Follow up:
+A rather straight forward solution is a two-pass algorithm using counting sort.
+First, iterate the array counting number of 0's, 1's, and 2's, then overwrite array with total number of 0's, then 1's and followed by 2's.
+
+Could you come up with an one-pass algorithm using only constant space?
+
+
+
+```
+class Solution(object):
+    def sortColors(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+
+        i = j = 0
+        for k in xrange(len(nums)):
+            v = nums[k]
+            nums[k] = 2
+            if v < 2:
+                nums[j] = 1
+                j += 1
+            if v == 0:
+                nums[i] = 0
+                i += 1
+```
+
+## 88. Merge Sorted Array
+Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+
+Note:
+You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2. The number of elements initialized in nums1 and nums2 are m and n respectively.
+
+
+```
+class Solution(object):
+    def merge(self, nums1, m, nums2, n):
+        """
+        :type nums1: List[int]
+        :type m: int
+        :type nums2: List[int]
+        :type n: int
+        :rtype: void Do not return anything, modify nums1 in-place instead.
+        """
+        while m > 0 and n > 0:
+            if nums1[m-1] >= nums2[n-1]:
+                nums1[m+n-1] = nums1[m-1]
+                m -= 1
+            else:
+                nums1[m+n-1] = nums2[n-1]
+                n -= 1
+        if n > 0:
+            nums1[:n] = nums2[:n]
+```
+
+## 91. Decode Ways
+A message containing letters from A-Z is being encoded to numbers using the following mapping:
+
+'A' -> 1
+'B' -> 2
+...
+'Z' -> 26
+Given an encoded message containing digits, determine the total number of ways to decode it.
+
+For example,
+Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
+
+The number of ways decoding "12" is 2.
+
+
+```
+# Recursive solution - time limit exceeded but 222/259 cases correct. DP solution is better
+
+class Solution(object):
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if s == '' or s[0] == "0":
+            num_decodings = 0
+        elif ((int(s) >= 1 and int(s) <= 10) or int(s) == 20): # Only one possible decoding for 10 and 20
+            num_decodings = 1
+        elif int(s) >= 11 and int(s) <= 26:
+            num_decodings = 2
+        else:
+            num_decodings = 0
+            for i in range(2): # only two digits 1-26 possible for valid input
+                if (int(s[:i+1]) >= 1 and int(s[:i+1]) <= 26):
+                    num_decodings += self.numDecodings(s[i+1:])
+
+        return num_decodings
+
+# DP solution
+class Solution(object):
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if s == '' or s[0] == "0":
+            return 0
+        num_decodings = [0]*len(s)
+        num_decodings[0] = 1*(1<=int(s[0])<=9)
+        if len(s) > 1:
+            num_decodings[1] = num_decodings[0]*(1<=int(s[1])<=9) + 1*(10<=int(s[:2])<=26)
+            for i in range(2,len(s)):
+                print i
+                num_decodings[i] = num_decodings[i-2]*(10<=int(s[i-1:i+1])<=26) + num_decodings[i-1]*(1<=int(s[i])<=9)
+
+        print num_decodings   
+        return num_decodings[len(s)-1]    
+```
+
+## 94. Binary Tree Inorder Traversal
+Given a binary tree, return the inorder traversal of its nodes' values.
+
+For example:
+Given binary tree [1,null,2,3],
+```
+   1
+    \
+     2
+    /
+   3
+```
+return [1,3,2].
+
+Note: Recursive solution is trivial, could you do it iteratively?
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def inorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        stack = []
+        node = root
+        solution = []
+
+        while (stack != [] or node != None):
+            if node != None:
+                stack.append(node)
+                node = node.left
+            else:
+                node = stack.pop()
+                solution.append(node.val)
+                node = node.right
+
+        return solution
+
+```
+
+## 96. Unique Binary Search Trees
+Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
+
+For example,
+Given n = 3, there are a total of 5 unique BST's.
+```
+   1         3     3      2      1
+    \       /     /      / \      \
+     3     2     1      1   3      2
+    /     /       \                 \
+   2     1         2                 3
+```
+
+
+```
+class Solution(object):
+    def numTrees(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        # Catalan number
+        import math
+        return math.factorial(2*n)/(math.factorial(n)*math.factorial(n+1))
+```
+
+## 98. Validate Binary Search Tree
+Given a binary tree, determine if it is a valid binary search tree (BST).
+
+Assume a BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+Example 1:
+```
+    2
+   / \
+  1   3
+```    
+Binary tree [2,1,3], return true.
+Example 2:
+```
+    1
+   / \
+  2   3
+```    
+Binary tree [1,2,3], return false.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        # Scan tree in-order and make sure elements are in sorted order
+        currentVal = -float("inf")
+        return self.isBST(root,currentVal)[0]
+
+    def isBST(self,root,currentVal):
+        if root == None:
+            return True, currentVal
+
+        answer, currentVal = self.isBST(root.left,currentVal)
+        if answer == False:
+            return False, currentVal
+
+        if root.val <= currentVal:
+            return False, currentVal
+        else:
+            currentVal = root.val
+
+        answer, currentVal = self.isBST(root.right,currentVal)
+        if answer == False:
+            return False, currentVal
+
+        return True,currentVal
+```
+
+### 99. Recover Binary Search Tree
+Two elements of a binary search tree (BST) are swapped by mistake.
+
+Recover the tree without changing its structure.
+
+Note:
+A solution using O(n) space is pretty straight forward. Could you devise a constant space solution?
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def recoverTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: void Do not return anything, modify root in-place instead.
+        """
+        print self.printInOrder(root,[])
+
+        prev_val = -float("inf")
+        val1, val2, prev_val = self.inOrder(root,float("inf"),float("inf"), prev_val)
+        if val2 == float("inf"): # for the case when it occurs at the very end of the traversal
+            val2 = prev_val
+
+        fixed, root = self.correctTree(root, root, val1, val2,0)
+        print self.printInOrder(root,[])
+        return
+
+    def printInOrder(self,root,inOrder):
+        if root == None:
+            return inOrder
+        inOrder = self.printInOrder(root.left,inOrder)
+        inOrder += [root.val]
+        inOrder = self.printInOrder(root.right,inOrder)
+
+        return inOrder    
+
+    def inOrder(self,root, val1, val2, prev_val):
+        """
+        Traverse tree in order and store the two elements that are swapped
+        """
+        if root == None:
+            return val1, val2, prev_val
+        val1, val2, prev_val = self.inOrder(root.left, val1, val2, prev_val)
+        # if val1 != float("inf") and val2 != float("inf"):
+        #     return val1, val2, prev_val
+        val1, val2, prev_val = self.process(root.val, val1, val2, prev_val)
+        # if val1 != float("inf") and val2 != float("inf"):
+        #     return val1, val2, prev_val     
+        val1, val2, prev_val = self.inOrder(root.right, val1, val2, prev_val)
+        # if val1 != float("inf") and val2 != float("inf"):
+        #     return val1, val2, prev_val
+
+        return val1, val2, prev_val
+
+    def process(self,current_val, val1, val2, prev_val):
+        if current_val < prev_val:
+            if val1 == float("inf"): # setting node 1
+                val1 = prev_val
+                val2 = current_val
+            else: # setting node 2
+                val2 = current_val
+        prev_val = current_val
+
+        return val1, val2, prev_val
+
+    def correctTree(self,root, node, val1, val2,fixed):
+        """
+        Traverse tree and swap node1 and node2
+        """
+        if node == None:
+            return fixed,root
+        fixed, root = self.correctTree(root, node.left, val1, val2, fixed)
+        if fixed == 1:
+            return fixed,root
+        fixed, node = self.swap(node,val1,val2)
+        if fixed == 1:
+            return fixed,root
+        fixed, root = self.correctTree(root, node.right, val1, val2, fixed)
+        if fixed == 1:
+            return fixed,root
+
+        return fixed,root
+
+    def swap(self,node,val1,val2):
+        """
+        Swap the incorrect elements val1 and val2
+        """
+        fixed = 0
+        if node.val == val1:
+            node.val = val2
+            fixed = 0
+        elif node.val == val2:
+            node.val = val1
+            fixed = 1
+
+        return fixed, node
+```
+
+## 100. Same Tree
+Given two binary trees, write a function to check if they are equal or not.
+
+Two binary trees are considered equal if they are structurally identical and the nodes have the same value.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isSameTree(self, p, q):
+        """
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: bool
+        """
+        if p == None and q == None:
+            return True
+        if p == None or q == None:
+            return False
+        if p.val == q.val:
+            return self.isSameTree(p.left,q.left) and self.isSameTree(p.right,q.right)
+        return False
+```
+
+## 101. Symmetric Tree
+Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+
+For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
+```
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+```
+But the following [1,2,2,null,3,null,3] is not:
+```
+    1
+   / \
+  2   2
+   \   \
+   3    3
+```
+Note:
+Bonus points if you could solve it both recursively and iteratively.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if root == None:
+            return True
+        return self.isSymmetricHelper(root.left,root.right)
+
+    def isSymmetricHelper(self,node1,node2):
+        if node1 == None and node2 == None:
+            return True
+        if node1 == None or node2 == None:
+            return False
+        if node1.val != node2.val:
+            return False
+        return self.isSymmetricHelper(node1.left,node2.right) and self.isSymmetricHelper(node1.right,node2.left)
+```
+
+### 102. Binary Tree Level Order Traversal
+Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+```
+    3
+   / \
+  9  20
+    /  \
+   15   7
+```
+return its level order traversal as:
+```
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+```
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def levelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        if root == None:
+            return []
+        queue = [root]
+        solution = []
+        while queue != []:
+            solution.append([i.val for i in queue])
+
+            temp = []
+            for i in queue:
+                if i.left != None:
+                    temp.append(i.left)
+                if i.right != None:
+                    temp.append(i.right)
+
+            queue = temp
+
+        return solution
+
+```
+
+### 103. Binary Tree Zigzag Level Order Traversal
+Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+```
+    3
+   / \
+  9  20
+    /  \
+   15   7
+```
+return its zigzag level order traversal as:
+```
+[
+  [3],
+  [20,9],
+  [15,7]
+]
+```
+
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def zigzagLevelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+
+        if root == None:
+            return []
+        queue = [root]
+        solution = []
+        count = 0
+        while queue != []:
+            if count %2 == 0:
+                solution.append([i.val for i in queue])
+            else:
+                solution.append([i.val for i in queue[::-1]])
+
+            temp = []
+            for i in queue:
+                if i.left != None:
+                    temp.append(i.left)
+                if i.right != None:
+                    temp.append(i.right)
+
+            queue = temp
+            count += 1
+
+        return solution
+```
+
+## 104. Maximum Depth of Binary Tree
+Given a binary tree, find its maximum depth.
+
+The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def maxDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if root == None:
+            return 0
+        # Use BFS
+        queue = [root]
+        maxDepth = 0
+        while queue != []:
+            tmp = queue
+            queue = []
+            for node in tmp:
+                if node.left == None and node.right == None:
+                    pass
+                if node.left != None:
+                    queue.append(node.left)
+                if node.right != None:
+                    queue.append(node.right)
+            maxDepth += 1
+
+        return maxDepth
+
+# Using recursion
+class Solution(object):
+    def maxDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        current_depth = 0
+        max_depth = 0
+        return self.mD(root,current_depth,max_depth)
+
+    def mD(self,node,current_depth,max_depth):
+        if node == None:
+            return max_depth
+        current_depth += 1
+        max_depth = max(current_depth,max_depth)
+
+        max_depth = self.mD(node.left,current_depth,max_depth)
+        max_depth = self.mD(node.right,current_depth,max_depth)
+
+        return max_depth    
+```
+
+## 108. Convert Sorted Array to Binary Search Tree
+Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def sortedArrayToBST(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: TreeNode
+        """
+        if nums == []:
+            return None
+        L = len(nums)
+        median_index = (L-1)/2
+        median = nums[median_index]
+
+        root = TreeNode(median)
+        if L > 1:
+            root.left = self.sortedArrayToBST(nums[:median_index])
+            root.right = self.sortedArrayToBST(nums[median_index+1:])
+
+        return root
+```
+
+## 110. Balanced Binary Tree
+Given a binary tree, determine if it is height-balanced.
+
+For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isBalanced(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        depths,isBalanced = self.compute_depths(root,{})
+        return isBalanced
+
+
+    def compute_depths(self,root,depths):
+        if root == None:
+            return depths,True
+        depths,isBalanced = self.compute_depths(root.left,depths)
+        if isBalanced == False:
+            return depths, False
+        depths,isBalanced = self.compute_depths(root.right,depths)
+        if isBalanced == False:
+            return depths, False        
+        depths,isBalanced = self.process(root,depths)
+        if isBalanced == False:
+            return depths, False
+
+        return depths,True
+
+    def process(self,root,depths):
+        if root.left == None and root.right == None: # leaf node
+            depths[root] = 0
+            return depths,True
+        if root.left == None: # left child empty
+            if depths[root.right] > 0:
+                return depths,False
+            depths[root] = depths[root.right] + 1
+            return depths,True
+        if root.right == None: # right child empty
+            if depths[root.left] > 0:
+                return depths,False
+            depths[root] = depths[root.left] + 1
+            return depths,True
+        # Both children exist
+        if abs(depths[root.left] - depths[root.right]) > 1:
+            return depths,False
+        depths[root] = max(depths[root.left],depths[root.right]) + 1
+        return depths,True        
+```
+
+## 111. Minimum Depth of Binary Tree
+Given a binary tree, find its minimum depth.
+
+The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def minDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if root == None:
+            return 0
+        # Use BFS
+        queue = [root]
+        minDepth = 1
+        while queue != []:
+            tmp = queue
+            queue = []
+            for node in tmp:
+                if node.left == None and node.right == None:
+                    return minDepth
+                if node.left != None:
+                    queue.append(node.left)
+                if node.right != None:
+                    queue.append(node.right)
+            minDepth += 1
+```
+
+## 112. Path Sum
+Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
+
+For example:
+Given the below binary tree and sum = 22,
+```
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \      \
+        7    2      1
+```        
+return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def hasPathSum(self, root, sum):
+        """
+        :type root: TreeNode
+        :type sum: int
+        :rtype: bool
+        """
+        path_sums = self.getPaths(root)
+        if sum in path_sums:
+            return True
+        return False
+
+    def getPaths(self,root):
+        if root == None:
+            return []
+        if root.left == None and root.right == None:
+            return [root.val]
+        return [root.val + val for val in self.getPaths(root.left) + self.getPaths(root.right)]
+```
+
+## 113. Path Sum II
+Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+
+For example:
+Given the below binary tree and sum = 22,
+```
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \    / \
+        7    2  5   1
+```        
+return
+[
+   [5,4,11,2],
+   [5,8,4,5]
+]
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def pathSum(self, root, sum):
+        """
+        :type root: TreeNode
+        :type sum: int
+        :rtype: List[List[int]]
+        """
+        paths = self.getPaths(root)
+        desired_paths = []
+        for idx in range(len(paths)):
+            paths[idx] = paths[idx].split(',')
+            paths[idx] = [int(val) for val in paths[idx]]
+            path_sum = reduce((lambda x,y: x+y), paths[idx])
+            if path_sum == sum:
+                desired_paths.append(paths[idx])
+
+        return desired_paths
+
+    def getPaths(self,root):
+        if root == None:
+            return []
+        if root.left == None and root.right == None:
+            return [str(root.val)]
+        return [str(root.val) + ',' + str(val) for val in self.getPaths(root.left) + (self.getPaths(root.right))]  
+```
+
+### 120. Triangle
+Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
+
+For example, given the following triangle
+```
+[
+     [2],
+    [3,4],
+   [6,5,7],
+  [4,1,8,3]
+]
+```
+The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+
+Note:
+Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in the triangle.
+
+
+```
+class Solution(object):
+    def minimumTotal(self, triangle):
+        """
+        :type triangle: List[List[int]]
+        :rtype: int
+        """
+        rows = len(triangle)
+        prev_total = triangle[0]
+        for row in range(1,rows):
+            current_total = [0 for _ in range(row+1)]
+            current_total[0] = prev_total[0] + triangle[row][0]
+            current_total[row] = prev_total[row-1] + triangle[row][row]
+            for idx in range(1,row):
+                current_total[idx] = min(prev_total[idx-1], prev_total[idx]) + triangle[row][idx]
+            prev_total = current_total
+
+        return min(prev_total)
+```
+
+### 125. Valid Palindrome
+Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+
+For example,
+"A man, a plan, a canal: Panama" is a palindrome.
+"race a car" is not a palindrome.
+
+Note:
+Have you consider that the string might be empty? This is a good question to ask during an interview.
+
+For the purpose of this problem, we define empty string as valid palindrome.
+
+
+```
+class Solution(object):
+    def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        s = self.remove_punctuations(s)
+        s = self.remove_spaces(s)
+        s = self.all_lower_case(s)
+        print s
+        return s == s[::-1]
+
+    def remove_punctuations(self,s):
+        exclude = set(string.punctuation)
+        s = ''.join(ch for ch in s if ch not in exclude)
+        return s
+
+    def remove_spaces(self,s):
+        return "".join(s.split(" "))
+
+    def all_lower_case(self,s):
+        return s.lower()
+```
+
+## 129. Sum Root to Leaf Numbers
+Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number.
+
+An example is the root-to-leaf path 1->2->3 which represents the number 123.
+
+Find the total sum of all root-to-leaf numbers.
+
+For example,
+```
+    1
+   / \
+  2   3
+```
+The root-to-leaf path 1->2 represents the number 12.
+The root-to-leaf path 1->3 represents the number 13.
+
+Return the sum = 12 + 13 = 25.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def sumNumbers(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        paths = self.getPaths(root)
+        paths = self.convert_to_int(paths)
+        print paths
+        return sum(int(string) for string in paths)
+
+    def getPaths(self,root):
+        if root == None:
+            return []
+        if root.left == None and root.right == None:
+            return [str(root.val)]
+        return [str(root.val) + ',' + str(val) for val in self.getPaths(root.left) + self.getPaths(root.right)]
+
+    def convert_to_int(self,paths):
+        for index in range(len(paths)):
+            sum = 0
+            paths[index] = paths[index].split(',')
+            L = len(paths[index])
+            for idx in range(L):
+                sum += int(paths[index][idx])*(10**(L-1-idx))
+            paths[index] = sum
+
+        return paths
+```
+
+### 130. Surrounded Regions
+Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surrounded by 'X'.
+
+A region is captured by flipping all 'O's into 'X's in that surrounded region.
+
+For example,
+```
+X X X X
+X O O X
+X X O X
+X O X X
+```
+After running your function, the board should be:
+```
+X X X X
+X X X X
+X X X X
+X O X X
+```
+
+
+```
+class Solution(object):
+    def solve(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        if board == []:
+            return
+
+        # Start from perimeter 'O' nodes. Traverse and fill connected 'O's to 'S' (say).
+        m = len(board)
+        n = len(board[0])
+        for j in range(n):
+            board = self.fill(0,j,board)
+            board = self.fill(m-1,j,board)
+        for i in range(m):
+            board = self.fill(i,0,board)
+            board = self.fill(i,n-1,board)
+
+        # Now, convert all remaining 'O's to 'X's and finally 'S's to 'O's
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 'O':
+                    board[i][j] = 'X'
+
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 'S':
+                    board[i][j] = 'O'
+
+        return
+
+    def fill(self, i,j, board):
+        m = len(board)
+        n = len(board[0])
+        if board[i][j] == 'O':
+            board[i][j] = 'S'
+            deltas = [(0,1),(1,0),(-1,0),(0,-1)]
+            for delta in deltas:
+                if 0<=i+delta[0]<m and 0<=j+delta[1]<n:
+                    board = self.fill(i+delta[0],j+delta[1],board)
+
+        return board
+```
+
+## 136. Single Number
+Given an array of integers, every element appears twice except for one. Find that single one.
+
+Note:
+Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+
+
+```
+class Solution:
+    # @param {integer[]} nums
+    # @return {integer}
+    def singleNumber(self, nums):
+        answer = nums[0]
+        for i in range(1,len(nums)):
+            answer ^= nums[i]
+
+        return answer
+```
+
+### 139. Word Break
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be segmented into a space-separated sequence of one or more dictionary words. You may assume the dictionary does not contain duplicate words.
+
+For example, given
+s = "leetcode",
+dict = ["leet", "code"].
+
+Return true because "leetcode" can be segmented as "leet code".
+
+
+```
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: bool
+        """
+        if s in wordDict or len(s) == 0:
+            return True
+
+        L = len(s)
+
+        solution = [False for _ in range(L+1)]
+        for idx in range(1,L+1):
+            print solution
+            if s[:idx] in wordDict:
+                solution[idx] = True
+            else:
+                for j in range(idx):
+                    if solution[j] == True:
+                        solution[idx] |= s[j:idx] in wordDict
+                        if solution[idx] == True:
+                            break
+
+
+        return solution[-1]
+```
+
+### 144. Binary Tree Preorder Traversal
+Given a binary tree, return the preorder traversal of its nodes' values.
+
+For example:
+Given binary tree {1,#,2,3},
+```
+   1
+    \
+     2
+    /
+   3
+```
+return [1,2,3].
+
+Note: Recursive solution is trivial, could you do it iteratively?
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def preorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        return self.preOrder(root,[])
+
+    def preOrder(self,node,solution):
+        if node == None:
+            return solution
+        solution += [node.val]
+        solution = self.preOrder(node.left,solution)
+        solution = self.preOrder(node.right,solution)
+        return solution
+```
+
+## 179. Largest Number
+Given a list of non negative integers, arrange them such that they form the largest number.
+
+For example, given [3, 30, 34, 5, 9], the largest formed number is 9534330.
+
+Note: The result may be very large, so you need to return a string instead of an integer.
+
+
+```
+a = sorted(['30','3','300']); print a
+```
+
+    ['3', '30', '300']
+
+
+
+```
+class Solution:
+    # @param {integer[]} nums
+    # @return {string}
+    def largestNumber(self, nums):
+        solution = ''
+        if nums == []:
+            return solution
+
+        # Find largest length of int. Make all numbers equal to same length, then sort
+        num_strs = map(str,nums)
+        max_len = max([len(string) for string in num_strs])
+        num_strs_appended = map(str,nums)
+
+        for i in range(len(num_strs)):
+            num_strs_appended[i] += num_strs[i][0]*(max_len-len(num_strs[i]))
+
+        num_dict = {}
+        for i in range(len(num_strs)):
+            if num_strs_appended[i] in num_dict.keys():
+                num_dict[num_strs_appended[i]] += num_strs[i]
+            else:
+                num_dict[num_strs_appended[i]] = num_strs[i]
+
+        # Now sort dictionary keys
+        sorted_keys = sorted([key for key in num_dict.keys()],reverse=True)
+
+        solution = reduce((lambda x, y: x + y),[num_dict[key] for key in sorted_keys])
+
+        if int(solution) == 0:
+            solution = '0'
+
+        return solution
+```
+
+## 198. House Robber
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
+
+
+```
+class Solution(object):
+    def rob(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        L =len(nums)
+        if L == 0:
+            return 0
+        rob_sum = [0 for _ in range(L)]
+        rob_sum[0] = nums[0]
+        if L > 1:
+            rob_sum[1] = max(nums[0],nums[1])
+
+        for i in range(2,L):
+            rob_sum[i] = max(rob_sum[i-2]+nums[i],rob_sum[i-1])
+
+        return rob_sum[L-1]
+```
+
+## 199. Binary Tree Right Side View
+Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+For example:
+Given the following binary tree,
+```
+   1            <---
+ /   \
+2     3         <---
+ \     \
+  5     4       <---
+```
+You should return [1, 3, 4].
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def rightSideView(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        if root == None:
+            return []
+        current_nodes = [root]
+        solution = []
+        idx = 0
+        while current_nodes != []:
+            solution.append(current_nodes[-1].val)
+            tmp = []
+            for node in current_nodes:
+                if node.left != None:
+                    tmp.append(node.left)
+                if node.right != None:
+                    tmp.append(node.right)
+                current_nodes = tmp
+
+        return solution
+```
+
+## 200. Number of Islands
+Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+Example 1:
+
+11110
+11010
+11000
+00000
+Answer: 1
+
+Example 2:
+
+11000
+11000
+00100
+00011
+Answer: 3
+
+
+```
+class Solution(object):
+    def numIslands(self, grid):
+        """
+        :type grid: List[List[str]]
+        :rtype: int
+        """
+        if grid == []:
+            return 0
+
+        num_islands = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == "1":
+                    num_islands += 1
+                    grid = self.traverse(i,j,grid)
+
+        return num_islands
+
+    def traverse(self, i, j, grid): # DFS traversal of graph
+        if not (0<=i<len(grid) and 0<=j<len(grid[0])):
+            return
+        if grid[i][j] == "0":
+            return
+        else:
+            grid[i][j] = "0"
+            self.traverse(i-1,j,grid)
+            self.traverse(i+1,j,grid)
+            self.traverse(i,j+1,grid)
+            self.traverse(i,j-1,grid)
+
+        return grid
+```
+
+## 202. Happy Number
+Write an algorithm to determine if a number is "happy".
+
+A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.
+
+Example: 19 is a happy number
+
+$$1^2 + 9^2 = 82\\
+8^2 + 2^2 = 68\\
+6^2 + 8^2 = 100\\
+1^2 + 0^2 + 0^2 = 1$$
+
+
+```
+class Solution(object):
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        # Use slow and fast pointers to search for loops
+        sum_slow = n
+        sum_fast = n
+        while sum_slow != 1 and sum_fast != 1:
+            sum_slow = self.digit_squared_sum(sum_slow)
+            if sum_slow == 1:
+                return True
+            sum_fast = self.digit_squared_sum(sum_fast)
+            sum_fast = self.digit_squared_sum(sum_fast)
+            if sum_slow == sum_fast:
+                return False
+        return True
+
+    def digit_squared_sum(self,n):
+        sum = 0
+        while n != 0:
+            units_place = n % 10
+            sum += (units_place) ** 2
+            n = (n - units_place)/10
+
+        return sum
+```
+
+### 208. Implement Trie (Prefix Tree)
+Implement a trie with insert, search, and startsWith methods.
+
+Note:
+You may assume that all inputs are consist of lowercase letters a-z.
+
+
+```
+class Trie(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root = TrieNode()
+
+    def insert(self, word):
+        """
+        Inserts a word into the trie.
+        :type word: str
+        :rtype: void
+        """
+        currentNode = self.root
+        for w in word:
+            if w in currentNode.children:
+                currentNode = currentNode.children[w]
+            else:
+                newNode = TrieNode()
+                newNode.val = w
+                currentNode.children[w] = newNode
+                currentNode = newNode
+        currentNode.endOfWord = True
+
+    def search(self, word):
+        """
+        Returns if the word is in the trie.
+        :type word: str
+        :rtype: bool
+        """
+        currentNode = self.root
+        for w in word:
+            if w in currentNode.children:
+                currentNode = currentNode.children[w]
+            else:
+                return False
+        if currentNode.endOfWord == True:
+            return True
+        else:
+            return False
+
+
+    def startsWith(self, prefix):
+        """
+        Returns if there is any word in the trie that starts with the given prefix.
+        :type prefix: str
+        :rtype: bool
+        """
+        currentNode = self.root
+        for p in prefix:
+            if p in currentNode.children:
+                currentNode = currentNode.children[p]
+            else:
+                return False
+        return True
+
+class TrieNode(object):
+    def __init__(self):
+        self.val = None
+        self.endOfWord = False
+        self.children = {}
+
+# Your Trie object will be instantiated and called as such:
+# obj = Trie()
+# obj.insert(word)
+# param_2 = obj.search(word)
+# param_3 = obj.startsWith(prefix)
+```
+
+## 213. House Robber II
+Note: This is an extension of 199. House Robber.
+
+After robbing those houses on that street, the thief has found himself a new place for his thievery so that he will not get too much attention. This time, all houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, the security system for these houses remain the same as for those in the previous street.
+
+Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
+
+
+```
+class Solution(object):
+    def rob(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if len(nums) == 0:
+            return 0
+        elif len(nums) == 1:
+            return nums[0]
+        else:
+            # Compute max of rob_helper(nums[:-1] and nums[1:])
+            return max(self.rob_helper(nums[:-1]),self.rob_helper(nums[1:]))
+
+    def rob_helper(self, nums):
+        L =len(nums)
+        if L == 0:
+            return 0
+        rob_sum = [0 for _ in range(L)]
+        rob_sum[0] = nums[0]
+        if L > 1:
+            rob_sum[1] = max(nums[0],nums[1])
+
+        for i in range(2,L):
+            rob_sum[i] = max(rob_sum[i-2]+nums[i],rob_sum[i-1])
+
+        return rob_sum[L-1]
+```
+
+## 215. Kth Largest Element in an Array
+Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+For example,
+Given [3,2,1,5,6,4] and k = 2, return 5.
+
+Note:
+You may assume k is always valid, 1 ≤ k ≤ array's length.
+
+
+```
+class Solution(object):
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        while k > 0:
+
+            nums, k = self.partition_and_select(nums,k)
+
+        return nums
+
+    def partition_and_select(self,nums,k):
+        # Quick-select algorithm
+        pivot_index = 0 # chosen randomly
+        pivot = nums[pivot_index]
+        for i in xrange(1,len(nums)):
+            if nums[i] > pivot:
+                nums = [nums[i]] + nums[:i] + nums[i+1:]
+                pivot_index += 1
+
+        if pivot_index == k-1: # number found!!
+            return nums[k-1], 0
+        elif pivot_index < k-1:
+            return nums[pivot_index+1:], k-1 - pivot_index
+        else:
+            return nums[:pivot_index], k
+
+```
+
+### 217. Contains Duplicate
+Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.
+
+
+```
+class Solution(object):
+    def containsDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        dictionary = {}
+        for num in nums:
+            if num in dictionary:
+                return True
+            else:
+                dictionary[num] = 0
+
+        return False
+```
+
+## 218. The Skyline Problem
+A city's skyline is the outer contour of the silhouette formed by all the buildings in that city when viewed from a distance. Now suppose you are given the locations and height of all the buildings as shown on a cityscape photo (Figure A), write a program to output the skyline formed by these buildings collectively (Figure B).
+![](https://leetcode.com/static/images/problemset/skyline1.jpg)![](https://leetcode.com/static/images/problemset/skyline2.jpg)
+The geometric information of each building is represented by a triplet of integers [Li, Ri, Hi], where Li and Ri are the x coordinates of the left and right edge of the ith building, respectively, and Hi is its height. It is guaranteed that 0 ≤ Li, Ri ≤ INT_MAX, 0 < Hi ≤ INT_MAX, and Ri - Li > 0. You may assume all buildings are perfect rectangles grounded on an absolutely flat surface at height 0.
+
+For instance, the dimensions of all buildings in Figure A are recorded as: [ [2 9 10], [3 7 15], [5 12 12], [15 20 10], [19 24 8] ] .
+
+The output is a list of "key points" (red dots in Figure B) in the format of [ [x1,y1], [x2, y2], [x3, y3], ... ] that uniquely defines a skyline. A key point is the left endpoint of a horizontal line segment. Note that the last key point, where the rightmost building ends, is merely used to mark the termination of the skyline, and always has zero height. Also, the ground in between any two adjacent buildings should be considered part of the skyline contour.
+
+For instance, the skyline in Figure B should be represented as:[ [2 10], [3 15], [7 12], [12 0], [15 10], [20 8], [24, 0] ].
+
+Notes:
+
+The number of buildings in any input list is guaranteed to be in the range [0, 10000].
+The input list is already sorted in ascending order by the left x position Li.
+The output list must be sorted by the x position.
+There must be no consecutive horizontal lines of equal height in the output skyline. For instance, [...[2 3], [4 5], [7 5], [11 5], [12 7]...] is not acceptable; the three lines of height 5 should be merged into one in the final output as such: [...[2 3], [4 5], [12 7], ...]
+
+
+```
+class Solution(object):
+    def getSkyline(self, buildings):
+        """
+        :type buildings: List[List[int]]
+        :rtype: List[List[int]]
+        """
+
+        # Storing buildings as a dict for easy sorting
+        if buildings == []:
+            return []
+        buildings_dict = {}
+        for building in buildings:
+            key = building[0]
+            value = building[2]
+            if key in buildings_dict.keys():
+                buildings_dict[key] = max(buildings_dict[key],value)
+            else:
+                buildings_dict[key] = value
+
+            key = building[1]
+            value = building[2]
+            if key in buildings_dict.keys():
+                buildings_dict[key] = max(buildings_dict[key],value)
+            else:
+                buildings_dict[key] = value
+
+        # Sort dictionary by keys
+        sorted_keys = sorted(buildings_dict.keys())
+        max_height = 0
+
+        max_height_old = buildings_dict[sorted_keys[0]]
+        building_heights = [max_height_old]
+
+        solution = [[sorted_keys[0],max_height_old]]
+
+        for key in sorted_keys[1:]:
+            max_height_old = max_height
+            if buildings_dict[key] in building_heights:
+                building_heights.remove(buildings_dict[key]) # right edge of building
+                if building_heights == []:
+                    max_height = 0
+                else:
+                    max_height = max(building_heights)
+            else:
+                building_heights.append(buildings_dict[key])
+                max_height = max(max_height,buildings_dict[key])
+
+            if max_height != max_height_old:
+                solution.append([key,max_height])
+
+
+        return solution
+```
+
+### 219. Contains Duplicate II
+Given an array of integers and an integer k, find out whether there are two distinct indices i and j in the array such that nums[i] = nums[j] and the absolute difference between i and j is at most k.
+
+
+```
+class Solution(object):
+    def containsNearbyDuplicate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        dictionary = {}
+        for i in range(len(nums)):
+            if nums[i] in dictionary:
+                dictionary[nums[i]] += [i]
+                if dictionary[nums[i]][-1] - dictionary[nums[i]][-2] <= k:
+                    return True
+            else:
+                dictionary[nums[i]] = [i]
+        return False
+```
+
+### 221. Maximal Square
+Given a 2D binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its area.
+
+For example, given the following matrix:
+```
+1 0 1 0 0
+1 0 1 1 1
+1 1 1 1 1
+1 0 0 1 0
+```
+Return 4.
+
+
+```
+class Solution(object):
+    def maximalSquare(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        if matrix == []:
+            return 0
+
+        m = len(matrix)
+        n = len(matrix[0])
+        square_dim = [[0 for _ in range(n)] for _ in range(m)]
+        max_square_dim = 0
+
+        for j in range(n):
+            if matrix[0][j] == '1':
+                square_dim[0][j] = 1
+                max_square_dim = max(max_square_dim,1)
+
+        for i in range(1,m):
+            if matrix[i][0] == '1':
+                square_dim[i][0] = 1
+                max_square_dim = max(max_square_dim,1)
+
+        for i in range(1,m):
+            for j in range(1,n):
+                if matrix[i][j] == '0':
+                    square_dim[i][j] = 0
+                else:
+                    square_dim[i][j] = 1 + min(square_dim[i][j-1],square_dim[i-1][j],square_dim[i-1][j-1])
+                    max_square_dim = max(max_square_dim,square_dim[i][j])
+
+        return max_square_dim**2
+```
+
+### 222. Count Complete Tree Nodes
+Given a complete binary tree, count the number of nodes.
+
+Definition of a complete binary tree from Wikipedia:
+In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def countNodes(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        # use pre-order traversal of tree and maintain node depths. Once depth of leaf < max_depth, return and then compute
+        if root == None:
+            return 0
+        count,depths,max_depth,_ = self.traverse(root,0,{},-1,0,0)
+        return sum([2**h for h in range(max_depth)]) + count
+
+    def traverse(self,node,count,depths,current_depth,max_depth,stopTraversing):
+        if node == None:
+            return count, depths, max_depth, stopTraversing
+
+        count, depths, max_depth, stopTraversing = self.process(node,count,depths,current_depth,max_depth,stopTraversing) # process current node
+        if stopTraversing == 1:
+            return count, depths, max_depth, stopTraversing        
+
+        count, depths, max_depth, stopTraversing = self.traverse(node.left,count,depths,depths[node],max_depth,stopTraversing)
+        if stopTraversing == 1:
+            return count, depths, max_depth, stopTraversing
+
+        count, depths, max_depth, stopTraversing = self.traverse(node.right,count,depths,depths[node],max_depth,stopTraversing)
+        if stopTraversing == 1:
+            return count, depths, max_depth, stopTraversing
+
+        return count, depths, max_depth, stopTraversing
+
+    def process(self,node,count,depths,current_depth,max_depth,stopTraversing):
+        depths[node] = current_depth + 1
+        max_depth = max(max_depth, current_depth + 1)
+        if node.left == None and node.right == None:
+            if depths[node] < max_depth:
+                stopTraversing = 1
+                return count, depths, max_depth, stopTraversing
+            else:
+                count += 1
+
+        return count, depths, max_depth, stopTraversing
+```
+
+### 223. Find the total area covered by two rectilinear rectangles in a 2D plane.
+
+Each rectangle is defined by its bottom left corner and top right corner as shown in the figure.
+![](https://leetcode.com/static/images/problemset/rectangle_area.png)
+Assume that the total area is never beyond the maximum possible value of int.
+
+
+```
+class Solution(object):
+    def computeArea(self, A, B, C, D, E, F, G, H):
+        """
+        :type A: int
+        :type B: int
+        :type C: int
+        :type D: int
+        :type E: int
+        :type F: int
+        :type G: int
+        :type H: int
+        :rtype: int
+        """
+        area1 = (D-B)*(C-A)
+        area2 = (H-F)*(G-E)
+        if G <= A or E >= C:
+            intersecting_area = 0
+        elif H <= B or F >= D:
+            intersecting_area = 0
+        else:    
+            intersecting_area = (min(C,G) - max(A,E)) * (min(H,D) - max(F,B))
+
+        print intersecting_area, area1, area2
+        return area1 + area2 - intersecting_area
+```
+
+### 226. Invert Binary Tree
+Invert a binary tree.
+```
+     4
+   /   \
+  2     7
+ / \   / \
+1   3 6   9
+```
+to
+```
+     4
+   /   \
+  7     2
+ / \   / \
+9   6 3   1
+```
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def invertTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        if root == None:
+            return []
+        newRoot = TreeNode(root.val)
+        if root.left != None:
+            newRoot.right = self.invertTree(root.left)
+        else:
+            newRoot.right = None
+
+        if root.right != None:
+            newRoot.left = self.invertTree(root.right)
+        else:
+            newRoot.left = None
+
+        return newRoot
+```
+
+### 228. Summary Ranges
+Given a sorted integer array without duplicates, return the summary of its ranges.
+```
+Example 1:
+Input: [0,1,2,4,5,7]
+Output: ["0->2","4->5","7"]
+```
+```
+Example 2:
+Input: [0,2,3,4,6,8,9]
+Output: ["0","2->4","6","8->9"]
+```
+
+
+```
+class Solution(object):
+    def summaryRanges(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[str]
+        """
+        if nums == []:
+            return nums
+
+        start = nums[0]
+        end = None
+        current = start
+        solution = []
+
+        for num in nums[1:]:
+            if num > current + 1:
+                if end == None:
+                    solution += [str(start)]
+                else:
+                    solution += [str(start)+"->"+str(end)]
+                start = num
+                end = None
+
+            else:
+                end = num
+
+            current = num
+
+        if end == None:
+            solution += [str(start)]
+        else:
+            solution += [str(start)+"->"+str(end)]
+
+        return solution
+```
+
+## 230. Kth Smallest Element in a BST
+Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
+
+Note:
+You may assume k is always valid, 1 ? k ? BST's total elements.
+
+Follow up:
+What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently? How would you optimize the kthSmallest routine?
+
+**If we need to find kth smallest frequently, we might need to use a heap structure??? **
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def kthSmallest(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
+        # Perform in-order traversal and return and kth element
+        return self.IOT(root,k)[0]
+
+    def IOT(self,root,k):
+        if root == None:
+            return None,k
+        result, k = self.IOT(root.left,k)
+        if k == 0:
+            return result, k
+
+        k -= 1
+        print k
+        if k == 0:
+            return root.val, k
+
+        result, k = self.IOT(root.right,k)
+        if k == 0:
+            return result, k
+
+        return None,k
+```
+
+### 235. Lowest Common Ancestor of a Binary Search Tree
+Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
+```
+        _______6______
+       /              \
+    ___2__          ___8__
+   /      \        /      \
+   0      _4       7       9
+         /  \
+         3   5
+```            
+For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
+        if p == root or q == root or (p.val < root.val and q.val > root.val) or (p.val > root.val and q.val < root.val):
+            return root
+        elif p.val < root.val and q.val < root.val:
+            return self.lowestCommonAncestor(root.left,p,q)
+        else: # p.val, q.val > root.val
+            return self.lowestCommonAncestor(root.right,p,q)
+```
+
+### 236. Lowest Common Ancestor of a Binary Tree
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
+```
+        _______3______
+       /              \
+    ___5__          ___1__
+   /      \        /      \
+   6      _2       0       8
+         /  \
+         7   4
+```         
+For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
+        p_path = self.pathFromRoot(root,p)
+        q_path = self.pathFromRoot(root,q)
+        idx = 0
+        l1 = len(p_path)
+        l2 = len(q_path)
+        while p_path[idx] == q_path[idx]:
+            idx += 1
+            if idx == l1:
+                return p_path[-1]
+            if idx == l2:
+                return q_path[-1]
+        return p_path[idx-1]
+
+    def pathFromRoot(self,root,node):
+        if root == None:
+            return None
+        if node == root:
+            return [node]
+        path = self.pathFromRoot(root.left,node)
+        if path != None:
+            return [root]+path
+        path = self.pathFromRoot(root.right,node)
+        if path != None:
+            return [root]+path
+
+        return None
+```
+
+### 240. Search a 2D Matrix II
+Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+
+Integers in each row are sorted in ascending from left to right.
+Integers in each column are sorted in ascending from top to bottom.
+For example,
+
+Consider the following matrix:
+```
+[
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
+```
+Given target = 5, return true.
+
+Given target = 20, return false.
+
+
+```
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        if matrix == [] or matrix == [[]]: # empty matrices
+            return False
+
+        m = len(matrix)
+        n = len(matrix[0])
+        i = 0
+        j = n-1
+        while i < m and j >= 0:
+            if matrix[i][j] == target:
+                return True
+            elif matrix[i][j] < target:
+                i += 1
+                print i
+            else:
+                j -= 1
+        return False
+```
+
+## 257. Binary Tree Paths
+Given a binary tree, return all root-to-leaf paths.
+
+For example, given the following binary tree:
+```
+   1
+ /   \
+2     3
+ \
+  5
+```
+All root-to-leaf paths are:
+
+["1->2->5", "1->3"]
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def binaryTreePaths(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[str]
+        """
+        if root == None:
+            return []
+        if root.left == None and root.right == None:
+            return [str(root.val)]
+        return [str(root.val) + '->' + str(val) for val in self.binaryTreePaths(root.left) + self.binaryTreePaths(root.right)]
+```
+
+### 263. Ugly Number
+Write a program to check whether a given number is an ugly number.
+
+Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 6, 8 are ugly while 14 is not ugly since it includes another prime factor 7.
+
+Note that 1 is typically treated as an ugly number.
+
+
+```
+class Solution(object):
+    def isUgly(self, num):
+        """
+        :type num: int
+        :rtype: bool
+        """
+        if num <= 0:
+            return False
+        if num in [1,2,3,5]:
+            return True
+        if (num % 2) != 0 and (num % 3) != 0 and (num % 5) != 0:
+            return False
+        if num % 2 == 0:
+            return self.isUgly(num/2)
+        elif num % 3 == 0:
+            return self.isUgly(num/3)
+        elif num % 5 == 0:
+            return self.isUgly(num/5)
+
+        return False
+```
+
+### 264. Ugly Number II
+Write a program to find the n-th ugly number.
+
+Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly numbers.
+
+Note that 1 is typically treated as an ugly number, and n does not exceed 1690.
+
+
+```
+class Solution(object):
+    def nthUglyNumber(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        ugly_numbers = [1]
+        ugly_number = [0 for _ in range(n+1)]
+
+        for idx in range(1,n+1)
+        :
+            ugly_number[idx] = min(ugly_numbers)
+            if ugly_number[idx]*2 not in ugly_numbers:
+                ugly_numbers.append(ugly_number[idx]*2)
+            if ugly_number[idx]*3 not in ugly_numbers:
+                ugly_numbers.append(ugly_number[idx]*3)
+            if ugly_number[idx]*5 not in ugly_numbers:
+                ugly_numbers.append(ugly_number[idx]*5)
+
+            #print ugly_number[idx], ugly_numbers
+            ugly_numbers.remove(ugly_number[idx])
+
+        return ugly_number[idx]
+```
+
+### 268. Missing Number
+Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
+
+For example,
+Given nums = [0, 1, 3] return 2.
+
+Note:
+Your algorithm should run in linear runtime complexity. Could you implement it using only constant extra space complexity?
+
+
+```
+class Solution(object):
+    def missingNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        return len(nums)*(len(nums)+1)/2 - sum(nums)
+```
+
+## 274. H-Index
+
+According to the definition of h-index on Wikipedia: "A scientist has index h if h of his/her N papers have at least h citations each, and the other N − h papers have no more than h citations each."
+
+For example, given citations = [3, 0, 6, 1, 5], which means the researcher has 5 papers in total and each of them had received 3, 0, 6, 1, 5 citations respectively. Since the researcher has 3 papers with at least 3 citations each and the remaining two with no more than 3 citations each, his h-index is 3.
+
+Note: If there are several possible values for h, the maximum one is taken as the h-index.
+
+
+```
+class Solution(object):
+    def hIndex(self, citations):
+        """
+        :type citations: List[int]
+        :rtype: int
+        """
+
+        L = len(citations)
+        citations.sort()
+
+        for i in range(L):
+            if citations[i] >= L-i:
+                return L - i
+
+        return 0
+```
+
+## 279. Perfect Squares
+Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n.
+
+For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
+
+
+```
+class Solution(object):
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n == 0:
+            return 0
+        # Use Dynamic Programming
+        import math
+        num_elements = [1]
+        squares = []
+
+        for i in range(1,n+1):
+            if int(math.sqrt(i)) == math.sqrt(i): # Perfect square
+                num_elements.append(1)
+                squares.append(i)
+            else:
+                num_elements.append(1 + min([num_elements[i-j] for j in squares]))
+
+        return num_elements[-1]
+```
+
+### 287. Find the Duplicate Number
+Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+
+Note:
+You must not modify the array (assume the array is read only).
+You must use only constant, O(1) extra space.
+Your runtime complexity should be less than O(n2).
+There is only one duplicate number in the array, but it could be repeated more than once.
+
+
+```
+
+```
+
+
+
+
+    ['0000']
+
+
+
+### 289. Game of Life
+According to the Wikipedia's article: "The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970."
+
+Given a board with m by n cells, each cell has an initial state live (1) or dead (0). Each cell interacts with its eight neighbors (horizontal, vertical, diagonal) using the following four rules (taken from the above Wikipedia article):
+
+Any live cell with fewer than two live neighbors dies, as if caused by under-population.
+Any live cell with two or three live neighbors lives on to the next generation.
+Any live cell with more than three live neighbors dies, as if by over-population..
+Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+Write a function to compute the next state (after one update) of the board given its current state.
+
+Follow up:
+Could you solve it in-place? Remember that the board needs to be updated at the same time: You cannot update some cells first and then use their updated values to update other cells.
+In this question, we represent the board using a 2D array. In principle, the board is infinite, which would cause problems when the active area encroaches the border of the array. How would you address these problems?
+
+
+```
+class Solution(object):
+    def gameOfLife(self, board):
+        """
+        :type board: List[List[int]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        m = len(board)
+        n = len(board[0])
+
+        num_neighbors = [[0 for _ in range(n)] for _ in range(m)]
+
+        for i in range(m):
+            for j in range(n):
+                num_neighbors[i][j] = self.num_neighbors(board,i,j)
+
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 1 and num_neighbors[i][j] < 2:
+                    board[i][j] = 0
+
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 1 and num_neighbors[i][j] > 3:
+                    board[i][j] = 0
+
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 0 and num_neighbors[i][j] == 3:
+                    board[i][j] = 1                    
+
+        return
+
+    def num_neighbors(self,grid,m,n):
+        sum = 0
+        M = len(grid)
+        N = len(grid[0])
+        for i in range(max(0,m-1),min(m+1,M-1)+1):
+            for j in range(max(0,n-1),min(n+1,N-1)+1):
+                sum += grid[i][j]
+        return sum - grid[m][n]
+```
+
+## 299. Bulls and Cows
+You are playing the following Bulls and Cows game with your friend: You write down a number and ask your friend to guess what the number is. Each time your friend makes a guess, you provide a hint that indicates how many digits in said guess match your secret number exactly in both digit and position (called "bulls") and how many digits match the secret number but locate in the wrong position (called "cows"). Your friend will use successive guesses and hints to eventually derive the secret number.
+
+For example:
+
+Secret number:  "1807"
+Friend's guess: "7810"
+Hint: 1 bull and 3 cows. (The bull is 8, the cows are 0, 1 and 7.)
+Write a function to return a hint according to the secret number and friend's guess, use A to indicate the bulls and B to indicate the cows. In the above example, your function should return "1A3B".
+
+Please note that both secret number and friend's guess may contain duplicate digits, for example:
+
+Secret number:  "1123"
+Friend's guess: "0111"
+In this case, the 1st 1 in friend's guess is a bull, the 2nd or 3rd 1 is a cow, and your function should return "1A1B".
+You may assume that the secret number and your friend's guess only contain digits, and their lengths are always equal.
+
+
+
+
+```
+class Solution(object):
+    def getHint(self, secret, guess):
+        """
+        :type secret: str
+        :type guess: str
+        :rtype: str
+        """
+
+        bulls = 0
+        cows = 0
+
+        true_digit_counts = {}
+        for i in range(10):
+            true_digit_counts[i] = 0
+
+        for i in range(len(secret)):
+            true_digit_counts[int(secret[i])] += 1
+
+        guess_digit_counts = {}
+        for i in range(10):
+            guess_digit_counts[i] = 0
+
+        for i in range(len(secret)):
+            guess_digit_counts[int(guess[i])] += 1
+
+        for i in range(len(secret)):
+            if secret[i] == guess[i]:
+                guess_digit_counts[int(secret[i])] -= 1
+                true_digit_counts[int(secret[i])] -= 1
+                bulls += 1
+
+        for key in guess_digit_counts.keys():
+            if guess_digit_counts[key] > 0:
+                if key in true_digit_counts.keys():
+                    if true_digit_counts[key] > 0:
+                        cows += min(guess_digit_counts[key],true_digit_counts[key])
+
+        return str(bulls)+"A"+str(cows)+"B"
+```
+
+### 300. Longest Increasing Subsequence
+Given an unsorted array of integers, find the length of longest increasing subsequence.
+
+For example,
+Given [10, 9, 2, 5, 3, 7, 101, 18],
+The longest increasing subsequence is [2, 3, 7, 101], therefore the length is 4. Note that there may be more than one LIS combination, it is only necessary for you to return the length.
+
+Your algorithm should run in O(n2) complexity.
+
+Follow up: Could you improve it to O(n log n) time complexity?
+
+
+```
+class Solution(object):
+    def lengthOfLIS(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if nums == []:
+            return 0
+        L = len(nums)
+        LIS = [1 for _ in range(L)]
+        for i in range(1,L):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    LIS[i] = max(LIS[i],LIS[j]+1)
+            LIS[i] = max(LIS[i],1)
+
+        return max(LIS)
+```
+
+### 312. Burst Balloons
+Given n balloons, indexed from 0 to n-1. Each balloon is painted with a number on it represented by array nums. You are asked to burst all the balloons. If the you burst balloon i you will get nums[left] * nums[i] * nums[right] coins. Here left and right are adjacent indices of i. After the burst, the left and right then becomes adjacent.
+
+Find the maximum coins you can collect by bursting the balloons wisely.
+
+Note:
+(1) You may imagine nums[-1] = nums[n] = 1. They are not real therefore you can not burst them.
+(2) 0 ≤ n ≤ 500, 0 ≤ nums[i] ≤ 100
+
+Example:
+
+Given [3, 1, 5, 8]
+
+Return 167
+```
+    nums = [3,1,5,8] --> [3,5,8] -->   [3,8]   -->  [8]  --> []
+   coins =  3*1*5      +  3*5*8    +  1*3*8      + 1*8*1   = 167
+```
+
+
+```
+## Recursive - times out
+class Solution(object):
+    def maxCoins(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if len(nums) == 0:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+        else:
+            solutions = []
+            for i in range(len(nums)):
+                nums_minus_i = nums[:i]+nums[i+1:]
+                if i-1 < 0:
+                    solutions.append(self.maxCoins(nums_minus_i) + nums[i]*nums[i+1])
+                elif i+1 >= len(nums):
+                    solutions.append(self.maxCoins(nums_minus_i) + nums[i-1]*nums[i])
+                else:
+                    solutions.append(self.maxCoins(nums_minus_i) + nums[i-1]*nums[i]*nums[i+1])
+            solution = max(solutions)
+
+        return solution
+
+## DP
+
+```
+
+### 313. Super Ugly Number
+Write a program to find the nth super ugly number.
+
+Super ugly numbers are positive numbers whose all prime factors are in the given prime list primes of size k. For example, [1, 2, 4, 7, 8, 13, 14, 16, 19, 26, 28, 32] is the sequence of the first 12 super ugly numbers given primes = [2, 7, 13, 19] of size 4.
+
+Note:
+(1) 1 is a super ugly number for any given primes.
+(2) The given numbers in primes are in ascending order.
+(3) 0 < k ≤ 100, 0 < n ≤ 106, 0 < primes[i] < 1000.
+(4) The nth super ugly number is guaranteed to fit in a 32-bit signed integer.
+
+
+```
+class Solution(object):
+    def nthSuperUglyNumber(self, n, primes):
+        """
+        :type n: int
+        :type primes: List[int]
+        :rtype: int
+        """
+        ugly_numbers = [1]
+        ugly_number = [0 for _ in range(n+1)]
+
+        for idx in range(1,n+1):
+            ugly_number[idx] = min(ugly_numbers)
+            for p in primes:
+                if ugly_number[idx]*p not in ugly_numbers:
+                    ugly_numbers.append(ugly_number[idx]*p)
+
+            #print ugly_number[idx], ugly_numbers
+            ugly_numbers.remove(ugly_number[idx])
+
+        return ugly_number[idx]
+```
+
+## 322. Coin Change
+You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+Example 1:
+coins = [1, 2, 5], amount = 11
+return 3 (11 = 5 + 5 + 1)
+
+Example 2:
+coins = [2], amount = 3
+return -1.
+
+Note:
+You may assume that you have an infinite number of each kind of coin.
+
+
+```
+class Solution(object):
+    def coinChange(self, coins, amount):
+        """
+        :type coins: List[int]
+        :type amount: int
+        :rtype: int
+        """
+        if amount == 0:
+            return 0
+        # We use dynamic programming
+        LARGE_NUMBER = 1e10
+        num_coins = [LARGE_NUMBER]
+        for i in range(1,amount+1):
+            if i in coins:
+                num_coins.append(1)
+            else:
+                min_coins = 1 + min([num_coins[max(0,i-j)] for j in coins])
+                num_coins.append(min_coins)
+
+        if num_coins[-1] >= LARGE_NUMBER:
+            return -1
+        else:
+            return num_coins[-1]
+```
+
+## 344. Reverse String
+Write a function that takes a string as input and returns the string reversed.
+
+Example:
+Given s = "hello", return "olleh".
+
+
+```
+class Solution(object):
+    def reverseString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        return s[::-1]
+
+```
+
+## 390. Elimination Game
+There is a list of sorted integers from 1 to n. Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.
+
+Repeat the previous step again, but this time from right to left, remove the right most number and every other number from the remaining numbers.
+
+We keep repeating the steps again, alternating left to right and right to left, until a single number remains.
+
+Find the last number that remains starting with a list of length n.
+
+Example:
+```
+Input:
+n = 9,
+1 2 3 4 5 6 7 8 9
+2 4 6 8
+2 6
+6
+
+Output:
+6
+```
+
+
+```
+class Solution(object):
+    def lastRemaining(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n == 1:
+            return 1
+        n = range(2,n+1,2)
+        while len(n) > 1:
+            n = n[::-1]            
+            n = n[1::2]
+            if len(n) == 1:
+                return n[0]
+
+        return n[0]
+```
+
+### 404. Sum of Left Leaves
+Find the sum of all left leaves in a given binary tree.
+```
+Example:
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+```
+There are two left leaves in the binary tree, with values 9 and 15 respectively. Return 24.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def sumOfLeftLeaves(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if root == None:
+            return 0
+        solution = 0
+        queue = [root]
+        while queue != []:
+            tmp = queue[0]
+            if tmp.left != None:
+                queue.append(tmp.left)
+                if tmp.left.left == None and tmp.left.right == None:
+                    solution += tmp.left.val
+            if tmp.right != None:
+                queue.append(tmp.right)
+            queue = queue[1:]
+
+        return solution
+```
+
+### 417. Pacific Atlantic Water Flow
+Given an m x n matrix of non-negative integers representing the height of each unit cell in a continent, the "Pacific ocean" touches the left and top edges of the matrix and the "Atlantic ocean" touches the right and bottom edges.
+
+Water can only flow in four directions (up, down, left, or right) from a cell to another one with height equal or lower.
+
+Find the list of grid coordinates where water can flow to both the Pacific and Atlantic ocean.
+
+Note:
+The order of returned grid coordinates does not matter.
+Both m and n are less than 150.
+Example:
+
+Given the following 5x5 matrix:
+```
+  Pacific ~   ~   ~   ~   ~
+       ~  1   2   2   3  (5) *
+       ~  3   2   3  (4) (4) *
+       ~  2   4  (5)  3   1  *
+       ~ (6) (7)  1   4   5  *
+       ~ (5)  1   1   2   4  *
+          *   *   *   *   * Atlantic
+```
+Return:
+
+[[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]] (positions with parentheses in above matrix).
+
+
+```
+class Solution(object):
+    def pacificAtlantic(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        if matrix == [[]] or matrix == []:
+            return []
+        m = len(matrix)
+        n = len(matrix[0])
+        print m, n
+
+        # PACIFIC
+        pacific = [[0 for _ in range(n)] for _ in range(m)]
+        for i in range(m):
+            pacific[i][0] = 1
+        for j in range(n):
+            pacific[0][j] = 1
+        for i in range(m):
+            pacific = self.fill(matrix,i,0,pacific)
+        for j in range(n):
+            pacific = self.fill(matrix,0,j,pacific)
+
+        #ATLANTIC
+        atlantic = [[0 for _ in range(n)] for _ in range(m)]
+        for i in range(m):
+            atlantic[i][n-1] = 1
+        for j in range(n):
+            atlantic[m-1][j] = 1
+        for i in range(m):
+            atlantic = self.fill(matrix,i,n-1,atlantic)
+        for j in range(n):
+            atlantic = self.fill(matrix,m-1,j,atlantic)
+
+        solution = []
+        for i in range(m):
+            for j in range(n):
+                if pacific[i][j] == 1 and atlantic[i][j] == 1:
+                    solution += [[i,j]]
+        return solution
+
+    def fill(self,matrix,i,j,fill_matrix):
+        m = len(matrix)
+        n = len(matrix[0])
+
+        diffs = [(0,1),(0,-1),(1,0),(-1,0)]
+        for diff in diffs:
+            if 0<= i+diff[0] < m and 0 <= j+diff[1] < n:
+                if fill_matrix[i+diff[0]][j+diff[1]] == 0:
+                    if matrix[i+diff[0]][j+diff[1]] >= matrix[i][j]:
+                        fill_matrix[i+diff[0]][j+diff[1]] = 1
+                        fill_matrix = self.fill(matrix,i+diff[0],j+diff[1],fill_matrix)
+        return fill_matrix
+```
+
+### 434. Number of Segments in a String
+Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.
+
+Please note that the string does not contain any non-printable characters.
+
+Example:
+
+Input: "Hello, my name is John"
+Output: 5
+
+
+```
+class Solution(object):
+    def countSegments(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        return len(s.split())
+```
+
+## 463. Island Perimeter
+You are given a map in form of a two-dimensional integer grid where 1 represents land and 0 represents water. Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells). The island doesn't have "lakes" (water inside that isn't connected to the water around the island). One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100. Determine the perimeter of the island.
+
+Example:
+```    
+ [[0,1,0,0],
+ [1,1,1,0],
+ [0,1,0,0],
+ [1,1,0,0]]
+```    
+
+Answer: 16
+
+
+```
+class Solution(object):
+    def islandPerimeter(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        solution = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                solution += 4-self.find_num_connections(i,j,grid)
+
+        return solution
+
+    def find_num_connections(self,i,j,grid):
+        if grid[i][j] == 1:
+            edges = 0
+            if 0<=i-1<len(grid):
+                edges += grid[i-1][j] == 1
+            if 0<=i+1<len(grid):
+                edges += grid[i+1][j] == 1
+            if 0<=j-1<len(grid[0]):
+                edges += grid[i][j-1] == 1
+            if 0<=j+1<len(grid[0]):
+                edges += grid[i][j+1] == 1
+            return edges
+        else:
+            return 4
+```
+
+## 464. Can I Win
+In the "100 game," two players take turns adding, to a running total, any integer from 1..10. The player who first causes the running total to reach or exceed 100 wins.
+
+What if we change the game so that players cannot re-use integers?
+
+For example, two players might take turns drawing from a common pool of numbers of 1..15 without replacement until they reach a total >= 100.
+
+Given an integer maxChoosableInteger and another integer desiredTotal, determine if the first player to move can force a win, assuming both players play optimally.
+
+You can always assume that maxChoosableInteger will not be larger than 20 and desiredTotal will not be larger than 300.
+
+Example
+
+Input:
+maxChoosableInteger = 10
+desiredTotal = 11
+
+Output:
+false
+
+Explanation:
+No matter which integer the first player choose, the first player will lose.
+The first player can choose an integer from 1 up to 10.
+If the first player choose 1, the second player can only choose integers from 2 up to 10.
+The second player will win by choosing 10 and get a total = 11, which is >= desiredTotal.
+Same with other integers chosen by the first player, the second player will always win.
+
+
+```
+class Solution(object):
+    def canIWin(self, maxChoosableInteger, desiredTotal):
+        """
+        :type maxChoosableInteger: int
+        :type desiredTotal: int
+        :rtype: bool
+        """
+        return self.canFirstWin(range(1,maxChoosableInteger+1),desiredTotal,{})
+
+    def canFirstWin(self,integerList,desiredTotal,dictionary):
+        if (integerList,desiredTotal) in dictionary.keys():
+            return
+        else:
+            dictionary[tuple(integerList+[desiredTotal])] = 0
+
+        if desiredTotal == 0:
+            return True
+        if desiredTotal < 0:
+            return False
+        elif desiredTotal in integerList:
+            return True
+        else:
+            for idx in range(len(integerList)):
+                secondWins = self.canFirstWin(integerList[:idx]+integerList[idx+1:], desiredTotal-integerList[idx],dictionary)
+                # winnable denotes if second guy can win with any integer picked by first guy
+                if secondWins == False:
+                    return True
+
+        return False
+```
+
+## 485. Max Consecutive Ones
+Given a binary array, find the maximum number of consecutive 1s in this array.
+
+Example 1:
+Input: [1,1,0,1,1,1]
+Output: 3
+Explanation: The first two digits or the last three digits are consecutive 1s.
+    The maximum number of consecutive 1s is 3.
+
+
+```
+class Solution(object):
+    def findMaxConsecutiveOnes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        num_consec_ones = 0
+        count = 0
+
+        for idx in range(len(nums)):
+            if nums[idx] == 1:
+                count += 1    
+            else:
+                num_consec_ones = max(count,num_consec_ones)
+                count = 0        
+
+        return max(count,num_consec_ones)
+```
+
+## 486. Predict the Winner
+Given an array of scores that are non-negative integers. Player 1 picks one of the numbers from either end of the array followed by the player 2 and then player 1 and so on. Each time a player picks a number, that number will not be available for the next player. This continues until all the scores have been chosen. The player with the maximum score wins.
+
+Given an array of scores, predict whether player 1 is the winner. You can assume each player plays to maximize his score.
+
+Example 1:
+
+Input: [1, 5, 2]
+
+Output: False
+
+Explanation: Initially, player 1 can choose between 1 and 2.
+If he chooses 2 (or 1), then player 2 can choose from 1 (or 2) and 5. If player 2 chooses 5, then player 1 will be left with 1 (or 2).
+So, final score of player 1 is 1 + 2 = 3, and player 2 is 5.
+Hence, player 1 will never be the winner and you need to return False.
+
+Example 2:
+
+Input: [1, 5, 233, 7]
+
+Output: True
+
+Explanation: Player 1 first chooses 1. Then player 2 have to choose between 5 and 7. No matter which number player 2 choose, player 1 can choose 233.
+Finally, player 1 has more score (234) than player 2 (12), so you need to return True representing player1 can win.
+Note:
+1 <= length of the array <= 20.
+Any scores in the given array are non-negative integers and will not exceed 10,000,000.
+If the scores of both players are equal, then player 1 is still the winner.
+
+
+```
+class Solution(object):
+    def PredictTheWinner(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        L = len(nums)
+        if L == 1:
+            return True
+
+        solution = [[0 for _ in range(L)] for _ in range(L)]
+
+        for i in range(L):
+            solution[i][i] = (nums[i],0)
+
+        for diff in range(1,L):
+            for i in range(L-diff):
+                j = i + diff
+
+                if nums[i] + solution[i+1][j][1] >= nums[j] + solution[i][j-1][1]:
+                    solution[i][j] = (nums[i] + solution[i+1][j][1], solution[i+1][j][0])
+                else:
+                    solution[i][j] = (nums[j] + solution[i][j-1][1], solution[i][j-1][0])
+
+        return solution[i][j][0] >= solution [i][j][1]
+```
+
+## 513. Find Bottom Left Tree Value
+Given a binary tree, find the leftmost value in the last row of the tree.
+
+Example 1:
+Input:
+```
+    2
+   / \
+  1   3
+```
+Output:
+1
+
+Example 2:
+Input:
+```
+        1
+       / \
+      2   3
+     /   / \
+    4   5   6
+       /
+      7
+```
+Output:
+7
+
+Note: You may assume the tree (i.e., the given root node) is not NULL.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findBottomLeftValue(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        queue = [root]
+        while queue != []:
+            tmp = []
+            for q in queue:
+                if q.left != None:
+                    tmp.append(q.left)
+                if q.right != None:
+                    tmp.append(q.right)
+
+            if tmp == []:
+                return queue[0].val
+
+            queue = tmp
+```
+
+### 518. Coin Change 2
+You are given coins of different denominations and a total amount of money. Write a function to compute the number of combinations that make up that amount. You may assume that you have infinite number of each kind of coin.
+
+Note: You can assume that
+
+0 <= amount <= 5000
+1 <= coin <= 5000
+the number of coins is less than 500
+the answer is guaranteed to fit into signed 32-bit integer
+Example 1:
+```
+Input: amount = 5, coins = [1, 2, 5]
+Output: 4
+Explanation: there are four ways to make up the amount:
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+```
+Example 2:
+```
+Input: amount = 3, coins = [2]
+Output: 0
+Explanation: the amount of 3 cannot be made up just with coins of 2.
+```
+Example 3:
+```
+Input: amount = 10, coins = [10]
+Output: 1
+```
+
+
+```
+class Solution(object):
+    def change(self, amount, coins):
+        """
+        :type amount: int
+        :type coins: List[int]
+        :rtype: int
+        """
+        num_ways = [0 for _ in range(amount+1)]
+        num_ways[0] = 1
+        for coin in coins:
+            for idx in range(coin,len(num_ways)):
+                num_ways[idx] += num_ways[idx-coin]
+
+        return num_ways[-1]
+```
+
+## 542. 01 Matrix
+Given a matrix consists of 0 and 1, find the distance of the nearest 0 for each cell.
+
+The distance between two adjacent cells is 1.
+Example 1:
+Input:
+```
+0 0 0
+0 1 0
+0 0 0
+```
+Output:
+```
+0 0 0
+0 1 0
+0 0 0
+```
+Example 2:
+Input:
+```
+0 0 0
+0 1 0
+1 1 1
+```
+Output:
+```
+0 0 0
+0 1 0
+1 2 1
+```
+Note:
+The number of elements of the given matrix will not exceed 10,000.
+There are at least one 0 in the given matrix.
+The cells are adjacent in only four directions: up, down, left and right.
+
+
+```
+class Solution(object):
+    def updateMatrix(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        m = len(matrix)
+        n = len(matrix[0])
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == 1:
+                    matrix[i][j] = self.returnDist(i,j,matrix)
+
+        return matrix
+
+    # Use BFS
+    def returnDist(self,i,j,matrix):
+        m = len(matrix)
+        n = len(matrix[0])
+        dist = 0
+        queue = [(i,j)]
+        nodes_visited = {}
+        nodes_visited[(i,j)] = 0
+        while queue != []:
+            temp = queue
+            queue = []
+            dist += 1            
+            for node in temp:
+                for (diff1,diff2) in [(1,0),(-1,0),(0,1),(0,-1)]:
+                    if not (0<=node[0]+diff1<m and 0<=node[1]+diff2<n):
+                        pass
+                    else:
+                        if (node[0]+diff1,node[1]+diff2) in nodes_visited:
+                            pass
+                        else:
+                            if matrix[node[0]+diff1][node[1]+diff2] == 0:
+                                return dist
+                            nodes_visited[(node[0]+diff1,node[1]+diff2)] = 0
+                            queue.append((node[0]+diff1,node[1]+diff2))
+        return None
+```
+
+## 543. Diameter of Binary Tree
+Given a binary tree, you need to compute the length of the diameter of the tree. The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+Example:
+Given a binary tree
+```   
+          1
+         / \
+        2   3
+       / \     
+      4   5    
+```
+
+Return 3, which is the length of the path [4,2,1,3] or [5,2,1,3].
+
+Note: The length of path between two nodes is represented by the number of edges between them.
+
+
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def diameterOfBinaryTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if root == None:
+            return 0
+
+        max_depth = {}
+        diameter = {}
+        max_depth[None] = -1
+        diameter[None] = -1
+        max_depth, diameter = self.POT(root,max_depth,diameter)
+        return max(diameter.values())
+
+    def POT(self,node, max_depth, diameter): # Post-order traversal recording maxdepth and diameter as we traverse
+
+        if node == None:
+            pass
+        else:
+            self.POT(node.left, max_depth, diameter)
+            self.POT(node.right, max_depth, diameter)
+            max_depth[node] = max(max_depth[node.left], max_depth[node.right]) + 1
+            diameter[node] = max_depth[node.left] + max_depth[node.right] + 2
+
+        return max_depth, diameter
+```
+
+## 554. Brick Wall
+There is a brick wall in front of you. The wall is rectangular and has several rows of bricks. The bricks have the same height but different width. You want to draw a vertical line from the top to the bottom and cross the least bricks.
+
+The brick wall is represented by a list of rows. Each row is a list of integers representing the width of each brick in this row from left to right.
+
+If your line go through the edge of a brick, then the brick is not considered as crossed. You need to find out how to draw the line to cross the least bricks and return the number of crossed bricks.
+
+You cannot draw a line just along one of the two vertical edges of the wall, in which case the line will obviously cross no bricks.
+
+Example:
+Input:
+```
+[[1,2,2,1],
+ [3,1,2],
+ [1,3,2],
+ [2,4],
+ [3,1,2],
+ [1,3,1,1]]
+```
+Output: 2
+Explanation:
+![](https://leetcode.com/static/images/problemset/brick_wall.png)
+
+Note:
+The width sum of bricks in different rows are the same and won't exceed INT_MAX.
+The number of bricks in each row is in range [1,10,000]. The height of wall is in range [1,10,000]. Total number of bricks of the wall won't exceed 20,000.
+
+
+
+```
+class Solution(object):
+    def leastBricks(self, wall):
+        """
+        :type wall: List[List[int]]
+        :rtype: int
+        """
+        num_cuts = {} # dictionary to keep track of number of cuts
+
+        if len(wall) == 1:
+            if len(wall[0]) == 1:
+                return 1
+            else:
+                return 0
+
+        for line in wall:
+            x = 0
+            for j in line[:-1]:
+                x += j
+                if x in num_cuts.keys():
+                    num_cuts[x] += 1
+                else:
+                    num_cuts[x] = 1
+
+        return len(wall) - max(num_cuts.values()+[0])
+```
+
+### 563. Binary Tree Tilt
+Given a binary tree, return the tilt of the whole tree.
+
+The tilt of a tree node is defined as the absolute difference between the sum of all left subtree node values and the sum of all right subtree node values. Null node has tilt 0.
+
+The tilt of the whole tree is defined as the sum of all nodes' tilt.
+
+Example:
+Input:
+```
+         1
+       /   \
+      2     3
+```
+Output: 1
+Explanation:
+Tilt of node 2 : 0
+Tilt of node 3 : 0
+Tilt of node 1 : |2-3| = 1
+Tilt of binary tree : 0 + 0 + 1 = 1
+Note:
+
+The sum of node values in any subtree won't exceed the range of 32-bit integer.
+All the tilt values won't exceed the range of 32-bit integer.
+
+
+```
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findTilt(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        tilts = {}
+        tilts['none'] = 0
+        sums = {}
+        sums['none'] = 0
+        tilts, sums = self.postOrder(root,tilts,sums)
+        return sum(tilts.values())
+
+    def postOrder(self,node,tilts,sums):
+        if node == None:
+            return tilts, sums            
+        tilts,sums = self.postOrder(node.left,tilts,sums)
+        tilts,sums = self.postOrder(node.right,tilts,sums)
+        tilts,sums = self.process(node,tilts,sums)
+        return tilts, sums
+
+    def process(self,node,tilts,sums):
+        if node.left == None and node.right == None:
+            tilts[node] = 0
+            sums[node] = node.val
+        elif node.left == None:
+            sums[node] = node.val + sums[node.right]
+            tilts[node] = abs(-sums[node.right])
+        elif node.right == None:
+            sums[node] = node.val + sums[node.left]
+            tilts[node] = abs(sums[node.left])
+        else:
+            sums[node] = node.val + sums[node.left] + sums[node.right]
+            tilts[node] = abs(sums[node.left] - sums[node.right])
+
+        return tilts,sums
+```
+
+### 605. Can Place Flowers
+Suppose you have a long flowerbed in which some of the plots are planted and some are not. However, flowers cannot be planted in adjacent plots - they would compete for water and both would die.
+
+Given a flowerbed (represented as an array containing 0 and 1, where 0 means empty and 1 means not empty), and a number n, return if n new flowers can be planted in it without violating the no-adjacent-flowers rule.
+
+Example 1:
+
+Input: flowerbed = [1,0,0,0,1], n = 1
+
+Output: True
+
+Example 2:
+
+Input: flowerbed = [1,0,0,0,1], n = 2
+
+Output: False
+
+Note:
+
+The input array won't violate no-adjacent-flowers rule.
+The input array size is in the range of [1, 20000].
+n is a non-negative integer which won't exceed the input array size.
+
+
+```
+class Solution(object):
+    def canPlaceFlowers(self, flowerbed, n):
+        """
+        :type flowerbed: List[int]
+        :type n: int
+        :rtype: bool
+        """
+        if n == 0:
+            return True
+        flowerbed = [0] + flowerbed + [0]
+        for i in range(1,len(flowerbed)-1):
+            if flowerbed[i-1] == 0 and flowerbed[i] == 0 and flowerbed[i+1] == 0:
+                flowerbed[i] = 1
+                n -= 1
+            if n == 0:
+                return True
+        return False
+```
+
+## 628. Maximum Product of Three Numbers
+Given an integer array, find three numbers whose product is maximum and output the maximum product.
+
+Example 1:
+Input: [1,2,3]
+Output: 6
+
+Example 2:
+Input: [1,2,3,4]
+Output: 24
+
+
+```
+class Solution(object):
+    def maximumProduct(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        # Two largest negative numbers with highest positive or three largest positive numbers.
+
+        nums.sort()
+
+        possibility1 = nums[0]*nums[1]*nums[-1]
+        possibility2 = nums[-1]*nums[-2]*nums[-3]
+
+        return max(possibility1, possibility2)
+```
+
+### 662.  Maximum Width of Binary Tree
+Given a binary tree, write a function to get the maximum width of the given tree. The width of a tree is the maximum width among all levels. The binary tree has the same structure as a full binary tree, but some nodes are null.
+
+The width of one level is defined as the length between the end-nodes (the leftmost and right most non-null nodes in the level, where the null nodes between the end-nodes are also counted into the length calculation.
+
+Example 1:
+Input:
+```
+           1
+         /   \
+        3     2
+       / \     \  
+      5   3     9
+```
+Output: 4
+Explanation: The maximum width existing in the third level with the length 4 (5,3,null,9).
+Example 2:
+Input:
+```
+          1
+         /  
+        3    
+       / \       
+      5   3     
+```
+Output: 2
+Explanation: The maximum width existing in the third level with the length 2 (5,3).
+Example 3:
+Input:
+```
+          1
+         / \
+        3   2
+       /        
+      5      
+```
+Output: 2
+Explanation: The maximum width existing in the second level with the length 2 (3,2).
+Example 4:
+Input:
+```
+          1
+         / \
+        3   2
+       /     \  
+      5       9
+     /         \
+    6           7
+```
+Output: 8
+Explanation:The maximum width existing in the fourth level with the length 8 (6,null,null,null,null,null,null,7).
+
+Note: Answer will in the range of 32-bit signed integer.
+
+
+```
+
+```
+
+### 677. Map Sum Pairs
+Implement a MapSum class with insert, and sum methods.
+
+For the method insert, you'll be given a pair of (string, integer). The string represents the key and the integer represents the value. If the key already existed, then the original key-value pair will be overridden to the new one.
+
+For the method sum, you'll be given a string representing the prefix, and you need to return the sum of all the pairs' value whose key starts with the prefix.
+```
+Example 1:
+Input: insert("apple", 3), Output: Null
+Input: sum("ap"), Output: 3
+Input: insert("app", 2), Output: Null
+Input: sum("ap"), Output: 5
+```
+
+
+```
+class MapSum(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root = TrieNode(0)
+        self.keys = {}
+
+    def insert(self, key, val):
+        """
+        :type key: str
+        :type val: int
+        :rtype: void
+        """
+        if key in self.keys:
+            add = 0
+        else:
+            self.keys[key] = 0
+            add = 1
+
+        currentNode = self.root
+        while key != '':
+            if currentNode.children == {} or key[0] not in currentNode.children:
+                newNode = TrieNode(val)
+                currentNode.children[key[0]] = newNode
+                currentNode = newNode
+            else:
+                currentNode = currentNode.children[key[0]]
+                if add:
+                    currentNode.val += val
+                else:
+                    currentNode.val = val
+            key = key[1:]
+
+    def sum(self, prefix):
+        """        
+        :type prefix: str
+        :rtype: int
+        """
+        currentNode = self.root
+        while prefix != '':
+            if prefix[0] not in currentNode.children:
+                return 0
+            else:
+                currentNode = currentNode.children[prefix[0]]
+            prefix = prefix[1:]
+        return currentNode.val
+
+class TrieNode(object):
+    def __init__(self,val):
+        self.children = {}
+        self.val = val       
+
+# Your MapSum object will be instantiated and called as such:
+# obj = MapSum()
+# obj.insert(key,val)
+# param_2 = obj.sum(prefix)
+```
+
+### 695. Max Area of Island
+Given a non-empty 2D array grid of 0's and 1's, an island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.
+
+Find the maximum area of an island in the given 2D array. (If there is no island, the maximum area is 0.)
+```
+Example 1:
+[[0,0,1,0,0,0,0,1,0,0,0,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,1,1,0,1,0,0,0,0,0,0,0,0],
+ [0,1,0,0,1,1,0,0,1,0,1,0,0],
+ [0,1,0,0,1,1,0,0,1,1,1,0,0],
+ [0,0,0,0,0,0,0,0,0,0,1,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,0,0,0,0,0,0,1,1,0,0,0,0]]
+Given the above grid, return 6. Note the answer is not 11, because the island must be connected 4-directionally.
+```
+```
+Example 2:
+[[0,0,0,0,0,0,0,0]]
+Given the above grid, return 0.
+```
+Note: The length of each dimension in the given grid does not exceed 50.
+
+
+```
+class Solution(object):
+    def maxAreaOfIsland(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        m = len(grid)
+        n = len(grid[0])
+        max_area = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    grid[i][j] = 0
+                    area = 1
+                    grid, area = self.traverse(grid,area,i,j)
+                    max_area = max(max_area, area)
+        return max_area
+
+    def traverse(self,grid,area,i,j):
+        m = len(grid)
+        n = len(grid[0])        
+        deltas = [(0,1),(1,0),(-1,0),(0,-1)]
+        for delta in deltas:
+            if 0 <= i + delta[0] < m and 0 <=j + delta[1] < n:
+                if grid[i + delta[0]][j+delta[1]] == 1:
+                    grid[i+delta[0]][j+delta[1]] = 0
+                    area += 1
+                    grid, area = self.traverse(grid,area,i+delta[0],j+delta[1])
+
+        return grid, area
+```
+
+### 728. Self Dividing Numbers
+A self-dividing number is a number that is divisible by every digit it contains.
+
+For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.
+
+Also, a self-dividing number is not allowed to contain the digit zero.
+
+Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.
+```
+Example 1:
+Input:
+left = 1, right = 22
+Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]
+```
+Note:
+The boundaries of each input argument are 1 <= left <= right <= 10000.
+
+
+```
+class Solution(object):
+    def selfDividingNumbers(self, left, right):
+        """
+        :type left: int
+        :type right: int
+        :rtype: List[int]
+        """
+        return [n for n in range(left,right+1) if self.self_dividing(n)]
+
+    def self_dividing(self,num):        
+        return False if '0' in str(num) else all([num % int(s) == 0 for s in str(num)])
+```
+
+### 729. My Calendar I
+Implement a MyCalendar class to store your events. A new event can be added if adding the event will not cause a double booking.
+
+Your class will have the method, book(int start, int end). Formally, this represents a booking on the half open interval [start, end), the range of real numbers x such that start <= x < end.
+
+A double booking happens when two events have some non-empty intersection (ie., there is some time that is common to both events.)
+
+For each call to the method MyCalendar.book, return true if the event can be added to the calendar successfully without causing a double booking. Otherwise, return false and do not add the event to the calendar.
+
+Your class will be called like this: MyCalendar cal = new MyCalendar(); MyCalendar.book(start, end)
+```
+Example 1:
+MyCalendar();
+MyCalendar.book(10, 20); // returns true
+MyCalendar.book(15, 25); // returns false
+MyCalendar.book(20, 30); // returns true
+```
+Explanation:
+The first event can be booked.  The second can't because time 15 is already booked by another event.
+The third event can be booked, as the first event takes every time less than 20, but not including 20.
+Note:
+
+The number of calls to MyCalendar.book per test case will be at most 1000.
+In calls to MyCalendar.book(start, end), start and end are integers in the range [0, 10^9].
+
+
+```
+class MyCalendar(object):
+
+    def __init__(self):
+        self.root = None
+
+    def book(self, start, end):
+        """
+        :type start: int
+        :type end: int
+        :rtype: bool
+        """
+        if self.root == None:
+            self.root = Node(start,end)
+            return True
+        else:
+            newNode = Node(start,end)
+            return self.root.insert(newNode)
+
+class Node(object):
+
+    def __init__(self,start,final):
+        self.start = start
+        self.final = final
+        self.left = None
+        self.right = None
+
+    def insert(self,newNode):
+        if newNode.start >= self.final:
+            if self.right == None:
+                self.right = newNode
+                return True
+            else:
+                return self.right.insert(newNode)
+        elif newNode.final <= self.start:
+            if self.left == None:
+                self.left = newNode
+                return True
+            else:
+                return self.left.insert(newNode)
+        else:
+            return False
+
+# Your MyCalendar object will be instantiated and called as such:
+# obj = MyCalendar()
+# param_1 = obj.book(start,end)
+```
+
+### 733. Flood Fill
+An image is represented by a 2-D array of integers, each integer representing the pixel value of the image (from 0 to 65535).
+
+Given a coordinate (sr, sc) representing the starting pixel (row and column) of the flood fill, and a pixel value newColor, "flood fill" the image.
+
+To perform a "flood fill", consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color as the starting pixel), and so on. Replace the color of all of the aforementioned pixels with the newColor.
+
+At the end, return the modified image.
+```
+Example 1:
+Input:
+image = [[1,1,1],[1,1,0],[1,0,1]]
+sr = 1, sc = 1, newColor = 2
+Output: [[2,2,2],[2,2,0],[2,0,1]]
+```
+Explanation:
+From the center of the image (with position (sr, sc) = (1, 1)), all pixels connected
+by a path of the same color as the starting pixel are colored with the new color.
+Note the bottom corner is not colored 2, because it is not 4-directionally connected
+to the starting pixel.
+Note:
+
+The length of image and image[0] will be in the range [1, 50].
+The given starting pixel will satisfy 0 <= sr < image.length and 0 <= sc < image[0].length.
+The value of each color in image[i][j] and newColor will be an integer in [0, 65535].
+
+
+```
+class Solution(object):
+    def floodFill(self, image, sr, sc, newColor):
+        """
+        :type image: List[List[int]]
+        :type sr: int
+        :type sc: int
+        :type newColor: int
+        :rtype: List[List[int]]
+        """
+        oldColor = image[sr][sc]
+        if oldColor == newColor:
+            return image
+        else:
+             return self.fill(image,sr,sc,oldColor,newColor)
+
+    def fill(self,image,sr,sc,oldColor,newColor):
+        if image[sr][sc] != oldColor:
+            return image
+
+        image[sr][sc] = newColor
+        m = len(image)
+        n = len(image[0])
+        deltas = [(0,1),(1,0),(-1,0),(0,-1)]
+        for delta in deltas:
+            if 0 <= sr+delta[0] < m and 0 <= sc+delta[1] < n:
+                image = self.fill(image,sr+delta[0],sc+delta[1],oldColor,newColor)
+
+        return image
+```
+
+### 735. Asteroid Collision
+We are given an array asteroids of integers representing asteroids in a row.
+
+For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
+
+Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
+```
+Example 1:
+Input:
+asteroids = [5, 10, -5]
+Output: [5, 10]
+```
+Explanation:
+The 10 and -5 collide resulting in 10.  The 5 and 10 never collide.
+```
+Example 2:
+Input:
+asteroids = [8, -8]
+Output: []
+```
+Explanation:
+The 8 and -8 collide exploding each other.
+```
+Example 3:
+Input:
+asteroids = [10, 2, -5]
+Output: [10]
+```
+Explanation:
+The 2 and -5 collide resulting in -5.  The 10 and -5 collide resulting in 10.
+```
+Example 4:
+Input:
+asteroids = [-2, -1, 1, 2]
+Output: [-2, -1, 1, 2]
+```
+Explanation:
+The -2 and -1 are moving left, while the 1 and 2 are moving right.
+Asteroids moving the same direction never meet, so no asteroids will meet each other.
+Note:
+
+The length of asteroids will be at most 10000.
+Each asteroid will be a non-zero integer in the range [-1000, 1000]..
+
+
+
+```
+class Solution(object):
+    def asteroidCollision(self, asteroids):
+        """
+        :type asteroids: List[int]
+        :rtype: List[int]
+        """
+        if asteroids == []:
+            return asteroids
+
+        solution = []
+        # Use stack
+        L = len(asteroids)
+        for i in range(L):
+            solution = self.asteroid_traverse(solution,asteroids[i])
+
+        return solution
+
+    def asteroid_traverse(self,stack,asteroid):
+        if stack and stack[-1] > 0 and asteroid < 0:
+            if stack[-1] == -asteroid:
+                return stack[:-1]
+            elif stack[-1] > -asteroid:
+                return stack
+            else:
+                return self.asteroid_traverse(stack[:-1],asteroid)
+        else:
+            stack += [asteroid]
+            return stack
+```
+
+### 739. Daily Temperatures
+Given a list of daily temperatures, produce a list that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.
+
+For example, given the list temperatures = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].
+
+Note: The length of temperatures will be in the range [1, 30000]. Each temperature will be an integer in the range [30, 100].
+
+
+```
+class Solution(object):
+    def dailyTemperatures(self, temperatures):
+        """
+        :type temperatures: List[int]
+        :rtype: List[int]
+        """
+        # Use stack
+        stack = []
+
+        L = len(temperatures)
+        solution = [0 for _ in range(L)]
+        stack.append((temperatures[0],0))
+
+        for idx in range(1,L):
+            if temperatures[idx] <= stack[-1][0]:
+                stack.append((temperatures[idx],idx))
+            else:
+                while stack != [] and temperatures[idx] > stack[-1][0]:
+                    solution[stack[-1][1]] = idx - stack[-1][1]
+                    stack = stack[:-1]
+                stack.append((temperatures[idx],idx))
+        return solution
+```
+
+### 752. Open the Lock
+You have a lock in front of you with 4 circular wheels. Each wheel has 10 slots: '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'. The wheels can rotate freely and wrap around: for example we can turn '9' to be '0', or '0' to be '9'. Each move consists of turning one wheel one slot.
+
+The lock initially starts at '0000', a string representing the state of the 4 wheels.
+
+You are given a list of deadends dead ends, meaning if the lock displays any of these codes, the wheels of the lock will stop turning and you will be unable to open it.
+
+Given a target representing the value of the wheels that will unlock the lock, return the minimum total number of turns required to open the lock, or -1 if it is impossible.
+```
+Example 1:
+Input: deadends = ["0201","0101","0102","1212","2002"], target = "0202"
+Output: 6
+Explanation:
+A sequence of valid moves would be "0000" -> "1000" -> "1100" -> "1200" -> "1201" -> "1202" -> "0202".
+Note that a sequence like "0000" -> "0001" -> "0002" -> "0102" -> "0202" would be invalid,
+because the wheels of the lock become stuck after the display becomes the dead end "0102".
+```
+```
+Example 2:
+Input: deadends = ["8888"], target = "0009"
+Output: 1
+Explanation:
+We can turn the last wheel in reverse to move from "0000" -> "0009".
+```
+```
+Example 3:
+Input: deadends = ["8887","8889","8878","8898","8788","8988","7888","9888"], target = "8888"
+Output: -1
+Explanation:
+We can't reach the target without getting stuck.
+```
+```
+Example 4:
+Input: deadends = ["0000"], target = "8888"
+Output: -1
+```
+Note:
+The length of deadends will be in the range [1, 500].
+target will not be in the list deadends.
+Every string in deadends and the string target will be a string of 4 digits from the 10,000 possibilities '0000' to '9999'.
+
+
+
+```
+class Solution(object):
+    def openLock(self, deadends, target):
+        """
+        :type deadends: List[str]
+        :type target: str
+        :rtype: int
+        """
+        # Use BFS
+        queue = ['0000']
+        distance = -1
+        visited = {}
+        for d in deadends:
+            visited[d] = 1
+
+        while queue != []:
+            distance += 1
+            tmp = queue
+            queue = []
+            for q in tmp:
+                if q == target:
+                    return distance
+                if q not in visited:
+                    queue += self.neighbors(q)
+                    visited[q] = 1
+        return -1
+
+    def neighbors(self,position):
+        neighbors = []
+        for idx in range(4):
+            neighbors.append(position[:idx]+str((int(position[idx])+1)%10)+position[idx+1:])
+            neighbors.append(position[:idx]+str((int(position[idx])-1)%10)+position[idx+1:])
+        return neighbors
+```
+
+### 766. Toeplitz Matrix
+A matrix is Toeplitz if every diagonal from top-left to bottom-right has the same element.
+
+Now given an M x N matrix, return True if and only if the matrix is Toeplitz.
+
+```
+Example 1:
+
+Input: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]
+Output: True
+Explanation:
+1234
+5123
+9512
+```
+In the above grid, the diagonals are "[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]", and in each diagonal all elements are the same, so the answer is True.
+```
+Example 2:
+
+Input: matrix = [[1,2],[2,2]]
+Output: False
+Explanation:
+The diagonal "[1, 2]" has different elements.
+```
+Note:
+
+matrix will be a 2D array of integers.
+matrix will have a number of rows and columns in range [1, 20].
+matrix[i][j] will be integers in range [0, 99].
+
+
+```
+class Solution(object):
+    def isToeplitzMatrix(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: bool
+        """
+        L = len(matrix)
+        for i in range(1,L):
+            if matrix[i-1][:-1] != matrix[i][1:]:
+                return False
+        return True
+```
+
+## 767. Reorganize String
+Given a string S, check if the letters can be rearranged so that two characters that are adjacent to each other are not the same.
+
+If possible, output any possible result.  If not possible, return the empty string.
+```
+Example 1:
+
+Input: S = "aab"
+Output: "aba"
+```
+```
+Example 2:
+
+Input: S = "aaab"
+Output: ""
+```
+
+
+```
+
+```
+
+
+```
+class Solution(object):
+    def reachNumber(self, target):
+        """
+        :type target: int
+        :rtype: int
+        """
+        queue = [0]
+        steps = 1
+
+        while 1:
+            tmp = queue
+            queue = []
+            for t in tmp:
+                if t+steps == target:
+                    return steps
+                queue.append(t+steps)
+                if t-steps == target:
+                    return steps
+                queue.append(t-steps)
+            steps += 1
+
+```
+
+
+```
+
+```
+
+
+```
+
+```
