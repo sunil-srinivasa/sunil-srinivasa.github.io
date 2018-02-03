@@ -1,18 +1,16 @@
 ---
 layout: post
 title: Leet Code
-author: "Sunil Srinivasa"
 ---
+
 ## 1. Two Sum
 Given an array of integers, return indices of the two numbers such that they add up to a specific target.
 You may assume that each input would have exactly one solution, and you may not use the same element twice.
 
-> Given nums = [2, 7, 11, 15], target = 9,
-Because nums[0] + nums[1] = 2 + 7 = 9,
+> Given nums = [2, 7, 11, 15], target = 9. Because nums[0] + nums[1] = 2 + 7 = 9,
 return [0, 1].
 
-
-```
+```python
 class Solution(object):
     def twoSum(self, nums, target):
         """
@@ -40,7 +38,7 @@ Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
 Output: 7 -> 0 -> 8
 
 
-```
+```python
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -94,7 +92,7 @@ Given "bbbbb", the answer is "b", with the length of 1.
 Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
 
 
-```
+```python
 class Solution(object):
     def lengthOfLongestSubstring(self, s):
         """
@@ -144,7 +142,7 @@ nums2 = [3, 4]
 The median is (2 + 3)/2 = 2.5
 
 
-```
+```python
 class Solution(object):
     def findMedianSortedArrays(self, nums1, nums2):
         """
@@ -195,7 +193,7 @@ Example1: x = 123, return 321
 Example2: x = -123, return -321
 
 
-```
+```python
 class Solution(object):
     def reverse(self, x):
         """
@@ -221,7 +219,7 @@ Given n non-negative integers a1, a2, ..., an, where each represents a point at 
 Note: You may not slant the container and n is at least 2.
 
 
-```
+```python
 class Solution(object):
     def maxArea(self, height):
         """
@@ -251,7 +249,7 @@ Given a roman numeral, convert it to an integer.
 Input is guaranteed to be within the range from 1 to 3999.
 
 
-```
+```python
 class Solution:
     # @param {string} s
     # @return {integer}
@@ -289,7 +287,7 @@ class Solution:
 Write a function to find the longest common prefix string amongst an array of strings.
 
 
-```
+```python
 class Solution(object):
     def longestCommonPrefix(self, strs):
         """
@@ -335,7 +333,7 @@ A solution set is:
 ]
 
 
-```
+```python
 class Solution(object):
     def threeSum(self, nums):
         """
@@ -411,7 +409,7 @@ Given an array S of n integers, find three integers in S such that the sum is cl
     The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
 
 
-```
+```python
 class Solution(object):
     def threeSumClosest(self, nums, target):
         """
@@ -454,7 +452,7 @@ Given n will always be valid.
 Try to do this in one pass.
 
 
-```
+```python
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -501,14 +499,14 @@ The brackets must close in the correct order, "()" and "()[]{}" are all valid bu
 
 
 
-```
+```python
 class Solution(object):
     def isValid(self, s):
         """
         :type s: str
         :rtype: bool
         """
-        # Idea: use a stack. We can simply use a list in  as a proxy
+        # Idea: use a stack. We can simply use a list in python as a proxy
         if len(s) == 0:
             return True
 
@@ -547,7 +545,7 @@ class Solution(object):
 Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
 
 
-```
+```python
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -605,7 +603,7 @@ Given input array nums = [1,1,2],
 Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn't matter what you leave beyond the new length.
 
 
-```
+```python
 class Solution(object):
     def removeDuplicates(self, nums):
         """
@@ -642,7 +640,7 @@ Given input array nums = [3,2,2,3], val = 3
 Your function should return length = 2, with the first two elements of nums being 2.
 
 
-```
+```python
 class Solution(object):
     def removeElement(self, nums, val):
         """
@@ -686,7 +684,7 @@ For "(()", the longest valid parentheses substring is "()", which has length = 2
 Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
 
 
-```
+```python
 class Solution(object):
     def longestValidParentheses(self, s):
         """
@@ -727,7 +725,7 @@ You are given a target value to search. If found in the array return its index, 
 You may assume no duplicate exists in the array.
 
 
-```
+```python
 
 ```
 
@@ -743,7 +741,7 @@ Given [5, 7, 7, 8, 8, 10] and target value 8,
 return [3, 4].
 
 
-```
+```python
 
 ```
 
@@ -772,7 +770,7 @@ Input: 4
 Output: "1211"
 
 
-```
+```python
 class Solution(object):
     def countAndSay(self, n):
         """
@@ -822,7 +820,7 @@ A solution set is:
 ```
 
 
-```
+```python
 class Solution(object):
     def combinationSum(self, candidates, target):
         """
@@ -857,7 +855,7 @@ and [3,4,-1,1] return 2.
 Your algorithm should run in O(n) time and uses constant space.
 
 
-```
+```python
 class Solution(object):
     def firstMissingPositive(self, nums):
         """
@@ -894,7 +892,7 @@ Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
 ![](http://www.leetcode.com/wp-content/uploads/2012/08/rainwatertrap.png)
 
 
-```
+```python
 class Solution:
     # @param {integer[]} height
     # @return {integer}
@@ -941,7 +939,7 @@ For example,
 ```
 
 
-```
+```python
 class Solution(object):
     def permute(self, nums):
         """
@@ -977,7 +975,7 @@ Follow up:
 Could you do this in-place?
 
 
-```
+```python
 class Solution(object):
     def rotate(self, matrix):
         """
@@ -1020,7 +1018,7 @@ Return:
 Note: All inputs will be in lower-case.
 
 
-```
+```python
 class Solution(object):
     def groupAnagrams(self, strs):
         """
@@ -1068,7 +1066,7 @@ Given the following matrix:
 You should return [1,2,3,6,9,8,7,4,5].
 
 
-```
+```python
 class Solution(object):
     def spiralOrder(self, matrix):
         """
@@ -1141,7 +1139,7 @@ A = [2,3,1,1,4], return true.
 A = [3,2,1,0,4], return false.
 
 
-```
+```python
 class Solution(object):
     def canJump(self, nums):
         """
@@ -1170,7 +1168,7 @@ Given [1,3],[2,6],[8,10],[15,18],
 return [1,6],[8,10],[15,18].
 
 
-```
+```python
 # Definition for an interval.
 # class Interval(object):
 #     def __init__(self, s=0, e=0):
@@ -1220,7 +1218,7 @@ Given [1,2],[3,5],[6,7],[8,10],[12,16], insert and merge [4,9] in as [1,2],[3,10
 This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
 
 
-```
+```python
 # Definition for an interval.
 # class Interval(object):
 #     def __init__(self, s=0, e=0):
@@ -1277,7 +1275,7 @@ Given s = "Hello World",
 return 5.
 
 
-```
+```python
 class Solution(object):
     def lengthOfLastWord(self, s):
         """
@@ -1318,7 +1316,7 @@ You should return the following matrix:
 ```
 
 
-```
+```python
 class Solution(object):
     def generateMatrix(self, n):
         """
@@ -1400,7 +1398,7 @@ Given n and k, return the kth permutation sequence.
 Note: Given n will be between 1 and 9 inclusive.
 
 
-```
+```python
 class Solution(object):
     def getPermutation(self, n, k):
         """
@@ -1440,7 +1438,7 @@ How many possible unique paths are there?
 Note: m and n will be at most 100.
 
 
-```
+```python
 class Solution(object):
     def uniquePaths(self, m, n):
         """
@@ -1473,7 +1471,7 @@ The total number of unique paths is 2.
 Note: m and n will be at most 100.
 
 
-```
+```python
 class Solution(object):
     def uniquePathsWithObstacles(self, obstacleGrid):
         """
@@ -1507,7 +1505,7 @@ Given a m x n grid filled with non-negative numbers, find a path from top left t
 Note: You can only move either down or right at any point in time.
 
 
-```
+```python
 class Solution(object):
     def minPathSum(self, grid):
         """
@@ -1546,7 +1544,7 @@ b) Delete a character
 c) Replace a character
 
 
-```
+```python
 class Solution(object):
     def minDistance(self, word1, word2):
         """
@@ -1605,7 +1603,7 @@ Consider the following matrix:
 Given target = 3, return true.
 
 
-```
+```python
 class Solution(object):
     def searchMatrix(self, matrix, target):
         """
@@ -1660,7 +1658,7 @@ Could you devise a constant space solution?
 
 
 
-```
+```python
 class Solution(object):
     def setZeroes(self, matrix):
         """
@@ -1705,7 +1703,7 @@ Could you come up with an one-pass algorithm using only constant space?
 
 
 
-```
+```python
 class Solution(object):
     def sortColors(self, nums):
         """
@@ -1732,7 +1730,7 @@ Note:
 You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2. The number of elements initialized in nums1 and nums2 are m and n respectively.
 
 
-```
+```python
 class Solution(object):
     def merge(self, nums1, m, nums2, n):
         """
@@ -1768,7 +1766,7 @@ Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
 The number of ways decoding "12" is 2.
 
 
-```
+```python
 # Recursive solution - time limit exceeded but 222/259 cases correct. DP solution is better
 
 class Solution(object):
@@ -1829,7 +1827,7 @@ return [1,3,2].
 Note: Recursive solution is trivial, could you do it iteratively?
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -1874,7 +1872,7 @@ Given n = 3, there are a total of 5 unique BST's.
 ```
 
 
-```
+```python
 class Solution(object):
     def numTrees(self, n):
         """
@@ -1910,7 +1908,7 @@ Example 2:
 Binary tree [1,2,3], return false.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -1957,7 +1955,7 @@ Note:
 A solution using O(n) space is pretty straight forward. Could you devise a constant space solution?
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2059,7 +2057,7 @@ Given two binary trees, write a function to check if they are equal or not.
 Two binary trees are considered equal if they are structurally identical and the nodes have the same value.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2106,7 +2104,7 @@ Note:
 Bonus points if you could solve it both recursively and iteratively.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2156,7 +2154,7 @@ return its level order traversal as:
 ```
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2213,7 +2211,7 @@ return its zigzag level order traversal as:
 
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2258,7 +2256,7 @@ Given a binary tree, find its maximum depth.
 The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2318,7 +2316,7 @@ class Solution(object):
 Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2352,7 +2350,7 @@ Given a binary tree, determine if it is height-balanced.
 For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2412,7 +2410,7 @@ Given a binary tree, find its minimum depth.
 The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2461,7 +2459,7 @@ Given the below binary tree and sum = 22,
 return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2510,7 +2508,7 @@ return
 ]
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2562,7 +2560,7 @@ Note:
 Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in the triangle.
 
 
-```
+```python
 class Solution(object):
     def minimumTotal(self, triangle):
         """
@@ -2595,7 +2593,7 @@ Have you consider that the string might be empty? This is a good question to ask
 For the purpose of this problem, we define empty string as valid palindrome.
 
 
-```
+```python
 class Solution(object):
     def isPalindrome(self, s):
         """
@@ -2639,7 +2637,7 @@ The root-to-leaf path 1->3 represents the number 13.
 Return the sum = 12 + 13 = 25.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2698,7 +2696,7 @@ X O X X
 ```
 
 
-```
+```python
 class Solution(object):
     def solve(self, board):
         """
@@ -2751,7 +2749,7 @@ Note:
 Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
 
 
-```
+```python
 class Solution:
     # @param {integer[]} nums
     # @return {integer}
@@ -2773,7 +2771,7 @@ dict = ["leet", "code"].
 Return true because "leetcode" can be segmented as "leet code".
 
 
-```
+```python
 class Solution(object):
     def wordBreak(self, s, wordDict):
         """
@@ -2819,7 +2817,7 @@ return [1,2,3].
 Note: Recursive solution is trivial, could you do it iteratively?
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2852,7 +2850,7 @@ For example, given [3, 30, 34, 5, 9], the largest formed number is 9534330.
 Note: The result may be very large, so you need to return a string instead of an integer.
 
 
-```
+```python
 a = sorted(['30','3','300']); print a
 ```
 
@@ -2860,7 +2858,7 @@ a = sorted(['30','3','300']); print a
 
 
 
-```
+```python
 class Solution:
     # @param {integer[]} nums
     # @return {string}
@@ -2901,7 +2899,7 @@ You are a professional robber planning to rob houses along a street. Each house 
 Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
 
 
-```
+```python
 class Solution(object):
     def rob(self, nums):
         """
@@ -2936,7 +2934,7 @@ Given the following binary tree,
 You should return [1, 3, 4].
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -2988,7 +2986,7 @@ Example 2:
 Answer: 3
 
 
-```
+```python
 class Solution(object):
     def numIslands(self, grid):
         """
@@ -3035,7 +3033,7 @@ $$1^2 + 9^2 = 82\\
 1^2 + 0^2 + 0^2 = 1$$
 
 
-```
+```python
 class Solution(object):
     def isHappy(self, n):
         """
@@ -3072,7 +3070,7 @@ Note:
 You may assume that all inputs are consist of lowercase letters a-z.
 
 
-```
+```python
 class Trie(object):
 
     def __init__(self):
@@ -3151,7 +3149,7 @@ After robbing those houses on that street, the thief has found himself a new pla
 Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
 
 
-```
+```python
 class Solution(object):
     def rob(self, nums):
         """
@@ -3191,7 +3189,7 @@ Note:
 You may assume k is always valid, 1 ≤ k ≤ array's length.
 
 
-```
+```python
 class Solution(object):
     def findKthLargest(self, nums, k):
         """
@@ -3227,7 +3225,7 @@ class Solution(object):
 Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.
 
 
-```
+```python
 class Solution(object):
     def containsDuplicate(self, nums):
         """
@@ -3263,7 +3261,7 @@ The output list must be sorted by the x position.
 There must be no consecutive horizontal lines of equal height in the output skyline. For instance, [...[2 3], [4 5], [7 5], [11 5], [12 7]...] is not acceptable; the three lines of height 5 should be merged into one in the final output as such: [...[2 3], [4 5], [12 7], ...]
 
 
-```
+```python
 class Solution(object):
     def getSkyline(self, buildings):
         """
@@ -3322,7 +3320,7 @@ class Solution(object):
 Given an array of integers and an integer k, find out whether there are two distinct indices i and j in the array such that nums[i] = nums[j] and the absolute difference between i and j is at most k.
 
 
-```
+```python
 class Solution(object):
     def containsNearbyDuplicate(self, nums, k):
         """
@@ -3354,7 +3352,7 @@ For example, given the following matrix:
 Return 4.
 
 
-```
+```python
 class Solution(object):
     def maximalSquare(self, matrix):
         """
@@ -3397,7 +3395,7 @@ Definition of a complete binary tree from Wikipedia:
 In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -3455,7 +3453,7 @@ Each rectangle is defined by its bottom left corner and top right corner as show
 Assume that the total area is never beyond the maximum possible value of int.
 
 
-```
+```python
 class Solution(object):
     def computeArea(self, A, B, C, D, E, F, G, H):
         """
@@ -3501,7 +3499,7 @@ to
 ```
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -3545,7 +3543,7 @@ Output: ["0","2->4","6","8->9"]
 ```
 
 
-```
+```python
 class Solution(object):
     def summaryRanges(self, nums):
         """
@@ -3594,7 +3592,7 @@ What if the BST is modified (insert/delete operations) often and you need to fin
 **If we need to find kth smallest frequently, we might need to use a heap structure??? **
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -3647,7 +3645,7 @@ According to the definition of LCA on Wikipedia: “The lowest common ancestor i
 For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -3687,7 +3685,7 @@ According to the definition of LCA on Wikipedia: “The lowest common ancestor i
 For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -3753,7 +3751,7 @@ Given target = 5, return true.
 Given target = 20, return false.
 
 
-```
+```python
 class Solution(object):
     def searchMatrix(self, matrix, target):
         """
@@ -3795,7 +3793,7 @@ All root-to-leaf paths are:
 ["1->2->5", "1->3"]
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -3824,7 +3822,7 @@ Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For 
 Note that 1 is typically treated as an ugly number.
 
 
-```
+```python
 class Solution(object):
     def isUgly(self, num):
         """
@@ -3855,7 +3853,7 @@ Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For 
 Note that 1 is typically treated as an ugly number, and n does not exceed 1690.
 
 
-```
+```python
 class Solution(object):
     def nthUglyNumber(self, n):
         """
@@ -3891,7 +3889,7 @@ Note:
 Your algorithm should run in linear runtime complexity. Could you implement it using only constant extra space complexity?
 
 
-```
+```python
 class Solution(object):
     def missingNumber(self, nums):
         """
@@ -3910,7 +3908,7 @@ For example, given citations = [3, 0, 6, 1, 5], which means the researcher has 5
 Note: If there are several possible values for h, the maximum one is taken as the h-index.
 
 
-```
+```python
 class Solution(object):
     def hIndex(self, citations):
         """
@@ -3934,7 +3932,7 @@ Given a positive integer n, find the least number of perfect square numbers (for
 For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
 
 
-```
+```python
 class Solution(object):
     def numSquares(self, n):
         """
@@ -3968,7 +3966,7 @@ Your runtime complexity should be less than O(n2).
 There is only one duplicate number in the array, but it could be repeated more than once.
 
 
-```
+```python
 
 ```
 
@@ -3995,7 +3993,7 @@ Could you solve it in-place? Remember that the board needs to be updated at the 
 In this question, we represent the board using a 2D array. In principle, the board is infinite, which would cause problems when the active area encroaches the border of the array. How would you address these problems?
 
 
-```
+```python
 class Solution(object):
     def gameOfLife(self, board):
         """
@@ -4058,7 +4056,7 @@ You may assume that the secret number and your friend's guess only contain digit
 
 
 
-```
+```python
 class Solution(object):
     def getHint(self, secret, guess):
         """
@@ -4111,7 +4109,7 @@ Your algorithm should run in O(n2) complexity.
 Follow up: Could you improve it to O(n log n) time complexity?
 
 
-```
+```python
 class Solution(object):
     def lengthOfLIS(self, nums):
         """
@@ -4151,7 +4149,7 @@ Return 167
 ```
 
 
-```
+```python
 ## Recursive - times out
 class Solution(object):
     def maxCoins(self, nums):
@@ -4193,7 +4191,7 @@ Note:
 (4) The nth super ugly number is guaranteed to fit in a 32-bit signed integer.
 
 
-```
+```python
 class Solution(object):
     def nthSuperUglyNumber(self, n, primes):
         """
@@ -4231,7 +4229,7 @@ Note:
 You may assume that you have an infinite number of each kind of coin.
 
 
-```
+```python
 class Solution(object):
     def coinChange(self, coins, amount):
         """
@@ -4264,7 +4262,7 @@ Example:
 Given s = "hello", return "olleh".
 
 
-```
+```python
 class Solution(object):
     def reverseString(self, s):
         """
@@ -4298,7 +4296,7 @@ Output:
 ```
 
 
-```
+```python
 class Solution(object):
     def lastRemaining(self, n):
         """
@@ -4331,7 +4329,7 @@ Example:
 There are two left leaves in the binary tree, with values 9 and 15 respectively. Return 24.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -4389,7 +4387,7 @@ Return:
 [[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]] (positions with parentheses in above matrix).
 
 
-```
+```python
 class Solution(object):
     def pacificAtlantic(self, matrix):
         """
@@ -4456,7 +4454,7 @@ Input: "Hello, my name is John"
 Output: 5
 
 
-```
+```python
 class Solution(object):
     def countSegments(self, s):
         """
@@ -4480,7 +4478,7 @@ Example:
 Answer: 16
 
 
-```
+```python
 class Solution(object):
     def islandPerimeter(self, grid):
         """
@@ -4538,7 +4536,7 @@ The second player will win by choosing 10 and get a total = 11, which is >= desi
 Same with other integers chosen by the first player, the second player will always win.
 
 
-```
+```python
 class Solution(object):
     def canIWin(self, maxChoosableInteger, desiredTotal):
         """
@@ -4580,7 +4578,7 @@ Explanation: The first two digits or the last three digits are consecutive 1s.
     The maximum number of consecutive 1s is 3.
 
 
-```
+```python
 class Solution(object):
     def findMaxConsecutiveOnes(self, nums):
         """
@@ -4630,7 +4628,7 @@ Any scores in the given array are non-negative integers and will not exceed 10,0
 If the scores of both players are equal, then player 1 is still the winner.
 
 
-```
+```python
 class Solution(object):
     def PredictTheWinner(self, nums):
         """
@@ -4688,7 +4686,7 @@ Output:
 Note: You may assume the tree (i.e., the given root node) is not NULL.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -4749,7 +4747,7 @@ Output: 1
 ```
 
 
-```
+```python
 class Solution(object):
     def change(self, amount, coins):
         """
@@ -4802,7 +4800,7 @@ There are at least one 0 in the given matrix.
 The cells are adjacent in only four directions: up, down, left and right.
 
 
-```
+```python
 class Solution(object):
     def updateMatrix(self, matrix):
         """
@@ -4865,7 +4863,7 @@ Note: The length of path between two nodes is represented by the number of edges
 
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -4931,7 +4929,7 @@ The number of bricks in each row is in range [1,10,000]. The height of wall is i
 
 
 
-```
+```python
 class Solution(object):
     def leastBricks(self, wall):
         """
@@ -4984,7 +4982,7 @@ The sum of node values in any subtree won't exceed the range of 32-bit integer.
 All the tilt values won't exceed the range of 32-bit integer.
 
 
-```
+```python
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -5054,7 +5052,7 @@ The input array size is in the range of [1, 20000].
 n is a non-negative integer which won't exceed the input array size.
 
 
-```
+```python
 class Solution(object):
     def canPlaceFlowers(self, flowerbed, n):
         """
@@ -5086,7 +5084,7 @@ Input: [1,2,3,4]
 Output: 24
 
 
-```
+```python
 class Solution(object):
     def maximumProduct(self, nums):
         """
@@ -5158,7 +5156,7 @@ Explanation:The maximum width existing in the fourth level with the length 8 (6,
 Note: Answer will in the range of 32-bit signed integer.
 
 
-```
+```python
 
 ```
 
@@ -5177,7 +5175,7 @@ Input: sum("ap"), Output: 5
 ```
 
 
-```
+```python
 class MapSum(object):
 
     def __init__(self):
@@ -5262,7 +5260,7 @@ Given the above grid, return 0.
 Note: The length of each dimension in the given grid does not exceed 50.
 
 
-```
+```python
 class Solution(object):
     def maxAreaOfIsland(self, grid):
         """
@@ -5313,7 +5311,7 @@ Note:
 The boundaries of each input argument are 1 <= left <= right <= 10000.
 
 
-```
+```python
 class Solution(object):
     def selfDividingNumbers(self, left, right):
         """
@@ -5353,7 +5351,7 @@ The number of calls to MyCalendar.book per test case will be at most 1000.
 In calls to MyCalendar.book(start, end), start and end are integers in the range [0, 10^9].
 
 
-```
+```python
 class MyCalendar(object):
 
     def __init__(self):
@@ -5428,7 +5426,7 @@ The given starting pixel will satisfy 0 <= sr < image.length and 0 <= sc < image
 The value of each color in image[i][j] and newColor will be an integer in [0, 65535].
 
 
-```
+```python
 class Solution(object):
     def floodFill(self, image, sr, sc, newColor):
         """
@@ -5505,7 +5503,7 @@ Each asteroid will be a non-zero integer in the range [-1000, 1000]..
 
 
 
-```
+```python
 class Solution(object):
     def asteroidCollision(self, asteroids):
         """
@@ -5544,7 +5542,7 @@ For example, given the list temperatures = [73, 74, 75, 71, 69, 72, 76, 73], you
 Note: The length of temperatures will be in the range [1, 30000]. Each temperature will be an integer in the range [30, 100].
 
 
-```
+```python
 class Solution(object):
     def dailyTemperatures(self, temperatures):
         """
@@ -5612,7 +5610,7 @@ Every string in deadends and the string target will be a string of 4 digits from
 
 
 
-```
+```python
 class Solution(object):
     def openLock(self, deadends, target):
         """
@@ -5678,7 +5676,7 @@ matrix will have a number of rows and columns in range [1, 20].
 matrix[i][j] will be integers in range [0, 99].
 
 
-```
+```python
 class Solution(object):
     def isToeplitzMatrix(self, matrix):
         """
@@ -5710,12 +5708,12 @@ Output: ""
 ```
 
 
-```
+```python
 
 ```
 
 
-```
+```python
 class Solution(object):
     def reachNumber(self, target):
         """
@@ -5740,11 +5738,11 @@ class Solution(object):
 ```
 
 
-```
+```python
 
 ```
 
 
-```
+```python
 
 ```
