@@ -29,6 +29,7 @@ Networks (SECON), (Rome, Italy), June 2009. [[pdf]]({{site.baseurl}}/assets/publ
 
 ***Miscellaneous***
 * S. Srinivasa and M. Haenggi, "***Throughput-Delay-Reliability Tradeoffs in Multihop Networks with Random Access***," IT-MANET Workshop, (Stanford University, CA), 2011. [[poster]]({{site.baseurl}}/assets/publications/11ITMANET_poster.pdf){:target="_blank"}
+* S. Srinivasa, "***Statistical Mechanics of CSMA Networks***," 2011. [[pdf]]({{site.baseurl}}/assets/publications/statistical_analysis_CSMA.pdf){:target="_blank"}
 * S. Srinivasa and M. Haenggi, "***Delay and Throughput Correlations in Ad Hoc Networks***," IT-MANET Workshop, (Austin, TX), 2010. [[poster]]({{site.baseurl}}/assets/publications/10ITMANET_poster.pdf){:target="_blank"}
 * R. K. Ganti(#), Z. Gong(#), M. Haenggi(#), C.-H. Lee(#), S. Srinivasa(#), D. Tisza(#), S. Vanka(#), and P. Vizi(#), "***Implementation and Experimental Results of Superposition Coding on Software Radio***," RF Alliance Conference, (Purdue University, IN), 2010. (***Third place in poster presentation***) [[poster]]({{site.baseurl}}/assets/publications/10RFAC_poster.pdf){:target="_blank"}
 * S. Srinivasa and M. Haenggi, "***Combining Stochastic Geometry and Statistical Mechanics for the Analysis and Design of MANETs***," IT-MANET Workshop, (Boston, MA), 2009. [[poster]]({{site.baseurl}}/assets/publications/09ITMANET_poster.pdf){:target="_blank"}
