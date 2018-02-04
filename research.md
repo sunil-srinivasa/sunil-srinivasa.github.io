@@ -34,9 +34,9 @@ Networks (SECON), (Rome, Italy), June 2009. [[pdf]]({{site.baseurl}}/assets/pdfs
 * S. Srinivasa, "***On Modeling Interference in Uniformly Random Wireless Networks: Theory and Applications***," M.S. Thesis, Dec. 2007. [[pdf]]({{site.baseurl}}/assets/pdfs/07Masters.pdf){:target="_blank"} [[slides]]({{site.baseurl}}/assets/pdfs/07Masters_slides.pdf){:target="_blank"}
 
 ***Miscellaneous***
-* S. Srinivasa, "***Generative Models***," 2017. [[pdf]]({{site.baseurl}}/assets/pdfs/GenerativeModels.pdf){:target="_blank"}
-* S. Srinivasa, "***Deep Networks-based Video Classification Methods: An Overview***," Feb. 2016. [[pdf]]({{site.baseurl}}/assets/pdfs/VideoClassification.pdf){:target="_blank"}
-* S. Srinivasa, "***Acing Blackjack: A Monte Carlo Approach***," 2015. [[pdf]]({{site.baseurl}}/assets/pdfs/AcingBlackJack.pdf){:target="_blank"}
+* S. Srinivasa, "***Generative Models***," 2017. [[slides]]({{site.baseurl}}/assets/pdfs/GenerativeModels.pdf){:target="_blank"}
+* S. Srinivasa, "***Deep Networks-based Video Classification Methods: An Overview***," Feb. 2016. [[slides]]({{site.baseurl}}/assets/pdfs/VideoClassification.pdf){:target="_blank"}
+* S. Srinivasa, "***Acing Blackjack: A Monte Carlo Approach***," 2015. [[slides]]({{site.baseurl}}/assets/pdfs/AcingBlackJack.pdf){:target="_blank"}
 * S. Srinivasa, "***Statistical Mechanics of CSMA Networks***," 2011. [[pdf]]({{site.baseurl}}/assets/pdfs/statistical_analysis_CSMA.pdf){:target="_blank"}
 * S. Srinivasa and M. Haenggi, "***Throughput-Delay-Reliability Tradeoffs in Multihop Networks with Random Access***," IT-MANET Workshop, (Stanford University, CA), 2011. [[poster]]({{site.baseurl}}/assets/pdfs/11ITMANET_poster.pdf){:target="_blank"}
 * S. Srinivasa and M. Haenggi, "***Delay and Throughput Correlations in Ad Hoc Networks***," IT-MANET Workshop, (Austin, TX), 2010. [[poster]]({{site.baseurl}}/assets/pdfs/10ITMANET_poster.pdf){:target="_blank"}
