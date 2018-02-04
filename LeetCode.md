@@ -98,31 +98,25 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        char_dict = {}
-        first_best,last_best = 0, 0
-        first, last = 0, 0
+        dictionary = {}
+        L = len(s)
+        start = 0
+        LSWRC = 0 # Longest substring without repeating characters
 
-        for i in range(len(s)):
-            if s[i] in char_dict.keys(): # repeating character
-                if (last - first) > (last_best - first_best):
-                    first_best = first
-                    last_best = last
-                    print "B", first_best, last_best
-                first = max(first,char_dict[s[i]]+1)
-                print first
-                char_dict[s[i]] = i
-                last += 1
+        for idx in range(L):
+            if s[idx] not in dictionary:
+                dictionary[s[idx]] = idx
+            else:
+                if dictionary[s[idx]] < start:
+                    dictionary[s[idx]] = idx
+                else:
+                    LSWRC = max(LSWRC,idx-start)
+                    start = dictionary[s[idx]] + 1
+                    dictionary[s[idx]] = idx
+        if L > 0:        
+            LSWRC = max(LSWRC,idx+1-start)
 
-            else: # first-time occurrence
-                last += 1
-                char_dict[s[i]] = i
-
-        if (last - first) > (last_best - first_best):
-            first_best = first
-            last_best = last
-            print "S", first_best, last_best                
-
-        return last_best-first_best
+    return LSWRC
 ```
 
 ## 4. Median of Two Sorted Arrays
