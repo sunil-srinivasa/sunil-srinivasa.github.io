@@ -34,10 +34,15 @@ Networks (SECON), (Rome, Italy), June 2009. [[pdf]]({{site.baseurl}}/assets/pdfs
 * S. Srinivasa, "***On Modeling Interference in Uniformly Random Wireless Networks: Theory and Applications***," M.S. Thesis, Dec. 2007. [[pdf]]({{site.baseurl}}/assets/pdfs/07Masters.pdf){:target="_blank"} [[slides]]({{site.baseurl}}/assets/pdfs/07Masters_slides.pdf){:target="_blank"}
 
 ***Miscellaneous***
-* S. Srinivasa and M. Haenggi, "***Throughput-Delay-Reliability Tradeoffs in Multihop Networks with Random Access***," IT-MANET Workshop, (Stanford University, CA), 2011. [[poster]]({{site.baseurl}}/assets/pdfs/11ITMANET_poster.pdf){:target="_blank"}
+* S. Srinivasa, "***Generative Models***," 2017. [[pdf]]({{site.baseurl}}/assets/pdfs/GenerativeModels.pdf){:target="_blank"}
+* S. Srinivasa, "***Deep Networks-based Video Classification Methods: An Overview***," Feb. 2016. [[pdf]]({{site.baseurl}}/assets/pdfs/VideoClassification.pdf){:target="_blank"}
+* S. Srinivasa, "***Acing Blackjack: A Monte Carlo Approach***," 2015. [[pdf]]({{site.baseurl}}/assets/pdfs/AcingBlackJack.pdf){:target="_blank"}
 * S. Srinivasa, "***Statistical Mechanics of CSMA Networks***," 2011. [[pdf]]({{site.baseurl}}/assets/pdfs/statistical_analysis_CSMA.pdf){:target="_blank"}
+* S. Srinivasa and M. Haenggi, "***Throughput-Delay-Reliability Tradeoffs in Multihop Networks with Random Access***," IT-MANET Workshop, (Stanford University, CA), 2011. [[poster]]({{site.baseurl}}/assets/pdfs/11ITMANET_poster.pdf){:target="_blank"}
 * S. Srinivasa and M. Haenggi, "***Delay and Throughput Correlations in Ad Hoc Networks***," IT-MANET Workshop, (Austin, TX), 2010. [[poster]]({{site.baseurl}}/assets/pdfs/10ITMANET_poster.pdf){:target="_blank"}
 * R. K. Ganti(#), Z. Gong(#), M. Haenggi(#), C.-H. Lee(#), S. Srinivasa(#), D. Tisza(#), S. Vanka(#), and P. Vizi(#), "***Implementation and Experimental Results of Superposition Coding on Software Radio***," RF Alliance Conference, (Purdue University, IN), 2010. (***Third place in poster presentation***) [[poster]]({{site.baseurl}}/assets/pdfs/10RFAC_poster.pdf){:target="_blank"}
+* S. Srinivasa and S. Krishnamurthy, "***OFFICE: An Opportunistic Forwarding Protocol
+For Intermittently Connected Environments***," 2009. [[pdf]]({{site.baseurl}}/assets/pdfs/09INFOCOM.pdf){:target="_blank"}
 * S. Srinivasa and M. Haenggi, "***Combining Stochastic Geometry and Statistical Mechanics for the Analysis and Design of MANETs***," IT-MANET Workshop, (Boston, MA), 2009. [[poster]]({{site.baseurl}}/assets/pdfs/09ITMANET_poster.pdf){:target="_blank"}
 * S. Srinivasa, "***Path Loss Exponent Estimation in a Large Field of Interferers***," IT School, (Northwestern University, IL), 2009. [[poster]]({{site.baseurl}}/assets/pdfs/09ITSchool_poster.pdf){:target="_blank"}
 * S. Srinivasa and M. Haenggi, "***The TASEP Applied to the Throughput and Delay Analysis of Line Networks***," IT-MANET Workshop, (Boston, MA), 2007. [[poster]]({{site.baseurl}}/assets/pdfs/07ITMANET_poster.pdf){:target="_blank"}
