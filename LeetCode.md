@@ -242,6 +242,54 @@ class Solution(object):
         return solution
 ```
 
+## 12. Integer to Roman
+Given an integer, convert it to a roman numeral.
+
+Input is guaranteed to be within the range from 1 to 3999.
+
+```python
+class Solution:
+    # @param {integer} num
+    # @return {string}
+    def intToRoman(self, num):
+        thousands = num / 1000
+        hundreds = (num - thousands*1000) / 100
+        tens = (num - thousands*1000 - hundreds*100) / 10
+        units = num - thousands*1000 - hundreds*100 - tens*10
+
+        output = ''
+        output += 'M'*thousands
+
+        if hundreds <= 3 or (hundreds > 5 and hundreds <= 8):
+            output += 'D'*(hundreds>5)+'C'*(hundreds % 5)
+        elif hundreds == 4:
+            output += 'CD'
+        elif hundreds == 5:
+            output += 'D'
+        else: #hundreds == 9:
+            output += 'CM'
+
+        if tens <= 3 or (tens > 5 and tens <= 8):
+            output += 'L'*(tens>5)+'X'*(tens % 5)
+        elif tens == 4:
+            output += 'XL'
+        elif tens == 5:
+            output += 'L'
+        else: #tens == 9:
+            output += 'XC'
+
+        if units <= 3 or (units > 5 and units <= 8):
+            output += 'V'*(units>5)+'I'*(units % 5)
+        elif units == 4:
+            output += 'IV'
+        elif units == 5:
+            output += 'V'
+        else: #units == 9:
+            output += 'IX'            
+
+        return output
+```
+
 ## 13. Roman to Integer
 Given a roman numeral, convert it to an integer.
 
