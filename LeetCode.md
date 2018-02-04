@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Leet Code
+title: LeetCode
 ---
 
 ## 1. Two Sum
