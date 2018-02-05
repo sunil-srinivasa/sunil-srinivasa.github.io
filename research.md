@@ -32,6 +32,7 @@ Networks (SECON), (Rome, Italy), June 2009. [[pdf]]({{site.baseurl}}/assets/pdfs
 * S. Srinivasa, "***Statistical Mechanics for Wireless Systems: Application of Exclusion Processes to the Modeling and Analysis of Multihop Networks***," Ph.D. Thesis, Sep. 2011. [[pdf]]({{site.baseurl}}/assets/pdfs/11PhD.pdf){:target="_blank"} [[slides]]({{site.baseurl}}/assets/pdfs/11PhD_slides.pdf){:target="_blank"}
 * S. Srinivasa, "***New Paradigms for the Analysis of Ad Hoc Networks***," Oral Candidacy, Mar. 2009. [[pdf]]({{site.baseurl}}/assets/pdfs/09Candidacy.pdf){:target="_blank"} [[slides]]({{site.baseurl}}/assets/pdfs/09Candidacy_slides.pdf){:target="_blank"}
 * S. Srinivasa, "***On Modeling Interference in Uniformly Random Wireless Networks: Theory and Applications***," M.S. Thesis, Dec. 2007. [[pdf]]({{site.baseurl}}/assets/pdfs/07Masters.pdf){:target="_blank"} [[slides]]({{site.baseurl}}/assets/pdfs/07Masters_slides.pdf){:target="_blank"}
+* S. Srinivasa, "***Adaptive Equalization for the Downlink of a 3G-WCDMA System***," B.Tech. Thesis, May 2004. [[pdf]]({{site.baseurl}}/assets/pdfs/04Bachelors.pdf){:target="_blank"} [[slides]]({{site.baseurl}}/assets/pdfs/04Bachelors_slides.pdf){:target="_blank"}
 
 ***Miscellaneous***
 * S. Srinivasa, "***Generative Models***," 2017. [[slides]]({{site.baseurl}}/assets/pdfs/GenerativeModels.pdf){:target="_blank"}
@@ -48,3 +49,4 @@ For Intermittently Connected Environments***," 2009. [[pdf]]({{site.baseurl}}/as
 * S. Srinivasa and M. Haenggi, "***The TASEP Applied to the Throughput and Delay Analysis of Line Networks***," IT-MANET Workshop, (Boston, MA), 2007. [[poster]]({{site.baseurl}}/assets/pdfs/07ITMANET_poster.pdf){:target="_blank"}
 * S. Srinivasa, "***Broadcast Channels***," 2007. [[pdf]]({{site.baseurl}}/assets/pdfs/broadcast_channels.pdf){:target="_blank"}
 * S. Srinivasa, "***A Review on Multivariate Mutual Information***," 2006. [[pdf]]({{site.baseurl}}/assets/pdfs/multivariate_mutual_information.pdf){:target="_blank"}
+* S. Srinivasa, "***Voice Activity Detection in the presence of Non-stationary Background Noise***" [[pdf]]({{site.baseurl}}/assets/pdfs/03VAD.pdf){:target="_blank"} [[slides]]({{site.baseurl}}/assets/pdfs/03VAD_slides.pdf){:target="_blank"}
