@@ -5621,6 +5621,44 @@ class Solution(object):
         return solution
 ```
 
+### 746. Min Cost Climbing Stairs
+On a staircase, the i-th step has some non-negative cost cost[i] assigned (0 indexed).
+
+Once you pay the cost, you can either climb one or two steps. You need to find minimum cost to reach the top of the floor, and you can either start from the step with index 0, or the step with index 1.
+
+>Example 1:
+```
+Input: cost = [10, 15, 20]
+Output: 15
+```
+Explanation: Cheapest is start on cost[1], pay that cost and go to the top.
+
+>Example 2:
+```
+Input: cost = [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
+Output: 6
+```
+Explanation: Cheapest is start on cost[0], and only step on 1s, skipping cost[3].
+Note:
+cost will have a length in the range [2, 1000].
+Every cost[i] will be an integer in the range [0, 999].
+
+```python
+class Solution(object):
+    def minCostClimbingStairs(self, cost):
+        """
+        :type cost: List[int]
+        :rtype: int
+        """
+        L = len(cost)
+        minCost = [0 for _ in range(L+1)] # min cost to get to a step
+
+        for idx in range(2,L+1):
+            minCost[idx] = min(minCost[idx-1]+cost[idx-1],minCost[idx-2]+cost[idx-2])
+
+        return minCost[-1]
+```
+
 ### 752. Open the Lock
 You have a lock in front of you with 4 circular wheels. Each wheel has 10 slots: '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'. The wheels can rotate freely and wrap around: for example we can turn '9' to be '0', or '0' to be '9'. Each move consists of turning one wheel one slot.
 
@@ -5797,4 +5835,106 @@ class Solution(object):
                 queue.append(t-steps)
             steps += 1
 
+```
+
+### 781. Rabbits in Forest
+In a forest, each rabbit has some color. Some subset of rabbits (possibly all of them) tell you how many other rabbits have the same color as them. Those answers are placed in an array.
+
+Return the minimum number of rabbits that could be in the forest.
+
+>
+```
+Examples:
+Input: answers = [1, 1, 2]
+Output: 5
+```
+Explanation:
+The two rabbits that answered "1" could both be the same color, say red.
+The rabbit than answered "2" can't be red or the answers would be inconsistent.
+Say the rabbit that answered "2" was blue.
+Then there should be 2 other blue rabbits in the forest that didn't answer into the array.
+The smallest possible number of rabbits in the forest is therefore 5: 3 that answered plus 2 that didn't.
+```
+Input: answers = [10, 10, 10]
+Output: 11
+```
+```
+Input: answers = []
+Output: 0
+```
+Note:
+answers will have length at most 1000.
+Each answers[i] will be an integer in the range [0, 999].
+
+```python
+class Solution(object):
+    def numRabbits(self, answers):
+        """
+        :type answers: List[int]
+        :rtype: int
+        """
+        # A mathematical solution
+        from collections import defaultdict
+        counts = defaultdict(int)
+        for a in answers:
+            counts[a] += 1
+
+        sum = 0
+        for k in counts.keys():
+            sum += math.ceil(counts[k]/(k+1.))*(k+1)
+        return int(sum)
+```
+
+### 783. Minimum Distance Between BST Nodes
+Given a Binary Search Tree (BST) with the root node root, return the minimum difference between the values of any two different nodes in the tree.
+
+>Example :
+```
+Input: root = [4,2,6,1,3,null,null]
+Output: 1
+```
+Explanation:
+Note that root is a TreeNode object, not an array.
+The given tree [4,2,6,1,3,null,null] is represented by the following diagram:
+```
+          4
+        /   \
+      2      6
+     / \    
+    1   3  
+```
+while the minimum difference in this tree is 1, it occurs between node 1 and node 2, also between node 3 and node 2.
+
+>Note:
+The size of the BST will be between 2 and 100.
+The BST is always valid, each node's value is an integer, and each node's value is different.
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def minDiffInBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        current_val = -float('inf')
+        mindiff = float('inf')
+        return self.minDiff(root,current_val,mindiff)[1]
+
+    def minDiff(self,node,val,diff):
+        if node == None:
+            return val,diff
+
+        val,diff = self.minDiff(node.left,val,diff)
+        diff = min(diff,node.val-val)
+        val = node.val
+        val,diff = self.minDiff(node.right,val,diff)
+
+        return val,diff
 ```
