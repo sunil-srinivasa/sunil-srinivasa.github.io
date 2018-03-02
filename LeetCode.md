@@ -953,6 +953,67 @@ class Solution:
         return area
 ```
 
+### 44. Wildcard Matching
+Implement wildcard pattern matching with support for '?' and '*'.
+
+'?' Matches any single character.
+'*' Matches any sequence of characters (including the empty sequence).
+
+The matching should cover the entire input string (not partial).
+
+The function prototype should be:
+bool isMatch(const char *s, const char *p)
+
+>Some examples:
+
+>isMatch("aa","a") → false
+
+>isMatch("aa","aa") → true
+
+>isMatch("aaa","aa") → false
+
+>isMatch("aa", "*") → true
+
+>isMatch("aa", "a*") → true
+
+>isMatch("ab", "?*") → true
+
+>isMatch("aab", "c*a*b") → false
+
+```python
+class Solution(object):
+    def isMatch(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: bool
+        """
+        if s == "" and p == "*":
+            return True
+
+        # If len(p) != len(s) and p contains no '*', immediately return False
+        if len(s) != len(p) and '*' not in p:
+            return False
+
+        M = len(p)
+        N = len(s)
+        grid = [[False for _ in range(N+1)] for _ in range(M+1)]
+        grid[0][0]= True
+        for i in range(1,M+1):
+            for j in range(1,N+1):
+                if p[i-1] == '*':
+                    grid[i][j] = grid[i-1][j] or grid[i][j-1] or grid[i-1][j-1]
+                elif p[i-1] == '?' or p[i-1] == s[j-1]:
+                    grid[i][j] = grid[i-1][j-1]
+                    k = 2
+                    while k < i+1 and p[i-k] == '*':
+                        grid[i][j] = grid[i][j] or grid[i-k][j-1]
+                        k += 1
+                else:
+                    grid[i][j] = False
+        return grid[M][N]
+```
+
 ### 46. Permutations
 Given a collection of distinct numbers, return all possible permutations.
 
@@ -1053,30 +1114,20 @@ class Solution(object):
         :type strs: List[str]
         :rtype: List[List[str]]
         """
-        dictionary = {}
+        dictionary = collections.defaultdict(list)
         for string in strs:
             rep = self.get_representation(string)
-            if rep in dictionary.keys():
-                dictionary[rep].append(string)
-            else:
-                dictionary[rep] = [string]
+            dictionary[rep].append(string)
         return dictionary.values()
 
     def get_representation(self,string):
-        dictionary = {}
+        rep = [0 for _ in range(26)]
+
         for s in string:
-            if s in dictionary:
-                dictionary[s] += 1
-            else:
-                dictionary[s] = 0
+            idx = ord(s)-97
+            rep[idx] += 1
 
-        keys = sorted(dictionary.keys())
-        rep = ''
-        for key in keys:
-            rep += key
-            rep += str(dictionary[key])
-
-        return rep
+        return tuple(rep)
 ```
 
 ### 54. Spiral Matrix
@@ -4928,7 +4979,6 @@ The width sum of bricks in different rows are the same and won't exceed INT_MAX.
 The number of bricks in each row is in range [1,10,000]. The height of wall is in range [1,10,000]. Total number of bricks of the wall won't exceed 20,000.
 
 
-
 ```python
 class Solution(object):
     def leastBricks(self, wall):
@@ -4936,7 +4986,8 @@ class Solution(object):
         :type wall: List[List[int]]
         :rtype: int
         """
-        num_cuts = {} # dictionary to keep track of number of cuts
+        from collections import defaultdict
+        num_cuts = defaultdict(int) # dictionary to keep track of number of cuts
 
         if len(wall) == 1:
             if len(wall[0]) == 1:
@@ -4948,10 +4999,7 @@ class Solution(object):
             x = 0
             for j in line[:-1]:
                 x += j
-                if x in num_cuts.keys():
-                    num_cuts[x] += 1
-                else:
-                    num_cuts[x] = 1
+                num_cuts[x] += 1
 
         return len(wall) - max(num_cuts.values()+[0])
 ```
