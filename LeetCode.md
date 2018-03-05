@@ -207,6 +207,19 @@ class Solution(object):
         return solution
 ```
 
+## 9. Palindrome Number
+Determine whether an integer is a palindrome. Do this without extra space.
+
+```python
+class Solution(object):
+    def isPalindrome(self, x):
+        """
+        :type x: int
+        :rtype: bool
+        """
+        return str(x) == str(x)[::-1]
+```
+
 ## 11. Container With Most Water
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
 
@@ -411,7 +424,7 @@ class Solution(object):
         if solution != []:        
             return solution
 
-### Second method - first sort array and use invariants
+## Second method - first sort array and use invariants
 class Solution(object):
     def threeSum(self, nums):
         """
@@ -440,7 +453,7 @@ class Solution(object):
         return solutions.keys()
 ```
 
-### 16. 3Sum Closest
+## 16. 3Sum Closest
 Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target. Return the sum of the three integers. You may assume that each input would have exactly one solution.
 
 > For example, given array S = {-1 2 1 -4}, and target = 1. The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
@@ -662,7 +675,7 @@ class Solution(object):
         return fill_index
 ```
 
-### 27. Remove Element
+## 27. Remove Element
 Given an array and a value, remove all instances of that value in place and return the new length.
 
 Do not allocate extra space for another array, you must do this in place with constant memory.
@@ -709,7 +722,7 @@ class Solution(object):
         return N
 ```
 
-### 32. Longest Valid Parentheses
+## 32. Longest Valid Parentheses
 Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
 
 >For "(()", the longest valid parentheses substring is "()", which has length = 2.
@@ -748,7 +761,7 @@ class Solution(object):
         return max(LVS)
 ```
 
-### 33. Search in Rotated Sorted Array
+## 33. Search in Rotated Sorted Array
 Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
 
 (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
@@ -762,7 +775,7 @@ You may assume no duplicate exists in the array.
 
 ```
 
-### 34. Search for a Range
+## 34. Search for a Range
 Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.
 
 Your algorithm's runtime complexity must be in the order of O(log n).
@@ -835,7 +848,7 @@ class Solution(object):
         return solution
 ```
 
-### 39. Combination Sum
+## 39. Combination Sum
 Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
 
 The same repeated number may be chosen from C unlimited number of times.
@@ -953,7 +966,7 @@ class Solution:
         return area
 ```
 
-### 44. Wildcard Matching
+## 44. Wildcard Matching
 Implement wildcard pattern matching with support for '?' and '*'.
 
 '?' Matches any single character.
@@ -1014,7 +1027,7 @@ class Solution(object):
         return grid[M][N]
 ```
 
-### 46. Permutations
+## 46. Permutations
 Given a collection of distinct numbers, return all possible permutations.
 
 >For example,
@@ -1056,7 +1069,7 @@ class Solution(object):
         return permutations
 ```
 
-### 48. Rotate Image
+## 48. Rotate Image
 You are given an n x n 2D matrix representing an image.
 
 Rotate the image by 90 degrees (clockwise).
@@ -1093,7 +1106,7 @@ class Solution(object):
         return
 ```
 
-### 49. Group Anagrams
+## 49. Group Anagrams
 Given an array of strings, group anagrams together.
 
 >For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"],
@@ -1130,7 +1143,7 @@ class Solution(object):
         return tuple(rep)
 ```
 
-### 54. Spiral Matrix
+## 54. Spiral Matrix
 Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
 
 >For example,
@@ -1238,7 +1251,7 @@ class Solution(object):
         return False
 ```
 
-### 56. Merge Intervals
+## 56. Merge Intervals
 Given a collection of intervals, merge all overlapping intervals.
 
 >For example,
@@ -1282,7 +1295,7 @@ class Solution(object):
         return solution
 ```
 
-### 57. Insert Interval
+## 57. Insert Interval
 Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
 
 You may assume that the intervals were initially sorted according to their start times.
@@ -1341,7 +1354,7 @@ class Solution(object):
         return solution
 ```
 
-### 58. Length of Last Word
+## 58. Length of Last Word
 Given a string s consists of upper/lower-case alphabets and empty space characters ' ', return the length of last word in the string.
 
 If the last word does not exist, return 0.
@@ -1378,7 +1391,7 @@ class Solution(object):
         return length
 ```
 
-### 59. Spiral Matrix II
+## 59. Spiral Matrix II
 Given an integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
 
 >For example,
@@ -1457,7 +1470,7 @@ class Solution(object):
         return matrix
 ```
 
-### 60. Permutation Sequence
+## 60. Permutation Sequence
 The set [1,2,3,…,n] contains a total of n! unique permutations.
 
 By listing and labeling all of the permutations in order,
@@ -1530,7 +1543,7 @@ class Solution(object):
         return math.factorial(m+n-2)/(math.factorial(m-1)*math.factorial(n-1))
 ```
 
-### 63. Unique Paths II
+## 63. Unique Paths II
 Follow up for "Unique Paths":
 
 Now consider if some obstacles are added to the grids. How many unique paths would there be?
@@ -1579,7 +1592,7 @@ class Solution(object):
         return num_paths[i][j]   
 ```
 
-### 64. Minimum Path Sum
+## 64. Minimum Path Sum
 Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.
 
 Note: You can only move either down or right at any point in time.
@@ -1614,7 +1627,7 @@ class Solution(object):
         return path_sum[i][j]
 ```
 
-### 72. Edit Distance
+## 72. Edit Distance
 Given two words word1 and word2, find the minimum number of steps required to convert word1 to word2. (each operation is counted as 1 step.)
 
 You have the following 3 operations permitted on a word:
@@ -1665,7 +1678,7 @@ class Solution(object):
         return edit_distance[i][j]
 ```
 
-### 74. Search a 2D Matrix
+## 74. Search a 2D Matrix
 Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
 
 Integers in each row are sorted from left to right.
@@ -1725,7 +1738,7 @@ class Solution(object):
             return self.binarySearch(array[:L/2], target)
 ```
 
-### 73. Set Matrix Zeroes
+## 73. Set Matrix Zeroes
 Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.
 
 Follow up:
@@ -2023,7 +2036,7 @@ class Solution(object):
         return True,currentVal
 ```
 
-### 99. Recover Binary Search Tree
+## 99. Recover Binary Search Tree
 Two elements of a binary search tree (BST) are swapped by mistake.
 
 Recover the tree without changing its structure.
@@ -2211,7 +2224,7 @@ class Solution(object):
         return self.isSymmetricHelper(node1.left,node2.right) and self.isSymmetricHelper(node1.right,node2.left)
 ```
 
-### 102. Binary Tree Level Order Traversal
+## 102. Binary Tree Level Order Traversal
 Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
 
 >For example:
@@ -2267,7 +2280,7 @@ class Solution(object):
 
 ```
 
-### 103. Binary Tree Zigzag Level Order Traversal
+## 103. Binary Tree Zigzag Level Order Traversal
 Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).
 
 >For example:
@@ -2621,7 +2634,7 @@ class Solution(object):
         return [str(root.val) + ',' + str(val) for val in self.getPaths(root.left) + (self.getPaths(root.right))]  
 ```
 
-### 120. Triangle
+## 120. Triangle
 Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
 
 >For example, given the following triangle
@@ -2659,7 +2672,7 @@ class Solution(object):
         return min(prev_total)
 ```
 
-### 125. Valid Palindrome
+## 125. Valid Palindrome
 Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
 >For example,
@@ -2750,7 +2763,7 @@ class Solution(object):
         return paths
 ```
 
-### 130. Surrounded Regions
+## 130. Surrounded Regions
 Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surrounded by 'X'.
 
 A region is captured by flipping all 'O's into 'X's in that surrounded region.
@@ -2836,7 +2849,7 @@ class Solution:
         return answer
 ```
 
-### 139. Word Break
+## 139. Word Break
 Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be segmented into a space-separated sequence of one or more dictionary words. You may assume the dictionary does not contain duplicate words.
 
 >For example, given
@@ -2873,7 +2886,7 @@ class Solution(object):
         return solution[-1]
 ```
 
-### 144. Binary Tree Preorder Traversal
+## 144. Binary Tree Preorder Traversal
 Given a binary tree, return the preorder traversal of its nodes' values.
 
 >For example:
@@ -3130,7 +3143,7 @@ class Solution(object):
         return sum
 ```
 
-### 208. Implement Trie (Prefix Tree)
+## 208. Implement Trie (Prefix Tree)
 Implement a trie with insert, search, and startsWith methods.
 
 Note:
@@ -3288,7 +3301,7 @@ class Solution(object):
 
 ```
 
-### 217. Contains Duplicate
+## 217. Contains Duplicate
 Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.
 
 
@@ -3385,7 +3398,7 @@ class Solution(object):
         return solution
 ```
 
-### 219. Contains Duplicate II
+## 219. Contains Duplicate II
 Given an array of integers and an integer k, find out whether there are two distinct indices i and j in the array such that nums[i] = nums[j] and the absolute difference between i and j is at most k.
 
 
@@ -3408,7 +3421,7 @@ class Solution(object):
         return False
 ```
 
-### 221. Maximal Square
+## 221. Maximal Square
 Given a 2D binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its area.
 
 >For example, given the following matrix:
@@ -3457,7 +3470,7 @@ class Solution(object):
         return max_square_dim**2
 ```
 
-### 222. Count Complete Tree Nodes
+## 222. Count Complete Tree Nodes
 Given a complete binary tree, count the number of nodes.
 
 Definition of a complete binary tree from Wikipedia:
@@ -3515,7 +3528,7 @@ class Solution(object):
         return count, depths, max_depth, stopTraversing
 ```
 
-### 223. Find the total area covered by two rectilinear rectangles in a 2D plane.
+## 223. Find the total area covered by two rectilinear rectangles in a 2D plane.
 
 Each rectangle is defined by its bottom left corner and top right corner as shown in the figure.
 
@@ -3551,7 +3564,7 @@ class Solution(object):
         return area1 + area2 - intersecting_area
 ```
 
-### 226. Invert Binary Tree
+## 226. Invert Binary Tree
 Invert a binary tree.
 >
 ```
@@ -3601,7 +3614,7 @@ class Solution(object):
         return newRoot
 ```
 
-### 228. Summary Ranges
+## 228. Summary Ranges
 Given a sorted integer array without duplicates, return the summary of its ranges.
 >Example 1:
 ```
@@ -3701,7 +3714,7 @@ class Solution(object):
         return None,k
 ```
 
-### 235. Lowest Common Ancestor of a Binary Search Tree
+## 235. Lowest Common Ancestor of a Binary Search Tree
 Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
 
 According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
@@ -3741,7 +3754,7 @@ class Solution(object):
             return self.lowestCommonAncestor(root.right,p,q)
 ```
 
-### 236. Lowest Common Ancestor of a Binary Tree
+## 236. Lowest Common Ancestor of a Binary Tree
 Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
 
 According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
@@ -3801,7 +3814,7 @@ class Solution(object):
         return None
 ```
 
-### 240. Search a 2D Matrix II
+## 240. Search a 2D Matrix II
 Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
 
 Integers in each row are sorted in ascending from left to right.
@@ -3883,7 +3896,7 @@ class Solution(object):
         return [str(root.val) + '->' + str(val) for val in self.binaryTreePaths(root.left) + self.binaryTreePaths(root.right)]
 ```
 
-### 263. Ugly Number
+## 263. Ugly Number
 Write a program to check whether a given number is an ugly number.
 
 Ugly numbers are positive numbers whose prime factors only include 2, 3, 5.
@@ -3915,7 +3928,7 @@ class Solution(object):
         return False
 ```
 
-### 264. Ugly Number II
+## 264. Ugly Number II
 Write a program to find the n-th ugly number.
 
 Ugly numbers are positive numbers whose prime factors only include 2, 3, 5.
@@ -3950,7 +3963,7 @@ class Solution(object):
         return ugly_number[idx]
 ```
 
-### 268. Missing Number
+## 268. Missing Number
 Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
 
 >For example,
@@ -4027,7 +4040,7 @@ class Solution(object):
         return num_elements[-1]
 ```
 
-### 287. Find the Duplicate Number
+## 287. Find the Duplicate Number
 Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
 
 Note:
@@ -4048,7 +4061,7 @@ There is only one duplicate number in the array, but it could be repeated more t
 
 
 
-### 289. Game of Life
+## 289. Game of Life
 According to the Wikipedia's article: "The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970."
 
 Given a board with m by n cells, each cell has an initial state live (1) or dead (0). Each cell interacts with its eight neighbors (horizontal, vertical, diagonal) using the following four rules (taken from the above Wikipedia article):
@@ -4167,7 +4180,7 @@ class Solution(object):
         return str(bulls)+"A"+str(cows)+"B"
 ```
 
-### 300. Longest Increasing Subsequence
+## 300. Longest Increasing Subsequence
 Given an unsorted array of integers, find the length of longest increasing subsequence.
 
 >For example,
@@ -4199,7 +4212,7 @@ class Solution(object):
         return max(LIS)
 ```
 
-### 312. Burst Balloons
+## 312. Burst Balloons
 Given n balloons, indexed from 0 to n-1. Each balloon is painted with a number on it represented by array nums. You are asked to burst all the balloons. If the you burst balloon i you will get nums[left] * nums[i] * nums[right] coins. Here left and right are adjacent indices of i. After the burst, the left and right then becomes adjacent.
 
 Find the maximum coins you can collect by bursting the balloons wisely.
@@ -4247,7 +4260,7 @@ class Solution(object):
 
 ```
 
-### 313. Super Ugly Number
+## 313. Super Ugly Number
 Write a program to find the nth super ugly number.
 
 Super ugly numbers are positive numbers whose all prime factors are in the given prime list primes of size k.
@@ -4381,7 +4394,7 @@ class Solution(object):
         return n[0]
 ```
 
-### 404. Sum of Left Leaves
+## 404. Sum of Left Leaves
 Find the sum of all left leaves in a given binary tree.
 >Example:
 ```
@@ -4425,7 +4438,7 @@ class Solution(object):
         return solution
 ```
 
-### 417. Pacific Atlantic Water Flow
+## 417. Pacific Atlantic Water Flow
 Given an m x n matrix of non-negative integers representing the height of each unit cell in a continent, the "Pacific ocean" touches the left and top edges of the matrix and the "Atlantic ocean" touches the right and bottom edges.
 
 Water can only flow in four directions (up, down, left, or right) from a cell to another one with height equal or lower.
@@ -4505,7 +4518,7 @@ class Solution(object):
         return fill_matrix
 ```
 
-### 434. Number of Segments in a String
+## 434. Number of Segments in a String
 Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.
 
 Please note that the string does not contain any non-printable characters.
@@ -4522,6 +4535,43 @@ class Solution(object):
         :rtype: int
         """
         return len(s.split())
+```
+
+## 442. Find All Duplicates in an Array
+Given an array of integers, 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and others appear once.
+
+Find all the elements that appear twice in this array.
+
+Could you do it without extra space and in O(n) runtime?
+
+>
+```
+Example:
+Input:
+[4,3,2,7,8,2,3,1]
+Output:
+[2,3]
+```
+
+```python
+class Solution(object):
+    def findDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        fraction = 0.1
+        L = len(nums)
+        for i in range(L):
+            nums[int(nums[i])-1] += fraction
+
+        solution = []
+        for i in range(L):
+            s = nums[i] - int(nums[i]) - 2*fraction
+            if abs(s) < 1e-8:
+                solution += [i+1]
+
+        return solution
 ```
 
 ## 463. Island Perimeter
@@ -4766,7 +4816,7 @@ class Solution(object):
             queue = tmp
 ```
 
-### 518. Coin Change 2
+## 518. Coin Change 2
 You are given coins of different denominations and a total amount of money. Write a function to compute the number of combinations that make up that amount. You may assume that you have infinite number of each kind of coin.
 
 Note: You can assume that
@@ -5004,7 +5054,7 @@ class Solution(object):
         return len(wall) - max(num_cuts.values()+[0])
 ```
 
-### 563. Binary Tree Tilt
+## 563. Binary Tree Tilt
 Given a binary tree, return the tilt of the whole tree.
 
 The tilt of a tree node is defined as the absolute difference between the sum of all left subtree node values and the sum of all right subtree node values. Null node has tilt 0.
@@ -5077,7 +5127,7 @@ class Solution(object):
         return tilts,sums
 ```
 
-### 605. Can Place Flowers
+## 605. Can Place Flowers
 Suppose you have a long flowerbed in which some of the plots are planted and some are not. However, flowers cannot be planted in adjacent plots - they would compete for water and both would die.
 
 Given a flowerbed (represented as an array containing 0 and 1, where 0 means empty and 1 means not empty), and a number n, return if n new flowers can be planted in it without violating the no-adjacent-flowers rule.
@@ -5146,7 +5196,7 @@ class Solution(object):
         return max(possibility1, possibility2)
 ```
 
-### 662.  Maximum Width of Binary Tree
+## 662.  Maximum Width of Binary Tree
 Given a binary tree, write a function to get the maximum width of the given tree. The width of a tree is the maximum width among all levels. The binary tree has the same structure as a full binary tree, but some nodes are null.
 
 The width of one level is defined as the length between the end-nodes (the leftmost and right most non-null nodes in the level, where the null nodes between the end-nodes are also counted into the length calculation.
@@ -5208,7 +5258,7 @@ Note: Answer will in the range of 32-bit signed integer.
 
 ```
 
-### 677. Map Sum Pairs
+## 677. Map Sum Pairs
 Implement a MapSum class with insert, and sum methods.
 
 For the method insert, you'll be given a pair of (string, integer). The string represents the key and the integer represents the value. If the key already existed, then the original key-value pair will be overridden to the new one.
@@ -5284,7 +5334,7 @@ class TrieNode(object):
 # param_2 = obj.sum(prefix)
 ```
 
-### 695. Max Area of Island
+## 695. Max Area of Island
 Given a non-empty 2D array grid of 0's and 1's, an island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.
 
 Find the maximum area of an island in the given 2D array. (If there is no island, the maximum area is 0.)
@@ -5342,7 +5392,7 @@ class Solution(object):
         return grid, area
 ```
 
-### 728. Self Dividing Numbers
+## 728. Self Dividing Numbers
 A self-dividing number is a number that is divisible by every digit it contains.
 
 >For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.
@@ -5370,7 +5420,7 @@ class Solution(object):
         return False if '0' in str(num) else all([num % int(s) == 0 for s in str(num)])
 ```
 
-### 729. My Calendar I
+## 729. My Calendar I
 Implement a MyCalendar class to store your events. A new event can be added if adding the event will not cause a double booking.
 
 Your class will have the method, book(int start, int end). Formally, this represents a booking on the half open interval [start, end), the range of real numbers x such that start <= x < end.
@@ -5445,7 +5495,7 @@ class Node(object):
 # param_1 = obj.book(start,end)
 ```
 
-### 733. Flood Fill
+## 733. Flood Fill
 An image is represented by a 2-D array of integers, each integer representing the pixel value of the image (from 0 to 65535).
 
 Given a coordinate (sr, sc) representing the starting pixel (row and column) of the flood fill, and a pixel value newColor, "flood fill" the image.
@@ -5504,7 +5554,7 @@ class Solution(object):
         return image
 ```
 
-### 735. Asteroid Collision
+## 735. Asteroid Collision
 We are given an array asteroids of integers representing asteroids in a row.
 
 For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
@@ -5588,7 +5638,7 @@ class Solution(object):
             return stack
 ```
 
-### 739. Daily Temperatures
+## 739. Daily Temperatures
 Given a list of daily temperatures, produce a list that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.
 
 >For example, given the list temperatures = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].
@@ -5621,7 +5671,7 @@ class Solution(object):
         return solution
 ```
 
-### 746. Min Cost Climbing Stairs
+## 746. Min Cost Climbing Stairs
 On a staircase, the i-th step has some non-negative cost cost[i] assigned (0 indexed).
 
 Once you pay the cost, you can either climb one or two steps. You need to find minimum cost to reach the top of the floor, and you can either start from the step with index 0, or the step with index 1.
@@ -5659,7 +5709,7 @@ class Solution(object):
         return minCost[-1]
 ```
 
-### 752. Open the Lock
+## 752. Open the Lock
 You have a lock in front of you with 4 circular wheels. Each wheel has 10 slots: '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'. The wheels can rotate freely and wrap around: for example we can turn '9' to be '0', or '0' to be '9'. Each move consists of turning one wheel one slot.
 
 The lock initially starts at '0000', a string representing the state of the 4 wheels.
@@ -5744,7 +5794,59 @@ class Solution(object):
         return neighbors
 ```
 
-### 766. Toeplitz Matrix
+## 763. Partition Labels
+A string S of lowercase letters is given. We want to partition this string into as many parts as possible so that each letter appears in at most one part, and return a list of integers representing the size of these parts.
+>
+```
+Example 1:
+Input: S = "ababcbacadefegdehijhklij"
+Output: [9,7,8]
+Explanation:
+The partition is "ababcbaca", "defegde", "hijhklij".
+This is a partition so that each letter appears in at most one part.
+A partition like "ababcbacadefegde", "hijhklij" is incorrect, because it splits S into less parts.
+```
+Note:
+1. S will have length in range [1, 500].
+2. S will consist of lowercase letters ('a' to 'z') only.
+
+```python
+class Solution(object):
+    def partitionLabels(self, S):
+        """
+        :type S: str
+        :rtype: List[int]
+        """
+        # This is equivalent to non-overlapping intervals problem
+        # Create interval lists for each letter denoting start and end positions
+        intervals = {}
+        L = len(S)
+        for idx in range(L):
+            if S[idx] in intervals:
+                intervals[S[idx]][-1] = idx
+            else:
+                intervals[S[idx]] = [idx,idx]
+
+        # Create a list of intervals
+        intervals_list = sorted(intervals.values(),key=lambda x:x[0])
+
+        # Create non-overlapping intervals
+        NOI = []
+        first = intervals_list[0][0]
+        last = intervals_list[0][1]
+        for i in intervals_list[1:]:
+            if i[0] > last:
+                NOI += [[first,last]]
+                first = i[0]
+                last = i[1]
+            else:
+                last = max(last,i[1])
+        NOI += [[first,last]]
+
+        return [noi[1] - noi[0] + 1 for noi in NOI]
+```
+
+## 766. Toeplitz Matrix
 A matrix is Toeplitz if every diagonal from top-left to bottom-right has the same element.
 
 Now given an M x N matrix, return True if and only if the matrix is Toeplitz.
@@ -5837,7 +5939,51 @@ class Solution(object):
 
 ```
 
-### 781. Rabbits in Forest
+## 779. K-th Symbol in Grammar
+On the first row, we write a 0. Now in every subsequent row, we look at the previous row and replace each occurrence of 0 with 01, and each occurrence of 1 with 10.
+
+Given row N and index K, return the K-th indexed symbol in row N. (The values of K are 1-indexed.) (1 indexed).
+
+>
+```
+Examples:
+Input: N = 1, K = 1
+Output: 0
+Input: N = 2, K = 1
+Output: 0
+Input: N = 2, K = 2
+Output: 1
+Input: N = 4, K = 5
+Output: 1
+Explanation:
+row 1: 0
+row 2: 01
+row 3: 0110
+row 4: 01101001
+```
+Note:
+1. N will be an integer in the range [1, 30].
+2. K will be an integer in the range [1, 2^(N-1)].
+
+```python
+class Solution(object):
+    def kthGrammar(self, N, K):
+        """
+        :type N: int
+        :type K: int
+        :rtype: int
+        """
+        # Note than Nth row has 2*N indices. If K <= N/2, symbol(N,K) = symbol(N-1,K), else  = 1-symbol(N-1,K-N/2)
+        multiplier = 0
+        for n in range(N-1,0,-1):
+            if K > 2**(n-1):
+                multiplier = not multiplier
+                K -= 2**(n-1)
+
+        return int(multiplier)
+```
+
+## 781. Rabbits in Forest
 In a forest, each rabbit has some color. Some subset of rabbits (possibly all of them) tell you how many other rabbits have the same color as them. Those answers are placed in an array.
 
 Return the minimum number of rabbits that could be in the forest.
@@ -5885,7 +6031,7 @@ class Solution(object):
         return int(sum)
 ```
 
-### 783. Minimum Distance Between BST Nodes
+## 783. Minimum Distance Between BST Nodes
 Given a Binary Search Tree (BST) with the root node root, return the minimum difference between the values of any two different nodes in the tree.
 
 >Example :
