@@ -1654,6 +1654,76 @@ class Solution(object):
         return path_sum[i][j]
 ```
 
+## 69. Sqrt(x)
+Implement int sqrt(int x).
+
+Compute and return the square root of x.
+
+x is guaranteed to be a non-negative integer.
+
+```python
+class Solution(object):
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        # Newton-Raphson method
+        r = x
+        while r*r > x:
+            r = (r + x/r) / 2
+        return r
+```
+
+## 70. Climbing Stairs
+You are climbing a stair case. It takes n steps to reach to the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+Note: Given n will be a positive integer.
+
+>
+```
+Example 1:
+Input: 2
+Output:  2
+Explanation:  There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+```
+>
+```
+Example 2:
+Input: 3
+Output:  3
+Explanation:  There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
+```
+
+```python
+class Solution:
+    # @param {integer} n
+    # @return {integer}
+    def climbStairs(self, n):
+        solution = [0]*(n+1)
+        if n == 0:
+            return 0
+        elif n == 1:
+            return 1
+        elif n == 2:
+            return 2
+        else:            
+            solution[0] = 0
+            solution[1] = 1
+            solution[2] = 2
+            for i in range(3,n+1):
+                solution[i] = solution[i-1] + solution[i-2]
+
+        return solution[n]
+```
+
 ## 72. Edit Distance
 Given two words word1 and word2, find the minimum number of steps required to convert word1 to word2. (each operation is counted as 1 step.)
 
@@ -1703,6 +1773,45 @@ class Solution(object):
                 else:
                     edit_distance[i][j] = min(edit_distance[i][j-1], edit_distance[i-1][j], edit_distance[i-1][j-1]) + 1
         return edit_distance[i][j]
+```
+
+## 73. Set Matrix Zeroes
+Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.
+
+Follow up:
+Did you use extra space?
+A straight forward solution using O(mn) space is probably a bad idea.
+A simple improvement uses O(m + n) space, but still not the best solution.
+Could you devise a constant space solution?
+
+
+```python
+class Solution(object):
+    def setZeroes(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        """
+        # first convert all th rows and columns having 0s to something else, say "A". Then, do one more sweep to convert A's to 0's.
+        m = len(matrix)
+        n = len(matrix[0])
+
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == 0:
+                    for k in range(m):
+                        if matrix[k][j] != 0:
+                            matrix[k][j] = 'A'
+                    for l in range(n):
+                        if matrix[i][l] != 0:
+                            matrix[i][l] = 'A'
+
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == 'A':
+                    matrix[i][j] = 0
+
+        return
 ```
 
 ## 74. Search a 2D Matrix
@@ -1765,44 +1874,6 @@ class Solution(object):
             return self.binarySearch(array[:L/2], target)
 ```
 
-## 73. Set Matrix Zeroes
-Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.
-
-Follow up:
-Did you use extra space?
-A straight forward solution using O(mn) space is probably a bad idea.
-A simple improvement uses O(m + n) space, but still not the best solution.
-Could you devise a constant space solution?
-
-
-```python
-class Solution(object):
-    def setZeroes(self, matrix):
-        """
-        :type matrix: List[List[int]]
-        :rtype: void Do not return anything, modify matrix in-place instead.
-        """
-        # first convert all th rows and columns having 0s to something else, say "A". Then, do one more sweep to convert A's to 0's.
-        m = len(matrix)
-        n = len(matrix[0])
-
-        for i in range(m):
-            for j in range(n):
-                if matrix[i][j] == 0:
-                    for k in range(m):
-                        if matrix[k][j] != 0:
-                            matrix[k][j] = 'A'
-                    for l in range(n):
-                        if matrix[i][l] != 0:
-                            matrix[i][l] = 'A'
-
-        for i in range(m):
-            for j in range(n):
-                if matrix[i][j] == 'A':
-                    matrix[i][j] = 0
-
-        return
-```
 
 ## 75. Sort Colors
 Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue.
@@ -2910,6 +2981,34 @@ class Solution(object):
         return board
 ```
 
+## 135. Candy
+There are N children standing in a line. Each child is assigned a rating value.
+
+You are giving candies to these children subjected to the following requirements:
+
+Each child must have at least one candy.
+Children with a higher rating get more candies than their neighbors.
+What is the minimum candies you must give?
+
+```python
+class Solution:
+    # @param {integer[]} ratings
+    # @return {integer}
+    def candy(self, ratings):
+        n = len(ratings)
+        candies = [1] * n
+
+        for i in xrange(1, n):
+            if ratings[i] > ratings[i-1]:
+                candies[i] = candies[i-1] + 1
+
+        for i in xrange(n-2, -1, -1):
+            if ratings[i] > ratings[i+1]:
+                candies[i] = max(candies[i], candies[i+1] + 1)
+
+        return sum(candies)
+```
+
 ## 136. Single Number
 Given an array of integers, every element appears twice except for one. Find that single one.
 
@@ -3050,6 +3149,26 @@ class Solution:
         return solution
 ```
 
+## 191. Number of 1 Bits
+Write a function that takes an unsigned integer and returns the number of ’1' bits it has (also known as the Hamming weight).
+
+For example, the 32-bit integer ’11' has binary representation 00000000000000000000000000001011, so the function should return 3.
+
+```python
+class Solution(object):
+    def hammingWeight(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        bits = 0
+        while n != 0:
+            bits += 1
+            n &= (n-1)
+
+        return bits
+```
+
 ## 198. House Robber
 You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
 
@@ -3178,6 +3297,27 @@ class Solution(object):
             self.traverse(i,j-1,grid)
 
         return grid
+```
+
+## 201. Bitwise AND of Numbers Range
+Given a range [m, n] where 0 <= m <= n <= 2147483647, return the bitwise AND of all numbers in this range, inclusive.
+
+For example, given the range [5, 7], you should return 4.
+
+```python
+class Solution(object):
+    def rangeBitwiseAnd(self, m, n):
+        """
+        :type m: int
+        :type n: int
+        :rtype: int
+        """
+        i = 0
+        while m != n:
+            m >>= 1
+            n >>= 1
+            i += 1
+        return n << i
 ```
 
 ## 202. Happy Number
@@ -3792,6 +3932,22 @@ class Solution(object):
             return result, k
 
         return None,k
+```
+
+## 231. Power of Two
+Given an integer, write a function to determine if it is a power of two.
+
+```python
+class Solution:
+    # @param {integer} n
+    # @return {boolean}
+    def isPowerOfTwo(self, n):
+        if n <= 0:
+            return False
+        if n & (n-1) == 0:
+            return True
+        else:
+            return False
 ```
 
 ## 235. Lowest Common Ancestor of a Binary Search Tree
@@ -4473,6 +4629,56 @@ class Solution(object):
 
         return n[0]
 ```
+## 403. Frog Jump
+A frog is crossing a river. The river is divided into x units and at each unit there may or may not exist a stone. The frog can jump on a stone, but it must not jump into the water.
+
+Given a list of stones' positions (in units) in sorted ascending order, determine if the frog is able to cross the river by landing on the last stone. Initially, the frog is on the first stone and assume the first jump must be 1 unit.
+
+If the frog's last jump was k units, then its next jump must be either k - 1, k, or k + 1 units. Note that the frog can only jump in the forward direction.
+
+Note:
+
+- The number of stones is ≥ 2 and is < 1,100.
+- Each stone's position will be a non-negative integer < 231.
+- The first stone's position is always 0.
+>
+```
+Example 1:
+[0,1,3,5,6,8,12,17]
+There are a total of 8 stones.
+The first stone at the 0th unit, second stone at the 1st unit,
+third stone at the 3rd unit, and so on...
+The last stone at the 17th unit.
+Return true. The frog can jump to the last stone by jumping
+1 unit to the 2nd stone, then 2 units to the 3rd stone, then
+2 units to the 4th stone, then 3 units to the 6th stone,
+4 units to the 7th stone, and 5 units to the 8th stone.
+```
+>
+```
+Example 2:
+[0,1,2,3,4,8,9,11]
+Return false. There is no way to jump to the last stone as
+the gap between the 5th and 6th stone is too large.
+```
+
+```python
+class Solution(object):
+    def canCross(self, stones):
+        """
+        :type stones: List[int]
+        :rtype: bool
+        """
+
+        dp = {stone: {} for stone in stones}
+        dp[0][0] = 0
+        for stone in stones:
+            for step in dp[stone].values():
+                for k in [step + 1, step, step - 1]:
+                    if k > 0 and stone + k in dp:
+                        dp[stone + k][stone] = k
+        return len(dp[stones[-1]].keys()) > 0
+```
 
 ## 404. Sum of Left Leaves
 Find the sum of all left leaves in a given binary tree.
@@ -4894,6 +5100,53 @@ class Solution(object):
                 return queue[0].val
 
             queue = tmp
+```
+
+## 515. Find Largest Value in Each Tree Row
+You need to find the largest value in each row of a binary tree.
+>
+Example:
+Input:
+```
+          1
+         / \
+        3   2
+       / \   \  
+      5   3   9
+```
+Output: [1, 3, 9]
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def largestValues(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        if root == None:
+            return []
+        queue = [root]
+        solution = []
+        while queue != []:
+            tmp = queue
+            queue = []
+            maximum = tmp[0].val
+            for t in tmp:
+                maximum = max(maximum,t.val)
+                if t.left != None:
+                    queue.append(t.left)
+                if t.right != None:
+                    queue.append(t.right)
+            solution.append(maximum)
+
+        return solution
 ```
 
 ## 518. Coin Change 2
@@ -5970,53 +6223,6 @@ class Solution(object):
             if matrix[i-1][:-1] != matrix[i][1:]:
                 return False
         return True
-```
-
-## 767. Reorganize String
-Given a string S, check if the letters can be rearranged so that two characters that are adjacent to each other are not the same.
-
-If possible, output any possible result.  If not possible, return the empty string.
-
->Example 1:
-```
-Input: S = "aab"
-Output: "aba"
-```
-
->Example 2:
-```
-Input: S = "aaab"
-Output: ""
-```
-
-
-```python
-
-```
-
-
-```python
-class Solution(object):
-    def reachNumber(self, target):
-        """
-        :type target: int
-        :rtype: int
-        """
-        queue = [0]
-        steps = 1
-
-        while 1:
-            tmp = queue
-            queue = []
-            for t in tmp:
-                if t+steps == target:
-                    return steps
-                queue.append(t+steps)
-                if t-steps == target:
-                    return steps
-                queue.append(t-steps)
-            steps += 1
-
 ```
 
 ## 779. K-th Symbol in Grammar
