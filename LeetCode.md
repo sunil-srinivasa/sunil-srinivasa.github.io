@@ -1143,6 +1143,33 @@ class Solution(object):
         return tuple(rep)
 ```
 
+## 53. Maximum Subarray
+Find the contiguous subarray within an array (containing at least one number) which has the largest sum.
+
+>For example, given the array [-2,1,-3,4,-1,2,1,-5,4],
+the contiguous subarray [4,-1,2,1] has the largest sum = 6.
+
+```python
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        L = len(nums)
+        sums = [0 for _ in range(L)]
+        sums[0] = nums[0]
+        maxSum = sums[0]
+        minSum = min(0,sums[0])
+        for i in range(1,L):
+            sums[i] += (sums[i-1]+nums[i])
+            maxSum = max(maxSum,sums[i]-minSum)
+            if sums[i] < minSum:
+                minSum = sums[i]
+
+        return maxSum
+```
+
 ## 54. Spiral Matrix
 Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
 
@@ -1791,8 +1818,6 @@ First, iterate the array counting number of 0's, 1's, and 2's, then overwrite ar
 
 Could you come up with an one-pass algorithm using only constant space?
 
-
-
 ```python
 class Solution(object):
     def sortColors(self, nums):
@@ -1812,6 +1837,61 @@ class Solution(object):
                 nums[i] = 0
                 i += 1
 ```
+
+## 79. Word Search
+Given a 2D board and a word, find if the word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+>For example,
+Given board =
+```
+[
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+]
+```
+word = "ABCCED", -> returns true,
+word = "SEE", -> returns true,
+word = "ABCB", -> returns false.
+
+```python
+class Solution(object):
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        M = len(board)
+        N = len(board[0])
+        for i in range(M):
+            for j in range(N):
+                if self.search(board,i,j,word,{})[0]:
+                    return True
+        return False
+
+    def search(self,board,i,j,word,visited):
+        M = len(board)
+        N = len(board[0])
+        if (i,j) in visited:
+            return None, visited
+        if board[i][j] == word[0]:
+            visited[(i,j)] = 0
+            word = word[1:]
+            if word == '':
+                return True,visited
+            deltas = [(0,1),(0,-1),(1,0),(-1,0)]
+            for delta in deltas:
+                if 0 <= i+delta[0] < M and 0 <= j+delta[1] < N:
+                    solution, visited = self.search(board,i+delta[0],j+delta[1],word,visited)
+                    if solution == True:
+                        return True, visited
+            visited.pop((i,j),None)
+        return False,visited    
+```
+
 
 ## 88. Merge Sorted Array
 Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
