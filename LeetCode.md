@@ -6130,15 +6130,16 @@ class Solution(object):
 ## 763. Partition Labels
 A string S of lowercase letters is given. We want to partition this string into as many parts as possible so that each letter appears in at most one part, and return a list of integers representing the size of these parts.
 >
-```
 Example 1:
+```
 Input: S = "ababcbacadefegdehijhklij"
 Output: [9,7,8]
+```
 Explanation:
 The partition is "ababcbaca", "defegde", "hijhklij".
 This is a partition so that each letter appears in at most one part.
 A partition like "ababcbacadefegde", "hijhklij" is incorrect, because it splits S into less parts.
-```
+
 Note:
 1. S will have length in range [1, 500].
 2. S will consist of lowercase letters ('a' to 'z') only.
@@ -6231,8 +6232,8 @@ On the first row, we write a 0. Now in every subsequent row, we look at the prev
 Given row N and index K, return the K-th indexed symbol in row N. (The values of K are 1-indexed.) (1 indexed).
 
 >
-```
 Examples:
+```
 Input: N = 1, K = 1
 Output: 0
 Input: N = 2, K = 1
@@ -6275,8 +6276,8 @@ In a forest, each rabbit has some color. Some subset of rabbits (possibly all of
 Return the minimum number of rabbits that could be in the forest.
 
 >
-```
 Examples:
+```
 Input: answers = [1, 1, 2]
 Output: 5
 ```
@@ -6369,4 +6370,181 @@ class Solution(object):
         val,diff = self.minDiff(node.right,val,diff)
 
         return val,diff
+```
+
+## 789. Escape The Ghosts
+You are playing a simplified Pacman game. You start at the point (0, 0), and your destination is (target[0], target[1]). There are several ghosts on the map, the i-th ghost starts at (ghosts[i][0], ghosts[i][1]).
+
+Each turn, you and all ghosts simultaneously *may* move in one of 4 cardinal directions: north, east, west, or south, going from the previous point to a new point 1 unit of distance away.
+
+You escape if and only if you can reach the target before any ghost reaches you (for any given moves the ghosts may take.)  If you reach any square (including the target) at the same time as a ghost, it doesn't count as an escape.
+
+Return True if and only if it is possible to escape.
+>
+Example 1:
+```
+Input:
+ghosts = [[1, 0], [0, 3]]
+target = [0, 1]
+Output: true
+```
+Explanation:
+You can directly reach the destination (0, 1) at time 1, while the ghosts located at (1, 0) or (0, 3) have no way to catch up with you.
+>
+Example 2:
+```
+Input:
+ghosts = [[1, 0]]
+target = [2, 0]
+Output: false
+```
+Explanation:
+You need to reach the destination (2, 0), but the ghost at (1, 0) lies between you and the destination.
+>
+Example 3:
+```
+Input:
+ghosts = [[2, 0]]
+target = [1, 0]
+Output: false
+```
+Explanation:
+The ghost can reach the target at the same time as you.
+
+Note:
+
+- All points have coordinates with absolute value <= 10000.
+- The number of ghosts will not exceed 100.
+
+```python
+class Solution(object):
+    def escapeGhosts(self, ghosts, target):
+        """
+        :type ghosts: List[List[int]]
+        :type target: List[int]
+        :rtype: bool
+        """
+        # If path from ghose to destination os shorter, there will be no escape since the ghost can simply reach the destination
+        # and wait to capture.
+        # Also, time from (x,y) to (u,v) is simply |u-x| + |v-y|
+        myTime = abs(target[0]) + abs(target[1])
+        ghost_minTime = min([abs(g[0] - target[0]) + abs(g[1] - target[1]) for g in ghosts])
+
+        return myTime < ghost_minTime
+```
+
+## 794. Valid Tic-Tac-Toe State
+
+A Tic-Tac-Toe board is given as a string array board. Return True if and only if it is possible to reach this board position during the course of a valid tic-tac-toe game.
+
+The board is a 3 x 3 array, and consists of characters " ", "X", and "O".  The " " character represents an empty square.
+
+Here are the rules of Tic-Tac-Toe:
+
+Players take turns placing characters into empty squares (" ").
+The first player always places "X" characters, while the second player always places "O" characters.
+"X" and "O" characters are always placed into empty squares, never filled ones.
+The game ends when there are 3 of the same (non-empty) character filling any row, column, or diagonal.
+The game also ends if all squares are non-empty.
+No more moves can be played if the game is over.
+>
+Example 1:
+```
+Input: board = ["O  ", "   ", "   "]
+Output: false
+Explanation: The first player always plays "X".
+```
+>
+Example 2:
+```
+Input: board = ["XOX", " X ", "   "]
+Output: false
+Explanation: Players take turns making moves.
+```
+>
+Example 3:
+```
+Input: board = ["XXX", "   ", "OOO"]
+Output: false
+```
+>
+Example 4:
+```
+Input: board = ["XOX", "O O", "XOX"]
+Output: true
+```
+
+Note:
+- board is a length-3 array of strings, where each string board[i] has length 3.
+- Each board[i][j] is a character in the set {" ", "X", "O"}.
+
+```python
+class Solution(object):
+    def validTicTacToe(self, board):
+        """
+        :type board: List[str]
+        :rtype: bool
+        """
+        numX = 0
+        numO = 0
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == 'X':
+                    numX += 1
+                elif board[i][j] == 'O':
+                    numO += 1
+
+        if numX > numO + 1 or numX < numO:
+            return False
+
+        X_matches = 0
+        O_matches = 0
+
+        def check_match(board,a,b,c):
+            X_matches = 0
+            O_matches = 0
+            if board[a[0]][a[1]]==board[b[0]][b[1]]==board[c[0]][c[1]]:
+                if board[a[0]][a[1]] == 'X':
+                    X_matches = 1
+                elif board[a[0]][a[1]] == 'O':
+                    O_matches = 1
+            else:
+                return 0,0
+            return X_matches, O_matches
+
+        X_matches += check_match(board,(0,0),(0,1),(0,2))[0]
+        O_matches += check_match(board,(0,0),(0,1),(0,2))[1]
+
+        X_matches += check_match(board,(1,0),(1,1),(1,2))[0]
+        O_matches += check_match(board,(1,0),(1,1),(1,2))[1]
+
+        X_matches += check_match(board,(2,0),(2,1),(2,2))[0]
+        O_matches += check_match(board,(2,0),(2,1),(2,2))[1]
+
+        X_matches += check_match(board,(0,0),(1,0),(2,0))[0]
+        O_matches += check_match(board,(0,0),(1,0),(2,0))[1]
+
+        X_matches += check_match(board,(0,1),(1,1),(2,1))[0]
+        O_matches += check_match(board,(0,1),(1,1),(2,1))[1]
+
+        X_matches += check_match(board,(0,2),(1,2),(2,2))[0]
+        O_matches += check_match(board,(0,2),(1,2),(2,2))[1]
+
+        X_matches += check_match(board,(0,0),(1,1),(2,2))[0]
+        O_matches += check_match(board,(0,0),(1,1),(2,2))[1]
+
+        X_matches += check_match(board,(0,2),(1,1),(2,0))[0]
+        O_matches += check_match(board,(0,2),(1,1),(2,0))[1]
+
+        if X_matches > 0 and O_matches > 0:
+            return False
+
+        if X_matches > 0 and numX == numO:
+            return False
+
+        if O_matches > 0 and numX != numO:
+            return False
+
+
+        return True
 ```
