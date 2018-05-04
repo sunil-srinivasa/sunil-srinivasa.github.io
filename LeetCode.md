@@ -2745,11 +2745,12 @@ Given the below binary tree and sum = 22,
         7    2  5   1
 ```        
 return
+```
 [
    [5,4,11,2],
    [5,8,4,5]
 ]
-
+```
 
 ```python
 # Definition for a binary tree node.
@@ -2831,7 +2832,6 @@ For this problem, a path is defined as any sequence of nodes from some starting 
 >Example 1:
 ```
 Input: [1,2,3]
-
        1
       / \
      2   3
@@ -2841,7 +2841,6 @@ Output: 6
 >Example 2:
 ```
 Input: [-10,9,20,null,null,15,7]
-
    -10
    / \
   9  20
