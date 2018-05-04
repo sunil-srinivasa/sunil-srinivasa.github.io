@@ -2823,6 +2823,74 @@ class Solution(object):
         return min(prev_total)
 ```
 
+## 124. Binary Tree Maximum Path Sum
+Given a non-empty binary tree, find the maximum path sum.
+
+For this problem, a path is defined as any sequence of nodes from some starting node to any node in the tree along the parent-child connections. The path must contain at least one node and does not need to go through the root.
+
+>Example 1:
+```
+Input: [1,2,3]
+
+       1
+      / \
+     2   3
+Output: 6
+```
+
+>Example 2:
+```
+Input: [-10,9,20,null,null,15,7]
+
+   -10
+   / \
+  9  20
+    /  \
+   15   7
+Output: 42
+```
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def maxPathSum(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        # For every node in the tree, find left and right children sums separately
+        return self.inOrder(root,{},-float('inf'))[1]
+        
+    def inOrder(self,node,pathSums,maxSum):
+        if node == None:
+            return pathSums,maxSum
+        pathSums,maxSum = self.inOrder(node.left,pathSums,maxSum)
+        pathSums,maxSum = self.inOrder(node.right,pathSums,maxSum)
+        pathSums,maxSum = self.process(node,pathSums,maxSum)
+        return pathSums,maxSum
+        
+    def process(self,node,pathSums,maxSum):
+        if node.left == None and node.right == None:
+            pathSums[node] = node.val
+            maxSum = max(maxSum,pathSums[node])
+        elif node.left == None:
+            pathSums[node] = max(node.val,node.val+pathSums[node.right])
+            maxSum = max(maxSum,pathSums[node]) 
+        elif node.right == None:
+            pathSums[node] = max(node.val,node.val+pathSums[node.left])
+            maxSum = max(maxSum,pathSums[node])
+        else:
+            pathSums[node] = max(node.val,node.val+pathSums[node.left],node.val+pathSums[node.right])
+            maxSum = max(maxSum,pathSums[node],node.val+pathSums[node.left]+pathSums[node.right])
+        return pathSums,maxSum
+```
+
 ## 125. Valid Palindrome
 Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
@@ -6547,4 +6615,81 @@ class Solution(object):
 
 
         return True
+```
+
+## 814. Binary Tree Pruning
+
+We are given the head node root of a binary tree, where additionally every node's value is either a 0 or a 1.
+
+Return the same tree where every subtree (of the given tree) not containing a 1 has been removed.
+
+(Recall that the subtree of a node X is X, plus every node that is a descendant of X.)
+
+>
+```
+Example 1:
+Input: [1,null,0,0,1]
+Output: [1,null,0,null,1]
+ 
+Explanation: 
+Only the red nodes satisfy the property "every subtree not containing a 1".
+The diagram on the right represents the answer.
+![](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/06/1028_2.png)
+```
+
+>
+```
+Example 2:
+Input: [1,0,1,0,0,0,1]
+Output: [1,null,1,null,1]
+!()[https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/06/1028_1.png]
+```
+
+>
+```
+Example 3:
+Input: [1,1,0,1,1,0,1,0]
+Output: [1,1,0,1,1,null,1]
+!()[https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/05/1028.png]
+```
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def pruneTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        # Perform post-order traversal and remove nodes
+        root = self.post_order(root)
+        if root.val == 0 and root.left == None and root.right == None:
+            return None
+        else:
+            return root
+        
+    def post_order(self,node):
+        if node == None:
+            return node
+        self.post_order(node.left)
+        self.post_order(node.right)
+        self.process(node)
+        return node
+        
+    def process(self,node):
+        if node.left != None:
+            if node.left.val == -1:
+                node.left = None
+        if node.right != None:
+            if node.right.val == -1:
+                node.right = None
+        if node.left == None and node.right == None:
+            if node.val == 0:
+                node.val = -1
 ```
