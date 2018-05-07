@@ -4745,7 +4745,7 @@ class Solution(object):
         return num
     
     def removeDigit(self,num):
-        # Remove the digit which is higher than both its left or right neighbors or higher than one and equal to another
+        # Remove the digit which is higher than its right neighbors and higher or equal to left neighbor
         current_num = num[0]
         num_left = current_num
         for idx in range(1,len(num)):
@@ -4753,9 +4753,6 @@ class Solution(object):
             if num_left <= current_num and num_right < current_num:
                 num = num[:idx-1]+num[idx:]
                 return num               
-            # elif num_left < current_num and num_right == current_num:
-            #     num = num[:idx-1]+num[idx:]
-            #     return num                
             else:
                 num_left = current_num
                 current_num = num_right
