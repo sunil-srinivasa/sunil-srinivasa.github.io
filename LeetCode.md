@@ -4871,6 +4871,71 @@ class Solution(object):
         return fill_matrix
 ```
 
+## 402. Remove K Digits
+Given a non-negative integer num represented as a string, remove k digits from the number so that the new number is the smallest possible.
+
+Note:
+The length of num is less than 10002 and will be ≥ k.
+The given num does not contain any leading zero.
+
+>Example 1:
+```
+Input: num = "1432219", k = 3
+Output: "1219"
+Explanation: Remove the three digits 4, 3, and 2 to form the new number 1219 which is the smallest.
+```
+
+>Example 2:
+```
+Input: num = "10200", k = 1
+Output: "200"
+Explanation: Remove the leading 1 and the number is 200. Note that the output must not contain leading zeroes.
+```
+
+>Example 3:
+```
+Input: num = "10", k = 2
+Output: "0"
+Explanation: Remove all the digits from the number and it is left with nothing which is 0.
+```
+
+```python
+class Solution(object):
+    def removeKdigits(self, num, k):
+        """
+        :type num: str
+        :type k: int
+        :rtype: str
+        """
+
+        while k > 0:
+            if k >= len(num):
+                return "0"
+            num = self.removeDigit(num)
+            k -= 1
+        # Remove all the 0s in front
+        while num[0] == '0' and len(num) > 1:
+            num = num[1:]
+        return num
+    
+    def removeDigit(self,num):
+        # Remove the digit which is higher than both its left or right neighbors or higher than one and equal to another
+        current_num = num[0]
+        num_left = current_num
+        for idx in range(1,len(num)):
+            num_right = num[idx]
+            if num_left <= current_num and num_right < current_num:
+                num = num[:idx-1]+num[idx:]
+                return num               
+            # elif num_left < current_num and num_right == current_num:
+            #     num = num[:idx-1]+num[idx:]
+            #     return num                
+            else:
+                num_left = current_num
+                current_num = num_right
+        return num[:-1]
+```
+
 ## 434. Number of Segments in a String
 Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.
 
