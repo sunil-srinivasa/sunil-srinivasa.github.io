@@ -6754,3 +6754,57 @@ class Solution(object):
             if node.val == 0:
                 node.val = -1
 ```
+
+## 826. Most Profit Assigning Work
+We have jobs: difficulty[i] is the difficulty of the ith job, and profit[i] is the profit of the ith job. 
+
+Now we have some workers. worker[i] is the ability of the ith worker, which means that this worker can only complete a job with difficulty at most worker[i]. 
+
+Every worker can be assigned at most one job, but one job can be completed multiple times.
+
+For example, if 3 people attempt the same job that pays $1, then the total profit will be $3.  If a worker cannot complete any job, his profit is $0.
+
+What is the most profit we can make?
+>
+```
+Example 1:
+Input: difficulty = [2,4,6,8,10], profit = [10,20,30,40,50], worker = [4,5,6,7]
+Output: 100 
+Explanation: Workers are assigned jobs of difficulty [4,4,6,6] and they get profit of [20,20,30,30] seperately.
+```
+
+Notes:
+
+- 1 <= difficulty.length = profit.length <= 10000
+- 1 <= worker.length <= 10000
+- difficulty[i], profit[i], worker[i]  are in range [1, 10^5]
+
+```python
+class Solution(object):
+    def maxProfitAssignment(self, difficulty, profit, worker):
+        """
+        :type difficulty: List[int]
+        :type profit: List[int]
+        :type worker: List[int]
+        :rtype: int
+        """
+        # Since the same job can be completed multiple times, we can simply use a greedy algorithm
+        # For each worker, find the job that gives maximum profit amongst lower difficulties
+        maxProfit = 0
+        difficulty_profit = sorted(zip(difficulty,profit),key=lambda x:x[0])
+        worker = sorted(worker)
+        P = len(difficulty_profit)
+        W = len(worker)
+        current_max_profit = 0
+
+        idx = 0
+        
+        for i in range(W):
+            while idx < P and worker[i] >= difficulty_profit[idx][0]:
+                current_max_profit = max(current_max_profit,difficulty_profit[idx][1])
+                idx += 1
+            maxProfit += current_max_profit
+
+        return maxProfit
+```
+
