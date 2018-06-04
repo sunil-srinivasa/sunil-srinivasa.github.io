@@ -6425,9 +6425,10 @@ Output: 11
 Input: answers = []
 Output: 0
 ```
+
 Note:
-answers will have length at most 1000.
-Each answers[i] will be an integer in the range [0, 999].
+- Answers will have length at most 1000.
+- Each answers[i] will be an integer in the range [0, 999].
 
 ```python
 class Solution(object):
@@ -6466,7 +6467,7 @@ The given tree [4,2,6,1,3,null,null] is represented by the following diagram:
 while the minimum difference in this tree is 1, it occurs between node 1 and node 2, also between node 3 and node 2.
 ```
 
-> Note:
+Note:
 - The size of the BST will be between 2 and 100.
 - The BST is always valid, each node's value is an integer, and each node's value is different.
 
@@ -6540,7 +6541,6 @@ Explanation:
 The ghost can reach the target at the same time as you.
 
 Note:
-
 - All points have coordinates with absolute value <= 10000.
 - The number of ghosts will not exceed 100.
 
