@@ -6688,8 +6688,8 @@ Return the same tree where every subtree (of the given tree) not containing a 1 
 (Recall that the subtree of a node X is X, plus every node that is a descendant of X.)
 
 >
-```
 Example 1:
+```
 Input: [1,null,0,0,1]
 Output: [1,null,0,null,1]
 Explanation: 
@@ -6699,16 +6699,16 @@ The diagram on the right represents the answer.
 ![](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/06/1028_2.png)
 
 >
-```
 Example 2:
+```
 Input: [1,0,1,0,0,0,1]
 Output: [1,null,1,null,1]
 ```
 ![](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/06/1028_1.png)
 
 >
-```
 Example 3:
+```
 Input: [1,1,0,1,1,0,1,0]
 Output: [1,1,0,1,1,null,1]
 ```
@@ -6766,8 +6766,8 @@ For example, if 3 people attempt the same job that pays $1, then the total profi
 
 What is the most profit we can make?
 >
-```
 Example 1:
+```
 Input: difficulty = [2,4,6,8,10], profit = [10,20,30,40,50], worker = [4,5,6,7]
 Output: 100 
 Explanation: Workers are assigned jobs of difficulty [4,4,6,6] and they get profit of [20,20,30,30] seperately.
@@ -6819,8 +6819,8 @@ You can walk back and forth between rooms freely.
 
 Return true if and only if you can enter every room.
 >
-```
 Example 1:
+```
 Input: [[1],[2],[3],[]]
 Output: true
 Explanation:  
