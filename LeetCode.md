@@ -227,7 +227,7 @@ class Solution(object):
                 else:
                     isPalindrome[i][j] = False
         return solution
-'''        
+```       
 
 ## 7. Reverse Integer
 Reverse digits of an integer.
