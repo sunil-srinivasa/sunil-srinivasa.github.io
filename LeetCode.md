@@ -179,6 +179,56 @@ class Solution(object):
             median_index /= 2
 ```
 
+## 5. Longest Palindromic Substring
+Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+
+>Example 1:
+```
+Input: "babad"
+Output: "bab"
+Note: "aba" is also a valid answer.
+```
+
+>Example 2:
+```
+Input: "cbbd"
+Output: "bb"
+```
+
+```python
+class Solution(object):
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        L = len(s)
+        if L == 0:
+            return ''
+
+        isPalindrome = [[False for _ in range(L)] for _ in range(L)]
+        solution = s[0]
+        
+        for i in range(L):
+            isPalindrome[i][i] = True
+        
+        diff = 1
+        for i in range(L-1):
+            if s[i] == s[i+diff]:
+                isPalindrome[i][i+diff] = True
+                solution = s[i:i+diff+1]
+                
+        for diff in range(2,L):
+            for i in range(L-diff):
+                j = i + diff
+                if s[i] == s[j] and isPalindrome[i+1][j-1] == True:
+                    solution = s[i:j+1]
+                    isPalindrome[i][j] = True
+                else:
+                    isPalindrome[i][j] = False
+        return solution
+'''        
+
 ## 7. Reverse Integer
 Reverse digits of an integer.
 
