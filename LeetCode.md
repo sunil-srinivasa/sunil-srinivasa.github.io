@@ -227,7 +227,69 @@ class Solution(object):
                 else:
                     isPalindrome[i][j] = False
         return solution
-```       
+```
+
+## 6. ZigZag Conversion
+The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+```
+P   A   H   N
+A P L S I I G
+Y   I   R
+```
+And then read line by line: "PAHNAPLSIIGYIR"
+
+Write the code that will take a string and make this conversion given a number of rows:
+```
+string convert(string s, int numRows);
+```
+>Example 1:
+```
+Input: s = "PAYPALISHIRING", numRows = 3
+Output: "PAHNAPLSIIGYIR"
+```
+>Example 2:
+```
+Input: s = "PAYPALISHIRING", numRows = 4
+Output: "PINALSIGYAHRPI"
+Explanation:
+
+P     I    N
+A   L S  I G
+Y A   H R
+P     I
+```
+
+```python
+class Solution:
+    # @param {string} s
+    # @param {integer} numRows
+    # @return {string}
+    def convert(self, s, numRows):
+        L = len(s)
+        s_zigzag = ''
+        if L == 0:
+            return ''
+        if numRows == 1:
+            return s
+
+        # pivots indicate the index of the top row elements. We use at least one extra pivot to accomodate all cases.
+        pivots = range(0,L+2*numRows-2,2*numRows-2)
+        for p in pivots:
+            s_zigzag +=  self.get_char(s,L,p)
+        for diff in range(1,numRows-1):
+            s_zigzag += self.get_char(s,L,pivots[0]+diff)
+            for p in pivots[1:]:
+                s_zigzag += self.get_char(s,L,p-diff)
+                s_zigzag += self.get_char(s,L,p+diff)
+        for p in pivots:
+            s_zigzag += self.get_char(s,L,p+numRows-1)
+        return s_zigzag
+    
+    def get_char(self,s,L,index):
+        if index > L-1:
+            return ''
+        return s[index]
+```
 
 ## 7. Reverse Integer
 Reverse digits of an integer.
