@@ -5908,6 +5908,89 @@ class TrieNode(object):
 # param_2 = obj.sum(prefix)
 ```
 
+## 692. Top K Frequent Words
+Given a non-empty list of words, return the k most frequent elements.
+
+Your answer should be sorted by frequency from highest to lowest. If two words have the same frequency, then the word with the lower alphabetical order comes first.
+
+>Example 1:
+```
+Input: ["i", "love", "leetcode", "i", "love", "coding"], k = 2
+Output: ["i", "love"]
+Explanation: "i" and "love" are the two most frequent words.
+    Note that "i" comes before "love" due to a lower alphabetical order.
+```    
+>Example 2:
+```
+Input: ["the", "day", "is", "sunny", "the", "the", "the", "sunny", "is", "is"], k = 4
+Output: ["the", "is", "sunny", "day"]
+Explanation: "the", "is", "sunny" and "day" are the four most frequent words,
+    with the number of occurrence being 4, 3, 2 and 1 respectively.
+```
+
+Note:
+- You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
+- Input words contain only lowercase letters.
+
+Follow up:
+- Try to solve it in O(n log k) time and O(n) extra space.
+
+```python
+class Solution(object):
+    def topKFrequent(self, words, k):
+        """
+        :type words: List[str]
+        :type k: int
+        :rtype: List[str]
+        """
+        
+        from collections import defaultdict
+        words_dict = defaultdict(int)
+        for word in words:
+                words_dict[word] += 1
+                    
+        max_len = 0
+        for words in words_dict:
+            max_len = max(max_len, len(words))
+                
+        f = lambda x: (words_complement_dict[x], x)
+
+        # Using string complement so that we can directly use min heap.
+        # This reverses the lexicographic ordering of the words, so its straightforward to use the min heap.
+        def str_complement(s, pad = 1):
+            sc = ''
+            for char in s:
+                sc += chr(ord("z")-ord(char)+ord("a"))
+            if pad:
+                sc += '{'*(max_len-len(s))
+            return sc
+        
+        words_complement_dict = {}
+        for word in words_dict:
+            words_complement_dict[str_complement(word)] = words_dict[word]
+        
+        # Use heap data structure to maintain the k most frequent elements
+        from heapq import heappush, heappop
+        heap = []
+        count = 0
+        
+        for w in words_complement_dict:
+            count += 1
+            if count <=k:
+                heappush(heap,f(w))
+            else:
+                head = heap[0]
+                if words_complement_dict[w] > head[0] or (words_complement_dict[w] == head[0] and w > head[1]):
+                    heappop(heap)
+                    heappush(heap,f(w))
+        
+        solution = []
+        for _ in range(k):
+            solution += [(str_complement(heappop(heap)[1].strip('{'), pad = 0))]
+        
+        return solution[::-1]
+```
+
 ## 695. Max Area of Island
 Given a non-empty 2D array grid of 0's and 1's, an island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.
 
