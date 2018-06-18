@@ -753,6 +753,77 @@ class Solution(object):
         return l3
 ```
 
+## 23. Merge k Sorted Lists
+Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+
+>Example:
+```
+Input:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+Output: 1->1->2->3->4->4->5->6
+```
+
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        if lists == []:
+            return None
+        # Use heap of size k. Time complexity becomes n*O(logk) for n total elements
+        # Add index to list elements to keep track of which list an element belongs to
+        idx = 0
+        for head in lists:
+            while head != None:
+                head.index = idx
+                head = head.next
+            idx += 1
+            
+        from heapq import heappush, heappop
+        merged_heap = []
+        
+        N = len(lists)
+        for idx in range(N):
+            if lists[idx] != None:
+                heappush(merged_heap, (lists[idx].val, lists[idx].index))
+                lists[idx] = lists[idx].next
+            
+        head = None
+        solution = None
+        
+        while merged_heap != []:
+            popped_element = heappop(merged_heap)
+            popped_value = popped_element[0]
+            popped_index = popped_element[1]
+            
+            if lists[popped_index] != None:
+                l = lists[popped_index]
+                heappush(merged_heap, (l.val, l.index))
+                lists[popped_index] = lists[popped_index].next
+            if head == None:
+                newNode = ListNode(popped_value)
+                head = newNode
+                solution = head
+            else:
+                newNode = ListNode(popped_value)
+                head.next = newNode
+                head = head.next
+                
+        return solution
+```
+
 ## 26. Remove Duplicates from Sorted Array
 Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
 
