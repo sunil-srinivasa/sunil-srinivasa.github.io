@@ -7510,8 +7510,8 @@ Explanation:
 If Alex sits in the last seat, the closest person is 3 seats away.
 This is the maximum distance possible, so the answer is 3.
 ```
-Note:
 
+Note:
 - 1 <= seats.length <= 20000
 - seats contains only 0s or 1s, at least one 0, and at least one 1.
 
@@ -7562,7 +7562,6 @@ seat() -> 5, the student sits at the last seat number 5.
 ```
 
 Note:
-
 - 1 <= N <= 10^9
 - ExamRoom.seat() and ExamRoom.leave() will be called at most 10^4 times across all test cases.
 - Calls to ExamRoom.leave(p) are guaranteed to have a student currently sitting in seat number p.
@@ -7685,3 +7684,34 @@ Note:
 
 - 0 <= bills.length <= 10000
 - bills[i] will be either 5, 10, or 20.
+
+```python
+class Solution(object):
+    def lemonadeChange(self, bills):
+        """
+        :type bills: List[int]
+        :rtype: bool
+        """
+        L = len(bills)
+        from collections import defaultdict
+        notes = defaultdict(int)
+        for i in range(L):
+            notes[bills[i]] += 1
+            change = bills[i] - 5
+            if change == 0:
+                continue
+            elif change == 5:
+                if notes[5] == 0:
+                    return False
+                else:
+                    notes[5] -= 1
+            elif change == 15:
+                if notes[10] > 0 and notes[5] > 0:
+                    notes[10] -= 1
+                    notes[5] -= 1
+                elif notes[5] >= 3:
+                    notes[5] -= 3
+                else:
+                    return False
+        return True
+```
