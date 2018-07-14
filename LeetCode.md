@@ -6636,6 +6636,70 @@ class Solution(object):
         return minCost[-1]
 ```
 
+## 747. Largest Number At Least Twice of Others
+In a given integer array nums, there is always exactly one largest element.
+
+Find whether the largest element in the array is at least twice as much as every other number in the array.
+
+If it is, return the index of the largest element, otherwise return -1.
+>
+Example 1:
+```
+Input: nums = [3, 6, 1, 0]
+Output: 1
+Explanation: 6 is the largest integer, and for every other number in the array x,
+6 is more than twice as big as x.  The index of value 6 is 1, so we return 1.
+```
+>
+Example 2:
+```
+Input: nums = [1, 2, 3, 4]
+Output: -1
+Explanation: 4 isn't at least as big as twice the value of 3, so we return -1.
+```
+
+Note:
+
+- nums will have a length in the range [1, 50].
+- Every nums[i] will be an integer in the range [0, 99].
+
+```python
+class Solution(object):
+    def dominantIndex(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if len(nums) < 2:
+            return 0
+        
+        first = nums[0]
+        first_index = 0
+        if nums[1] > nums[0]:
+            first = nums[1]
+            first_index = 1
+            second = nums[0]
+            second_index = 0
+        else:
+            second = nums[1]
+            second_index = 1
+            
+        for idx in range(2,len(nums)):
+            if nums[idx]>=first:
+                second = first
+                second_index = first_index
+                first = nums[idx]
+                first_index = idx
+            elif nums[idx] > second:
+                second = nums[idx]
+                second_index = idx
+                
+        if first >= second*2:
+            return first_index
+        else:
+            return -1
+```
+
 ## 752. Open the Lock
 You have a lock in front of you with 4 circular wheels. Each wheel has 10 slots: '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'. The wheels can rotate freely and wrap around: for example we can turn '9' to be '0', or '0' to be '9'. Each move consists of turning one wheel one slot.
 
