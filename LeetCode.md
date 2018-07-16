@@ -7603,6 +7603,70 @@ class Solution(object):
         return max(init, max_dist/2, final)
 ```
 
+## 853. Car Fleet
+N cars are going to the same destination along a one lane road.  The destination is target miles away.
+
+Each car i has a constant speed speed[i] (in miles per hour), and initial position position[i] miles towards the target along the road.
+
+A car can never pass another car ahead of it, but it can catch up to it, and drive bumper to bumper at the same speed.
+
+The distance between these two cars is ignored - they are assumed to have the same position.
+
+A car fleet is some non-empty set of cars driving at the same position and same speed.  Note that a single car is also a car fleet.
+
+If a car catches up to a car fleet right at the destination point, it will still be considered as one car fleet.
+
+How many car fleets will arrive at the destination?
+>
+Example 1:
+```
+Input: target = 12, position = [10,8,0,5,3], speed = [2,4,1,1,3]
+Output: 3
+Explanation:
+The cars starting at 10 and 8 become a fleet, meeting each other at 12.
+The car starting at 0 doesn't catch up to any other car, so it is a fleet by itself.
+The cars starting at 5 and 3 become a fleet, meeting each other at 6.
+Note that no other cars meet these fleets before the destination, so the answer is 3.
+```
+
+Note:
+
+- 0 <= N <= 10 ^ 4
+- 0 < target <= 10 ^ 6
+- 0 < speed[i] <= 10 ^ 6
+- 0 <= position[i] < target
+- All initial positions are different.
+
+```python
+class Solution(object):
+    def carFleet(self, target, position, speed):
+        """
+        :type target: int
+        :type position: List[int]
+        :type speed: List[int]
+        :rtype: int
+        """
+        N = len(speed)
+        if N < 2:
+            return N
+        # Calculate time to destination in no traffic
+        time_to_dest = []
+        for i in range(N):
+            time_to_dest.append((target-position[i])/(speed[i]+0.0))
+            
+        # Sort by position and count the number of fleets
+        positions_and_times = sorted(zip(position,time_to_dest), key = lambda x: x[0])
+        
+        num_fleets = 1
+        current_time = positions_and_times[-1][1]
+        for i in range(N-2,-1,-1):
+            if positions_and_times[i][1] > current_time:
+                num_fleets += 1
+                current_time = positions_and_times[i][1]
+                
+        return num_fleets
+```
+
 ## 855. Exam Room
 In an exam room, there are N seats in a single row, numbered 0, 1, 2, ..., N-1.
 
