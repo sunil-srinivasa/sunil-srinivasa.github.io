@@ -5058,11 +5058,7 @@ class Solution(object):
         for idx in range(1,min(10,n)+1):
             count[idx] = count[idx-1] + 9*math.factorial(9)/math.factorial(10-idx)
     
-        print count
-        if n >= 10:
-            return count[10]
-        else:
-            return count[n]
+        return count[min(10,n)]
 ```
 
 ## 390. Elimination Game
