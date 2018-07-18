@@ -5038,6 +5038,33 @@ class Solution(object):
         return s[::-1]
 ```
 
+## 357. Count Numbers with Unique Digits
+Given a non-negative integer n, count all numbers with unique digits, x, where 0 ≤ x < 10n.
+>
+Example:
+Given n = 2, return 91. (The answer should be the total numbers in the range of 0 ≤ x < 100, excluding [11,22,33,44,55,66,77,88,99])
+
+```python
+class Solution(object):
+    def countNumbersWithUniqueDigits(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        # Mathematical solution
+        
+        count = [1 for _ in range(11)]
+        
+        for idx in range(1,min(10,n)+1):
+            count[idx] = count[idx-1] + 9*math.factorial(9)/math.factorial(10-idx)
+    
+        print count
+        if n >= 10:
+            return count[10]
+        else:
+            return count[n]
+```
+
 ## 390. Elimination Game
 There is a list of sorted integers from 1 to n. Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.
 
