@@ -1314,7 +1314,8 @@ Given n non-negative integers representing an elevation map where the width of e
 >For example,
 Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
 
-![](http://www.leetcode.com/wp-content/uploads/2012/08/rainwatertrap.png)
+![](http://www.leetcode.com/wp-content/uploads/
+2/08/rainwatertrap.png)
 
 
 ```python
@@ -3749,7 +3750,7 @@ class Solution(object):
 
 ## 201. Bitwise AND of Numbers Range
 Given a range [m, n] where 0 <= m <= n <= 2147483647, return the bitwise AND of all numbers in this range, inclusive.
-
+>
 For example, given the range [5, 7], you should return 4.
 
 ```python
@@ -4760,7 +4761,6 @@ Follow up:
 Could you solve it in-place? Remember that the board needs to be updated at the same time: You cannot update some cells first and then use their updated values to update other cells.
 In this question, we represent the board using a 2D array. In principle, the board is infinite, which would cause problems when the active area encroaches the border of the array. How would you address these problems?
 
-
 ```python
 class Solution(object):
     def gameOfLife(self, board):
@@ -4820,9 +4820,6 @@ Friend's guess: "0111"
 In this case, the 1st 1 in friend's guess is a bull, the 2nd or 3rd 1 is a cow, and your function should return "1A1B".
 You may assume that the secret number and your friend's guess only contain digits, and their lengths are always equal.
 
-
-
-
 ```python
 class Solution(object):
     def getHint(self, secret, guess):
@@ -4831,7 +4828,6 @@ class Solution(object):
         :type guess: str
         :rtype: str
         """
-
         bulls = 0
         cows = 0
 
@@ -4994,7 +4990,6 @@ return -1.
 Note:
 You may assume that you have an infinite number of each kind of coin.
 
-
 ```python
 class Solution(object):
     def coinChange(self, coins, amount):
@@ -5019,6 +5014,51 @@ class Solution(object):
             return -1
         else:
             return num_coins[-1]
+```
+
+## 326. Power of Three
+Given an integer, write a function to determine if it is a power of three.
+>
+Example 1:
+```
+Input: 27
+Output: true
+```
+>
+Example 2:
+```
+Input: 0
+Output: false
+```
+>
+Example 3:
+```
+Input: 9
+Output: true
+```
+>
+Example 4:
+```
+Input: 45
+Output: false
+```
+
+Follow up:
+- Could you do it without using any loop / recursion?
+
+```python
+class Solution(object):
+    def isPowerOfThree(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        if n <= 0:
+            return False
+        import math
+        power = math.log(n)/math.log(3)
+        eps = 1e-10
+        return abs(power - round(power)) < eps
 ```
 
 ## 344. Reverse String
