@@ -6627,9 +6627,7 @@ Asteroids moving the same direction never meet, so no asteroids will meet each o
 
 Note:
 The length of asteroids will be at most 10000.
-Each asteroid will be a non-zero integer in the range [-1000, 1000]..
-
-
+Each asteroid will be a non-zero integer in the range [-1000, 1000].
 
 ```python
 class Solution(object):
@@ -6845,8 +6843,6 @@ The length of deadends will be in the range [1, 500].
 target will not be in the list deadends.
 Every string in deadends and the string target will be a string of 4 digits from the 10,000 possibilities '0000' to '9999'.
 
-
-
 ```python
 class Solution(object):
     def openLock(self, deadends, target):
@@ -6933,6 +6929,116 @@ class Solution(object):
         NOI += [[first,last]]
 
         return [noi[1] - noi[0] + 1 for noi in NOI]
+```
+
+## 764. Largest Plus Sign
+In a 2D grid from (0, 0) to (N-1, N-1), every cell contains a 1, except those cells in the given list mines which are 0. What is the largest axis-aligned plus sign of 1s contained in the grid? Return the order of the plus sign. If there is none, return 0.
+
+An "axis-aligned plus sign of 1s of order k" has some center grid[x][y] = 1 along with 4 arms of length k-1 going up, down, left, and right, and made of 1s. This is demonstrated in the diagrams below. Note that there could be 0s or 1s beyond the arms of the plus sign, only the relevant area of the plus sign is checked for 1s.
+>
+Examples of Axis-Aligned Plus Signs of Order k:
+```
+Order 1:
+000
+010
+000
+
+Order 2:
+00000
+00100
+01110
+00100
+00000
+
+Order 3:
+0000000
+0001000
+0001000
+0111110
+0001000
+0001000
+0000000
+```
+>
+Example 1:
+```
+Input: N = 5, mines = [[4, 2]]
+Output: 2
+Explanation:
+11111
+11111
+11111
+11111
+11011
+In the above grid, the largest plus sign can only be order 2.  One of them is marked in bold.
+```
+>
+Example 2:
+```
+Input: N = 2, mines = []
+Output: 1
+Explanation:
+There is no plus sign of order 2, but there is of order 1.
+```
+>Example 3:
+```
+Input: N = 1, mines = [[0, 0]]
+Output: 0
+Explanation:
+There is no plus sign, so return 0.
+```
+
+Note:
+
+- N will be an integer in the range [1, 500].
+- mines will have length at most 5000.
+- mines[i] will be length 2 and consist of integers in the range [0, N-1].
+- (Additionally, programs submitted in C, C++, or C# will be judged with a slightly smaller time limit.)
+
+```python
+class Solution(object):
+    def orderOfLargestPlusSign(self, N, mines):
+        """
+        :type N: int
+        :type mines: List[List[int]]
+        :rtype: int
+        """
+        if len(mines) == N**2: # No 1s in the grid
+            return 0
+        
+        from collections import defaultdict
+        
+        grid = defaultdict(lambda: 1)
+        for m in mines:
+            grid[tuple(m)] = 0
+        
+        left_counts = defaultdict(int)
+        right_counts = defaultdict(int)
+        top_counts = defaultdict(int)
+        bottom_counts = defaultdict(int)
+        
+        for i in range(1,N):
+            for j in range(N):
+                top_counts[(i,j)] = (top_counts[(i-1,j)]+grid[(i-1,j)]) * int(grid[(i,j)] == 1)
+                
+        for i in range(N-2,-1,-1):
+            for j in range(N):
+                bottom_counts[(i,j)] = (bottom_counts[(i+1,j)]+grid[(i+1,j)]) * int(grid[(i,j)] == 1)
+
+        for i in range(N):
+            for j in range(1,N):
+                left_counts[(i,j)] = (left_counts[(i,j-1)]+grid[(i,j-1)]) * int(grid[(i,j)] == 1)
+
+        for i in range(N):
+            for j in range(N-2,-1,-1):
+                right_counts[(i,j)] = (right_counts[(i,j+1)]+grid[(i,j+1)]) * int(grid[(i,j)] == 1)
+                
+        max_plus = 0
+        for i in range(N):
+            for j in range(N):
+                max_plus = max(max_plus,min(top_counts[(i,j)],bottom_counts[(i,j)],left_counts[(i,j)],right_counts[(i,j)]))
+                   
+        return max_plus+1
 ```
 
 ## 766. Toeplitz Matrix
