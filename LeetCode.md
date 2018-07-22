@@ -6981,13 +6981,13 @@ Examples of Axis-Aligned Plus Signs of Order k:
 Order 1:
 000
 010
-000
+000\
 Order 2:
 00000
 00100
 01110
 00100
-00000
+00000\
 Order 3:
 0000000
 0001000
