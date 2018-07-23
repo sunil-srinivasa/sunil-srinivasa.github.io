@@ -6103,6 +6103,114 @@ class Solution(object):
         return max(possibility1, possibility2)
 ```
 
+## 640. Solve the Equation
+Solve a given equation and return the value of x in the form of string "x=#value". The equation contains only '+', '-' operation, the variable x and its coefficient.
+
+If there is no solution for the equation, return "No solution".
+
+If there are infinite solutions for the equation, return "Infinite solutions".
+
+If there is exactly one solution for the equation, we ensure that the value of x is an integer.
+>
+Example 1:
+```
+Input: "x+5-3+x=6+x-2"
+Output: "x=2"
+```
+>
+Example 2:
+```
+Input: "x=x"
+Output: "Infinite solutions"
+```
+>
+Example 3:
+```
+Input: "2x=x"
+Output: "x=0"
+```
+>
+Example 4:
+```
+Input: "2x+3x-6x=x+2"
+Output: "x=-1"
+```
+>Example 5:
+```
+Input: "x=x+2"
+Output: "No solution"
+```
+
+```python
+class Solution(object):
+    def solveEquation(self, equation):
+        """
+        :type equation: str
+        :rtype: str
+        """
+        L = len(equation)
+        
+        eqn_left, eqn_right = equation.split("=")
+        
+        (a,b) = self.get_coeffs(eqn_left)
+        (c,d) = self.get_coeffs(eqn_right)
+        x_coeff = a-c
+        c_coeff = b-d
+        print x_coeff, c_coeff
+        if x_coeff == 0 and c_coeff == 0:
+            return "Infinite solutions"
+        elif x_coeff == 0:
+            return "No solution"
+        else:
+            return "x={}".format(-c_coeff/x_coeff)
+        
+    def get_coeffs(self, equation):
+        """
+        Obtain the coefficient for x and the constant coeff.
+        """
+        x_coeff = 0 # coefficient for x
+        c_coeff = 0 # coefficient for the constant
+        coeff = None
+        multiplier = 1        
+        
+        L = len(equation)
+        for i in range(L):
+            if equation[i] == '-':
+                if i > 0:
+                    if coeff == None:
+                        coeff = multiplier
+                    if equation[i-1] == 'x':
+                        x_coeff += coeff
+                    else:
+                        c_coeff += coeff
+                    coeff = None
+                multiplier = -1
+            elif equation[i] == '+':
+                if i > 0:
+                    if coeff == None:
+                        coeff = multiplier                    
+                    if equation[i-1] == 'x':
+                        x_coeff += coeff
+                    else:
+                        c_coeff += coeff
+                    coeff = None
+                multiplier = 1
+            elif equation[i] != 'x': # represents an integer
+                if coeff == None:
+                    coeff = 0                
+                coeff *= 10
+                coeff += multiplier*int(equation[i])
+                
+        if coeff == None:
+            coeff = multiplier
+        if equation[i] == 'x':
+            x_coeff += coeff
+        else:
+            c_coeff += coeff
+        coeff = None
+                
+        return x_coeff, c_coeff
+```
 ## 648. Replace Words
 In English, we have a concept called root, which can be followed by some other words to form another longer word - let's call this word successor. For example, the root an, followed by other, which can form another word another.
 
