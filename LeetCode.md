@@ -6823,21 +6823,17 @@ class Solution(object):
         :type temperatures: List[int]
         :rtype: List[int]
         """
-        # Use stack
-        stack = []
-
+        # Idea : Use stack.
         L = len(temperatures)
         solution = [0 for _ in range(L)]
-        stack.append((temperatures[0],0))
-
-        for idx in range(1,L):
-            if temperatures[idx] <= stack[-1][0]:
-                stack.append((temperatures[idx],idx))
-            else:
-                while stack != [] and temperatures[idx] > stack[-1][0]:
-                    solution[stack[-1][1]] = idx - stack[-1][1]
-                    stack = stack[:-1]
-                stack.append((temperatures[idx],idx))
+        
+        stack = [(0,temperatures[0])]
+        for i in range(1,L):
+            while len(stack) > 0 and temperatures[i] > stack[-1][1]:
+                solution[stack[-1][0]] = i - stack[-1][0]
+                stack = stack[:-1]
+            stack += [(i,temperatures[i])]
+                
         return solution
 ```
 
