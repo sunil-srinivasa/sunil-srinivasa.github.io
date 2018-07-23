@@ -6344,7 +6344,36 @@ Note: Answer will in the range of 32-bit signed integer.
 
 
 ```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
+class Solution(object):
+    def widthOfBinaryTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if root == None:
+            return 0
+        max_width = 0
+        
+        queue = [(root,0)]
+        
+        while queue != []:
+            max_width = max(max_width,queue[-1][1]-queue[0][1]+1)            
+            tmp = queue
+            queue = []
+            for t in tmp:
+                if t[0].left != None:
+                    queue.append((t[0].left,2*t[1]))
+                if t[0].right != None:
+                    queue.append((t[0].right,2*t[1]+1))
+
+        return max_width
 ```
 
 ## 677. Map Sum Pairs
