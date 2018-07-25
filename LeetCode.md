@@ -8261,3 +8261,62 @@ class Solution(object):
                     return False
         return True
 ```
+
+## 869. Reordered Power of 2
+Starting with a positive integer N, we reorder the digits in any order (including the original order) such that the leading digit is not zero.
+
+Return true if and only if we can do this in a way such that the resulting number is a power of 2.
+>
+Example 1:
+```
+Input: 1
+Output: true
+```
+>
+Example 2:
+```
+Input: 10
+Output: false
+```
+>
+Example 3:
+```
+Input: 16
+Output: true
+```
+>
+Example 4:
+```
+Input: 24
+Output: false
+```
+>
+Example 5:
+```
+Input: 46
+Output: true
+```
+
+Note:
+
+- 1 <= N <= 10^9
+
+```python
+class Solution(object):
+    def reorderedPowerOf2(self, N):
+        """
+        :type N: int
+        :rtype: bool
+        """
+        from collections import Counter
+        
+        # N < 10e9, i.e., N < 2^30. So, we can simply check if N is in that list.
+        hard_coded_list = [2**x for x in range(30)]
+        
+        c = Counter(str(N))
+        for s in hard_coded_list:
+            if c == Counter(str(s)):
+                return True
+        return False
+```
+
