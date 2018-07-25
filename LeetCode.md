@@ -8262,6 +8262,45 @@ class Solution(object):
         return True
 ```
 
+## 867. Transpose Matrix
+Given a matrix A, return the transpose of A.
+
+The transpose of a matrix is the matrix flipped over it's main diagonal, switching the row and column indices of the matrix.
+>
+Example 1:
+```
+Input: [[1,2,3],[4,5,6],[7,8,9]]
+Output: [[1,4,7],[2,5,8],[3,6,9]]
+```
+>
+Example 2:
+```
+Input: [[1,2,3],[4,5,6]]
+Output: [[1,4],[2,5],[3,6]]
+```
+
+Note:
+
+- 1 <= A.length <= 1000
+- 1 <= A[0].length <= 1000
+
+```python
+class Solution(object):
+    def transpose(self, A):
+        """
+        :type A: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        M = len(A)
+        N = len(A[0])
+        
+        solution = []
+        for i in range(N):
+            solution += [[A[j][i] for j in range(M)]]
+            
+        return solution
+```
+
 ## 869. Reordered Power of 2
 Starting with a positive integer N, we reorder the digits in any order (including the original order) such that the leading digit is not zero.
 
@@ -8320,3 +8359,45 @@ class Solution(object):
         return False
 ```
 
+## 872. Leaf-Similar Trees
+Consider all the leaves of a binary tree.  From left to right order, the values of those leaves form a leaf value sequence.
+
+![](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/16/tree.png)
+
+For example, in the given tree above, the leaf value sequence is (6, 7, 4, 9, 8).
+
+Two binary trees are considered leaf-similar if their leaf value sequence is the same.
+
+Return true if and only if the two given trees with head nodes root1 and root2 are leaf-similar.
+
+Note:
+
+- Both of the given trees will have between 1 and 100 nodes.
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def leafSimilar(self, root1, root2):
+        """
+        :type root1: TreeNode
+        :type root2: TreeNode
+        :rtype: bool
+        """
+        return self.get_leaf_sequence(root1,[]) == self.get_leaf_sequence(root2,[])
+        
+    def get_leaf_sequence(self,root,seq):
+        if root == None:
+            return []
+        self.get_leaf_sequence(root.left,seq)
+        if root.left == None and root.right == None:
+            seq += [root.val]
+        self.get_leaf_sequence(root.right,seq)
+        
+        return seq
+```
