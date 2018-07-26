@@ -6866,6 +6866,63 @@ class Solution(object):
         return solution
 ```
 
+## 743. Network Delay Time
+There are N network nodes, labelled 1 to N.
+
+Given times, a list of travel times as directed edges times[i] = (u, v, w), where u is the source node, v is the target node, and w is the time it takes for a signal to travel from source to target.
+
+Now, we send a signal from a certain node K. How long will it take for all nodes to receive the signal? If it is impossible, return -1.
+
+Note:
+- N will be in the range [1, 100].
+- K will be in the range [1, N].
+- The length of times will be in the range [1, 6000].
+- All edges times[i] = (u, v, w) will have 1 <= u, v <= N and 1 <= w <= 100.
+
+```python
+class Solution(object):
+    def networkDelayTime(self, times, N, K):
+        """
+        :type times: List[List[int]]
+        :type N: int
+        :type K: int
+        :rtype: int
+        """
+        from collections import defaultdict
+        from heapq import heappush, heappop
+        
+        visited = {}
+        travel_times = defaultdict(lambda: float('inf'))
+        current_node = K
+        current_time = 0
+        visited[current_node] = 0
+        travel_times[current_node] = 0
+        
+        # Convert times to a dictionary
+        times_dict = defaultdict(list)        
+        for t in times:
+            times_dict[t[0]] += [(t[1],t[2])]
+
+        heap = []
+        heappush(heap,(0,K))
+            
+        while heap != []:
+            current_time, current_node = heappop(heap)
+            
+            for t in times_dict[current_node]:
+                if t[0] not in visited:
+                    heappush(heap,(current_time+t[1],t[0]))
+                    travel_times[t[0]] = min(current_time+t[1], travel_times[t[0]])
+            visited[current_node] = 0
+
+
+        print travel_times
+        if len(visited) < N:
+            return -1
+        else:
+            return max(travel_times.values())
+```
+
 ## 746. Min Cost Climbing Stairs
 On a staircase, the i-th step has some non-negative cost cost[i] assigned (0 indexed).
 
