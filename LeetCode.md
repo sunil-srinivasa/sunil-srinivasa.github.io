@@ -8493,3 +8493,72 @@ Note:
 ```python
 
 ```
+
+## 875. Koko Eating Bananas
+Koko loves to eat bananas.  There are N piles of bananas, the i-th pile has piles[i] bananas.  The guards have gone and will come back in H hours.
+
+Koko can decide her bananas-per-hour eating speed of K.  Each hour, she chooses some pile of bananas, and eats K bananas from that pile.  If the pile has less than K bananas, she eats all of them instead, and won't eat any more bananas during this hour.
+
+Koko likes to eat slowly, but still wants to finish eating all the bananas before the guards come back.
+
+Return the minimum integer K such that she can eat all the bananas within H hours.
+
+>
+Example 1:
+```
+Input: piles = [3,6,7,11], H = 8
+Output: 4
+```
+>
+Example 2:
+```
+Input: piles = [30,11,23,4,20], H = 5
+Output: 30
+```
+>
+Example 3:
+```
+Input: piles = [30,11,23,4,20], H = 6
+Output: 23
+```
+
+Note:
+- 1 <= piles.length <= 10^4
+- piles.length <= H <= 10^9
+- 1 <= piles[i] <= 10^9
+
+```python
+class Solution(object):
+    def minEatingSpeed(self, piles, H):
+        """
+        :type piles: List[int]
+        :type H: int
+        :rtype: int
+        """
+        # piles: x1, x2, ...., xN
+        # if K bananas are eaten evey time, sum_i(ceil(x_i/K)) <= H. Need to minimize K.
+        # 1 <= K <= max(x_i). Try for each value of K.
+        # Even better, use binry search for searching for best K.
+        
+        high = max(piles)
+        low = 1
+    
+        if self.f(1,piles) <= H:
+            return 1
+        return self.binary_search(piles,H,low,high)
+
+    def f(self,k,piles):
+        return sum([(p-1)/k + 1 for p in piles])
+                    
+    def binary_search(self,piles,H,low,high):
+        mid = (low+high)/2
+        if self.f(low,piles) == H:
+            return low
+        elif high == low + 1:
+            return high
+        elif self.f(mid,piles) <= H:
+            return self.binary_search(piles,H,low,mid)
+        elif self.f(mid,piles) > H:
+            low = mid
+            return self.binary_search(piles,H,mid,high)
+```
