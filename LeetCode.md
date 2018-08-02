@@ -952,9 +952,61 @@ You are given a target value to search. If found in the array return its index, 
 
 You may assume no duplicate exists in the array.
 
+Your algorithm's runtime complexity must be in the order of O(log n).
+>
+Example 1:
+```
+Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4
+```
+>
+Example 2:
+```
+Input: nums = [4,5,6,7,0,1,2], target = 3
+Output: -1
+```
 
 ```python
+class Solution(object):
+    def search(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        solution = self.find(nums, target)
+        if solution == float('inf'):
+            return -1
+        else:
+            return solution
+        
+    def find(self, nums, target):
+        L = len(nums)
+        if L == 0:
+            return float('inf')
+        if L == 1:
+            if nums[0] == target:
+                return 0
+            else:
+                return float('inf')
+            
+        if nums[0] == target:
+            return 0
+        if nums[L/2] == target:
+            return L/2
+        if nums[-1] == target:
+            return L-1
 
+        if nums[0] < nums[L/2]: # left half is sorted
+            if nums[0] < target < nums[L/2]:
+                return self.find(nums[:L/2], target)
+            else:
+                return L/2+self.find(nums[L/2:], target)
+        else: # nums[0] > nums[L/2] # right half is sorted
+            if nums[L/2] < target < nums[-1]:
+                return L/2+self.find(nums[L/2:], target)
+            else:
+                return self.find(nums[:L/2], target)
 ```
 
 ## 34. Search for a Range
@@ -3556,6 +3608,48 @@ class Solution(object):
         return solution
 ```
 
+## 153. Find Minimum in Rotated Sorted Array
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+(i.e.,  [0,1,2,4,5,6,7] might become  [4,5,6,7,0,1,2]).
+
+Find the minimum element.
+
+You may assume no duplicate exists in the array.
+>
+Example 1:
+```
+Input: [3,4,5,1,2] 
+Output: 1
+```
+>
+Example 2:
+```
+Input: [4,5,6,7,0,1,2]
+Output: 0
+```
+
+```python
+class Solution(object):
+    def findMin(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        L = len(nums)
+        if L == 1:
+            return nums[0]
+        if nums[0] < nums[L/2]: # left half is sorted
+            if nums[-1] > nums[0]:
+                return nums[0]
+            else:
+                return self.findMin(nums[L/2:])
+        else: # nums[0] > nums[L/2] # right half is sorted
+            if nums[L/2-1] > nums[L/2]:
+                return nums[L/2]
+            else:
+                return self.findMin(nums[:L/2])
+```
 ## 179. Largest Number
 Given a list of non negative integers, arrange them such that they form the largest number.
 
