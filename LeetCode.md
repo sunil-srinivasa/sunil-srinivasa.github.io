@@ -503,39 +503,44 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        solution = []
-        if len(nums) < 3:
-            return solution
-
-        for i in range(len(nums)):
-            target = -nums[i]
-            partial_solution = self.twoSum(nums[:i]+nums[i+1:],target)
-            if partial_solution:
-                for ps in partial_solution:
-                    potential_solution = sorted([nums[i]] + ps)
-                    if potential_solution not in solution:
-                        solution.append(potential_solution)
-        return solution
-
-    def twoSum(self, nums, target):
+class Solution(object):
+    def threeSum(self, nums):
         """
         :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        index_dict = {}
+        :rtype: List[List[int]]
+        """        
+        # Solve using two-sum
+        nums = sorted(nums)
+        
+        L = len(nums)
         solution = []
-        for i in range(len(nums)):
-            if nums[i] in index_dict.keys():
-                s = [nums[i],nums[index_dict[nums[i]]]]
-                if s not in solution:
-                    solution.append(s)
-            else:
-                index_dict[target-nums[i]] = i
-        if solution != []:        
-            return solution
+        tried = {}
+        
+        for i in range(L):
+            if nums[i] not in tried:
+                for s in self.twoSum(nums[i+1:], -nums[i]):
+                    solution += [[nums[i]]+s]
+            tried[nums[i]] = 0
+            
+        return solution
+        
+    def twoSum(self,nums,target):
+        solution = []
+        dictionary = {}
+        L = len(nums)
+        
+        for i in range(L):
+            if target-nums[i] in dictionary:
+                minimum = min(target-nums[i], nums[i])
+                maximum = max(target-nums[i], nums[i])
+                if [minimum,maximum] not in solution:
+                    solution += [[minimum, maximum]]
+            dictionary[nums[i]] = 0
+            
+        return solution
+            
 
-## Second method - first sort array and use invariants
+# Second method - first sort array and use invariants
 class Solution(object):
     def threeSum(self, nums):
         """
