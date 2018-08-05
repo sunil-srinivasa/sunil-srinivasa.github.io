@@ -2438,7 +2438,6 @@ Given an encoded message containing digits, determine the total number of ways t
 >For example,
 Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12). The number of ways decoding "12" is 2.
 
-
 ```python
 # Recursive solution - time limit exceeded but 222/259 cases correct. DP solution is better
 
@@ -2481,6 +2480,62 @@ class Solution(object):
 
         print num_decodings   
         return num_decodings[len(s)-1]    
+```
+
+## 92. Reverse Linked List II
+Reverse a linked list from position m to n. Do it in one-pass.
+
+Note: 1 ≤ m ≤ n ≤ length of list.
+>
+Example:
+```
+Input: 1->2->3->4->5->NULL, m = 2, n = 4
+Output: 1->4->3->2->5->NULL
+```
+
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def reverseBetween(self, head, m, n):
+        """
+        :type head: ListNode
+        :type m: int
+        :type n: int
+        :rtype: ListNode
+        """
+        idx = 1
+        if m == 1:
+            return self.reverseList(head,n-m)
+        
+        solution = head
+        while idx < m-1:
+            head = head.next
+            idx += 1
+            
+        head.next = self.reverseList(head.next,n-m)
+        return solution
+
+    def reverseList(self, head, L):
+        
+        newNode = ListNode(head.val)
+        tailNode = newNode
+        currentNode = newNode
+        
+        while L > 0:
+            head = head.next
+            newNode = ListNode(head.val)
+            newNode.next = currentNode
+            currentNode = newNode
+            L -= 1
+            
+        tailNode.next = head.next
+            
+        return currentNode
 ```
 
 ## 94. Binary Tree Inorder Traversal
