@@ -1083,9 +1083,105 @@ If the target is not found in the array, return [-1, -1].
 >For example,
 Given [5, 7, 7, 8, 8, 10] and target value 8, return [3, 4].
 
+```python
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        if len(nums) == 0:
+            return [-1,-1]
+        
+        first = self.findFirst(nums, target)
+        if first == float('inf'):
+            return [-1,-1]
+        last = first + self.findLast(nums[first:], target)
+        return [first, last]
+        
+    def findFirst(self, nums, target):
+        L = len(nums)
+        if L == 1:
+            if nums[0] != target:
+                return float('inf')
+            else:
+                return 0
+        if nums[L/2] < target:
+            if len(nums) == L/2+1:
+                return float('inf')
+            return L/2+1+self.findFirst(nums[L/2+1:],target)
+        elif nums[L/2] > target:
+            return self.findFirst(nums[:L/2], target)
+        else: # nums[L/2] == target
+            if L/2 == 0 or nums[L/2-1] < target:
+                return L/2
+            else:
+                return self.findFirst(nums[:L/2], target)
+            
+    def findLast(self, nums, target):
+        L = len(nums)
+        if L == 1:
+            return 0
+        if nums[L/2] < target:
+            return L/2+1+self.findLast(nums[L/2+1:],target)
+        elif nums[L/2] > target:
+            return self.findLast(nums[:L/2], target)
+        else: # nums[L/2] == target
+            if L/2 == len(nums)-1 or nums[L/2+1] > target:
+                return L/2
+            else:
+                return L/2+1+self.findLast(nums[L/2+1:],target)
+```
+
+## 35. Search Insert Position
+Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You may assume no duplicates in the array.
+>
+Example 1:
+```
+Input: [1,3,5,6], 5
+Output: 2
+```
+>
+Example 2:
+```
+Input: [1,3,5,6], 2
+Output: 1
+```
+>
+Example 3:
+```
+Input: [1,3,5,6], 7
+Output: 4
+```
+>
+Example 4:
+```
+Input: [1,3,5,6], 0
+Output: 0
+```
 
 ```python
-
+class Solution(object):
+    def searchInsert(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        L = len(nums)
+        if nums[L/2] == target:
+            return L/2
+        elif L == 1:
+            if nums[0] > target:
+                return 0
+            return 1
+        elif nums[L/2] > target:
+            return self.searchInsert(nums[:L/2],target)
+        else:
+            return L/2 + self.searchInsert(nums[L/2:],target)
 ```
 
 ## 36. Valid Sudoku
