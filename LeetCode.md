@@ -758,6 +758,65 @@ class Solution(object):
         return l3
 ```
 
+## 22. Generate Parentheses
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+>
+For example, given n = 3, a solution set is:
+```
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+```
+
+```python
+class Solution(object):
+    def generateParenthesis(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """
+        # Create a binary tree and read out paths
+        root = Node('(') # always start with a '('
+        left = n-1 # Number of left braces remaining to use
+        right = n # Number of right braces remaining to use
+        
+        root = self.createTree(root,left,right)
+        
+        return self.get_paths(root)
+         
+    def createTree(self,node,l,r):
+        if l == 0 and r == 0:
+            return None
+        elif l == 0:
+            node.right = Node(')')
+            self.createTree(node.right,0,r-1)
+        elif l <= r:
+            node.left = Node('(')
+            self.createTree(node.left,l-1,r)
+            if l < r:
+                node.right = Node(')')
+                self.createTree(node.right,l,r-1)
+        return node
+    
+    def get_paths(self,node):
+        if node == None:
+            return []
+        if node.left == None and node.right == None:
+            return [node.val]
+        else:
+            return [node.val + val for val in self.get_paths(node.left) + self.get_paths(node.right)]
+
+class Node(object):
+    def __init__(self,x):
+        self.val = x
+        self.left = None
+        self.right = None
+```
+
 ## 23. Merge k Sorted Lists
 Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
 
