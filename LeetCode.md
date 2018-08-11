@@ -8314,6 +8314,61 @@ class Solution(object):
         return maxProfit
 ```
 
+## 829. Consecutive Numbers Sum
+Given a positive integer N, how many ways can we write it as a sum of consecutive positive integers?
+>
+Example 1:
+```
+Input: 5
+Output: 2
+Explanation: 5 = 5 = 2 + 3
+```
+>
+Example 2:
+```
+Input: 9
+Output: 3
+Explanation: 9 = 9 = 4 + 5 = 2 + 3 + 4
+```
+>
+Example 3:
+```
+Input: 15
+Output: 4
+Explanation: 15 = 15 = 8 + 7 = 4 + 5 + 6 = 1 + 2 + 3 + 4 + 5
+```
+
+Note: 1 <= N <= 10 ^ 9.
+
+```python
+class Solution(object):
+    def consecutiveNumbersSum(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        # There is always 1 way (=N).
+        # If N = x+(x+1), there's another way, i.e N % 2 == 1
+        # If N = (x-1)+x+(x+1), there's a way, i.e., N % 3 == 0
+        # Continuing..
+        # If k is odd, N % k == 0 gives one way
+        # If k is even, N % k == k/2 gives one way
+        # We only need to test for k = 2,...,j s.t 1+2+...+j=N
+        # k can be upper bounded by 2*sqrt(N)
+        
+        num_ways = 1
+
+        for k in range(2,int(2*math.sqrt(N))):
+            if k**2+k > 2*N:
+                return num_ways
+            if N % k == 0 and k % 2 == 1:
+                num_ways += 1
+            elif N % k == k/2 and k % 2 == 0:
+                num_ways += 1
+                
+        return num_ways
+```
+
 ## 841. Keys and Rooms
 There are N rooms and you start in room 0.  Each room has a distinct number in 0, 1, 2, ..., N-1, and each room may have some keys to access the next room. 
 
