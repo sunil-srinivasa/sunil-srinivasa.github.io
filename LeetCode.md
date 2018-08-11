@@ -9181,3 +9181,112 @@ class Solution(object):
             low = mid
             return self.binary_search(piles,H,mid,high)
 ```
+
+## 885. Boats to Save People
+The i-th person has weight people[i], and each boat can carry a maximum weight of limit.
+
+Each boat carries at most 2 people at the same time, provided the sum of the weight of those people is at most limit.
+
+Return the minimum number of boats to carry every given person.  (It is guaranteed each person can be carried by a boat.)
+>
+Example 1:
+```
+Input: people = [1,2], limit = 3
+Output: 1
+Explanation: 1 boat (1, 2)
+```
+>
+Example 2:
+```
+Input: people = [3,2,2,1], limit = 3
+Output: 3
+Explanation: 3 boats (1, 2), (2) and (3)
+```
+>
+Example 3:
+```
+Input: people = [3,5,3,4], limit = 5
+Output: 4
+Explanation: 4 boats (3), (3), (4), (5)
+```
+
+Note:
+
+- 1 <= people.length <= 50000
+- 1 <= people[i] <= limit <= 30000
+
+```python
+class Solution(object):
+    def numRescueBoats(self, people, limit):
+        """
+        :type people: List[int]
+        :type limit: int
+        :rtype: int
+        """
+        # If person with weight w is in boat, max weight of the second person is limit-w.
+        # Sort the weights. Start with highest and find the second person by binary search
+        people = sorted(people)
+        numBoats = 0
+        
+        while people != []:
+            anotherPerson = self.maxLowerThanOrEqualTo(people[:-1], limit-people[-1])
+
+            if anotherPerson != float('inf'):
+                people = people[:anotherPerson]+people[anotherPerson+1:-1]
+            else:
+                people = people[:-1]
+            numBoats += 1
+        
+        return numBoats
+        
+    def maxLowerThanOrEqualTo(self, people, target):
+        L = len(people)
+        # Simple cases
+        if L == 0:
+            return float('inf')
+        if L == 1:
+            if people[0] > target:
+                return float('inf')
+            else:
+                return 0
+
+        if people[L/2] < target:
+            if len(people) == L/2+1 or people[L/2+1] > target:
+                return L/2
+            return L/2+self.maxLowerThanOrEqualTo(people[L/2:], target)
+        elif people[L/2] > target:
+            if people[L/2-1] <= target:
+                return L/2-1
+            return self.maxLowerThanOrEqualTo(people[:L/2], target)
+        else:
+            if len(people) == L/2+1 or people[L/2+1] > target:
+                return L/2
+            else: # people[L/2] also = target
+                return L/2+1+self.maxLowerThanOrEqualTo(people[L/2+1:], target)
+```
+
+```python
+# Second Solution
+class Solution(object):
+    def numRescueBoats(self, people, limit):
+        """
+        :type people: List[int]
+        :type limit: int
+        :rtype: int
+        """
+        # If person with weight w is in boat, max weight of the second person is limit-w.
+        # Sort the weights. Start with highest and match with lowest. Greedy solution.
+        people = sorted(people)
+        numBoats = 0
+        
+        while people != []:
+            firstPerson = people[-1]
+            if people[0] <= limit - firstPerson:
+                people = people[1:-1]
+            else:
+                people = people[:-1]
+            
+            numBoats += 1
+            
+        return numBoats
+```
