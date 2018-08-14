@@ -3902,15 +3902,14 @@ Your algorithm should have a linear runtime complexity. Could you implement it w
 
 
 ```python
-class Solution:
-    # @param {integer[]} nums
-    # @return {integer}
+class Solution(object):
     def singleNumber(self, nums):
-        answer = nums[0]
-        for i in range(1,len(nums)):
-            answer ^= nums[i]
-
-        return answer
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        from functools import reduce
+        return reduce((lambda x, y: x ^ y), nums)
 ```
 
 ## 139. Word Break
