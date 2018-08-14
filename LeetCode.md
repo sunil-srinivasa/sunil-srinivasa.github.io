@@ -3760,7 +3760,6 @@ X X X X
 X O X X
 ```
 
-
 ```python
 class Solution(object):
     def solve(self, board):
@@ -3805,6 +3804,66 @@ class Solution(object):
                     board = self.fill(i+delta[0],j+delta[1],board)
 
         return board
+```
+
+## 131. Palindrome Partitioning
+Given a string s, partition s such that every substring of the partition is a palindrome.
+
+Return all possible palindrome partitioning of s.
+>
+Example:
+```
+Input: "aab"
+Output:
+[
+  ["aa","b"],
+  ["a","a","b"]
+]
+```
+
+```python
+class Solution(object):
+    def partition(self, s):
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        isPalindrome = self.isPalindrome(s)
+        return self.findPaths(isPalindrome,s)
+        
+    def isPalindrome(self, s):
+        # Create palindrome matrix denoting if (i,j) forms a palindrome
+        L = len(s)
+        isPalindrome = [[False for _ in range(L)] for _ in range(L)]
+        for i in range(L):
+            isPalindrome[i][i] = True
+        
+        for i in range(L-1):
+            if s[i+1] == s[i]:
+                isPalindrome[i][i+1] = True
+                
+        for diff in range(2,L+1):
+            for i in range(L-diff):
+                if s[i] == s[i+diff]:
+                    isPalindrome[i][i+diff] = isPalindrome[i+1][i+diff-1]
+                        
+        return isPalindrome
+    
+    def findPaths(self,grid,s):
+        # Find all the Trues in the isPalindrome grid and concatenate
+        L = len(grid)
+        import numpy as np
+        grid = np.array(grid)
+        if L == 0:
+            return [[]]
+        if L == 1:
+            return [[s]]
+        solution = []
+        for i in range(L):
+            if grid[0,i] == True:
+                solution += [[s[:i+1]] + v for v in self.findPaths(grid[i+1:,i+1:],s[i+1:])]
+
+        return solution
 ```
 
 ## 135. Candy
