@@ -5120,6 +5120,42 @@ class Solution(object):
         return [str(root.val) + '->' + str(val) for val in self.binaryTreePaths(root.left) + self.binaryTreePaths(root.right)]
 ```
 
+## 260. Single Number III
+Given an array of numbers nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once.
+>
+Example:
+```
+Input:  [1,2,1,3,2,5]
+Output: [3,5]
+```
+
+Note:
+
+- The order of the result is not important. So in the above example, [5, 3] is also correct.
+- Your algorithm should run in linear runtime complexity. Could you implement it using only constant space complexity?
+
+```python
+class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        # XOR all numbers. Result is a^b.
+        # Next xor this with each element to see if the result is in the array.
+        # Space : O(n) though
+        from functools import reduce
+        result = reduce((lambda x, y: x ^ y), nums)
+        
+        dictionary = {}
+        for n in nums:
+            dictionary[n] = 1
+            
+        for n in nums:
+            if result ^ n in dictionary:
+                return [n,result^n]
+```
+
 ## 263. Ugly Number
 Write a program to check whether a given number is an ugly number.
 
@@ -5277,13 +5313,6 @@ There is only one duplicate number in the array, but it could be repeated more t
 ```python
 
 ```
-
-
-
-
-    ['0000']
-
-
 
 ## 289. Game of Life
 According to the Wikipedia's article: "The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970."
@@ -6311,6 +6340,51 @@ class Solution(object):
                 num_ways[idx] += num_ways[idx-coin]
 
         return num_ways[-1]
+```
+
+## 540. Single Element in a Sorted Array
+Given a sorted array consisting of only integers where every element appears twice except for one element which appears once. Find this single element that appears only once.
+>
+Example 1:
+```
+Input: [1,1,2,3,3,4,4,8,8]
+Output: 2
+```
+>
+Example 2:
+```
+Input: [3,3,7,7,10,11,11]
+Output: 10
+```
+
+Note: Your solution should run in O(log n) time and O(1) space.
+
+```python
+class Solution(object):
+    def singleNonDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        L = len(nums)
+        if L == 1:
+            return nums[0]
+        if L == 3:
+            if nums[0] == nums[1]:
+                return nums[2]
+            else:
+                return nums[0]
+        print nums, L/2
+        if L/2 % 2 == 0: # L/2 is even
+            if nums[L/2] == nums[L/2+1]:
+                return self.singleNonDuplicate(nums[L/2+2:])
+            else:
+                return self.singleNonDuplicate(nums[:L/2+1])
+        else:
+            if nums[L/2] != nums[L/2+1]:
+                return self.singleNonDuplicate(nums[L/2+1:])
+            else:
+                return self.singleNonDuplicate(nums[:L/2])
 ```
 
 ## 542. 01 Matrix
