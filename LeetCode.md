@@ -9081,9 +9081,10 @@ Return the node with the largest depth such that it contains all the deepest nod
 
 >
 Example 1:
-111
+```
 Input: [3,5,1,6,2,0,8,null,null,7,4]
 Output: [2,7,4]
+```
 Explanation:
 
 ![](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/01/sketch1.png)
