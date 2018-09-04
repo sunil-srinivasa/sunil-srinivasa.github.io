@@ -5372,6 +5372,67 @@ class Solution(object):
         return sum - grid[m][n]
 ```
 
+## 290. Word Pattern
+Given a pattern and a string str, find if str follows the same pattern.
+
+Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in str.
+>
+Example 1:
+```
+Input: pattern = "abba", str = "dog cat cat dog"
+Output: true
+```
+>
+Example 2:
+```
+Input:pattern = "abba", str = "dog cat cat fish"
+Output: false
+```
+>
+Example 3:
+```
+Input: pattern = "aaaa", str = "dog cat cat dog"
+Output: false
+```
+>
+Example 4:
+```
+Input: pattern = "abba", str = "dog dog dog dog"
+Output: false
+```
+
+Notes:
+- You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space.
+
+```python
+class Solution(object):
+    def wordPattern(self, pattern, str):
+        """
+        :type pattern: str
+        :type str: str
+        :rtype: bool
+        """
+        r1 = self.get_representation(pattern)
+        r2 = self.get_representation(str.split(' '))
+        
+        return r1 == r2
+         
+    def get_representation(self, A):
+        L = len(A)
+        dictionary = {}
+        index = 0
+        representation = ''
+        for idx in range(L):
+            if A[idx] in dictionary:
+                representation += dictionary[A[idx]]
+            else:
+                index += 1
+                dictionary[A[idx]] = str(index)
+                representation += dictionary[A[idx]]
+                
+        return representation
+```
+
 ## 299. Bulls and Cows
 You are playing the following Bulls and Cows game with your friend: You write down a number and ask your friend to guess what the number is. Each time your friend makes a guess, you provide a hint that indicates how many digits in said guess match your secret number exactly in both digit and position (called "bulls") and how many digits match the secret number but locate in the wrong position (called "cows"). Your friend will use successive guesses and hints to eventually derive the secret number.
 
