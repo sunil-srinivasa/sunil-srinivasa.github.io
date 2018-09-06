@@ -4533,7 +4533,8 @@ class Solution(object):
 ## 218. The Skyline Problem
 A city's skyline is the outer contour of the silhouette formed by all the buildings in that city when viewed from a distance. Now suppose you are given the locations and height of all the buildings as shown on a cityscape photo (Figure A), write a program to output the skyline formed by these buildings collectively (Figure B).
 
-![](https://leetcode.com/static/images/problemset/skyline1.jpg)![](https://leetcode.com/static/images/problemset/skyline2.jpg)
+![](https://leetcode.com/static/images/problemset/skyline1)
+![](https://leetcode.com/static/images/problemset/skyline2.jpg)
 
 The geometric information of each building is represented by a triplet of integers [Li, Ri, Hi], where Li and Ri are the x coordinates of the left and right edge of the ith building, respectively, and Hi is its height. It is guaranteed that 0 ≤ Li, Ri ≤ INT_MAX, 0 < Hi ≤ INT_MAX, and Ri - Li > 0. You may assume all buildings are perfect rectangles grounded on an absolutely flat surface at height 0.
 
@@ -9713,7 +9714,7 @@ Example 1:
 Input: 7
 Output: [[0,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,null,null,null,null,0,0],[0,0,0,0,0,null,null,0,0]]
 Explanation:
-!()[https://s3-lc-upload.s3.amazonaws.com/uploads/2018/08/22/fivetrees.png]
+![](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/08/22/fivetrees.png)
 ```
 
 Note:
