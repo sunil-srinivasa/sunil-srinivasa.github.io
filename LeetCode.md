@@ -9698,3 +9698,56 @@ class Solution(object):
                 
         return representation
 ```
+
+## 894. All Possible Full Binary Trees
+A full binary tree is a binary tree where each node has exactly 0 or 2 children.
+
+Return a list of all possible full binary trees with N nodes.  Each element of the answer is the root node of one possible tree.
+
+Each node of each tree in the answer must have node.val = 0.
+
+You may return the final list of trees in any order.
+>
+Example 1:
+```
+Input: 7
+Output: [[0,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,null,null,null,null,0,0],[0,0,0,0,0,null,null,0,0]]
+Explanation:
+![](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/08/22/fivetrees.png)
+```
+
+Note:
+
+- 1 <= N <= 20
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def allPossibleFBT(self, N):
+        """
+        :type N: int
+        :rtype: List[TreeNode]
+        """
+        if N == 1:
+            return [TreeNode(0)]
+        
+        solution = []
+        for idx in range(1,N-1):
+            # idx and N-1-idx both should be odd. Otherwise a full tree cannot happen
+            if idx % 2 == 1 and (N-1-idx) % 2== 1:
+                possible_left_trees = self.allPossibleFBT(idx)
+                possible_right_trees = self.allPossibleFBT(N-1-idx)
+                for l in possible_left_trees:
+                    for r in possible_right_trees:
+                        node = TreeNode(0)
+                        node.left = l
+                        node.right = r
+                        solution += [node]
+        return solution
+```
