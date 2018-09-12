@@ -3991,6 +3991,83 @@ class Solution(object):
         return solution
 ```
 
+## 149. Max Points on a Line
+Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.
+>
+Example 1:
+```
+Input: [[1,1],[2,2],[3,3]]
+Output: 3
+Explanation:
+^
+|
+|        o
+|     o
+|  o  
++------------->
+0  1  2  3  4
+```
+>
+Example 2:
+```
+Input: [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]
+Output: 4
+Explanation:
+^
+|
+|  o
+|     o        o
+|        o
+|  o        o
++------------------->
+0  1  2  3  4  5  6
+```
+
+```python
+# Definition for a point.
+# class Point:
+#     def __init__(self, a=0, b=0):
+#         self.x = a
+#         self.y = b
+
+class Solution:
+    def maxPoints(self, points):
+        """
+        :type points: List[Point]
+        :rtype: int
+        """
+        from collections import defaultdict
+        
+        L = len(points)
+        if L <= 1:
+             return L
+        maxPoints = 0
+        
+        for i in range(L):
+            slopes = defaultdict(int)
+            same_points = 1
+            for j in range(i+1,L):
+                if points[i].x==points[j].x and points[i].y==points[j].y:
+                    same_points += 1
+                else:
+                    slopes[self.slope(points[i], points[j])] += 1
+            if slopes == {}:
+                maxPoints = max(maxPoints,j-i+1)
+            else:
+                for key in slopes:
+                    maxPoints = max(maxPoints, slopes[key]+same_points)
+
+        return maxPoints
+        
+    def slope(self, p1, p2):
+        from decimal import Decimal # For dealing with last test case
+        if p1.x == p2.x and p1.y == p2.y:
+            return 1
+        if p1.x == p2.x:
+            return float('inf')
+        return Decimal(p2.y-p1.y)/Decimal(p2.x-p1.x)
+```
+
 ## 153. Find Minimum in Rotated Sorted Array
 Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
 
