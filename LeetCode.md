@@ -6992,6 +6992,38 @@ class Solution(object):
         return max(possibility1, possibility2)
 ```
 
+## 633. Sum of Square Numbers
+Given a non-negative integer c, your task is to decide whether there're two integers a and b such that a2 + b2 = c.
+>
+Example 1:
+```
+Input: 5
+Output: True
+Explanation: 1 * 1 + 2 * 2 = 5
+```
+>
+Example 2:
+```
+Input: 3
+Output: False
+```
+
+```python
+class Solution(object):
+    def judgeSquareSum(self, c):
+        """
+        :type c: int
+        :rtype: bool
+        """
+        from math import sqrt
+        for a in range(int(sqrt(c))+1):
+            b = c-a**2
+            b = math.sqrt(b)
+            if b == int(b):
+                return True
+        return False
+```
+
 ## 640. Solve the Equation
 Solve a given equation and return the value of x in the form of string "x=#value". The equation contains only '+', '-' operation, the variable x and its coefficient.
 
@@ -7172,6 +7204,76 @@ class TrieNode(object):
         self.val = x
         self.done = False
         self.children = {}
+```
+
+## 653. Two Sum IV - Input is a BST
+Given a Binary Search Tree and a target number, return true if there exist two elements in the BST such that their sum is equal to the given target.
+>
+Example 1:
+```
+Input: 
+    5
+   / \
+  3   6
+ / \   \
+2   4   7
+
+Target = 9
+
+Output: True
+```
+>
+Example 2:
+```
+Input: 
+    5
+   / \
+  3   6
+ / \   \
+2   4   7
+
+Target = 28
+
+Output: False
+```
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findTarget(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: bool
+        """
+        array = self.inOrderTraversal(root, [])
+        print array
+        return self.twoSum(array, k)
+    
+    def inOrderTraversal(self, node, iot):
+        if node == None:
+            return iot
+        self.inOrderTraversal(node.left, iot)
+        iot += [node.val]
+        self.inOrderTraversal(node.right, iot)
+        
+        return iot
+    
+    def twoSum(self, array, k):
+        L = len(array)
+        dictionary = {}
+        for i in range(L):
+            if k-array[i] in dictionary:
+                return True
+            dictionary[array[i]] = 1
+            
+        return False
 ```
 
 ## 662.  Maximum Width of Binary Tree
