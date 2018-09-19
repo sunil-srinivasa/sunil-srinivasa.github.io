@@ -10367,3 +10367,101 @@ class Solution(object):
                 
         return True
 ```
+
+## 904. Fruit Into Baskets
+In a row of trees, the i-th tree produces fruit with type tree[i].
+
+You start at any tree of your choice, then repeatedly perform the following steps:
+
+Add one piece of fruit from this tree to your baskets.  If you cannot, stop.
+Move to the next tree to the right of the current tree.  If there is no tree to the right, stop.
+Note that you do not have any choice after the initial choice of starting tree: you must perform step 1, then step 2, then back to step 1, then step 2, and so on until you stop.
+
+You have two baskets, and each basket can carry any quantity of fruit, but you want each basket to only carry one type of fruit each.
+
+What is the total amount of fruit you can collect with this procedure?
+
+>
+Example 1:
+```
+Input: [1,2,1]
+Output: 3
+Explanation: We can collect [1,2,1].
+```
+>
+Example 2:
+```
+Input: [0,1,2,2]
+Output: 3
+Explanation: We can collect [1,2,2].
+If we started at the first tree, we would only collect [0, 1].
+```
+>
+Example 3:
+```
+Input: [1,2,3,2,2]
+Output: 4
+Explanation: We can collect [2,3,2,2].
+If we started at the first tree, we would only collect [1, 2].
+```
+>
+Example 4:
+```
+Input: [3,3,3,1,2,1,1,2,3,3,4]
+Output: 5
+Explanation: We can collect [1,2,1,1,2].
+If we started at the first tree or the eighth tree, we would only collect 4 fruits.
+``` 
+
+Note:
+
+- 1 <= tree.length <= 40000
+- 0 <= tree[i] < tree.length
+
+```python
+class Solution(object):
+    def totalFruit(self, tree):
+        """
+        :type tree: List[int]
+        :rtype: int
+        """
+        basket1 = (tree[0], 0, 0)
+        basket2 = ()
+        L = len(tree)
+        count1 = 1
+        count2 = 0
+        max_count = 0
+        
+        for idx in range(1,L):
+            if basket1[0] == tree[idx]:
+                if idx == basket1[1]+1:
+                    basket1 = (tree[idx], idx, basket1[2]+1)
+                else:
+                    basket1 = (tree[idx], idx, 1)
+                count1 += 1
+
+            elif basket2 == ():
+                basket2 = (tree[idx], idx, 1)
+                count2 += 1
+                
+            elif basket2[0] == tree[idx]:
+                if idx == basket2[1]+1:
+                    basket2 = (tree[idx], idx, basket2[2]+1)
+                else:
+                    basket2 = (tree[idx], idx, 1)
+                count2 += 1
+
+            else: # new number
+                count = count1+count2
+                max_count = max(count, max_count)
+                if tree[idx-1] == basket1[0]:
+                    count1 = basket1[2]
+                    count2 = 1
+                    basket2 = (tree[idx], idx, 1)
+                elif tree[idx-1] == basket2[0]:
+                    count1 = 1
+                    count2 = basket2[2]
+                    basket1 = (tree[idx], idx, 1)
+
+        return max(max_count, count1+count2)
+```
