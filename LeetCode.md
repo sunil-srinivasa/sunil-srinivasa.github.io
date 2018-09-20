@@ -1635,7 +1635,6 @@ Given a collection of distinct numbers, return all possible permutations.
   [3,2,1]
 ]
 
-
 ```python
 class Solution(object):
     def permute(self, nums):
@@ -1643,23 +1642,55 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        if len(nums) < 2:
+        permutations = []
+        L = len(nums)
+        if L <= 1:
             return [nums]
-        permutations = self.create_permutations([],nums)
-        # Permutations may be a nested list. Below is a hack to make it into one list. I need to fix it!
-        import math
-        while len(permutations) != math.factorial(len(nums)):
-            permutations = sum(permutations,[])
+        partial_permutations = self.permute(nums[1:])
+        for pp in partial_permutations:
+            l = len(pp)
+            for idx in range(l+1):
+                permutations += [pp[:idx]+[nums[0]]+pp[idx:]]
         return permutations
+```
 
-    def create_permutations(self, current, remaining):
-        if len(remaining) <= 1:
-            permutations = current+remaining
-        else:
-            permutations = []
-            for idx in range(len(remaining)):
-                permutations += [self.create_permutations(current + [remaining[idx]], remaining[:idx]+remaining[idx+1:])]
+## 47. Permutations II
+Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+>
+Example:
+```
+Input: [1,1,2]
+Output:
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]
+```
 
+```python
+class Solution(object):
+    def permuteUnique(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        all_permutations = self.permute(nums)
+        all_permutations = [tuple(a) for a in all_permutations]
+        all_permutations = set(all_permutations)
+        all_permutations = [list(a) for a in all_permutations]
+        return all_permutations
+        
+    def permute(self, nums):
+        permutations = []
+        L = len(nums)
+        if L <= 1:
+            return [nums]
+        partial_permutations = self.permute(nums[1:])
+        for pp in partial_permutations:
+            l = len(pp)
+            for idx in range(l+1):
+                permutations += [pp[:idx]+[nums[0]]+pp[idx:]]
         return permutations
 ```
 
@@ -2613,6 +2644,41 @@ class Solution(object):
                 i += 1
 ```
 
+## 78. Subsets
+Given a set of distinct integers, nums, return all possible subsets (the power set).
+
+Note: The solution set must not contain duplicate subsets.
+>
+Example:
+```
+Input: nums = [1,2,3]
+Output:
+[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+```
+
+```python
+class Solution(object):
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        subsets = [[]]
+        L = len(nums)
+        for idx in range(L):
+            subsets += [[nums[idx]] + element for element in self.subsets(nums[idx+1:])]
+        return subsets
+```
+
 ## 79. Word Search
 Given a 2D board and a word, find if the word exists in the grid.
 
@@ -2694,6 +2760,48 @@ class Solution(object):
                 n -= 1
         if n > 0:
             nums1[:n] = nums2[:n]
+```
+
+## 90. Subsets II
+Given a collection of integers that might contain duplicates, nums, return all possible subsets (the power set).
+
+Note: The solution set must not contain duplicate subsets.
+>
+Example:
+```
+Input: [1,2,2]
+Output:
+[
+  [2],
+  [1],
+  [1,2,2],
+  [2,2],
+  [1,2],
+  []
+]
+```
+
+```python
+class Solution(object):
+    def subsetsWithDup(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        all_subsets = self.subsets(nums)
+        print all_subsets
+        all_subsets = [tuple(a) for a in all_subsets]
+        all_subsets = set(all_subsets)
+        all_subsets = [list(a) for a in all_subsets]
+        return all_subsets
+    
+    def subsets(self, nums):
+        nums = sorted(nums)
+        subsets = [[]]
+        L = len(nums)
+        for idx in range(L):
+            subsets += [[nums[idx]] + element for element in self.subsets(nums[idx+1:])]
+        return subsets
 ```
 
 ## 91. Decode Ways
