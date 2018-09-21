@@ -608,6 +608,53 @@ class Solution(object):
         return solution
 ```
 
+## 17. Letter Combinations of a Phone Number
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent.
+
+A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+![](http://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Telephone-keypad2.svg/200px-Telephone-keypad2.svg.png)
+>
+Example:
+```
+Input: "23"
+Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+```
+
+Note:
+- Although the above answer is in lexicographical order, your answer could be in any order you want.
+
+```python
+class Solution(object):
+    def letterCombinations(self, digits):
+        """
+        :type digits: str
+        :rtype: List[str]
+        """
+        dict = {}
+        dict['2'] = ['a','b','c']
+        dict['3'] = ['d','e','f']
+        dict['4'] = ['g','h','i']
+        dict['5'] = ['j','k','l']
+        dict['6'] = ['m','n','o']
+        dict['7'] = ['p','q','r','s']
+        dict['8'] = ['t','u','v']
+        dict['9'] = ['w','x','y','z']
+        
+        if len(digits) == 0:
+            return []
+        
+        if len(digits) == 1:
+            return dict[digits[0]]
+        
+        solution = []       
+        for partial_solution in self.letterCombinations(digits[1:]):
+            for s in dict[digits[0]]:
+                solution += [s+partial_solution]
+                
+        return solution
+```
+
 ## 19. Remove Nth Node From End of List
 Given a linked list, remove the nth node from the end of list and return its head.
 
