@@ -1768,6 +1768,51 @@ class Solution(object):
         return tuple(rep)
 ```
 
+## 50. Pow(x, n)
+Implement pow(x, n), which calculates x raised to the power n (xn).
+>
+Example 1:
+```
+Input: 2.00000, 10
+Output: 1024.00000
+```
+>
+Example 2:
+```
+Input: 2.10000, 3
+Output: 9.26100
+```
+>
+Example 3:
+```
+Input: 2.00000, -2
+Output: 0.25000
+Explanation: 2-2 = 1/22 = 1/4 = 0.25
+```
+
+Note:
+
+- -100.0 < x < 100.0
+- n is a 32-bit signed integer, within the range [−231, 231 − 1]
+
+```python
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        if n == 0:
+            return 1.0
+        elif n < 0:
+            return 1/self.myPow(x, -n)
+        elif n%2:
+            return self.myPow(x*x,n/2)*x
+        else:
+            return self.myPow(x*x,n/2)
+```
+
 ## 53. Maximum Subarray
 Find the contiguous subarray within an array (containing at least one number) which has the largest sum.
 
@@ -7825,6 +7870,39 @@ class TrieNode(object):
 # obj = MapSum()
 # obj.insert(key,val)
 # param_2 = obj.sum(prefix)
+```
+
+## 686. Repeated String Match
+Given two strings A and B, find the minimum number of times A has to be repeated such that B is a substring of it. If no such solution, return -1.
+
+For example, with A = "abcd" and B = "cdabcdab".
+
+Return 3, because by repeating A three times (“abcdabcdabcd”), B is a substring of it; and B is not a substring of A repeated two times ("abcdabcd").
+
+Note:
+
+The length of A and B will be between 1 and 10000.
+
+```python
+class Solution(object):
+    def repeatedStringMatch(self, A, B):
+        """
+        :type A: str
+        :type B: str
+        :rtype: int
+        """
+        la = len(A)
+        lb = len(B)
+        k = int(lb/(la+0.))
+        print k
+        
+        if B in A*k:
+            return k
+        elif B in A*(k+1):
+            return k+1
+        elif B in A*(k+2):
+            return k+2       
+        return -1
 ```
 
 ## 692. Top K Frequent Words
