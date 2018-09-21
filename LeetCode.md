@@ -2644,6 +2644,46 @@ class Solution(object):
                 i += 1
 ```
 
+## 77. Combinations
+Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
+>
+Example:
+```
+Input: n = 4, k = 2
+Output:
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+```
+
+```python
+class Solution(object):
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        return self.combinations(range(1,n+1),k)
+        
+    def combinations(self, n, k):
+        if k == 0:
+            return [[]]
+        if k == 1:
+            return [[i] for i in n]
+        combinations = []
+        L = len(n)    
+        for idx in range(L):
+            combinations += [[n[idx]] + element for element in self.combinations(n[idx+1:], k-1)]
+
+        return combinations
+```
+
 ## 78. Subsets
 Given a set of distinct integers, nums, return all possible subsets (the power set).
 
