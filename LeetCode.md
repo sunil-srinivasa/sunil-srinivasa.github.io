@@ -6374,6 +6374,38 @@ class Solution(object):
         return s[::-1]
 ```
 
+## 347. Top K Frequent Elements
+Given a non-empty array of integers, return the k most frequent elements.
+>
+Example 1:
+```
+Input: nums = [1,1,1,2,2,3], k = 2
+Output: [1,2]
+```
+>
+Example 2:
+```
+Input: nums = [1], k = 1
+Output: [1]
+```
+
+Note:
+
+- You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
+- Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
+
+```python
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        from collections import Counter
+        return map(lambda x: x[0], Counter(nums).most_common(k))
+```
+
 ## 357. Count Numbers with Unique Digits
 Given a non-negative integer n, count all numbers with unique digits, x, where 0 ≤ x < 10n.
 >
@@ -6425,6 +6457,59 @@ class Solution(object):
             return False
         sqrt = math.exp(math.log(num)/2)
         return abs(sqrt-round(sqrt)) < 1e-8
+```
+
+## 384. Shuffle an Array
+Shuffle a set of numbers without duplicates.
+>
+Example:
+```
+// Init an array with set 1, 2, and 3.
+int[] nums = {1,2,3};
+Solution solution = new Solution(nums);
+// Shuffle the array [1,2,3] and return its result. Any permutation of [1,2,3] must equally likely to be returned.
+solution.shuffle();
+// Resets the array back to its original configuration [1,2,3].
+solution.reset();
+// Returns the random shuffling of array [1,2,3].
+solution.shuffle();
+```
+
+```python
+class Solution(object):
+
+    def __init__(self, nums):
+        """
+        :type nums: List[int]
+        """
+        self.nums = nums
+        
+    def reset(self):
+        """
+        Resets the array to its original configuration and return it.
+        :rtype: List[int]
+        """
+        return self.nums
+        
+    def shuffle(self):
+        """
+        Returns a random shuffling of the array.
+        :rtype: List[int]
+        """
+        return self.permute(self.nums)
+    
+    def permute(self, nums):
+        if len(nums) <= 1:
+            return nums
+        import numpy as np
+        L = len(nums)
+        idx = np.random.randint(L)
+        return [nums[idx]] + self.permute(nums[:idx]+nums[idx+1:])
+        
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(nums)
+# param_1 = obj.reset()
+# param_2 = obj.shuffle()
 ```
 
 ## 390. Elimination Game
