@@ -5554,6 +5554,49 @@ class Solution(object):
         return False
 ```
 
+## 242. Valid Anagram
+Given two strings s and t , write a function to determine if t is an anagram of s.
+>
+Example 1:
+```
+Input: s = "anagram", t = "nagaram"
+Output: true
+```
+>
+Example 2:
+```
+Input: s = "rat", t = "car"
+Output: false
+```
+
+Note:
+- You may assume the string contains only lowercase alphabets.
+
+Follow up:
+- What if the inputs contain unicode characters? How would you adapt your solution to such case?
+
+```python
+class Solution(object):
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        from collections import defaultdict
+        
+        s_dict = defaultdict(int)
+        t_dict = defaultdict(int)
+        
+        for char in s:
+            s_dict[char] += 1
+            
+        for char in t:
+            t_dict[char] += 1
+            
+        return s_dict == t_dict
+```
+
 ## 257. Binary Tree Paths
 Given a binary tree, return all root-to-leaf paths.
 
