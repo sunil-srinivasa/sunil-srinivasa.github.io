@@ -6872,28 +6872,29 @@ class Solution(object):
         :type desiredTotal: int
         :rtype: bool
         """
-        return self.canFirstWin(range(1,maxChoosableInteger+1),desiredTotal,{})
-
-    def canFirstWin(self,integerList,desiredTotal,dictionary):
-        if (integerList,desiredTotal) in dictionary.keys():
-            return
-        else:
-            dictionary[tuple(integerList+[desiredTotal])] = 0
-
-        if desiredTotal == 0:
-            return True
-        if desiredTotal < 0:
+        if desiredTotal > (maxChoosableInteger)*(maxChoosableInteger+1)/2.0:
             return False
-        elif desiredTotal in integerList:
-            return True
-        else:
-            for idx in range(len(integerList)):
-                secondWins = self.canFirstWin(integerList[:idx]+integerList[idx+1:], desiredTotal-integerList[idx],dictionary)
-                # winnable denotes if second guy can win with any integer picked by first guy
-                if secondWins == False:
-                    return True
+        return self.isWinnable(range(1,maxChoosableInteger+1), desiredTotal, {})[0]
+    
+    def isWinnable(self, C, d, dictionary):
+        if tuple(C+[d]) in dictionary:
+            return dictionary[tuple(C+[d])], dictionary
+        
+        if C[-1] >= d:
+            dictionary[tuple(C+[d])] = True
+            return True, dictionary
 
-        return False
+        L = len(C)
+        solution = False
+        for idx in range(L):
+            new_C = C[:idx]+C[idx+1:]
+            win, dictionary = self.isWinnable(new_C, d-C[idx], dictionary)
+            dictionary[tuple(new_C+[d-C[idx]])] = win
+            solution ^= not win
+            if solution == True:
+                return solution, dictionary
+            
+        return solution, dictionary
 ```
 
 ## 485. Max Consecutive Ones
