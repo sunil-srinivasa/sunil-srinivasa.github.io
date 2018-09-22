@@ -6397,6 +6397,36 @@ class Solution(object):
         return count[min(10,n)]
 ```
 
+## 367. Valid Perfect Square
+Given a positive integer num, write a function which returns True if num is a perfect square else False.
+
+Note: Do not use any built-in library function such as sqrt.
+>
+Example 1:
+```
+Input: 16
+Output: true
+```
+>
+Example 2:
+```
+Input: 14
+Output: false
+```
+
+```python
+class Solution(object):
+    def isPerfectSquare(self, num):
+        """
+        :type num: int
+        :rtype: bool
+        """
+        if num == 0:
+            return False
+        sqrt = math.exp(math.log(num)/2)
+        return abs(sqrt-round(sqrt)) < 1e-8
+```
+
 ## 390. Elimination Game
 There is a list of sorted integers from 1 to n. Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.
 
