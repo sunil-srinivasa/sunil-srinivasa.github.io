@@ -4376,6 +4376,93 @@ class Solution(object):
         return solution[-1]
 ```
 
+## 141. Linked List Cycle
+Given a linked list, determine if it has a cycle in it.
+
+Follow up:
+Can you solve it without using extra space?
+
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def hasCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        slow = head
+        fast = head
+        while slow != None and fast != None:
+            slow = slow.next
+            if fast.next == None:
+                return False
+            else:
+                fast = fast.next.next
+            if slow == fast:
+                return True
+        return False
+```
+
+## 142. Linked List Cycle II
+Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+Note: Do not modify the linked list.
+
+Follow up:
+Can you solve it without using extra space?
+
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def detectCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        # Assume N total nodes in list, loop starts at node L
+        # slow pointer speed = s
+        # fast pointer speed = s
+        # if they meet at time t,
+        # (s-f)t % (N-L) = 0
+        # if f = 2, s = 1
+        # t % (N-L) = 0 or t = c(N-L) for constant c
+        # This means pointers meet at node N-L
+        # When they meet start pointer from head and meeting point,
+        # they should both meet at cycle beginning point.
+        
+        fast = head
+        slow = head
+        while fast != None and slow != None:
+            slow = slow.next
+            if fast.next != None:
+                fast = fast.next.next
+            else:
+                return None
+            
+            if slow == fast:
+                break
+        
+        if fast == None:
+            return None
+        
+        new_pointer = head
+        while new_pointer != slow:
+            slow = slow.next
+            new_pointer = new_pointer.next
+            
+        return slow
+```
+
 ## 144. Binary Tree Preorder Traversal
 Given a binary tree, return the preorder traversal of its nodes' values.
 
