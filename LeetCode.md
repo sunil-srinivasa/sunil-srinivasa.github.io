@@ -4010,6 +4010,67 @@ class Solution(object):
         return [str(root.val) + ',' + str(val) for val in self.getPaths(root.left) + (self.getPaths(root.right))]  
 ```
 
+## 116. Populating Next Right Pointers in Each Node
+Given a binary tree
+```
+struct TreeLinkNode {
+  TreeLinkNode *left;
+  TreeLinkNode *right;
+  TreeLinkNode *next;
+}
+```
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+
+Initially, all next pointers are set to NULL.
+
+Note:
+
+- You may only use constant extra space.
+- Recursive approach is fine, implicit stack space does not count as extra space for this problem.
+- You may assume that it is a perfect binary tree (ie, all leaves are at the same level, and every parent has two children).
+>
+Example:
+```
+Given the following perfect binary tree,
+     1
+   /  \
+  2    3
+ / \  / \
+4  5  6  7
+After calling your function, the tree should look like:
+     1 -> NULL
+   /  \
+  2 -> 3 -> NULL
+ / \  / \
+4->5->6->7 -> NULL
+```
+
+```python
+# Definition for binary tree with next pointer.
+# class TreeLinkNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#         self.next = None
+
+class Solution:
+    # @param root, a tree link node
+    # @return nothing
+    def connect(self, root):
+        if root == None or root.left == None:
+            return
+        root.left.next = root.right
+        self.connect(root.left)
+        self.connect(root.right)
+        left  = root.left 
+        right = root.right 
+        while left:
+            left.next = right 
+            left  = left.right 
+            right = right.left   
+```
+
 ## 118. Pascal's Triangle
 Given a non-negative integer numRows, generate the first numRows of Pascal's triangle.
 In Pascal's triangle, each number is the sum of the two numbers directly above it.
@@ -4811,6 +4872,38 @@ class Solution:
         if int(solution) == 0:
             solution = '0'
 
+        return solution
+```
+
+## 187. Repeated DNA Sequences
+All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: "ACGAATTCCG". When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.
+
+Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.
+>
+Example:
+```
+Input: s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+Output: ["AAAAACCCCC", "CCCCCAAAAA"]
+```
+
+```python
+class Solution(object):
+    def findRepeatedDnaSequences(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        from collections import defaultdict
+        patterns = defaultdict(int)
+        L = len(s)
+        for idx in range(L-10+1):
+            patterns[s[idx:idx+10]] += 1
+            
+        solution = []
+        for p in patterns:
+            if patterns[p] > 1:
+                solution += [p]
+                
         return solution
 ```
 
@@ -5715,6 +5808,93 @@ class Solution:
             return True
         else:
             return False
+```
+
+## 232. Implement Queue using Stacks
+Implement the following operations of a queue using stacks.
+
+push(x) -- Push element x to the back of queue.
+pop() -- Removes the element from in front of queue.
+peek() -- Get the front element.
+empty() -- Return whether the queue is empty.
+>
+Example:
+```
+MyQueue queue = new MyQueue();
+queue.push(1);
+queue.push(2);  
+queue.peek();  // returns 1
+queue.pop();   // returns 1
+queue.empty(); // returns false
+```
+
+Notes:
+
+- You must use only standard operations of a stack -- which means only push to top, peek/pop from top, size, and is empty operations are valid.
+- Depending on your language, stack may not be supported natively. You may simulate a stack by using a list or deque (double-ended queue), as long as you use only standard operations of a stack.
+- You may assume that all operations are valid (for example, no pop or peek operations will be called on an empty queue).
+
+```python
+class MyQueue(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.push_stack = []
+        self.pop_stack = []
+
+    def push(self, x):
+        """
+        Push element x to the back of queue.
+        :type x: int
+        :rtype: void
+        """
+        self.push_stack += [x]
+
+    def pop(self):
+        """
+        Removes the element from in front of queue and returns that element.
+        :rtype: int
+        """
+        if self.pop_stack != []:
+            solution = self.pop_stack[-1]
+            self.pop_stack = self.pop_stack[:-1]
+            return solution
+        else:
+            while len(self.push_stack) > 1:
+                self.pop_stack += [self.push_stack[-1]]
+                self.push_stack = self.push_stack[:-1]
+            solution = self.push_stack[0]
+            self.push_stack = []
+            return solution
+                
+    def peek(self):
+        """
+        Get the front element.
+        :rtype: int
+        """
+        if self.pop_stack != []:
+            return self.pop_stack[-1]
+        else:
+            while len(self.push_stack) > 0:
+                self.pop_stack += [self.push_stack[-1]]
+                self.push_stack = self.push_stack[:-1]
+            return self.pop_stack[-1]        
+        
+    def empty(self):
+        """
+        Returns whether the queue is empty.
+        :rtype: bool
+        """
+        return self.push_stack == [] and self.pop_stack == []
+
+# Your MyQueue object will be instantiated and called as such:
+# obj = MyQueue()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.peek()
+# param_4 = obj.empty()
 ```
 
 ## 235. Lowest Common Ancestor of a Binary Search Tree
