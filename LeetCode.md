@@ -7469,6 +7469,42 @@ class Solution(object):
         return solution
 ```
 
+## 447. Number of Boomerangs
+Given n points in the plane that are all pairwise distinct, a "boomerang" is a tuple of points (i, j, k) such that the distance between i and j equals the distance between i and k (the order of the tuple matters).
+
+Find the number of boomerangs. You may assume that n will be at most 500 and coordinates of points are all in the range [-10000, 10000] (inclusive).
+>
+Example:
+```
+Input:
+[[0,0],[1,0],[2,0]]
+Output:
+2
+Explanation:
+The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]]
+```
+
+```python
+class Solution(object):
+    def numberOfBoomerangs(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: int
+        """
+        L = len(points)
+        from collections import defaultdict
+        solution = 0
+        for i in range(L):
+            distances = defaultdict(int)
+            for j in range(L):
+                dist = (points[i][1]-points[j][1])**2 + (points[i][0]-points[j][0])**2
+                distances[dist] += 1
+            for k in distances:
+                if distances[k] > 1:
+                    solution += distances[k]*(distances[k]-1) # nP2
+            
+        return solution
+```
 ## 452. Minimum Number of Arrows to Burst Balloons
 There are a number of spherical balloons spread in two-dimensional space. For each balloon, provided input is the start and end coordinates of the horizontal diameter. Since it's horizontal, y-coordinates don't matter and hence the x-coordinates of start and end of the diameter suffice. Start is always smaller than end. There will be at most 104 balloons.
 
