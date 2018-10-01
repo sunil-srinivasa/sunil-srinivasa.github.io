@@ -6178,6 +6178,34 @@ class Solution(object):
         return [str(root.val) + '->' + str(val) for val in self.binaryTreePaths(root.left) + self.binaryTreePaths(root.right)]
 ```
 
+## 258. Add Digits
+Given a non-negative integer num, repeatedly add all its digits until the result has only one digit.
+>
+Example:
+```
+Input: 38
+Output: 2
+Explanation: The process is like: 3 + 8 = 11, 1 + 1 = 2. 
+             Since 2 has only one digit, return it.
+```
+
+Follow up:
+- Could you do it without any loop/recursion in O(1) runtime?
+
+```python
+class Solution(object):
+    def addDigits(self, num):
+        """
+        :type num: int
+        :rtype: int
+        """
+        if num == 0:
+            return 0
+        if num % 9 == 0:
+            return 9
+        return num % 9
+```
+
 ## 260. Single Number III
 Given an array of numbers nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once.
 >
@@ -6360,16 +6388,40 @@ class Solution(object):
 
 ## 287. Find the Duplicate Number
 Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+>
+Example 1:
+```
+Input: [1,3,4,2,2]
+Output: 2
+```
+>
+Example 2:
+```
+Input: [3,1,3,4,2]
+Output: 3
+```
 
 Note:
-You must not modify the array (assume the array is read only).
-You must use only constant, O(1) extra space.
-Your runtime complexity should be less than O(n2).
-There is only one duplicate number in the array, but it could be repeated more than once.
-
+- You must not modify the array (assume the array is read only).
+- You must use only constant, O(1) extra space.
+- Your runtime complexity should be less than O(n2).
+- There is only one duplicate number in the array, but it could be repeated more than once.
 
 ```python
-
+class Solution(object):
+    def findDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        eps = 1e-8
+        L = len(nums)
+        for idx in range(L):
+            nums[int(nums[idx])-1] += eps
+        
+        for idx in range(L):
+            if nums[idx] - int(nums[idx]) > 1.5*eps:
+                return idx+1
 ```
 
 ## 289. Game of Life
@@ -7163,6 +7215,50 @@ class Solution(object):
                 return n[0]
 
         return n[0]
+```
+
+## 392. Is Subsequence
+Given a string s and a string t, check if s is subsequence of t.
+
+You may assume that there is only lower case English letters in both s and t. t is potentially a very long (length ~= 500,000) string, and s is a short string (<=100).
+
+A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, "ace" is a subsequence of "abcde" while "aec" is not).
+>
+Example 1:
+```
+s = "abc", t = "ahbgdc"
+Return true.
+```
+>
+Example 2:
+```
+s = "axc", t = "ahbgdc"
+Return false.
+```
+
+Follow up:
+- If there are lots of incoming S, say S1, S2, ... , Sk where k >= 1B, and you want to check one by one to see if T has its subsequence. In this scenario, how would you change your code?
+
+```python
+class Solution(object):
+    def isSubsequence(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        if s == '':
+            return True
+        t_counter = 0
+        s_counter = 0
+        
+        while t_counter < len(t):
+            if t[t_counter] == s[s_counter]:
+                s_counter += 1
+            if s_counter == len(s):
+                return True
+            t_counter += 1
+        return False
 ```
 
 ## 402. Remove K Digits
