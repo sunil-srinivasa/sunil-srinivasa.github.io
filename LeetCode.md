@@ -136,47 +136,7 @@ The median is (2 + 3)/2 = 2.5
 
 
 ```python
-class Solution(object):
-    def findMedianSortedArrays(self, nums1, nums2):
-        """
-        :type nums1: List[int]
-        :type nums2: List[int]
-        :rtype: float
-        """
 
-        median_index = (len(nums1) + len(nums2))/2
-        import math
-        median_indices = [math.floor(median_index), math.ceil(median_index)]
-
-        if len(nums1) == 0:
-            return mean([nums2[i] for i in median_indices])
-        if len(nums2) == 0:
-            return mean([nums1[i] for i in median_indices])
-
-        idx = median_index
-        print idx
-        while idx > 0:
-            index1 = int(min(len(nums1),median_index/2))
-            index2 = int(min(len(nums2),median_index/2 - index1))
-            index1 = int(min(len(nums1),median_index/2 - index2))
-
-            print index1, index2, nums1, nums2, idx
-            if len(nums1) == 0:
-                return nums2[index2]
-            elif len(nums2) == 0:
-                return nums1[index1]
-            elif nums1[index1] < nums2[index2]:
-                nums1 = nums1[index1+1:]
-                nums2 = nums2[:index2+1]
-                idx -= index1
-            elif nums1[index1] > nums2[index2]:
-                nums1 = nums1[:index1+1]
-                nums2 = nums2[index2+1:]
-                idx -= index2
-            else:
-                print nums1, nums2
-
-            median_index /= 2
 ```
 
 ## 5. Longest Palindromic Substring
@@ -1387,7 +1347,6 @@ class Solution(object):
         return
     
     def backTrack(self, board, (i, j), fixed_locations):
-        # print i, j, board
         if i==8 and j==8:
             if board[i][j] == '.':
                 board[i][j] = self.possibilities(board, (i, j))[0]
@@ -1558,7 +1517,6 @@ class Solution(object):
                 pass
             else:
                 nums[int(nums[i])-1] += fraction
-        print nums
 
         # One final pass to determine
         for i in range(len(nums)):
@@ -1761,7 +1719,6 @@ class Solution(object):
         layer = 0
         while layer < len(matrix)/2:
             self.rotate_perimeter(matrix, layer)
-            print matrix
             layer += 1
         return
 
@@ -2125,7 +2082,6 @@ class Solution(object):
         length = 0
 
         for i in range(len(s)-1,-1,-1):
-            print i, s[i], letter_found
             if s[i] == ' ':
                 if letter_found == 1:
                     return length
@@ -2368,7 +2324,6 @@ class Solution(object):
                 else:
                     path_sum[i][j] = min(path_sum[i][j-1],path_sum[i-1][j]) + grid[i][j]
 
-        print path_sum
         return path_sum[i][j]
 ```
 
@@ -2922,7 +2877,6 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         all_subsets = self.subsets(nums)
-        print all_subsets
         all_subsets = [tuple(a) for a in all_subsets]
         all_subsets = set(all_subsets)
         all_subsets = [list(a) for a in all_subsets]
@@ -2986,10 +2940,8 @@ class Solution(object):
         if len(s) > 1:
             num_decodings[1] = num_decodings[0]*(1<=int(s[1])<=9) + 1*(10<=int(s[:2])<=26)
             for i in range(2,len(s)):
-                print i
                 num_decodings[i] = num_decodings[i-2]*(10<=int(s[i-1:i+1])<=26) + num_decodings[i-1]*(1<=int(s[i])<=9)
 
-        print num_decodings   
         return num_decodings[len(s)-1]    
 ```
 
@@ -3270,15 +3222,12 @@ class Solution(object):
         :type root: TreeNode
         :rtype: void Do not return anything, modify root in-place instead.
         """
-        print self.printInOrder(root,[])
-
         prev_val = -float("inf")
         val1, val2, prev_val = self.inOrder(root,float("inf"),float("inf"), prev_val)
         if val2 == float("inf"): # for the case when it occurs at the very end of the traversal
             val2 = prev_val
 
         fixed, root = self.correctTree(root, root, val1, val2,0)
-        print self.printInOrder(root,[])
         return
 
     def printInOrder(self,root,inOrder):
@@ -4328,7 +4277,6 @@ class Solution(object):
         s = self.remove_punctuations(s)
         s = self.remove_spaces(s)
         s = self.all_lower_case(s)
-        print s
         return s == s[::-1]
 
     def remove_punctuations(self,s):
@@ -4375,7 +4323,6 @@ class Solution(object):
         """
         paths = self.getPaths(root)
         paths = self.convert_to_int(paths)
-        print paths
         return sum(int(string) for string in paths)
 
     def getPaths(self,root):
@@ -4592,7 +4539,6 @@ class Solution(object):
 
         solution = [False for _ in range(L+1)]
         for idx in range(1,L+1):
-            print solution
             if s[:idx] in wordDict:
                 solution[idx] = True
             else:
@@ -5696,7 +5642,6 @@ class Solution(object):
         else:    
             intersecting_area = (min(C,G) - max(A,E)) * (min(H,D) - max(F,B))
 
-        print intersecting_area, area1, area2
         return area1 + area2 - intersecting_area
 ```
 
@@ -5839,7 +5784,6 @@ class Solution(object):
             return result, k
 
         k -= 1
-        print k
         if k == 0:
             return root.val, k
 
@@ -6094,7 +6038,6 @@ class Solution(object):
                 return True
             elif matrix[i][j] < target:
                 i += 1
-                print i
             else:
                 j -= 1
         return False
@@ -6303,7 +6246,6 @@ class Solution(object):
             if ugly_number[idx]*5 not in ugly_numbers:
                 ugly_numbers.append(ugly_number[idx]*5)
 
-            #print ugly_number[idx], ugly_numbers
             ugly_numbers.remove(ugly_number[idx])
 
         return ugly_number[idx]
@@ -6709,7 +6651,6 @@ class Solution(object):
                 if ugly_number[idx]*p not in ugly_numbers:
                     ugly_numbers.append(ugly_number[idx]*p)
 
-            #print ugly_number[idx], ugly_numbers
             ugly_numbers.remove(ugly_number[idx])
 
         return ugly_number[idx]
@@ -7453,7 +7394,6 @@ class Solution(object):
             return []
         m = len(matrix)
         n = len(matrix[0])
-        print m, n
 
         # PACIFIC
         pacific = [[0 for _ in range(n)] for _ in range(m)]
@@ -8067,7 +8007,6 @@ class Solution(object):
                 return nums[2]
             else:
                 return nums[0]
-        print nums, L/2
         if L/2 % 2 == 0: # L/2 is even
             if nums[L/2] == nums[L/2+1]:
                 return self.singleNonDuplicate(nums[L/2+2:])
@@ -8494,7 +8433,6 @@ class Solution(object):
         (c,d) = self.get_coeffs(eqn_right)
         x_coeff = a-c
         c_coeff = b-d
-        print x_coeff, c_coeff
         if x_coeff == 0 and c_coeff == 0:
             return "Infinite solutions"
         elif x_coeff == 0:
@@ -8670,7 +8608,6 @@ class Solution(object):
         :rtype: bool
         """
         array = self.inOrderTraversal(root, [])
-        print array
         return self.twoSum(array, k)
     
     def inOrderTraversal(self, node, iot):
@@ -8882,7 +8819,6 @@ class Solution(object):
         la = len(A)
         lb = len(B)
         k = int(lb/(la+0.))
-        print k
         
         if B in A*k:
             return k
@@ -9465,8 +9401,6 @@ class Solution(object):
                     travel_times[t[0]] = min(current_time+t[1], travel_times[t[0]])
             visited[current_node] = 0
 
-
-        print travel_times
         if len(visited) < N:
             return -1
         else:
@@ -10673,7 +10607,6 @@ class Solution(object):
         # Graph traversal problem using DFS. BFS will be easier, hence trying DFS
         visited = {0: 1} # dictionary of visited rooms
         visited = self.visit_rooms(0, rooms, visited)
-        print visited
         if len(visited) == len(rooms):
             return True
         return False
@@ -10839,7 +10772,6 @@ class Solution(object):
                     init_flag = True
                 start = i
         final = i-start
-        print init, max_dist, final
         return max(init, max_dist/2, final)
 ```
 
