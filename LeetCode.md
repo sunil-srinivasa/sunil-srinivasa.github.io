@@ -10559,6 +10559,49 @@ class Solution(object):
         return num_ways
 ```
 
+## 836. Rectangle Overlap
+A rectangle is represented as a list [x1, y1, x2, y2], where (x1, y1) are the coordinates of its bottom-left corner, and (x2, y2) are the coordinates of its top-right corner.
+
+Two rectangles overlap if the area of their intersection is positive.  To be clear, two rectangles that only touch at the corner or edges do not overlap.
+
+Given two (axis-aligned) rectangles, return whether they overlap.
+>
+Example 1:
+```
+Input: rec1 = [0,0,2,2], rec2 = [1,1,3,3]
+Output: true
+```
+>
+Example 2:
+```
+Input: rec1 = [0,0,1,1], rec2 = [1,0,2,1]
+Output: false
+```
+
+Notes:
+
+- Both rectangles rec1 and rec2 are lists of 4 integers.
+- All coordinates in rectangles will be between -10^9 and 10^9.
+
+```python
+class Solution(object):
+    def isRectangleOverlap(self, rec1, rec2):
+        """
+        :type rec1: List[int]
+        :type rec2: List[int]
+        :rtype: bool
+        """
+        x1, y1, x2, y2 = rec1
+        w1, z1, w2, z2 = rec2
+        
+        minx, maxx = min(x1, x2), max(x1, x2)
+        miny, maxy = min(y1, y2), max(y1, y2)
+        minw, maxw = min(w1, w2), max(w1, w2)
+        minz, maxz = min(z1, z2), max(z1, z2)
+        
+        return not ((minw >= maxx or maxw <= minx) or (minz >= maxy or maxz <= miny))
+```
+
 ## 841. Keys and Rooms
 There are N rooms and you start in room 0.  Each room has a distinct number in 0, 1, 2, ..., N-1, and each room may have some keys to access the next room. 
 
@@ -11135,6 +11178,77 @@ class Solution(object):
             solution += [[A[j][i] for j in range(M)]]
             
         return solution
+```
+
+## 868. Binary Gap
+Given a positive integer N, find and return the longest distance between two consecutive 1's in the binary representation of N.
+
+If there aren't two consecutive 1's, return 0.
+
+>
+Example 1:
+```
+Input: 22
+Output: 2
+Explanation: 
+22 in binary is 0b10110.
+In the binary representation of 22, there are three ones, and two consecutive pairs of 1's.
+The first consecutive pair of 1's have distance 2.
+The second consecutive pair of 1's have distance 1.
+The answer is the largest of these two distances, which is 2.
+```
+>
+Example 2:
+```
+Input: 5
+Output: 2
+Explanation: 
+5 in binary is 0b101.
+```
+>
+Example 3:
+```
+Input: 6
+Output: 1
+Explanation: 
+6 in binary is 0b110.
+```
+>
+Example 4:
+```
+Input: 8
+Output: 0
+Explanation: 
+8 in binary is 0b1000.
+There aren't any consecutive pairs of 1's in the binary representation of 8, so we return 0.
+```
+
+Note:
+- 1 <= N <= 10^9
+
+```python
+class Solution(object):
+    def binaryGap(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        distance = 0
+        max_distance = 0
+        current = N
+        
+        # Remove trailing zeros first
+        while current % 2 == 0:
+            current = current >> 1
+        current = current >> 1
+        
+        while current > 0:
+            distance += 1
+            if current % 2 == 1:
+                max_distance = max(max_distance, distance)
+                distance = 0
+            current = current >> 1
+        return max_distance
 ```
 
 ## 869. Reordered Power of 2
