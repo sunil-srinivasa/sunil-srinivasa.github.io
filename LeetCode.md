@@ -10324,6 +10324,53 @@ class Solution(object):
         return True
 ```
 
+## 797. All Paths From Source to Target
+Given a directed, acyclic graph of N nodes.  Find all possible paths from node 0 to node N-1, and return them in any order.
+
+The graph is given as follows:  the nodes are 0, 1, ..., graph.length - 1.  graph[i] is a list of all nodes j for which the edge (i, j) exists.
+>
+Example:
+```
+Input: [[1,2], [3], [3], []] 
+Output: [[0,1,3],[0,2,3]] 
+Explanation: The graph looks like this:
+0--->1
+|    |
+v    v
+2--->3
+There are two paths: 0 -> 1 -> 3 and 0 -> 2 -> 3.
+```
+
+Note:
+
+- The number of nodes in the graph will be in the range [2, 15].
+- You can print different paths in any order, but you should keep the order of nodes inside one path.
+
+```python
+class Solution(object):
+    def allPathsSourceTarget(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        # Use DFS
+        return self.returnPaths(graph, 0)
+        
+    def returnPaths(self, graph, node):
+        if node == []:
+            return [[]]
+        elif node == len(graph)-1:
+            return [[node]]
+        solution = []
+        for c in graph[node]:
+            paths = self.returnPaths(graph, c)
+            if paths != []:
+                for p in paths:
+                    solution += [[node]+p]
+                
+        return solution
+```
+
 ## 813. Largest Sum of Averages
 We partition a row of numbers A into at most K adjacent (non-empty) groups, then our score is the sum of the average of each group. What is the largest score we can achieve?
 
