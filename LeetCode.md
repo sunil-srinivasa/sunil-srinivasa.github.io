@@ -8037,6 +8037,65 @@ class Solution(object):
         return solution[i][j][0] >= solution [i][j][1]
 ```
 
+## 496. Next Greater Element I
+You are given two arrays (without duplicates) nums1 and nums2 where nums1’s elements are subset of nums2. Find all the next greater numbers for nums1's elements in the corresponding places of nums2.
+
+The Next Greater Number of a number x in nums1 is the first greater number to its right in nums2. If it does not exist, output -1 for this number.
+>
+Example 1:
+```
+Input: nums1 = [4,1,2], nums2 = [1,3,4,2].
+Output: [-1,3,-1]
+Explanation:
+    For number 4 in the first array, you cannot find the next greater number for it in the second array, so output -1.
+    For number 1 in the first array, the next greater number for it in the second array is 3.
+    For number 2 in the first array, there is no next greater number for it in the second array, so output -1.
+```
+>
+Example 2:
+```
+Input: nums1 = [2,4], nums2 = [1,2,3,4].
+Output: [3,-1]
+Explanation:
+    For number 2 in the first array, the next greater number for it in the second array is 3.
+    For number 4 in the first array, there is no next greater number for it in the second array, so output -1.
+```
+Note:
+- All elements in nums1 and nums2 are unique.
+- The length of both nums1 and nums2 would not exceed 1000.
+
+```python
+class Solution(object):
+    def nextGreaterElement(self, findNums, nums):
+        """
+        :type findNums: List[int]
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        if nums == []:
+            return []
+        higherIndex = self.higherIndex(nums)
+        return [higherIndex[num] for num in findNums]
+        
+    def higherIndex(self, nums):
+        higherIndex = {}
+        for n in nums:
+            higherIndex[n] = -1
+            
+        stack = [(nums[0], 0)]
+        L = len(nums)
+        for idx in range(1,L):
+            if stack == [] or nums[idx] < stack[-1][0]:
+                stack += [(nums[idx], idx)]
+            else:
+                while stack != [] and stack[-1][0] < nums[idx]:
+                    higherIndex[stack[-1][0]] = nums[idx]
+                    stack = stack[:-1]
+                stack += [(nums[idx], idx)]
+                    
+        return higherIndex
+```
+
 ## 508. Most Frequent Subtree Sum
 Given the root of a tree, you are asked to find the most frequent subtree sum. The subtree sum of a node is defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself). So what is the most frequent subtree sum value? If there is a tie, return all the values with the highest frequency in any order.
 >
