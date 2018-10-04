@@ -6485,6 +6485,30 @@ class Solution(object):
         return representation
 ```
 
+## 292. Nim Game
+You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone will be the winner. You will take the first turn to remove the stones.
+
+Both of you are very clever and have optimal strategies for the game. Write a function to determine whether you can win the game given the number of stones in the heap.
+>
+Example:
+```
+Input: 4
+Output: false 
+Explanation: If there are 4 stones in the heap, then you will never win the game;
+             No matter 1, 2, or 3 stones you remove, the last stone will always be 
+             removed by your friend.
+```
+
+```python
+class Solution(object):
+    def canWinNim(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        return n % 4 != 0
+```
+
 ## 299. Bulls and Cows
 You are playing the following Bulls and Cows game with your friend: You write down a number and ask your friend to guess what the number is. Each time your friend makes a guess, you provide a hint that indicates how many digits in said guess match your secret number exactly in both digit and position (called "bulls") and how many digits match the secret number but locate in the wrong position (called "cows"). Your friend will use successive guesses and hints to eventually derive the secret number.
 
@@ -6573,6 +6597,79 @@ class Solution(object):
         return max(LIS)
 ```
 
+## 306. Additive Number
+Additive number is a string whose digits can form additive sequence.
+
+A valid additive sequence should contain at least three numbers. Except for the first two numbers, each subsequent number in the sequence must be the sum of the preceding two.
+
+Given a string containing only digits '0'-'9', write a function to determine if it's an additive number.
+
+Note: Numbers in the additive sequence cannot have leading zeros, so sequence 1, 2, 03 or 1, 02, 3 is invalid.
+>
+Example 1:
+```
+Input: "112358"
+Output: true 
+Explanation: The digits can form an additive sequence: 1, 1, 2, 3, 5, 8. 
+             1 + 1 = 2, 1 + 2 = 3, 2 + 3 = 5, 3 + 5 = 8
+```
+>
+Example 2:
+```
+Input: "199100199"
+Output: true 
+Explanation: The additive sequence is: 1, 99, 100, 199. 
+             1 + 99 = 100, 99 + 100 = 199
+```
+
+Follow up:
+- How would you handle overflow for very large input integers?
+
+```python
+class Solution(object):
+    def isAdditiveNumber(self, num):
+        """
+        :type num: str
+        :rtype: bool
+        """
+        # Find first two numbers iteratively
+        L = len(num)
+        if L < 3: # at least three numbers
+            return False
+        
+        for idx1 in range(1,L-1):
+            if num[0] == '0':
+                num1 = '0'
+            else:
+                num1 = num[:idx1]
+            for idx2 in range(1,L-idx1):
+                if num[idx1] == '0': # num can't begin in 0
+                    num2 = '0'
+                else:
+                    num2 = num[idx1:idx1+idx2]
+                if num[idx1+idx2] == '0': # num can't begin in 0
+                    s = '0'
+                else:
+                    s = num[idx1+idx2:]
+                partial_soln = self.check_additive(num1, num2, s)
+                if partial_soln:
+                    return True
+                    
+        return False
+    
+    def check_additive(self, num1, num2, s):
+        # print num1, num2, s
+        if s == '':
+            return True
+        if s.startswith(str(int(num1)+int(num2))):
+            num1, num2 = num2, str(int(num1)+int(num2))
+            l2 = len(num2)
+            s = s[l2:]
+            return self.check_additive(num1, num2, s)
+        else:
+            return False
+```
+
 ## 312. Burst Balloons
 Given n balloons, indexed from 0 to n-1. Each balloon is painted with a number on it represented by array nums. You are asked to burst all the balloons. If the you burst balloon i you will get nums[left] * nums[i] * nums[right] coins. Here left and right are adjacent indices of i. After the burst, the left and right then becomes adjacent.
 
@@ -6643,17 +6740,32 @@ class Solution(object):
         :rtype: int
         """
         ugly_numbers = [1]
-        ugly_number = [0 for _ in range(n+1)]
-
-        for idx in range(1,n+1):
-            ugly_number[idx] = min(ugly_numbers)
+        min_prime = min(primes)
+        max_ugly_number = min_prime**(n-1) # max ugly number has to be less than this
+        for idx in range(n-1):
             for p in primes:
-                if ugly_number[idx]*p not in ugly_numbers:
-                    ugly_numbers.append(ugly_number[idx]*p)
-
-            ugly_numbers.remove(ugly_number[idx])
-
-        return ugly_number[idx]
+                new_ugly_number = ugly_numbers[0]*p
+                if new_ugly_number <= max_ugly_number:
+                    ugly_numbers = self.insert(ugly_numbers,new_ugly_number,n-idx)
+            ugly_numbers.pop(0)
+        return ugly_numbers[0]
+    
+    def insert(self,A,x,n):
+        # Insert using binary search since A is already sorted
+        if x > A[-1]:
+            if len(A) > n: # if A is already longer than number of ugly numbers remaining,
+                #there is no need to append
+                return A
+            return A + [x]
+        elif x < A[0]:
+            return [x] + A
+        L = len(A)
+        if x == A[L/2]:
+            return A
+        if x < A[L/2]:
+            return self.insert(A[:L/2],x,n) + A[L/2:]
+        else:
+            return A[:L/2+1] + self.insert(A[L/2+1:],x,n-L/2)
 ```
 
 ## 319. Bulb Switcher
