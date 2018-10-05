@@ -7025,6 +7025,51 @@ class Solution(object):
         return s[::-1]
 ```
 
+## 345. Reverse Vowels of a String
+Write a function that takes a string as input and reverse only the vowels of a string.
+>
+Example 1:
+```
+Input: "hello"
+Output: "holle"
+```
+>
+Example 2:
+```
+Input: "leetcode"
+Output: "leotcede"
+```
+
+Note:
+- The vowels does not include the letter "y".
+
+```python
+class Solution(object):
+    def reverseVowels(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        vowels = []
+        s = [x for x in s]
+        len_vowels = 0
+        for char in s:
+            if char in ['a','e','i','o','u','A','E','I','O','U']:
+                vowels += [char]
+                len_vowels += 1
+        
+        solution = []
+        counter = 0
+        for char in s:
+            if char in ['a','e','i','o','u','A','E','I','O','U']:
+                solution += vowels[len_vowels-1-counter]
+                counter += 1
+            else:
+                solution += char
+            
+        return ''.join(solution)
+```
+
 ## 347. Top K Frequent Elements
 Given a non-empty array of integers, return the k most frequent elements.
 >
@@ -8090,6 +8135,52 @@ class Solution(object):
             else:
                 while stack != [] and stack[-1][0] < nums[idx]:
                     higherIndex[stack[-1][0]] = nums[idx]
+                    stack = stack[:-1]
+                stack += [(nums[idx], idx)]
+                    
+        return higherIndex
+```
+
+## 503. Next Greater Element II
+Given a circular array (the next element of the last element is the first element of the array), print the Next Greater Number for every element. The Next Greater Number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, output -1 for this number.
+>
+Example 1:
+```
+Input: [1,2,1]
+Output: [2,-1,2]
+Explanation: The first 1's next greater number is 2; 
+The number 2 can't find next greater number; 
+The second 1's next greater number needs to search circularly, which is also 2.
+```
+
+Note: The length of given array won't exceed 10000.
+
+```python
+class Solution:
+    def nextGreaterElements(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        if nums == []:
+            return []
+        higherIndex = self.higherIndex(2*nums)
+        #print higherIndex
+        return [higherIndex[(num, idx)] for num,idx in zip(nums,range(len(nums)))]
+        
+    def higherIndex(self, nums):
+        higherIndex = {}
+        for idx in range(len(nums)):
+            higherIndex[(nums[idx],idx)] = -1
+            
+        stack = [(nums[0], 0)]
+        L = len(nums)
+        for idx in range(1,L):
+            if stack == [] or nums[idx] < stack[-1][0]:
+                stack += [(nums[idx], idx)]
+            else:
+                while stack != [] and stack[-1][0] < nums[idx]:
+                    higherIndex[(stack[-1][0],stack[-1][1])] = nums[idx]
                     stack = stack[:-1]
                 stack += [(nums[idx], idx)]
                     
