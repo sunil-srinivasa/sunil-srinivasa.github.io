@@ -7323,6 +7323,39 @@ class Solution(object):
 # param_2 = obj.shuffle()
 ```
 
+## 387. First Unique Character in a String
+Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return -1.
+>
+Examples:
+```
+s = "leetcode"
+return 0.
+```
+```
+s = "loveleetcode",
+return 2.
+```
+Note: You may assume the string contain only lowercase letters.
+
+```python
+class Solution(object):
+    def firstUniqChar(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        from collections import defaultdict
+        char_dict = defaultdict(int)
+        for char in s:
+            char_dict[char] += 1
+            
+        for idx in range(len(s)):
+            if char_dict[s[idx]] == 1:
+                return idx
+            
+        return -1
+```
+
 ## 390. Elimination Game
 There is a list of sorted integers from 1 to n. Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.
 
@@ -8139,6 +8172,68 @@ class Solution(object):
                 stack += [(nums[idx], idx)]
                     
         return higherIndex
+```
+
+## 501. Find Mode in Binary Search Tree
+Given a binary search tree (BST) with duplicates, find all the mode(s) (the most frequently occurred element) in the given BST.
+
+Assume a BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than or equal to the node's key.
+The right subtree of a node contains only nodes with keys greater than or equal to the node's key.
+Both the left and right subtrees must also be binary search trees.
+
+>
+For example:
+```
+Given BST [1,null,2,2],
+   1
+    \
+     2
+    /
+   2
+return [2].
+```
+
+Note: If a tree has more than one mode, you can return them in any order.
+
+Follow up: Could you do that without using any extra space? (Assume that the implicit stack space incurred due to recursion does not count).
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findMode(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        return self.findModes(root, -float('inf'), [], 1, 1)[0]
+        
+    def findModes(self, node, prevVal, modes, count, max_count):
+        if node == None:
+            return modes, count, max_count, prevVal
+        modes, count, max_count, prevVal = self.findModes(node.left, prevVal, modes, count, max_count)
+        print node.val, prevVal
+        if node.val == prevVal:
+            count += 1
+        else:
+            count = 1
+        if count > max_count:
+            max_count = count
+            modes = [node.val]
+        elif count == max_count:
+            modes += [node.val]
+
+        prevVal = node.val
+        modes, count, max_count, prevVal = self.findModes(node.right, prevVal, modes, count, max_count)
+        
+        return modes, count, max_count, prevVal
 ```
 
 ## 503. Next Greater Element II
