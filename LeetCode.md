@@ -8805,6 +8805,50 @@ class Solution(object):
         return len(wall) - max(num_cuts.values()+[0])
 ```
 
+## 559. Maximum Depth of N-ary Tree
+Given a n-ary tree, find its maximum depth.
+
+The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+For example, given a 3-ary tree:
+
+![](https://leetcode.com/static/images/problemset/NaryTreeExample.png)
+ 
+We should return its max depth, which is 3.
+
+Note:
+
+- The depth of the tree is at most 1000.
+- The total number of nodes is at most 5000.
+
+```python
+"""
+# Definition for a Node.
+class Node(object):
+    def __init__(self, val, children):
+        self.val = val
+        self.children = children
+"""
+class Solution(object):
+    def maxDepth(self, root):
+        """
+        :type root: Node
+        :rtype: int
+        """
+        if root == None:
+            return 0
+        queue = [root]
+        depth = 0
+        while queue != []:
+            depth += 1
+            tmp = []
+            for q in queue:
+                tmp += q.children
+            queue = tmp
+            
+        return depth
+```
+
 ## 563. Binary Tree Tilt
 Given a binary tree, return the tilt of the whole tree.
 
@@ -9086,6 +9130,7 @@ class Solution(object):
                 
         return x_coeff, c_coeff
 ```
+
 ## 648. Replace Words
 In English, we have a concept called root, which can be followed by some other words to form another longer word - let's call this word successor. For example, the root an, followed by other, which can form another word another.
 
