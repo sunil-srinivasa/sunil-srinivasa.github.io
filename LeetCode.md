@@ -8512,6 +8512,49 @@ class Solution(object):
         return num_ways[-1]
 ```
 
+## 538. Convert BST to Greater Tree
+Given a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus sum of all keys greater than the original key in BST.
+>
+Example:
+```
+Input: The root of a Binary Search Tree like this:
+              5
+            /   \
+           2     13
+Output: The root of a Greater Tree like this:
+             18
+            /   \
+          20     13
+```
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def convertBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        # Traverse tree from right to left
+        return self.convert(root, 0)[0]
+        
+    def convert(self,root, prev_val):
+        if root == None:
+            return root, prev_val
+        _, prev_val = self.convert(root.right, prev_val)
+        root.val += prev_val
+        prev_val = root.val
+        _, prev_val = self.convert(root.left, prev_val)
+        
+        return root, prev_val
+```
+
 ## 540. Single Element in a Sorted Array
 Given a sorted array consisting of only integers where every element appears twice except for one element which appears once. Find this single element that appears only once.
 >
@@ -8750,6 +8793,76 @@ class Solution(object):
             if j not in visited:
                 visited = self.traverse(neighbors, j, visited)
         return visited
+```
+
+## 551. Student Attendance Record I
+You are given a string representing an attendance record for a student. The record only contains the following three characters:
+'A' : Absent.
+'L' : Late.
+'P' : Present.
+A student could be rewarded if his attendance record doesn't contain more than one 'A' (absent) or more than two continuous 'L' (late).
+
+You need to return whether the student could be rewarded according to his attendance record.
+>
+Example 1:
+```
+Input: "PPALLP"
+Output: True
+```
+>
+Example 2:
+```
+Input: "PPALLL"
+Output: False
+```
+
+```python
+class Solution(object):
+    def checkRecord(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        a_count = 0
+        l_count = 0
+        for i in s:
+            if i == 'L':
+                l_count += 1
+                if l_count > 2:
+                    return False
+            else:
+                l_count = 0
+            if i == 'A':
+                a_count += 1
+                if a_count > 1:
+                    return False
+
+        return True
+```
+
+## 552. Student Attendance Record II
+Given a positive integer n, return the number of all possible attendance records with length n, which will be regarded as rewardable. The answer may be very large, return it after mod 109 + 7.
+
+A student attendance record is a string that only contains the following three characters:
+
+'A' : Absent.
+'L' : Late.
+'P' : Present.
+A record is regarded as rewardable if it doesn't contain more than one 'A' (absent) or more than two continuous 'L' (late).
+>
+Example 1:
+```
+Input: n = 2
+Output: 8 
+Explanation:
+There are 8 records with length 2 will be regarded as rewardable:
+"PP" , "AP", "PA", "LP", "PL", "AL", "LA", "LL"
+Only "AA" won't be regarded as rewardable owing to more than one absent times. 
+```
+Note: The value of n won't exceed 100,000.
+
+```python
+
 ```
 
 ## 554. Brick Wall
