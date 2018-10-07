@@ -9035,6 +9035,128 @@ class Solution(object):
         return tilts,sums
 ```
 
+## 572. Subtree of Another Tree
+Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values with a subtree of s. A subtree of s is a tree consists of a node in s and all of this node's descendants. The tree s could also be considered as a subtree of itself.
+>
+Example 1:
+```
+Given tree s:
+     3
+    / \
+   4   5
+  / \
+ 1   2
+Given tree t:
+   4 
+  / \
+ 1   2
+Return true, because t has the same structure and node values with a subtree of s.
+```
+>
+Example 2:
+```
+Given tree s:
+     3
+    / \
+   4   5
+  / \
+ 1   2
+    /
+   0
+Given tree t:
+   4
+  / \
+ 1   2
+Return false.
+```
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isSubtree(self, s, t):
+        """
+        :type s: TreeNode
+        :type t: TreeNode
+        :rtype: bool
+        """
+        if s == None:
+            if t == None:
+                return True
+            else:
+                return False
+        if self.isSameTree(s, t):
+            return True
+        l = self.isSubtree(s.left, t)
+        if l == True:
+            return True
+        r = self.isSubtree(s.right, t)
+        if r == True:
+            return True
+        return False
+        
+    def isSameTree(self, root1, root2):
+        if root1 == root2 == None:
+            return True
+        if root1 == None or root2 == None:
+            return False
+        if root1.val == root2.val:
+            return self.isSameTree(root1.left, root2.left) and self.isSameTree(root1.right, root2.right)
+        else:
+            return False
+```
+
+## 594. Longest Harmonious Subsequence
+We define a harmonious array is an array where the difference between its maximum value and its minimum value is exactly 1.
+
+Now, given an integer array, you need to find the length of its longest harmonious subsequence among all its possible subsequences.
+>
+Example 1:
+```
+Input: [1,3,2,2,5,2,3,7]
+Output: 5
+Explanation: The longest harmonious subsequence is [3,2,2,2,3].
+```
+
+Note: The length of the input array will not exceed 20,000.
+
+```python
+class Solution(object):
+    def findLHS(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        nums = sorted(nums)        
+        L = len(nums)
+        if L < 2:
+            return 0
+        
+        stack = [(nums[0], 0)]
+        maxLHS = 0
+        
+        for idx in range(1,L):
+            if nums[idx] == stack[-1][0] + 1:
+                stack += [(nums[idx], idx)]    
+                if len(stack) > 2:
+                    LHS = idx - stack[-3][1]
+                    maxLHS = max(LHS, maxLHS)
+            elif nums[idx] > stack[-1][0] + 1:
+                if len(stack) >= 2:
+                    LHS = idx - stack[-2][1]
+                    maxLHS = max(LHS, maxLHS)
+                stack = [(nums[idx], idx)]    
+        if len(stack) >= 2:
+            LHS = idx - stack[-2][1] + 1
+            maxLHS = max(LHS, maxLHS)            
+        return maxLHS
+```
+
 ## 605. Can Place Flowers
 Suppose you have a long flowerbed in which some of the plots are planted and some are not. However, flowers cannot be planted in adjacent plots - they would compete for water and both would die.
 
