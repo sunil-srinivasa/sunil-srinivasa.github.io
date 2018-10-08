@@ -9654,6 +9654,83 @@ class Solution(object):
         return root
 ```
 
+## 658. Find K Closest Elements
+Given a sorted array, two integers k and x, find the k closest elements to x in the array. The result should also be sorted in ascending order. If there is a tie, the smaller elements are always preferred.
+>
+Example 1:
+```
+Input: [1,2,3,4,5], k=4, x=3
+Output: [1,2,3,4]
+```
+>
+Example 2:
+```
+Input: [1,2,3,4,5], k=4, x=-1
+Output: [1,2,3,4]
+```
+Note:
+
+1. The value k is positive and will always be smaller than the length of the sorted array.
+
+2. Length of the given array is positive and will not exceed 104
+
+3. Absolute value of elements in the array and x will not exceed 104
+
+```python
+class Solution(object):
+    def findClosestElements(self, arr, k, x):
+        """
+        :type arr: List[int]
+        :type k: int
+        :type x: int
+        :rtype: List[int]
+        """
+        idx = self.firstHigherThan(arr, x)
+        L = len(arr)
+        if idx <= 0:
+            return arr[:k]
+        elif idx >= L-1:
+            return arr[-k:]
+        solution = []
+        low = idx-1
+        high = idx
+        while len(solution) < k:
+            if low == -1:
+                solution += arr[high:high+k-len(solution)]
+                return sorted(solution)
+            if high == L:
+                solution += arr[low-k+len(solution)+1:low+1]
+                return sorted(solution)
+            if x-arr[low] <= arr[high]-x:
+                solution += [arr[low]]
+                low -= 1
+            else:
+                solution += [arr[high]]
+                high += 1
+        return sorted(solution)
+        
+    def firstHigherThan(self, nums, x):
+        L = len(nums)
+        if L == 1:
+            if x >= nums[0]:
+                return 1
+            else:
+                return 0
+        mid = nums[L/2]
+        if mid == x:
+            return L/2
+        elif mid > x:
+            if nums[L/2-1] < x:
+                return L/2
+            elif nums[L/2-1] == x:
+                return L/2-1
+            return self.firstHigherThan(nums[:L/2], x)
+        else:
+            if len(nums) == L/2+1 or nums[L/2+1] >= x:
+                return L/2+1
+            return L/2+1+self.firstHigherThan(nums[L/2+1:], x)
+```
+
 ## 662.  Maximum Width of Binary Tree
 Given a binary tree, write a function to get the maximum width of the given tree. The width of a tree is the maximum width among all levels. The binary tree has the same structure as a full binary tree, but some nodes are null.
 
