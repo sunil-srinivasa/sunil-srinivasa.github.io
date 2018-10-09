@@ -7440,6 +7440,49 @@ class Solution(object):
         return False
 ```
 
+## 397. Integer Replacement
+Given a positive integer n and you can do operations as follow:
+
+If n is even, replace n with n/2.
+If n is odd, you can replace n with either n + 1 or n - 1.
+What is the minimum number of replacements needed for n to become 1?
+>
+Example 1:
+```
+Input:
+8
+Output:
+3
+Explanation:
+8 -> 4 -> 2 -> 1
+```
+>
+Example 2:
+```
+Input:
+7
+Output:
+4
+Explanation:
+7 -> 8 -> 4 -> 2 -> 1
+or
+7 -> 6 -> 3 -> 2 -> 1
+```
+
+```python
+class Solution(object):
+    def integerReplacement(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n == 1: return 0
+        if n % 2:
+            return min(self.integerReplacement(n-1), self.integerReplacement(n+1)) +1
+        else:
+            return self.integerReplacement(n/2) + 1
+```
+
 ## 402. Remove K Digits
 Given a non-negative integer num represented as a string, remove k digits from the number so that the new number is the smallest possible.
 
@@ -10178,6 +10221,67 @@ class Solution(object):
                 self.insertIntoBST(root.right, val)
         
         return root
+```
+
+## 703. Kth Largest Element in a Stream
+Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+Your KthLargest class will have a constructor which accepts an integer k and an integer array nums, which contains initial elements from the stream. For each call to the method KthLargest.add, return the element representing the kth largest element in the stream.
+>
+Example:
+```
+int k = 3;
+int[] arr = [4,5,8,2];
+KthLargest kthLargest = new KthLargest(3, arr);
+kthLargest.add(3);   // returns 4
+kthLargest.add(5);   // returns 5
+kthLargest.add(10);  // returns 5
+kthLargest.add(9);   // returns 8
+kthLargest.add(4);   // returns 8
+```
+
+Note: 
+- You may assume that nums' length ≥ k-1 and k ≥ 1.
+
+```python
+class KthLargest(object):
+
+    def __init__(self, k, nums):
+        """
+        :type k: int
+        :type nums: List[int]
+        """
+        from heapq import heappush, heappop
+        self.heap = []
+        self.kth_largest = None
+        self.k = k
+        L = len(nums)
+        for i in range(k-1):
+            heappush(self.heap, nums[i])
+        print self.heap
+        for idx in range(k-1,L):
+            self.add(nums[idx])
+        
+    def add(self, val):
+        """
+        :type val: int
+        :rtype: int
+        """
+        from heapq import heappush, heappop
+        if len(self.heap) < self.k:
+            heappush(self.heap, val)
+            self.kth_largest = self.heap[0]
+            return self.kth_largest
+        if val <= self.kth_largest:
+            return self.kth_largest
+        heappop(self.heap)
+        heappush(self.heap, val)
+        self.kth_largest = self.heap[0]
+        return self.kth_largest
+
+# Your KthLargest object will be instantiated and called as such:
+# obj = KthLargest(k, nums)
+# param_1 = obj.add(val)
 ```
 
 ## 728. Self Dividing Numbers
