@@ -10528,6 +10528,49 @@ class Solution(object):
             return stack
 ```
 
+## 738. Monotone Increasing Digits
+Given a non-negative integer N, find the largest number that is less than or equal to N with monotone increasing digits.
+
+(Recall that an integer has monotone increasing digits if and only if each pair of adjacent digits x and y satisfy x <= y.)
+>
+Example 1:
+```
+Input: N = 10
+Output: 9
+```
+>
+Example 2:
+```
+Input: N = 1234
+Output: 1234
+```
+>
+Example 3:
+```
+Input: N = 332
+Output: 299
+```
+
+Note: N is an integer in the range [0, 10^9].
+
+```python
+class Solution(object):
+    def monotoneIncreasingDigits(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        N_str = str(N)
+        L = len(N_str)
+        for idx in range(1,L):
+            if N_str[idx] < N_str[idx-1]:
+                current_index = idx-1
+                while current_index > 0 and N_str[current_index-1] >= N_str[current_index]:
+                    current_index -= 1
+                return int(N_str[:max(0,current_index)]+str(int(N_str[current_index])-1)+'9'*(L-1-current_index))
+        return N
+```
+
 ## 739. Daily Temperatures
 Given a list of daily temperatures, produce a list that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.
 
