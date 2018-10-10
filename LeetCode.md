@@ -976,6 +976,50 @@ class Solution(object):
         return N
 ```
 
+## 31. Next Permutation
+Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
+
+If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending order).
+
+The replacement must be in-place and use only constant extra memory.
+
+Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.
+
+1,2,3 → 1,3,2
+3,2,1 → 1,2,3
+1,1,5 → 1,5,1
+
+```python
+class Solution(object):
+    def nextPermutation(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """            
+        L = len(nums)
+        if L > 1:
+            index = None
+            for idx in range(L-2,-1,-1):
+                if nums[idx]<nums[idx+1]:
+                    index = idx
+                    break
+            if index == None:
+                nums.reverse()
+            else:
+                next_higher_element = nums[index+1]
+                min_index = index+1
+                for idx in range(index+2,L):
+                    if nums[idx] <= next_higher_element and nums[idx] > nums[index]:
+                        next_higher_element = nums[idx]
+                        min_index = idx
+
+                nums[index], nums[min_index] = nums[min_index], nums[index]
+
+                nums[index+1:] = nums[index+1:][::-1]
+            
+        print nums
+```
+
 ## 32. Longest Valid Parentheses
 Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
 
@@ -9033,6 +9077,58 @@ class Solution(object):
         return len(wall) - max(num_cuts.values()+[0])
 ```
 
+## 556. Next Greater Element III
+Given a positive 32-bit integer n, you need to find the smallest 32-bit integer which has exactly the same digits existing in the integer n and is greater in value than n. If no such positive 32-bit integer exists, you need to return -1.
+>
+Example 1:
+```
+Input: 12
+Output: 21
+```
+>
+Example 2:
+```
+Input: 21
+Output: -1
+```
+
+```python
+class Solution(object):
+    def nextGreaterElement(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        # Start from right and traverse string till lower element occurs.
+        # Swap lower and next higher element and reverse array to the right.
+        # Identical to Problem 31 - next permutation.
+        
+        if len(str(n)) == 1:
+            return -1
+        n = [s for s in str(n)]
+        L = len(n)
+        index = None
+        for idx in range(L-2,-1,-1):
+            if n[idx]<n[idx+1]:
+                index = idx
+                break
+        
+        if index == None:
+            return -1
+            
+        next_higher_element = n[index+1]
+        min_index = index+1
+        for idx in range(index+2,L):
+            if n[idx] <= next_higher_element and n[idx] > n[index]:
+                next_higher_element = n[idx]
+                min_index = idx
+        
+        n[index], n[min_index] = n[min_index], n[index]
+
+        solution = int(''.join(n[:index+1]+n[index+1:][::-1]))
+        return solution if solution < 2**31-1 else -1
+```
+
 ## 559. Maximum Depth of N-ary Tree
 Given a n-ary tree, find its maximum depth.
 
@@ -11967,6 +12063,83 @@ class Solution(object):
         minz, maxz = min(z1, z2), max(z1, z2)
         
         return not ((minw >= maxx or maxw <= minx) or (minz >= maxy or maxz <= miny))
+```
+
+## 840. Magic Squares In Grid
+A 3 x 3 magic square is a 3 x 3 grid filled with distinct numbers from 1 to 9 such that each row, column, and both diagonals all have the same sum.
+
+Given an grid of integers, how many 3 x 3 "magic square" subgrids are there?  (Each subgrid is contiguous).
+
+>
+Example 1:
+```
+Input: [[4,3,8,4],
+        [9,5,1,9],
+        [2,7,6,2]]
+Output: 1
+Explanation: 
+The following subgrid is a 3 x 3 magic square:
+438
+951
+276
+while this one is not:
+384
+519
+762
+In total, there is only one magic square inside the given grid.
+```
+
+Note:
+
+- 1 <= grid.length <= 10
+- 1 <= grid[0].length <= 10
+- 0 <= grid[i][j] <= 15
+
+```python
+class Solution(object):
+    def numMagicSquaresInside(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        import numpy as np
+        grid = np.array(grid)
+        m, n = grid.shape
+        num_magic = 0
+        for x in range(m-3+1):
+            for y in range(n-3+1):
+                if self.isMagicSquare(grid[x:x+3,y:y+3]):
+                    num_magic += 1
+        return num_magic
+        
+    def isMagicSquare(self, grid):
+        dictionary = {}
+        for i in range(3):
+            for j in range(3):
+                if grid[i,j] in dictionary:
+                    return False
+                if not 1 <= grid[i,j] <= 9:
+                    return False
+                dictionary[grid[i,j]] = 1
+        
+        if grid[0,0] + grid[0,1] + grid[0,2] != 15:
+            return False
+        if grid[1,0] + grid[1,1] + grid[1,2] != 15:
+            return False        
+        if grid[2,0] + grid[2,1] + grid[2,2] != 15:
+            return False        
+        if grid[0,0] + grid[1,0] + grid[2,0] != 15:
+            return False
+        if grid[0,1] + grid[1,1] + grid[2,1] != 15:
+            return False
+        if grid[0,2] + grid[1,2] + grid[2,2] != 15:
+            return False
+        if grid[0,0] + grid[1,1] + grid[2,2] != 15:
+            return False
+        if grid[0,2] + grid[1,1] + grid[2,0] != 15:
+            return False
+        
+        return True
 ```
 
 ## 841. Keys and Rooms
