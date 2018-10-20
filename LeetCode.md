@@ -1875,17 +1875,13 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
+        currentSum = nums[0]
+        maxSum = currentSum
         L = len(nums)
-        sums = [0 for _ in range(L)]
-        sums[0] = nums[0]
-        maxSum = sums[0]
-        minSum = min(0,sums[0])
-        for i in range(1,L):
-            sums[i] += (sums[i-1]+nums[i])
-            maxSum = max(maxSum,sums[i]-minSum)
-            if sums[i] < minSum:
-                minSum = sums[i]
-
+        for idx in range(1,L):
+            currentSum = max(currentSum+nums[idx], nums[idx])
+            maxSum = max(maxSum, currentSum)
+            
         return maxSum
 ```
 
@@ -4953,6 +4949,56 @@ class Solution:
         if p1.x == p2.x:
             return float('inf')
         return Decimal(p2.y-p1.y)/Decimal(p2.x-p1.x)
+```
+
+## 152. Maximum Product Subarray
+Given an integer array nums, find the contiguous subarray within an array (containing at least one number) which has the largest product.
+>
+Example 1:
+```
+Input: [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+```
+>
+Example 2:
+```
+Input: [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+```
+
+```python
+class Solution(object):
+    def maxProduct(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        # For each index, maintain largest positive and largest negative products ending in that number.
+        # If numbe at index is positive, we can use the positive product, else the negative product
+        L = len(nums)
+        largest_positive = [0 for _ in range(L)]
+        largest_negative = [0 for _ in range(L)]
+        if nums[0] > 0:
+            largest_positive[0] = nums[0]
+        else:
+            largest_negative[0] = nums[0]
+
+        max_product = nums[0]
+        for idx in range(1,L):
+            if nums[idx] >= 0:
+                largest_positive[idx] = max(nums[idx], largest_positive[idx-1]*nums[idx])
+                largest_negative[idx] = largest_negative[idx-1]*nums[idx]
+                max_product = max(max_product, largest_positive[idx])
+            elif nums[idx] < 0:
+                largest_negative[idx] = min(nums[idx], largest_positive[idx-1]*nums[idx])
+                if largest_negative[idx-1] == 1:
+                    largest_positive[idx] = 1
+                else:
+                    largest_positive[idx] = largest_negative[idx-1] * nums[idx]
+                max_product = max(max_product, largest_positive[idx])
+        return max_product
 ```
 
 ## 153. Find Minimum in Rotated Sorted Array
