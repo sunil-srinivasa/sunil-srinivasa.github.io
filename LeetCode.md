@@ -5545,6 +5545,88 @@ class TrieNode(object):
 # param_3 = obj.startsWith(prefix)
 ```
 
+## 211. Add and Search Word - Data structure design
+Design a data structure that supports the following two operations:
+
+void addWord(word)
+bool search(word)
+search(word) can search a literal word or a regular expression string containing only letters a-z or .. A . means it can represent any one letter.
+>
+Example:
+```
+addWord("bad")
+addWord("dad")
+addWord("mad")
+search("pad") -> false
+search("bad") -> true
+search(".ad") -> true
+search("b..") -> true
+```
+
+Note:
+- You may assume that all words are consist of lowercase letters a-z.
+
+```python
+class Trie(object):
+    def __init__(self, x, endOfWord):
+        self.val = x
+        self.endOfWord = endOfWord
+        self.children = {}
+                
+class WordDictionary(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root = Trie(None, False)
+
+    def addWord(self, word):
+        """
+        Adds a word into the data structure.
+        :type word: str
+        :rtype: void
+        """        
+        currentNode = self.root
+        for w in word:
+            if w in currentNode.children:
+                currentNode = currentNode.children[w]
+            else:
+                newNode = Trie(w, False)
+                currentNode.children[w] = newNode
+                currentNode = newNode
+        currentNode.endOfWord = True
+
+    def search(self, word):
+        """
+        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
+        :type word: str
+        :rtype: bool
+        """
+        return self.searchWord(word, self.root)
+        
+    def searchWord(self, word, node):
+        if len(word) == 0:
+            if node.endOfWord == True:
+                return True
+            return False
+        if len(word) >= 1 and node.children == {}:
+            return False
+        if word[0] == '.':
+            return reduce(lambda x,y: x or y, [self.searchWord(word[1:], node.children[n]) for n in node.children])
+        if word[0] not in node.children:
+            return False        
+        if word[0] in node.children:
+            return self.searchWord(word[1:], node.children[word[0]])
+        if len(word) == 1 and word in node.children and node.children[word].endOfWord == True:
+            return True        
+        
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
+```
+
 ## 213. House Robber II
 Note: This is an extension of 199. House Robber.
 
