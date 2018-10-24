@@ -12984,6 +12984,88 @@ class Solution(object):
         return True
 ```
 
+## 863. All Nodes Distance K in Binary Tree
+We are given a binary tree (with root node root), a target node, and an integer value K.
+
+Return a list of the values of all nodes that have a distance K from the target node.  The answer can be returned in any order.
+>
+Example 1:
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], target = 5, K = 2
+Output: [7,4,1]
+Explanation: 
+The nodes that are a distance 2 from the target node (with value 5)
+have values 7, 4, and 1.
+[](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png)
+```
+
+Note that the inputs "root" and "target" are actually TreeNodes.
+The descriptions of the inputs above are just serializations of these objects.
+
+Note:
+
+- The given tree is non-empty.
+- Each node in the tree has unique values 0 <= node.val <= 500.
+- The target node is a node in the tree.
+- 0 <= K <= 1000.
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def distanceK(self, root, target, K):
+        """
+        :type root: TreeNode
+        :type target: TreeNode
+        :type K: int
+        :rtype: List[int]
+        """
+        if K == 0:
+            return [target.val]
+        # Make one pass of the tree and link children to their parents.
+        # In second traversal, obtain the nodes at distance K
+        target_val = target.val
+        parents = self.get_parents(root,{})
+        parents[root] = None
+        
+        children = self.get_children(target, K, parents)
+        return [c for c in children if c != target_val]
+        
+    def get_parents(self, node, parents):
+        if node == None:
+            return parents
+        parents[node.left] = node
+        parents[node.right] = node
+        parents = self.get_parents(node.left, parents)
+        parents = self.get_parents(node.right, parents)
+        return parents
+        
+    def get_children(self, node, distance, parents):
+        queue = [node]
+        visited = {}
+        visited[node] = True
+        while distance > 0 and queue != []:
+            tmp = []
+            for n in queue:
+                if n.left != None and n.left not in visited:
+                    tmp += [n.left]
+                    visited[n.left] = True
+                if n.right != None and n.right not in visited:
+                    visited[n.right] = True
+                    tmp += [n.right]
+                if parents[n] != None and parents[n] not in visited:
+                    visited[parents[n]] = True
+                    tmp += [parents[n]]
+            queue = tmp
+            distance -= 1
+        return [q.val for q in queue]
+```
+
 ## 865. Smallest Subtree with all the Deepest Nodes
 Given a binary tree rooted at root, the depth of each node is the shortest distance to the root.
 
@@ -13001,7 +13083,7 @@ Output: [2,7,4]
 ```
 Explanation:
 
-![](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/01/sketch1.png)
+[](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/01/sketch1.png)
 We return the node with value 2, colored in yellow in the diagram.
 The nodes colored in blue are the deepest nodes of the tree.
 The input "[3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]" is a serialization of the given tree.
