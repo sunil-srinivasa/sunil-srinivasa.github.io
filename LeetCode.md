@@ -13541,6 +13541,87 @@ class Solution(object):
         return numBoats
 ```
 
+## 886. Possible Bipartition
+Given a set of N people (numbered 1, 2, ..., N), we would like to split everyone into two groups of any size.
+
+Each person may dislike some other people, and they should not go into the same group. 
+
+Formally, if dislikes[i] = [a, b], it means it is not allowed to put the people numbered a and b into the same group.
+
+Return true if and only if it is possible to split everyone into two groups in this way.
+
+>
+Example 1:
+```
+Input: N = 4, dislikes = [[1,2],[1,3],[2,4]]
+Output: true
+Explanation: group1 [1,4], group2 [2,3]
+```
+>
+Example 2:
+```
+Input: N = 3, dislikes = [[1,2],[1,3],[2,3]]
+Output: false
+```
+>
+Example 3:
+```
+Input: N = 5, dislikes = [[1,2],[2,3],[3,4],[4,5],[1,5]]
+Output: false
+```
+
+Note:
+
+- 1 <= N <= 2000
+- 0 <= dislikes.length <= 10000
+- 1 <= dislikes[i][j] <= N
+- dislikes[i][0] < dislikes[i][1]
+- There does not exist i != j for which dislikes[i] == dislikes[j].
+
+```python
+class Solution(object):
+    def possibleBipartition(self, N, dislikes):
+        """
+        :type N: int
+        :type dislikes: List[List[int]]
+        :rtype: bool
+        """
+        # True if dislikes forms a bipartite graph, else False
+        # Use BFS
+        from collections import defaultdict
+        children = defaultdict(list)
+        for d in dislikes:
+            children[d[0]-1] += [d[1]-1] # -1 for starting node index from 0
+            children[d[1]-1] += [d[0]-1] # undirected graph
+        visited = {}
+        colors = {}
+        
+        for node in range(N):
+            if node not in visited:
+                visited, is_bipartite = self.BFS(node, children, visited, colors)
+                if not is_bipartite:
+                    return False
+        return True
+    
+    def BFS(self, node, children, visited, colors):
+        visited[node] = True
+        colors[node] = True
+        queue = [node]
+        while queue != []:
+            current_node = queue[0]
+            for c in children[current_node]:
+                if c in visited:
+                    if colors[c] == colors[current_node]:
+                        print c, current_node
+                        return visited, False
+                else:
+                    queue += [c]
+                    visited[c] = True
+                    colors[c] = not colors[current_node]
+            queue = queue[1:]
+        return visited, True
+```
+
 ## 890. Find and Replace Pattern
 You have a list of words and a pattern, and you want to know which words in words matches the pattern.
 
