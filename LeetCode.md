@@ -12996,7 +12996,7 @@ Output: [7,4,1]
 Explanation: 
 The nodes that are a distance 2 from the target node (with value 5)
 have values 7, 4, and 1.
-[](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png)
+![](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png)
 ```
 
 Note that the inputs "root" and "target" are actually TreeNodes.
@@ -13083,7 +13083,7 @@ Output: [2,7,4]
 ```
 Explanation:
 
-[](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/01/sketch1.png)
+![](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/01/sketch1.png)
 We return the node with value 2, colored in yellow in the diagram.
 The nodes colored in blue are the deepest nodes of the tree.
 The input "[3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]" is a serialization of the given tree.
