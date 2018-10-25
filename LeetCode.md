@@ -3876,44 +3876,23 @@ class Solution(object):
         :type root: TreeNode
         :rtype: bool
         """
-        depths,isBalanced = self.compute_depths(root,{})
-        return isBalanced
-
-
-    def compute_depths(self,root,depths):
-        if root == None:
-            return depths,True
-        depths,isBalanced = self.compute_depths(root.left,depths)
-        if isBalanced == False:
-            return depths, False
-        depths,isBalanced = self.compute_depths(root.right,depths)
-        if isBalanced == False:
-            return depths, False        
-        depths,isBalanced = self.process(root,depths)
-        if isBalanced == False:
-            return depths, False
-
-        return depths,True
-
-    def process(self,root,depths):
-        if root.left == None and root.right == None: # leaf node
-            depths[root] = 0
-            return depths,True
-        if root.left == None: # left child empty
-            if depths[root.right] > 0:
-                return depths,False
-            depths[root] = depths[root.right] + 1
-            return depths,True
-        if root.right == None: # right child empty
-            if depths[root.left] > 0:
-                return depths,False
-            depths[root] = depths[root.left] + 1
-            return depths,True
-        # Both children exist
-        if abs(depths[root.left] - depths[root.right]) > 1:
-            return depths,False
-        depths[root] = max(depths[root.left],depths[root.right]) + 1
-        return depths,True        
+        depths = {None: 0}
+        return self.check_balance(root, depths)[0]
+        
+    def check_balance(self, node, depths):
+        if node == None:
+            return True, depths
+        l, depths = self.check_balance(node.left, depths)
+        if l == False:
+            return False, depths
+        r, depths = self.check_balance(node.right, depths)
+        if r == False:
+            return False, depths
+        if abs(depths[node.left]-depths[node.right]) > 1:
+            return False, depths
+        depths[node] = max(depths[node.left], depths[node.right])+1
+        return True, depths
+        
 ```
 
 ## 111. Minimum Depth of Binary Tree
