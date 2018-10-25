@@ -7539,6 +7539,7 @@ Input: nums1 = [1,2], nums2 = [3], k = 3
 Output: [1,3],[2,3]
 Explanation: All possible pairs are returned from the sequence: [1,3],[2,3]
 ```
+
 ```python
 class Solution(object):
     def kSmallestPairs(self, nums1, nums2, k):
