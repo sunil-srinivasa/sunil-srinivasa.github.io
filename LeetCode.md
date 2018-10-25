@@ -10119,9 +10119,7 @@ Input:
   3   6
  / \   \
 2   4   7
-
 Target = 9
-
 Output: True
 ```
 >
@@ -10133,9 +10131,7 @@ Input:
   3   6
  / \   \
 2   4   7
-
 Target = 28
-
 Output: False
 ```
 
