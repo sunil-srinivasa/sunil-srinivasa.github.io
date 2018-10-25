@@ -7084,7 +7084,6 @@ At first, the three bulbs are [off, off, off].
 After first round, the three bulbs are [on, on, on].
 After second round, the three bulbs are [on, off, on].
 After third round, the three bulbs are [on, off, off]. 
-
 So you should return 1, because there is only one bulb is on.
 ```
 
@@ -7096,8 +7095,7 @@ class Solution(object):
         :rtype: int
         """
         # Well-known puzzle. Only squares will remain in the end.
-        return int(math.sqrt(n))
-        
+        return int(math.sqrt(n)) 
 ```
 
 ## 322. Coin Change
