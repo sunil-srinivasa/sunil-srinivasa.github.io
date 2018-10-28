@@ -7609,6 +7609,36 @@ class Solution(object):
         return max(l)+max(r), node.val+l[0]+r[0]
 ```
 
+## 342. Power of Four
+Given an integer (signed 32 bits), write a function to check whether it is a power of 4.
+>
+Example 1:
+```
+Input: 16
+Output: true
+```
+>
+Example 2:
+```
+Input: 5
+Output: false
+```
+
+Follow up: Could you solve it without loops/recursion?
+
+```python
+class Solution(object):
+    def isPowerOfFour(self, num):
+        """
+        :type num: int
+        :rtype: bool
+        """
+        if num <= 0:
+            return False
+        t = math.log(num)/math.log(4)
+        return abs(t - round(t)) < 1e-8
+```
+
 ## 344. Reverse String
 Write a function that takes a string as input and returns the string reversed.
 
@@ -7701,6 +7731,95 @@ class Solution(object):
         """
         from collections import Counter
         return map(lambda x: x[0], Counter(nums).most_common(k))
+```
+
+## 349. Intersection of Two Arrays
+Given two arrays, write a function to compute their intersection.
+>
+Example 1:
+```
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2]
+```
+>
+Example 2:
+```
+Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+Output: [9,4]
+```
+Note:
+
+- Each element in the result must be unique.
+- The result can be in any order.
+
+```python
+class Solution(object):
+    def intersection(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        nums1_dict = {}
+        for num in nums1:
+            nums1_dict[num] = True
+        nums2_dict = {}
+        for num in nums2:
+            nums2_dict[num] = True
+            
+        solution = []
+        for num in nums1_dict:
+            if num in nums2_dict:
+                solution += [num]
+                
+        return solution
+```
+
+## 350. Intersection of Two Arrays II
+Given two arrays, write a function to compute their intersection.
+>
+Example 1:
+```
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2,2]
+```
+>
+Example 2:
+```
+Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+Output: [4,9]
+```
+Note:
+
+- Each element in the result should appear as many times as it shows in both arrays.
+- The result can be in any order.
+Follow up:
+
+1. What if the given array is already sorted? How would you optimize your algorithm?
+2. What if nums1's size is small compared to nums2's size? Which algorithm is better?
+3. What if elements of nums2 are stored on disk, and the memory is limited such that you cannot load all elements into the memory at once?
+
+```python
+class Solution(object):
+    def intersect(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        nums1_dict = collections.defaultdict(int)
+        for num in nums1:
+            nums1_dict[num] += 1
+        nums2_dict = collections.defaultdict(int)
+        for num in nums2:
+            nums2_dict[num] += 1
+            
+        solution = []
+        for num in nums1_dict:
+            if num in nums2_dict:
+                solution += [num]*min(nums1_dict[num], nums2_dict[num])
+                
+        return solution
 ```
 
 ## 357. Count Numbers with Unique Digits
@@ -7822,6 +7941,53 @@ class Solution(object):
                 visited[(i, j+1)] = 1
                 
         return solution
+```
+
+## 374. Guess Number Higher or Lower
+We are playing the Guess Game. The game is as follows:
+
+I pick a number from 1 to n. You have to guess which number I picked.
+
+Every time you guess wrong, I'll tell you whether the number is higher or lower.
+
+You call a pre-defined API guess(int num) which returns 3 possible results (-1, 1, or 0):
+```
+-1 : My number is lower
+ 1 : My number is higher
+ 0 : Congrats! You got it!
+```
+>
+Example :
+```
+Input: n = 10, pick = 6
+Output: 6
+```
+
+```python
+# The guess API is already defined for you.
+# @param num, your guess
+# @return -1 if my number is lower, 1 if my number is higher, otherwise return 0
+# def guess(num):
+
+class Solution(object):
+    def guessNumber(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        return self.guessNum(1,n)
+    
+    def guessNum(self, low, high):
+        if low == high:
+            return low
+        mid = (low+high)/2
+        if guess(mid) == 0:
+            return mid
+        elif guess(mid) == 1:
+            low = mid+1
+        elif guess(mid) == -1:
+            high = mid
+        return self.guessNum(low, high)
 ```
 
 ## 378. Kth Smallest Element in a Sorted Matrix
@@ -14443,5 +14609,3 @@ class Solution(object):
 
         return solution+len(stack)
 ```
-
-
