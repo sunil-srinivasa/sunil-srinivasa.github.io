@@ -4930,6 +4930,35 @@ class Solution:
         return Decimal(p2.y-p1.y)/Decimal(p2.x-p1.x)
 ```
 
+## 151. Reverse Words in a String
+Given an input string, reverse the string word by word.
+>
+Example:  
+```
+Input: "the sky is blue",
+Output: "blue is sky the".
+```
+Note:
+
+- A word is defined as a sequence of non-space characters.
+- Input string may contain leading or trailing spaces. However, your reversed string should not contain leading or trailing spaces.
+- You need to reduce multiple spaces between two words to a single space in the reversed string.
+Follow up: For C programmers, try to solve it in-place in O(1) space.
+
+```python
+class Solution(object):
+    def reverseWords(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        reverse_str = s.split()[::-1]
+        if reverse_str == []:
+            return ''
+        return ' '.join(reverse_str)
+        
+```
+
 ## 152. Maximum Product Subarray
 Given an integer array nums, find the contiguous subarray within an array (containing at least one number) which has the largest product.
 >
@@ -5129,6 +5158,47 @@ class Solution(object):
                 solution += [p]
                 
         return solution
+```
+
+## 189. Rotate Array
+Given an array, rotate the array to the right by k steps, where k is non-negative.
+>
+Example 1:
+```
+Input: [1,2,3,4,5,6,7] and k = 3
+Output: [5,6,7,1,2,3,4]
+Explanation:
+rotate 1 steps to the right: [7,1,2,3,4,5,6]
+rotate 2 steps to the right: [6,7,1,2,3,4,5]
+rotate 3 steps to the right: [5,6,7,1,2,3,4]
+```
+>
+Example 2:
+```
+Input: [-1,-100,3,99] and k = 2
+Output: [3,99,-1,-100]
+Explanation: 
+rotate 1 steps to the right: [99,-1,-100,3]
+rotate 2 steps to the right: [3,99,-1,-100]
+```
+
+Note:
+
+- Try to come up as many solutions as you can, there are at least 3 different ways to solve this problem.
+- Could you do it in-place with O(1) extra space?
+
+```python
+class Solution(object):
+    def rotate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        L = len(nums)
+        nums2 = nums[L-k:]+nums[:L-k]
+        for idx in range(L):
+            nums[idx] = nums2[idx]
 ```
 
 ## 191. Number of 1 Bits
@@ -5522,6 +5592,56 @@ class TrieNode(object):
 # obj.insert(word)
 # param_2 = obj.search(word)
 # param_3 = obj.startsWith(prefix)
+```
+
+## 209. Minimum Size Subarray Sum
+Given an array of n positive integers and a positive integer s, find the minimal length of a contiguous subarray of which the sum ≥ s. If there isn't one, return 0 instead.
+>
+Example: 
+```
+Input: s = 7, nums = [2,3,1,2,4,3]
+Output: 2
+Explanation: the subarray [4,3] has the minimal length under the problem constraint.
+```
+Follow up:
+If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log n). 
+
+```python
+class Solution(object):
+    def minSubArrayLen(self, s, nums):
+        """
+        :type s: int
+        :type nums: List[int]
+        :rtype: int
+        """
+        if nums == [] or sum(nums) < s:
+            return 0
+        # Use two pointers
+        if s <= nums[0] or s <= nums[1]:
+            return 1
+        idx1 = 0
+        idx2 = 1
+        current_sum = nums[idx1] + nums[idx2]
+        if current_sum >= s:
+            return 2
+        
+        solution = float('inf')
+        
+        while current_sum < s and idx2 < len(nums)-1:
+            idx2 += 1
+            current_sum += nums[idx2]
+            
+            if current_sum >= s:
+                solution = min(solution, idx2-idx1+1)
+                
+            while current_sum >= s:
+                solution = min(solution, idx2-idx1+1)
+                current_sum -= nums[idx1]
+                idx1 += 1
+                
+        if solution == float('inf'):
+            return 0
+        return solution
 ```
 
 ## 211. Add and Search Word - Data structure design
@@ -12375,6 +12495,48 @@ class Solution(object):
         return num_ways
 ```
 
+## 832. Flipping an Image
+Given a binary matrix A, we want to flip the image horizontally, then invert it, and return the resulting image.
+
+To flip an image horizontally means that each row of the image is reversed.  For example, flipping [1, 1, 0] horizontally results in [0, 1, 1].
+
+To invert an image means that each 0 is replaced by 1, and each 1 is replaced by 0. For example, inverting [0, 1, 1] results in [1, 0, 0].
+>
+Example 1:
+```
+Input: [[1,1,0],[1,0,1],[0,0,0]]
+Output: [[1,0,0],[0,1,0],[1,1,1]]
+Explanation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].
+Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]
+```
+>
+Example 2:
+```
+Input: [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
+Output: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+Explanation: First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]].
+Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+```
+
+Notes:
+
+- 1 <= A.length = A[0].length <= 20
+- 0 <= A[i][j] <= 1
+
+```python
+class Solution(object):
+    def flipAndInvertImage(self, A):
+        """
+        :type A: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        N = len(A)
+        for i in range(N):
+            A[i] = [1-a for a in A[i][::-1]]
+        return A
+        
+```
+
 ## 836. Rectangle Overlap
 A rectangle is represented as a list [x1, y1, x2, y2], where (x1, y1) are the coordinates of its bottom-left corner, and (x2, y2) are the coordinates of its top-right corner.
 
@@ -14094,3 +14256,66 @@ class Solution(object):
         """
         return max(0, max(A) - min(A) - 2*K)
 ```
+
+## 921. Minimum Add to Make Parentheses Valid
+Given a string S of '(' and ')' parentheses, we add the minimum number of parentheses ( '(' or ')', and in any positions ) so that the resulting parentheses string is valid.
+
+Formally, a parentheses string is valid if and only if:
+
+It is the empty string, or
+It can be written as AB (A concatenated with B), where A and B are valid strings, or
+It can be written as (A), where A is a valid string.
+Given a parentheses string, return the minimum number of parentheses we must add to make the resulting string valid.
+>
+Example 1:
+```
+Input: "())"
+Output: 1
+```
+>
+Example 2:
+```
+Input: "((("
+Output: 3
+```
+>
+Example 3:
+```
+Input: "()"
+Output: 0
+```
+>
+Example 4:
+```
+Input: "()))(("
+Output: 4
+```
+
+Note:
+
+- S.length <= 1000
+- S only consists of '(' and ')' characters.
+
+```python
+class Solution(object):
+    def minAddToMakeValid(self, S):
+        """
+        :type S: str
+        :rtype: int
+        """
+        stack = ''
+        solution = 0
+        L = len(S)
+        for idx in range(L):
+            if S[idx] == '(':
+                stack += S[idx]
+            else: # S[idx] == ')'
+                if stack == '':
+                    solution += 1
+                elif stack[-1] == '(':
+                    stack = stack[:-1]
+
+        return solution+len(stack)
+```
+
+
