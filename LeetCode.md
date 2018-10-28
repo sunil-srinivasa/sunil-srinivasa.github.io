@@ -6769,6 +6769,48 @@ class Solution(object):
         return 0
 ```
 
+## 278. First Bad Version
+You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
+
+Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
+
+You are given an API bool isBadVersion(version) which will return whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
+>
+Example:
+```
+Given n = 5, and version = 4 is the first bad version.
+call isBadVersion(3) -> false
+call isBadVersion(5) -> true
+call isBadVersion(4) -> true
+Then 4 is the first bad version. 
+```
+
+```python
+# The isBadVersion API is already defined for you.
+# @param version, an integer
+# @return a bool
+# def isBadVersion(version):
+
+class Solution(object):
+    def firstBadVersion(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        return self.firstBad(1,n)
+        
+    def firstBad(self, low, high):
+        # Use binary search
+        if low == high:
+            return low
+        mid = (high+low)/2
+        if isBadVersion(mid):
+            high = mid
+        else:
+            low = mid+1
+        return self.firstBad(low, high)
+```
+
 ## 279. Perfect Squares
 Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n.
 
@@ -6797,6 +6839,43 @@ class Solution(object):
                 num_elements.append(1 + min([num_elements[i-j] for j in squares]))
 
         return num_elements[-1]
+```
+
+## 283. Move Zeroes
+Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+>
+Example:
+```
+Input: [0,1,0,3,12]
+Output: [1,3,12,0,0]
+```
+Note:
+
+- You must do this in-place without making a copy of the array.
+- Minimize the total number of operations.
+
+```python
+class Solution(object):
+    def moveZeroes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        # Use two pointers
+        L = len(nums)
+        zero_idx = 0
+        non_zero_idx = 0
+        while non_zero_idx < L:
+            while nums[zero_idx] != 0 and zero_idx < L-1:
+                zero_idx += 1
+            if zero_idx == L-1:
+                break
+            non_zero_idx = zero_idx + 1
+            while nums[non_zero_idx] == 0 and non_zero_idx < L-1:
+                non_zero_idx += 1
+            nums[zero_idx], nums[non_zero_idx] = nums[non_zero_idx], nums[zero_idx]
+            zero_idx += 1
+            non_zero_idx += 1
 ```
 
 ## 287. Find the Duplicate Number
