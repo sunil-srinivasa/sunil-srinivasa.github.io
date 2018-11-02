@@ -12858,6 +12858,59 @@ class Solution(object):
                 node.val = -1
 ```
 
+## 821. Shortest Distance to a Character
+Given a string S and a character C, return an array of integers representing the shortest distance from the character C in the string.
+>
+Example 1:
+```
+Input: S = "loveleetcode", C = 'e'
+Output: [3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0]
+```
+
+Note:
+
+1. S string length is in [1, 10000].
+2. C is a single character, and guaranteed to be in string S.
+3. All letters in S and C are lowercase.
+
+```python
+class Solution(object):
+    def shortestToChar(self, S, C):
+        """
+        :type S: str
+        :type C: str
+        :rtype: List[int]
+        """
+        L = len(S)
+        indices = []
+        for idx in range(L):
+            if S[idx] == C:
+                indices += [idx]
+    
+        distances = [float('inf') for _ in range(L)]
+        L = len(indices)
+        for idx in range(L):
+            distances[indices[idx]] = 0
+            # Go backwards
+            current_index = indices[idx]-1
+            dist = 1
+            while current_index >= 0 and S[current_index] != C:
+                distances[current_index] = min(distances[current_index], dist)
+                current_index -= 1
+                dist += 1
+                
+            # Go forward
+            current_index = indices[idx]+1
+            dist = 1
+            while current_index < len(S) and S[current_index] != C:
+                distances[current_index] = min(distances[current_index], dist)
+                current_index += 1           
+                dist += 1
+        
+        return distances
+```
+
+
 ## 826. Most Profit Assigning Work
 We have jobs: difficulty[i] is the difficulty of the ith job, and profit[i] is the profit of the ith job. 
 
@@ -14787,4 +14840,75 @@ class Solution(object):
                     stack = stack[:-1]
 
         return solution+len(stack)
+```
+
+## 925. Long Pressed Name
+Your friend is typing his name into a keyboard.  Sometimes, when typing a character c, the key might get long pressed, and the character will be typed 1 or more times.
+
+You examine the typed characters of the keyboard.  Return True if it is possible that it was your friends name, with some characters (possibly none) being long pressed.
+
+>
+Example 1:
+```
+Input: name = "alex", typed = "aaleex"
+Output: true
+Explanation: 'a' and 'e' in 'alex' were long pressed.
+```
+>
+Example 2:
+```
+Input: name = "saeed", typed = "ssaaedd"
+Output: false
+Explanation: 'e' must have been pressed twice, but it wasn't in the typed output.
+```
+>
+Example 3:
+```
+Input: name = "leelee", typed = "lleeelee"
+Output: true
+```
+>
+Example 4:
+```
+Input: name = "laiden", typed = "laiden"
+Output: true
+Explanation: It's not necessary to long press any character.
+```
+
+Note:
+
+1. name.length <= 1000
+2. typed.length <= 1000
+3. The characters of name and typed are lowercase letters.
+
+```python
+class Solution(object):
+    def isLongPressedName(self, name, typed):
+        """
+        :type name: str
+        :type typed: str
+        :rtype: bool
+        """
+        while name != '' and typed != '':
+            if len(name) > len(typed):
+                return False
+            
+            current_char = name[0]
+            current_count = 0
+            while name != '' and name[0] == current_char:
+                name = name[1:]
+                current_count += 1
+                
+            typed_char = typed[0]
+            typed_count = 0
+            while typed != '' and typed[0] == typed_char:
+                typed = typed[1:]
+                typed_count += 1
+                
+            if typed_char != current_char or typed_count < current_count:
+                return False
+            
+        if name == '' and typed == '':
+            return True
+        return False
 ```
