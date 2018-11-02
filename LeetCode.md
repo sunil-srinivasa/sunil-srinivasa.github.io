@@ -11872,6 +11872,68 @@ class Solution(object):
             return -1
 ```
 
+## 748. Shortest Completing Word
+Find the minimum length word from a given dictionary words, which has all the letters from the string licensePlate. Such a word is said to complete the given string licensePlate
+
+Here, for letters we ignore case. For example, "P" on the licensePlate still matches "p" on the word.
+
+It is guaranteed an answer exists. If there are multiple answers, return the one that occurs first in the array.
+
+The license plate might have the same letter occurring multiple times. For example, given a licensePlate of "PP", the word "pair" does not complete the licensePlate, but the word "supper" does.
+>
+Example 1:
+```
+Input: licensePlate = "1s3 PSt", words = ["step", "steps", "stripe", "stepple"]
+Output: "steps"
+Explanation: The smallest length word that contains the letters "S", "P", "S", and "T".
+Note that the answer is not "step", because the letter "s" must occur in the word twice.
+Also note that we ignored case for the purposes of comparing whether a letter exists in the word.
+```
+>
+Example 2:
+```
+Input: licensePlate = "1s3 456", words = ["looks", "pest", "stew", "show"]
+Output: "pest"
+Explanation: There are 3 smallest length words that contains the letters "s".
+We return the one that occurred first.
+```
+
+Note:
+- licensePlate will be a string with length in range [1, 7].
+- licensePlate will contain digits, spaces, or letters (uppercase or lowercase).
+- words will have a length in the range [10, 1000].
+- Every words[i] will consist of lowercase letters, and have length in range [1, 15].
+
+```python
+class Solution(object):
+    def shortestCompletingWord(self, licensePlate, words):
+        """
+        :type licensePlate: str
+        :type words: List[str]
+        :rtype: str
+        """
+        current_len = 10000 # Max length of word in words
+        rep = self.get_representation(licensePlate)
+        for w in words:
+            rep_w = self.get_representation(w)
+            is_valid = True
+            for key in rep:
+                if key not in rep_w or rep_w[key] < rep[key]:
+                    is_valid = False
+                    break
+            if is_valid == True and len(w) < current_len:
+                current_len = len(w)
+                solution = w
+        return solution
+        
+    def get_representation(self, string):
+        rep = collections.defaultdict(int)
+        for s in string.lower():
+            if s != ' ' and 97 <= ord(s) <= 122:
+                rep[s] += 1
+        return rep
+```
+
 ## 752. Open the Lock
 You have a lock in front of you with 4 circular wheels. Each wheel has 10 slots: '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'. The wheels can rotate freely and wrap around: for example we can turn '9' to be '0', or '0' to be '9'. Each move consists of turning one wheel one slot.
 
