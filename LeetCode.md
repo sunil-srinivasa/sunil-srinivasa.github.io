@@ -14912,3 +14912,102 @@ class Solution(object):
             return True
         return False
 ```
+
+## 929. Unique Email Addresses
+Every email consists of a local name and a domain name, separated by the @ sign.
+
+For example, in alice@leetcode.com, alice is the local name, and leetcode.com is the domain name.
+
+Besides lowercase letters, these emails may contain '.'s or '+'s.
+
+If you add periods ('.') between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name.  For example, "alice.z@leetcode.com" and "alicez@leetcode.com" forward to the same email address.  (Note that this rule does not apply for domain names.)
+
+If you add a plus ('+') in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered, for example m.y+name@email.com will be forwarded to my@email.com.  (Again, this rule does not apply for domain names.)
+
+It is possible to use both of these rules at the same time.
+
+Given a list of emails, we send one email to each address in the list.  How many different addresses actually receive mails? 
+>
+Example 1:
+```
+Input: ["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]
+Output: 2
+Explanation: "testemail@leetcode.com" and "testemail@lee.tcode.com" actually receive mails
+```
+
+Note:
+
+- 1 <= emails[i].length <= 100
+- 1 <= emails.length <= 100
+- Each emails[i] contains exactly one '@' character.
+
+```python
+class Solution(object):
+    def numUniqueEmails(self, emails):
+        """
+        :type emails: List[str]
+        :rtype: int
+        """
+        dictionary = {}
+        for e in emails:
+            local_name, domain = e.split('@')
+            
+            dictionary[self.process(local_name)+domain] = True
+        return len(dictionary.keys())
+        
+    def process(self, name):
+        """
+        Remove '.' and ignore anything after '+'
+        """
+        return ''.join(name.split('+')[0].split('.'))
+```
+
+## 931. Minimum Falling Path Sum
+Given a square array of integers A, we want the minimum sum of a falling path through A.
+
+A falling path starts at any element in the first row, and chooses one element from each row.  The next row's choice must be in a column that is different from the previous row's column by at most one.
+
+>
+Example 1:
+```
+Input: [[1,2,3],[4,5,6],[7,8,9]]
+Output: 12
+Explanation: 
+The possible falling paths are:
+- [1,4,7], [1,4,8], [1,5,7], [1,5,8], [1,5,9]
+- [2,4,7], [2,4,8], [2,5,7], [2,5,8], [2,5,9], [2,6,8], [2,6,9]
+- [3,5,7], [3,5,8], [3,5,9], [3,6,8], [3,6,9]
+The falling path with the smallest sum is [1,4,7], so the answer is 12.
+```
+
+Note:
+
+1. 1 <= A.length == A[0].length <= 100
+2. -100 <= A[i][j] <= 100
+
+```python
+class Solution(object):
+    def minFallingPathSum(self, A):
+        """
+        :type A: List[List[int]]
+        :rtype: int
+        """
+        # Use DP building it from bottom of matrix
+        n = len(A)
+        
+        DP = [[0 for _ in range(n)] for _ in range(n)]
+        
+        for j in range(n):
+            DP[n-1][j] = A[n-1][j]
+            
+        for i in range(n-2,-1,-1):
+            for j in range(n):
+                if j == 0:
+                    DP[i][j] = A[i][j] + min(DP[i+1][j], DP[i+1][j+1])
+                elif j == n-1:
+                    DP[i][j] = A[i][j] + min(DP[i+1][j], DP[i+1][j-1])
+                else:
+                    DP[i][j] = A[i][j] + min(DP[i+1][j], DP[i+1][j-1], DP[i+1][j+1])
+                
+        return min(DP[0])
+```
