@@ -2944,29 +2944,6 @@ Given an encoded message containing digits, determine the total number of ways t
 Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12). The number of ways decoding "12" is 2.
 
 ```python
-# Recursive solution - time limit exceeded but 222/259 cases correct. DP solution is better
-
-class Solution(object):
-    def numDecodings(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        if s == '' or s[0] == "0":
-            num_decodings = 0
-        elif ((int(s) >= 1 and int(s) <= 10) or int(s) == 20): # Only one possible decoding for 10 and 20
-            num_decodings = 1
-        elif int(s) >= 11 and int(s) <= 26:
-            num_decodings = 2
-        else:
-            num_decodings = 0
-            for i in range(2): # only two digits 1-26 possible for valid input
-                if (int(s[:i+1]) >= 1 and int(s[:i+1]) <= 26):
-                    num_decodings += self.numDecodings(s[i+1:])
-
-        return num_decodings
-
-# DP solution
 class Solution(object):
     def numDecodings(self, s):
         """
@@ -5997,41 +5974,45 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
-        # use pre-order traversal of tree and maintain node depths. Once depth of leaf < max_depth, return and then compute
         if root == None:
             return 0
-        count,depths,max_depth,_ = self.traverse(root,0,{},-1,0,0)
-        return sum([2**h for h in range(max_depth)]) + count
+        if root.left == None and root.right == None:
+            return 1
+        depth = -1
+        node = root
+        while node != None:
+            node = node.left
+            depth += 1
+        # Nodes are in range 0,..,2**depth-1
 
-    def traverse(self,node,count,depths,current_depth,max_depth,stopTraversing):
-        if node == None:
-            return count, depths, max_depth, stopTraversing
-
-        count, depths, max_depth, stopTraversing = self.process(node,count,depths,current_depth,max_depth,stopTraversing) # process current node
-        if stopTraversing == 1:
-            return count, depths, max_depth, stopTraversing        
-
-        count, depths, max_depth, stopTraversing = self.traverse(node.left,count,depths,depths[node],max_depth,stopTraversing)
-        if stopTraversing == 1:
-            return count, depths, max_depth, stopTraversing
-
-        count, depths, max_depth, stopTraversing = self.traverse(node.right,count,depths,depths[node],max_depth,stopTraversing)
-        if stopTraversing == 1:
-            return count, depths, max_depth, stopTraversing
-
-        return count, depths, max_depth, stopTraversing
-
-    def process(self,node,count,depths,current_depth,max_depth,stopTraversing):
-        depths[node] = current_depth + 1
-        max_depth = max(max_depth, current_depth + 1)
-        if node.left == None and node.right == None:
-            if depths[node] < max_depth:
-                stopTraversing = 1
-                return count, depths, max_depth, stopTraversing
+        # Now that tree depth is known, find solution using binary search on last level
+        # Complexity: O(log(n)**2)
+        # Use binary search to find the last node in the leaf level
+        low = 0
+        high = 2**depth
+        while high > low:
+            mid = (low+high)/2
+            if self.exist(root, mid, depth):
+                low = mid+1
             else:
-                count += 1
-
-        return count, depths, max_depth, stopTraversing
+                high = mid
+        print depth, low, mid, high
+        # Total number of nodes in tree
+        if 2**depth == low:
+            return 2**(depth+1)-1
+        return 2**depth+low-1
+    
+    def exist(self, node, N, depth):
+        path = bin(N)[2:]
+        path = '0'*(depth-len(path)) + path
+        for p in path:
+            if p == '0':
+                node = node.left
+            else:
+                node = node.right
+            if node == None:
+                return False
+        return True
 ```
 
 ## 223. Find the total area covered by two rectilinear rectangles in a 2D plane.
