@@ -9180,6 +9180,57 @@ class Solution(object):
         return solution[i][j][0] >= solution [i][j][1]
 ```
 
+## 491. Increasing Subsequences
+Given an integer array, your task is to find all the different possible increasing subsequences of the given array, and the length of an increasing subsequence should be at least 2 .
+>
+Example:
+```
+Input: [4, 6, 7, 7]
+Output: [[4, 6], [4, 7], [4, 6, 7], [4, 6, 7, 7], [6, 7], [6, 7, 7], [7,7], [4,7,7]]
+```
+Note:
+- The length of the given array will not exceed 15.
+- The range of integer in the given array is [-100,100].
+- The given array may contain duplicates, and two equal integers should also be considered as a special case of increasing sequence.
+
+```python
+class Solution(object):
+    def findSubsequences(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        # Use recursion
+        L = len(nums)
+        solution = []
+        for idx in range(L-1):
+            partial_solution = self.inc_seq(nums[idx+1:], nums[idx])
+            if partial_solution != [[]]:
+                for p in partial_solution:
+                    solution += [[nums[idx]]+p]
+        solution = [tuple(s) for s in solution]
+        solution = set(solution)
+        solution = [list(s) for s in solution]
+        return solution
+    
+    def inc_seq(self, nums, target):
+        L = len(nums)
+        if L == 1:
+            if nums[0] >= target:
+                return [[nums[0]]]
+            else:
+                return [[]]
+        solution = []
+        for idx in range(L):
+            if nums[idx] >= target:
+                solution += [[nums[idx]]]
+                partial_solution = self.inc_seq(nums[idx+1:], nums[idx])
+                for p in partial_solution:
+                    solution += [[nums[idx]]+p]
+                    
+        return solution
+```
+
 ## 496. Next Greater Element I
 You are given two arrays (without duplicates) nums1 and nums2 where nums1’s elements are subset of nums2. Find all the next greater numbers for nums1's elements in the corresponding places of nums2.
 
@@ -9345,6 +9396,36 @@ class Solution:
                 stack += [(nums[idx], idx)]
                     
         return higherIndex
+```
+
+## 507. Perfect Number
+We define the Perfect Number is a positive integer that is equal to the sum of all its positive divisors except itself.
+
+Now, given an integer n, write a function that returns true when it is a perfect number and false when it is not.
+>
+Example:
+```
+Input: 28
+Output: True
+Explanation: 28 = 1 + 2 + 4 + 7 + 14
+```
+Note: The input number n will not exceed 100,000,000. (1e8)
+
+```python
+class Solution(object):
+    def checkPerfectNumber(self, num):
+        """
+        :type num: int
+        :rtype: bool
+        """
+        if num <= 5:
+            return False
+        divisors = []
+        for idx in range(2,int(math.sqrt(num)+1)):
+            if num % idx == 0:
+                divisors += [idx, num/idx]
+                
+        return sum(divisors) == num-1
 ```
 
 ## 508. Most Frequent Subtree Sum
@@ -9620,6 +9701,54 @@ class Solution(object):
             sums[idx] = nums[idx]
             
         return False
+```
+
+## 530. Minimum Absolute Difference in BST
+Given a binary search tree with non-negative values, find the minimum absolute difference between values of any two nodes.
+>
+Example:
+```
+Input:
+   1
+    \
+     3
+    /
+   2
+Output:
+1
+Explanation:
+The minimum absolute difference is 1, which is the difference between 2 and 1 (or between 2 and 3).
+```
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def getMinimumDifference(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        # Traverse in-order and compute minimum difference between adjacent nodes
+        prev_val = -float('inf')
+        minimum = float('inf')
+        return self.minDiff(root, prev_val, minimum)[0]
+    
+    def minDiff(self, node, prev_val, minimum):
+        if node == None:
+            return minimum, prev_val
+        left, prev_val = self.minDiff(node.left, prev_val, minimum)
+        minimum = min(minimum, left)
+        minimum = min(minimum, node.val-prev_val)
+        prev_val = node.val
+        right, prev_val = self.minDiff(node.right, prev_val, minimum)
+        minimum = min(minimum, right)
+        return minimum, prev_val
 ```
 
 ## 538. Convert BST to Greater Tree
@@ -10978,6 +11107,107 @@ class Solution(object):
                     queue.append((t[0].right,2*t[1]+1))
 
         return max_width
+```
+
+## 669. Trim a Binary Search Tree
+Given a binary search tree and the lowest and highest boundaries as L and R, trim the tree so that all its elements lies in [L, R] (R >= L). You might need to change the root of the tree, so the result should return the new root of the trimmed binary search tree.
+>
+Example 1:
+```
+Input: 
+    1
+   / \
+  0   2
+L = 1
+R = 2
+Output: 
+    1
+      \
+       2
+```
+>
+Example 2:
+```
+Input: 
+    3
+   / \
+  0   4
+   \
+    2
+   /
+  1
+L = 1
+R = 3
+Output: 
+      3
+     / 
+   2   
+  /
+ 1
+```
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def trimBST(self, root, L, R):
+        """
+        :type root: TreeNode
+        :type L: int
+        :type R: int
+        :rtype: TreeNode
+        """
+        # For any node, if it lies between L and R let it be
+        # if it lies < L, check node.right
+        # if it lies > R, check node.left
+        if root == None:
+            return None
+        elif L <= root.val <= R:
+            root.left = self.trimBST(root.left, L, R)
+            root.right = self.trimBST(root.right, L, R)
+            return root
+        elif root.val > R:
+            return self.trimBST(root.left, L, R)
+        elif root.val < L:
+            return self.trimBST(root.right, L, R)
+```
+
+## 671. Second Minimum Node In a Binary Tree
+Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this tree has exactly two or zero sub-node. If the node has two sub-nodes, then this node's value is the smaller value among its two sub-nodes.
+
+Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in the whole tree.
+
+If no such second minimum value exists, output -1 instead.
+>
+Example 1:
+```
+Input: 
+    2
+   / \
+  2   5
+     / \
+    5   7
+Output: 5
+Explanation: The smallest value is 2, the second smallest value is 5.
+```
+>
+Example 2:
+```
+Input: 
+    2
+   / \
+  2   2
+Output: -1
+Explanation: The smallest value is 2, but there isn't any second smallest value.
+```
+
+```python
+
 ```
 
 ## 677. Map Sum Pairs
