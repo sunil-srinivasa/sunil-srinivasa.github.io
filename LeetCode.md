@@ -11781,27 +11781,27 @@ Input:
 letters = ["c", "f", "j"]
 target = "a"
 Output: "c"
- 
+\ 
 Input:
 letters = ["c", "f", "j"]
 target = "c"
 Output: "f"
- 
+\ 
 Input:
 letters = ["c", "f", "j"]
 target = "d"
 Output: "f"
- 
+\ 
 Input:
 letters = ["c", "f", "j"]
 target = "g"
 Output: "j"
- 
+\ 
 Input:
 letters = ["c", "f", "j"]
 target = "j"
 Output: "c"
- 
+\ 
 Input:
 letters = ["c", "f", "j"]
 target = "k"
