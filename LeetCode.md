@@ -11177,37 +11177,46 @@ class Solution(object):
             return self.trimBST(root.right, L, R)
 ```
 
-## 671. Second Minimum Node In a Binary Tree
-Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this tree has exactly two or zero sub-node. If the node has two sub-nodes, then this node's value is the smaller value among its two sub-nodes.
-
-Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in the whole tree.
-
-If no such second minimum value exists, output -1 instead.
+## 674. Longest Continuous Increasing Subsequence
+Given an unsorted array of integers, find the length of longest continuous increasing subsequence (subarray).
 >
 Example 1:
 ```
-Input: 
-    2
-   / \
-  2   5
-     / \
-    5   7
-Output: 5
-Explanation: The smallest value is 2, the second smallest value is 5.
+Input: [1,3,5,4,7]
+Output: 3
+Explanation: The longest continuous increasing subsequence is [1,3,5], its length is 3. 
+Even though [1,3,5,7] is also an increasing subsequence, it's not a continuous one where 5 and 7 are separated by 4.
 ```
 >
 Example 2:
 ```
-Input: 
-    2
-   / \
-  2   2
-Output: -1
-Explanation: The smallest value is 2, but there isn't any second smallest value.
+Input: [2,2,2,2,2]
+Output: 1
+Explanation: The longest continuous increasing subsequence is [2], its length is 1. 
 ```
 
-```python
+Note: Length of the array will not exceed 10,000.
 
+```python
+class Solution(object):
+    def findLengthOfLCIS(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        L = len(nums)
+        if L <= 1:
+            return L
+        LCIS = 1
+        max_LCIS = 1
+        for idx in range(1,L):
+            if nums[idx] > nums[idx-1]:
+                LCIS += 1
+            else:
+                max_LCIS = max(max_LCIS, LCIS)
+                LCIS = 1
+                
+        return max(max_LCIS, LCIS)
 ```
 
 ## 677. Map Sum Pairs
@@ -11627,6 +11636,38 @@ class KthLargest(object):
 # Your KthLargest object will be instantiated and called as such:
 # obj = KthLargest(k, nums)
 # param_1 = obj.add(val)
+```
+
+## 709. To Lower Case
+Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase.
+
+>
+Example 1:
+```
+Input: "Hello"
+Output: "hello"
+```
+>
+Example 2:
+```
+Input: "here"
+Output: "here"
+```
+>
+Example 3:
+```
+Input: "LOVELY"
+Output: "lovely"
+```
+
+```python
+class Solution(object):
+    def toLowerCase(self, str):
+        """
+        :type str: str
+        :rtype: str
+        """
+        return str.lower()
 ```
 
 ## 728. Self Dividing Numbers
