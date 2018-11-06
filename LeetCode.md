@@ -3081,7 +3081,6 @@ Output:
 ]
 Explanation:
 The above output corresponds to the 5 unique BST's shown below:
-
    1         3     3      2      1
     \       /     /      / \      \
      3     2     1      1   3      2
