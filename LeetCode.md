@@ -3990,23 +3990,19 @@ class Solution(object):
         :type sum: int
         :rtype: List[List[int]]
         """
-        paths = self.getPaths(root)
-        desired_paths = []
-        for idx in range(len(paths)):
-            paths[idx] = paths[idx].split(',')
-            paths[idx] = [int(val) for val in paths[idx]]
-            path_sum = reduce((lambda x,y: x+y), paths[idx])
-            if path_sum == sum:
-                desired_paths.append(paths[idx])
-
-        return desired_paths
-
-    def getPaths(self,root):
+        solution = []
         if root == None:
             return []
-        if root.left == None and root.right == None:
-            return [str(root.val)]
-        return [str(root.val) + ',' + str(val) for val in self.getPaths(root.left) + (self.getPaths(root.right))]  
+        if root.val == sum and root.left == None and root.right == None:
+            return [[root.val]]
+        l = self.pathSum(root.left, sum-root.val)
+        if l != [[]]:
+            solution += [[root.val]+element for element in l]
+        r = self.pathSum(root.right, sum-root.val)
+        if r != [[]]:
+            solution += [[root.val]+element for element in r]
+        
+        return solution
 ```
 
 ## 114. Flatten Binary Tree to Linked List
