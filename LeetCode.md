@@ -15318,6 +15318,94 @@ class Solution(object):
         return reduce(lambda x, y: x+y, zip([a for a in A if a % 2 == 0], [a for a in A if a % 2 == 1]))
 ```
 
+## 923. 3Sum With Multiplicity
+Given an integer array A, and an integer target, return the number of tuples i, j, k  such that i < j < k and A[i] + A[j] + A[k] == target.
+
+As the answer can be very large, return it modulo 10^9 + 7.
+
+>
+Example 1:
+```
+Input: A = [1,1,2,2,3,3,4,4,5,5], target = 8
+Output: 20
+Explanation: 
+Enumerating by the values (A[i], A[j], A[k]):
+(1, 2, 5) occurs 8 times;
+(1, 3, 4) occurs 8 times;
+(2, 2, 4) occurs 2 times;
+(2, 3, 3) occurs 2 times.
+```
+>
+Example 2:
+```
+Input: A = [1,1,2,2,2,2], target = 5
+Output: 12
+Explanation: 
+A[i] = 1, A[j] = A[k] = 2 occurs 12 times:
+We choose one 1 from [1,1] in 2 ways,
+and two 2s from [2,2,2,2] in 6 ways.
+```
+
+Note:
+
+- 3 <= A.length <= 3000
+- 0 <= A[i] <= 100
+- 0 <= target <= 300
+
+```python
+class Solution(object):
+    def threeSumMulti(self, A, target):
+        """
+        :type A: List[int]
+        :type target: int
+        :rtype: int
+        """
+        counts = collections.defaultdict(int)
+        for a in A:
+            counts[a] += 1
+        
+        # Keep at most 3 occurences of the same number, as its a 3-sum problem
+        A = []
+        for a in counts:
+            A += [a]*min(counts[a],3)
+        
+        A = sorted(A)
+        L = len(A)
+        solutions = []
+        for idx in range(L-2):
+            partial_solution = self.twoSum(A[idx+1:], target-A[idx])
+            if partial_solution != [[]]:
+                solutions += [[A[idx]]+p for p in partial_solution]
+        
+        solutions = list(set([tuple(s) for s in solutions]))
+        
+        num_tuples = 0
+        for s in solutions:
+            sub_counts = collections.defaultdict(int)
+            for a in s:
+                sub_counts[a] += 1
+            num_ways = 1
+            for k in sub_counts.keys():
+                num_ways *= self.nCk(counts[k], sub_counts[k])
+                
+            num_tuples += num_ways
+                
+        return num_tuples % (10**9+7)
+        
+    def twoSum(self, nums, target):
+        L = len(nums)
+        dictionary = {}
+        solutions = []
+        for idx in range(L):
+            if target-nums[idx] in dictionary:
+                solutions += [[nums[idx], target-nums[idx]]]
+            dictionary[nums[idx]] = True
+        return solutions
+    
+    def nCk(self, N, k):
+        return math.factorial(N)/(math.factorial(k)*math.factorial(N-k))
+```
+
 ## 925. Long Pressed Name
 Your friend is typing his name into a keyboard.  Sometimes, when typing a character c, the key might get long pressed, and the character will be typed 1 or more times.
 
