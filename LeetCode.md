@@ -615,6 +615,61 @@ class Solution(object):
         return solution
 ```
 
+## 18. 4Sum
+Given an array nums of n integers and an integer target, are there elements a, b, c, and d in nums such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
+
+Note:
+
+The solution set must not contain duplicate quadruplets.
+>
+Example:
+```
+Given array nums = [1, 0, -1, 0, -2, 2], and target = 0.
+A solution set is:
+[
+  [-1,  0, 0, 1],
+  [-2, -1, 1, 2],
+  [-2,  0, 0, 2]
+]
+```
+
+```python
+class Solution(object):
+    def fourSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        nums = sorted(nums)
+        L = len(nums)
+        solution = []
+        for idx in range(L):
+            partial_soln = self.threeSum(nums[idx+1:], target-nums[idx])
+            if partial_soln != []:
+                solution += [[nums[idx]]+p for p in partial_soln]
+        return list(set([tuple(s) for s in solution]))
+    
+    def threeSum(self, nums, target):
+        L = len(nums)
+        solution = []
+        for idx in range(L):
+            partial_soln = self.twoSum(nums[idx+1:], target-nums[idx])
+            if partial_soln != []:
+                solution += [[nums[idx]]+p for p in partial_soln]
+        return solution
+    
+    def twoSum(self, nums, target):
+        L = len(nums)
+        nums_dict = {}
+        solution = []
+        for idx in range(L):
+            if target-nums[idx] in nums_dict:
+                solution += [[nums[idx], target-nums[idx]]]
+            nums_dict[nums[idx]] = 1
+        return solution
+```
+
 ## 19. Remove Nth Node From End of List
 Given a linked list, remove the nth node from the end of list and return its head.
 
