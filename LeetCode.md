@@ -8970,6 +8970,70 @@ class Solution(object):
         return count
 ```
 
+## 438. Find All Anagrams in a String
+Given a string s and a non-empty string p, find all the start indices of p's anagrams in s.
+
+Strings consists of lowercase English letters only and the length of both strings s and p will not be larger than 20,100.
+
+The order of output does not matter.
+>
+Example 1:
+```
+Input:
+s: "cbaebabacd" p: "abc"
+Output:
+[0, 6]
+Explanation:
+The substring with start index = 0 is "cba", which is an anagram of "abc".
+The substring with start index = 6 is "bac", which is an anagram of "abc".
+```
+>
+Example 2:
+```
+Input:
+s: "abab" p: "ab"
+Output:
+[0, 1, 2]
+Explanation:
+The substring with start index = 0 is "ab", which is an anagram of "ab".
+The substring with start index = 1 is "ba", which is an anagram of "ab".
+The substring with start index = 2 is "ab", which is an anagram of "ab".
+```
+
+```python
+class Solution(object):
+    def findAnagrams(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: List[int]
+        """
+        if len(s) == 0 or len(p) == 0 or len(s) < len(p):
+            return []
+        
+        p_count = [0 for _ in range(26)]
+        for char in p:
+            p_count[ord(char)-97] += 1
+            
+        solution = []
+        
+        s_count = [0 for _ in range(26)]
+        L = len(s)
+        for idx in range(len(p)):
+            s_count[ord(s[idx])-97] += 1
+            
+        if s_count == p_count:
+            solution += [0]
+        
+        for idx in range(len(p),L):
+            s_count[ord(s[idx-len(p)])-97] -= 1
+            s_count[ord(s[idx])-97] += 1
+            if s_count == p_count:
+                solution += [idx-len(p)+1]
+                
+        return solution
+```
+
 ## 442. Find All Duplicates in an Array
 Given an array of integers, 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and others appear once.
 
