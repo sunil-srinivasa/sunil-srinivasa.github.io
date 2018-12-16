@@ -8217,6 +8217,55 @@ class Solution(object):
         return self.guessNum(low, high)
 ```
 
+## 377. Combination Sum IV
+Given an integer array with all positive numbers and no duplicates, find the number of possible combinations that add up to a positive integer target.
+>
+Example:
+```
+nums = [1, 2, 3]
+target = 4
+The possible combination ways are:
+(1, 1, 1, 1)
+(1, 1, 2)
+(1, 2, 1)
+(1, 3)
+(2, 1, 1)
+(2, 2)
+(3, 1)
+Note that different sequences are counted as different combinations.
+Therefore the output is 7.
+```
+
+Follow up:
+- What if negative numbers are allowed in the given array?
+- How does it change the problem?
+- What limitation we need to add to the question to allow negative numbers?
+
+```python
+class Solution(object):
+    def combinationSum4(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        return self.numCombinations(nums, target, 0, {})
+        
+    def numCombinations(self, nums, target, solution, memo):
+        if target in memo:
+            return memo[target]
+        L = len(nums)
+        for idx in range(L):
+            if nums[idx] == target:
+                solution += 1
+            elif nums[idx] < target:
+                solution += self.numCombinations(nums, target-nums[idx], 0, memo)
+        
+        memo[target] = solution
+            
+        return solution
+```
+
 ## 378. Kth Smallest Element in a Sorted Matrix
 Given a n x n matrix where each of the rows and columns are sorted in ascending order, find the kth smallest element in the matrix.
 
