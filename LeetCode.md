@@ -5110,6 +5110,42 @@ class Solution(object):
                 dictionary[numbers[idx]] = idx
 ```
 
+## 169. Majority Element
+Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times.
+
+You may assume that the array is non-empty and the majority element always exist in the array.
+>
+Example 1:
+```
+Input: [3,2,3]
+Output: 3
+```
+>
+Example 2:
+```
+Input: [2,2,1,1,1,2,2]
+Output: 2
+```
+
+```python
+class Solution(object):
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        from collections import defaultdict
+        nums_dict = defaultdict(int)
+        
+        L = len(nums)
+        for idx in range(L):
+            nums_dict[nums[idx]] += 1
+            
+        for n in nums_dict:
+            if nums_dict[n] > math.floor(L/2):
+                return n
+```
+
 ## 179. Largest Number
 Given a list of non negative integers, arrange them such that they form the largest number.
 
@@ -9081,6 +9117,47 @@ class Solution(object):
                 solution += [idx-len(p)+1]
                 
         return solution
+```
+
+## 441. Arranging Coins
+You have a total of n coins that you want to form in a staircase shape, where every k-th row must have exactly k coins.
+
+Given n, find the total number of full staircase rows that can be formed.
+
+n is a non-negative integer and fits within the range of a 32-bit signed integer.
+>
+Example 1:
+```
+n = 5
+The coins can form the following rows:
+¤
+¤ ¤
+¤ ¤
+Because the 3rd row is incomplete, we return 2.
+```
+>
+Example 2:
+```
+n = 8
+The coins can form the following rows:
+¤
+¤ ¤
+¤ ¤ ¤
+¤ ¤
+Because the 4th row is incomplete, we return 3.
+```
+
+```python
+class Solution(object):
+    def arrangeCoins(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        # with k rows, we need k(k+1)/2 coins.
+        # Use quadratic equation formula
+        
+        return int(math.floor((math.sqrt(1+8*n)-1)/2))
 ```
 
 ## 442. Find All Duplicates in an Array
