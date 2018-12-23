@@ -7581,6 +7581,53 @@ class Solution(object):
             return A[:L/2+1] + self.insert(A[L/2+1:],x,n-L/2)
 ```
 
+## 318. Maximum Product of Word Lengths
+Given a string array words, find the maximum value of length(word[i]) * length(word[j]) where the two words do not share common letters. You may assume that each word will contain only lower case letters. If no such two words exist, return 0.
+>
+Example 1:
+```
+Input: ["abcw","baz","foo","bar","xtfn","abcdef"]
+Output: 16 
+Explanation: The two words can be "abcw", "xtfn".
+```
+>
+Example 2:
+```
+Input: ["a","ab","abc","d","cd","bcd","abcd"]
+Output: 4 
+Explanation: The two words can be "ab", "cd".
+```
+>
+Example 3:
+```
+Input: ["a","aa","aaa","aaaa"]
+Output: 0 
+Explanation: No such pair of words.
+```
+
+```python
+class Solution(object):
+    def maxProduct(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        n, res = len(words), 0
+        word_bits = [0 for i in range(n)]
+        # generate a 26 bit mask for every word, each set to 1 if a character is set
+        for i in range(n):
+            for c in words[i]:
+                mask = 1 << (ord(c) - 96)
+                word_bits[i] = word_bits[i] | mask
+        # for each word, compre to every other word
+        for i in range(n):
+            for j in range(i+1, n):
+                # if the AND of the two bits are zero, then no overlapping characters
+                if word_bits[i] & word_bits[j] == 0:
+                    res = max(res, len(words[i]) * len(words[j]))
+        return res
+```
+
 ## 319. Bulb Switcher
 There are n bulbs that are initially off. You first turn on all the bulbs. Then, you turn off every second bulb. On the third round, you toggle every third bulb (turning on if it's off or turning off if it's on). For the i-th round, you toggle every i bulb. For the n-th round, you only toggle the last bulb. Find how many bulbs are on after n rounds.
 >
