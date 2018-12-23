@@ -16269,3 +16269,110 @@ class Solution(object):
                 
         return solution + [low]
 ```
+
+## 958. Check Completeness of a Binary Tree
+Given a binary tree, determine if it is a complete binary tree.
+
+Definition of a complete binary tree from Wikipedia:
+In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+>
+Example 1:
+```
+![](https://assets.leetcode.com/uploads/2018/12/15/complete-binary-tree-1.png)
+Input: [1,2,3,4,5,6]
+Output: true
+Explanation: Every level before the last is full (ie. levels with node-values {1} and {2, 3}), and all nodes in the last level ({4, 5, 6}) are as far left as possible.
+```
+>
+Example 2:
+```
+![](https://assets.leetcode.com/uploads/2018/12/15/complete-binary-tree-2.png)
+Input: [1,2,3,4,5,null,7]
+Output: false
+Explanation: The node with value 7 isn't as far left as possible.
+```
+
+Note:
+- The tree will have between 1 and 100 nodes.
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isCompleteTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        queue = [root]
+        while queue != []:
+            current_node = queue[0]
+            if current_node.left == None and current_node.right == None:
+                return self.checkQueue(queue)
+            if current_node.left != None and current_node.right == None:
+                queue += [current_node.left]
+                queue = queue[1:]
+                return self.checkQueue(queue)
+            if current_node.left == None and current_node.right != None:
+                return False
+            if current_node.left != None and current_node.right != None:
+                queue += [current_node.left]
+                queue += [current_node.right]
+
+            queue = queue[1:]
+        return True
+    
+    def checkQueue(self, queue):
+        for q in queue:
+            if q.left != None or q.right != None:
+                return False
+        return True
+```
+
+## 961. N-Repeated Element in Size 2N Array
+In a array A of size 2N, there are N+1 unique elements, and exactly one of these elements is repeated N times.
+
+Return the element repeated N times.
+>
+Example 1:
+```
+Input: [1,2,3,3]
+Output: 3
+```
+>
+Example 2:
+```
+Input: [2,1,2,5,3,2]
+Output: 2
+```
+>
+Example 3:
+```
+Input: [5,1,5,2,5,3,5,4]
+Output: 5
+``` 
+
+Note:
+
+- 4 <= A.length <= 10000
+- 0 <= A[i] < 10000
+- A.length is even
+
+```python
+class Solution(object):
+    def repeatedNTimes(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        nums = {}
+        for idx in range(len(A)):
+            if A[idx] in nums:
+                return A[idx]
+            nums[A[idx]] = True
+```
