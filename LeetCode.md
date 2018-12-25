@@ -1630,9 +1630,7 @@ Given n non-negative integers representing an elevation map where the width of e
 >For example,
 Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
 
-![](http://www.leetcode.com/wp-content/uploads/
-2/08/rainwatertrap.png)
-
+![](https://assets.leetcode.com/uploads/2018/10/22/rainwatertrap.png)
 
 ```python
 class Solution:
@@ -5144,6 +5142,38 @@ class Solution(object):
         for n in nums_dict:
             if nums_dict[n] > math.floor(L/2):
                 return n
+```
+
+## 172. Factorial Trailing Zeroes
+Given an integer n, return the number of trailing zeroes in n!.
+>
+Example 1:
+```
+Input: 3
+Output: 0
+Explanation: 3! = 6, no trailing zero.
+```
+>
+Example 2:
+```
+Input: 5
+Output: 1
+Explanation: 5! = 120, one trailing zero.
+```
+
+Note: Your solution should be in logarithmic time complexity.
+
+```python
+class Solution(object):
+    def trailingZeroes(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n == 0:
+            return 0
+        else:
+            return n/5+self.trailingZeroes(n/5)
 ```
 
 ## 179. Largest Number
