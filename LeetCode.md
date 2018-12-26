@@ -15201,6 +15201,74 @@ class Solution(object):
         return scores[0][-1] > 0
 ```
 
+## 884. Uncommon Words from Two Sentences
+We are given two sentences A and B.  (A sentence is a string of space separated words.  Each word consists only of lowercase letters.)
+
+A word is uncommon if it appears exactly once in one of the sentences, and does not appear in the other sentence.
+
+Return a list of all uncommon words. 
+
+You may return the list in any order.
+>
+Example 1:
+```
+Input: A = "this apple is sweet", B = "this apple is sour"
+Output: ["sweet","sour"]
+```
+>
+Example 2:
+```
+Input: A = "apple apple", B = "banana"
+Output: ["banana"]
+```
+
+Note:
+
+- 0 <= A.length <= 200
+- 0 <= B.length <= 200
+- A and B both contain only spaces and lowercase letters.
+
+```python
+class Solution(object):
+    def uncommonFromSentences(self, A, B):
+        """
+        :type A: str
+        :type B: str
+        :rtype: List[str]
+        """
+        words = collections.defaultdict(int)
+        for a in A.split(' '):
+            words[a] += 1
+        for b in B.split(' '):
+            words[b] += 1
+        
+        solution = []
+        for w in words:
+            if words[w] == 1:
+                solution += [w]
+                
+        return solution
+class Solution(object):
+    def uncommonFromSentences(self, A, B):
+        """
+        :type A: str
+        :type B: str
+        :rtype: List[str]
+        """
+        words = collections.defaultdict(int)
+        for a in A.split(' '):
+            words[a] += 1
+        for b in B.split(' '):
+            words[b] += 1
+        
+        solution = []
+        for w in words:
+            if words[w] == 1:
+                solution += [w]
+                
+        return solution
+```
+
 ## 885. Boats to Save People
 The i-th person has weight people[i], and each boat can carry a maximum weight of limit.
 
@@ -15874,6 +15942,75 @@ class Solution(object):
         :rtype: int
         """
         return max(0, max(A) - min(A) - 2*K)
+```
+
+## 914. X of a Kind in a Deck of Cards
+In a deck of cards, each card has an integer written on it.
+
+Return true if and only if you can choose X >= 2 such that it is possible to split the entire deck into 1 or more groups of cards, where:
+
+Each group has exactly X cards.
+All the cards in each group have the same integer.
+ 
+>
+Example 1:
+```
+Input: [1,2,3,4,4,3,2,1]
+Output: true
+Explanation: Possible partition [1,1],[2,2],[3,3],[4,4]
+```
+>
+Example 2:
+```
+Input: [1,1,1,2,2,2,3,3]
+Output: false
+Explanation: No possible partition.
+```
+>
+Example 3:
+```
+Input: [1]
+Output: false
+Explanation: No possible partition.
+```
+>
+Example 4:
+```
+Input: [1,1]
+Output: true
+Explanation: Possible partition [1,1]
+```
+>
+Example 5:
+```
+Input: [1,1,2,2,2,2]
+Output: true
+Explanation: Possible partition [1,1],[2,2],[2,2]
+```
+Note:
+
+- 1 <= deck.length <= 10000
+- 0 <= deck[i] < 10000
+
+```python
+class Solution(object):
+    def hasGroupsSizeX(self, deck):
+        """
+        :type deck: List[int]
+        :rtype: bool
+        """
+        cards = collections.defaultdict(int)
+        for d in deck:
+            cards[d] += 1
+            
+        return reduce (self.computeGCD, cards.values()) >= 2
+    
+    def computeGCD(self, x, y):
+        # Euclidean algorithm
+        while(y): 
+            x, y = y, x % y
+            
+        return x 
 ```
 
 ## 921. Minimum Add to Make Parentheses Valid
