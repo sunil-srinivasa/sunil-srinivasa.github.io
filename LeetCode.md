@@ -16867,3 +16867,65 @@ class Solution(object):
         
         return True
 ```
+
+## 967. Numbers With Same Consecutive Differences
+Return all non-negative integers of length N such that the absolute difference between every two consecutive digits is K.
+
+Note that every number in the answer must not have leading zeros except for the number 0 itself. For example, 01 has one leading zero and is invalid, but 0 is valid.
+
+You may return the answer in any order.
+>
+Example 1:
+```
+Input: N = 3, K = 7
+Output: [181,292,707,818,929]
+Explanation: Note that 070 is not a valid number, because it has leading zeroes.
+```
+>
+Example 2:
+```
+Input: N = 2, K = 1
+Output: [10,12,21,23,32,34,43,45,54,56,65,67,76,78,87,89,98]
+```
+
+Note:
+
+- 1 <= N <= 9
+- 0 <= K <= 9
+
+```python
+class Solution(object):
+    def numsSameConsecDiff(self, N, K):
+        """
+        :type N: int
+        :type K: int
+        :rtype: List[int]
+        """
+        solution = []
+        for idx in range(1,10):
+            solution += self.nextDigits(idx,N,K)
+            
+        return list(set([self.value(s) for s in solution]+[0]*(N==1)))
+    
+    def value(self, A):
+        L = len(A)
+        solution = 0
+        for idx in range(L):
+            solution += 10**(L-1-idx)*A[idx]
+        return solution
+        
+    def nextDigits(self, c, N, K):
+        solution = []
+        if N == 1:
+            return [[c]]
+        if 0 <= c+K <= 9:
+            partial_solution = self.nextDigits(c+K, N-1, K)
+            if partial_solution != []:
+                solution += [[c]+p for p in partial_solution]
+        if 0 <= c-K <= 9:
+            partial_solution = self.nextDigits(c-K, N-1, K)
+            if partial_solution != []:
+                solution += [[c]+p for p in partial_solution]
+        
+        return solution
+```
