@@ -1587,6 +1587,64 @@ class Solution(object):
         return solution[target]
 ```
 
+## 40. Combination Sum II
+Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sums to target.
+
+Each number in candidates may only be used once in the combination.
+
+Note:
+
+All numbers (including target) will be positive integers.
+The solution set must not contain duplicate combinations.
+>
+Example 1:
+```
+Input: candidates = [10,1,2,7,6,1,5], target = 8,
+A solution set is:
+[
+  [1, 7],
+  [1, 2, 5],
+  [2, 6],
+  [1, 1, 6]
+]
+```
+>
+Example 2:
+```
+Input: candidates = [2,5,2,1,2], target = 5,
+A solution set is:
+[
+  [1,2,2],
+  [5]
+]
+```
+
+```python
+class Solution(object):
+    def combinationSum2(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        # 0/1 Knapsack problem
+        L = len(candidates)
+        solution = [[[] for _ in range(target+1)] for _ in range(L)]
+        
+        current_sum = 0
+        for idx in range(L):
+            c = candidates[idx]
+            current_sum += c
+            for t in range(min(target,current_sum)+1):
+                solution[idx][t] += solution[idx-1][t]
+                if t == c:
+                    solution[idx][t] += [[c]]
+                elif t > c:
+                    solution[idx][t] += [[c]+s for s in solution[idx-1][t-c]]
+        
+        return list(set([(tuple(sorted(s))) for s in solution[-1][-1]])) 
+```
+
 ## 41. First Missing Positive
 Given an unsorted integer array, find the first missing positive integer.
 
