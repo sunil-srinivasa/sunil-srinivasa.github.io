@@ -16814,3 +16814,56 @@ class Solution(object):
                 return A[idx]
             nums[A[idx]] = True
 ```
+
+## 965. Univalued Binary Tree
+A binary tree is univalued if every node in the tree has the same value.
+
+Return true if and only if the given tree is univalued.
+
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2018/12/28/unival_bst_1.png)
+```
+Input: [1,1,1,1,1,null,1]
+Output: true
+```
+
+>Example 2:
+![](https://assets.leetcode.com/uploads/2018/12/28/unival_bst_2.png)
+```
+Input: [2,2,2,5,2]
+Output: false
+```
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isUnivalTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if root == None:
+            return True
+        return self.traverse(root, root.val)      
+        
+    def traverse(self, node, val):
+        if node == None:
+            return True
+        left = self.traverse(node.left, val)
+        if not left:
+            return left
+        right = self.traverse(node.right, val)
+        if not right:
+            return right
+        if node.val != val:
+            return False
+        
+        return True
+```
