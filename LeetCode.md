@@ -5697,6 +5697,47 @@ class Solution(object):
         return sum
 ```
 
+## 203. Remove Linked List Elements
+Remove all elements from a linked list of integers that have value val.
+>
+Example:
+```
+Input:  1->2->6->3->4->5->6, val = 6
+Output: 1->2->3->4->5
+```
+
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def removeElements(self, head, val):
+        """
+        :type head: ListNode
+        :type val: int
+        :rtype: ListNode
+        """
+        if head == None:
+                return None
+        
+        while head.val == val:
+            head = head.next
+            if head == None:
+                return None
+            
+        prev_node = head
+        while prev_node != None and prev_node.next != None:
+            if prev_node.next.val == val:
+                prev_node.next = prev_node.next.next
+            else:
+                prev_node = prev_node.next
+        
+        return head
+```
+
 ## 204. Count Primes
 Count the number of prime numbers less than a non-negative number, n.
 >
@@ -13966,6 +14007,66 @@ class Solution(object):
         return safe, visited, color
 ```
 
+## 807. Max Increase to Keep City Skyline
+In a 2 dimensional array grid, each value grid[i][j] represents the height of a building located there. We are allowed to increase the height of any number of buildings, by any amount (the amounts can be different for different buildings). Height 0 is considered to be a building as well. 
+
+At the end, the "skyline" when viewed from all four directions of the grid, i.e. top, bottom, left, and right, must be the same as the skyline of the original grid. A city's skyline is the outer contour of the rectangles formed by all the buildings when viewed from a distance. See the following example.
+
+What is the maximum total sum that the height of the buildings can be increased?
+>
+Example:
+```
+Input: grid = [[3,0,8,4],[2,4,5,7],[9,2,6,3],[0,3,1,0]]
+Output: 35
+Explanation: 
+The grid is:
+[ [3, 0, 8, 4], 
+  [2, 4, 5, 7],
+  [9, 2, 6, 3],
+  [0, 3, 1, 0] ]
+The skyline viewed from top or bottom is: [9, 4, 8, 7]
+The skyline viewed from left or right is: [8, 7, 9, 3]
+The grid after increasing the height of buildings without affecting skylines is:
+gridNew = [ [8, 4, 8, 7],
+            [7, 4, 7, 7],
+            [9, 4, 8, 7],
+            [3, 3, 3, 3] ]
+```
+Notes:
+
+- 1 < grid.length = grid[0].length <= 50.
+- All heights grid[i][j] are in the range [0, 100].
+- All buildings in grid[i][j] occupy the entire grid cell: that is, they are a 1 x 1 x grid[i][j] rectangular prism.
+
+```python
+class Solution(object):
+    def maxIncreaseKeepingSkyline(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        M = len(grid)
+        N = len(grid[0])
+        
+        max_x = [0 for _ in range(M)]
+        max_y = [0 for _ in range(N)]
+        
+        for i in range(M):
+            for j in range(N):
+                max_x[i] = max(max_x[i], grid[i][j])
+        
+        for j in range(N):
+            for i in range(M):
+                max_y[j] = max(max_y[j], grid[i][j])
+        
+        solution = 0
+        for i in range(M):
+            for j in range(N):
+                solution += min(max_x[i], max_y[j])-grid[i][j]
+        
+        return solution
+```
+
 ## 813. Largest Sum of Averages
 We partition a row of numbers A into at most K adjacent (non-empty) groups, then our score is the sum of the average of each group. What is the largest score we can achieve?
 
@@ -14144,7 +14245,6 @@ class Solution(object):
         
         return distances
 ```
-
 
 ## 826. Most Profit Assigning Work
 We have jobs: difficulty[i] is the difficulty of the ith job, and profit[i] is the profit of the ith job. 
