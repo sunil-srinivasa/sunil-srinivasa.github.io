@@ -8221,13 +8221,11 @@ Determine the maximum amount of money the thief can rob tonight without alerting
 Example 1:
 ```
 Input: [3,2,3,null,3,null,1]
-
      3
     / \
    2   3
     \   \ 
      3   1
-
 Output: 7 
 Explanation: Maximum amount of money the thief can rob = 3 + 3 + 1 = 7.
 ```
@@ -8235,13 +8233,11 @@ Explanation: Maximum amount of money the thief can rob = 3 + 3 + 1 = 7.
 Example 2:
 ```
 Input: [3,4,5,1,3,null,1]
-
      3
     / \
    4   5
   / \   \ 
  1   3   1
-
 Output: 9
 Explanation: Maximum amount of money the thief can rob = 4 + 5 = 9.
 ```
