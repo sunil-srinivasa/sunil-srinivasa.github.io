@@ -10847,9 +10847,9 @@ Input:
  [2,4],
  [3,1,2],
  [1,3,1,1]]
-```
 Output: 2
 Explanation:
+```
 ![](https://leetcode.com/static/images/problemset/brick_wall.png)
 
 Note:
