@@ -11066,6 +11066,7 @@ Example 2:
 Input:s1= "ab" s2 = "eidboaoo"
 Output: False
 ```
+
 Note:
 - The input strings only contain lower case letters.
 - The length of both given strings is in range [1, 10,000].
