@@ -9984,6 +9984,7 @@ Explanation:
     For number 2 in the first array, the next greater number for it in the second array is 3.
     For number 4 in the first array, there is no next greater number for it in the second array, so output -1.
 ```
+
 Note:
 - All elements in nums1 and nums2 are unique.
 - The length of both nums1 and nums2 would not exceed 1000.
@@ -10139,6 +10140,7 @@ Input: 28
 Output: True
 Explanation: 28 = 1 + 2 + 4 + 7 + 14
 ```
+
 Note: The input number n will not exceed 100,000,000. (1e8)
 
 ```python
@@ -10178,6 +10180,7 @@ Input:
 2   -5
 return [2], since 2 happens twice, however -5 only occur once.
 ```
+
 Note: You may assume the sum of values in any subtree is in the range of 32-bit signed integer.
 
 ```python
