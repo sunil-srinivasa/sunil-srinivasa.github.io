@@ -8810,6 +8810,7 @@ return 0.
 s = "loveleetcode",
 return 2.
 ```
+
 Note: You may assume the string contain only lowercase letters.
 
 ```python
