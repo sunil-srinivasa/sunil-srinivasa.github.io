@@ -9917,6 +9917,7 @@ Example:
 Input: [4, 6, 7, 7]
 Output: [[4, 6], [4, 7], [4, 6, 7], [4, 6, 7, 7], [6, 7], [6, 7, 7], [7,7], [4,7,7]]
 ```
+
 Note:
 - The length of the given array will not exceed 15.
 - The range of integer in the given array is [-100,100].
