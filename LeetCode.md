@@ -10575,9 +10575,7 @@ Input:
 0 0 0
 0 1 0
 0 0 0
-```
 Output:
-```
 0 0 0
 0 1 0
 0 0 0
@@ -10589,19 +10587,16 @@ Input:
 0 0 0
 0 1 0
 1 1 1
-```
 Output:
-```
 0 0 0
 0 1 0
 1 2 1
 ```
 
 Note:
-The number of elements of the given matrix will not exceed 10,000.
-There are at least one 0 in the given matrix.
-The cells are adjacent in only four directions: up, down, left and right.
-
+- The number of elements of the given matrix will not exceed 10,000.
+- There are at least one 0 in the given matrix.
+- The cells are adjacent in only four directions: up, down, left and right.
 
 ```python
 class Solution(object):
