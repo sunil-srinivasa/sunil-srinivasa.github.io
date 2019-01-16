@@ -1070,8 +1070,6 @@ class Solution(object):
                 nums[index], nums[min_index] = nums[min_index], nums[index]
 
                 nums[index+1:] = nums[index+1:][::-1]
-            
-        print nums
 ```
 
 ## 32. Longest Valid Parentheses
@@ -6537,7 +6535,6 @@ class Solution(object):
                 low = mid+1
             else:
                 high = mid
-        print depth, low, mid, high
         # Total number of nodes in tree
         if 2**depth == low:
             return 2**(depth+1)-1
@@ -7823,7 +7820,6 @@ class Solution(object):
         return False
     
     def check_additive(self, num1, num2, s):
-        # print num1, num2, s
         if s == '':
             return True
         if s.startswith(str(int(num1)+int(num2))):
@@ -10066,7 +10062,6 @@ class Solution(object):
         if node == None:
             return modes, count, max_count, prevVal
         modes, count, max_count, prevVal = self.findModes(node.left, prevVal, modes, count, max_count)
-        print node.val, prevVal
         if node.val == prevVal:
             count += 1
         else:
@@ -10107,7 +10102,6 @@ class Solution:
         if nums == []:
             return []
         higherIndex = self.higherIndex(2*nums)
-        #print higherIndex
         return [higherIndex[(num, idx)] for num,idx in zip(nums,range(len(nums)))]
         
     def higherIndex(self, nums):
@@ -10202,7 +10196,6 @@ class Solution(object):
         sums = map(lambda x: x[1], self.computeSums(root, {}).items())
         from collections import Counter
         frequencies = Counter(sums)
-        print frequencies
         solution = []
         minFreq = 0
         for s in frequencies:
@@ -11389,7 +11382,6 @@ class Solution(object):
         while queue != []:
             if depth == d-1:
                 for q in queue:
-                    print q.val
                     newNode = TreeNode(v)
                     newNode.left = q.left
                     q.left = newNode
@@ -12436,7 +12428,6 @@ class KthLargest(object):
         L = len(nums)
         for i in range(k-1):
             heappush(self.heap, nums[i])
-        print self.heap
         for idx in range(k-1,L):
             self.add(nums[idx])
         
@@ -15071,7 +15062,6 @@ class Solution(object):
                     stack[-1] = 1
                 else: # stack[-1] is a number
                     while stack[-2] != '(':
-                        print stack
                         stack[-2] += stack[-1]
                         stack = stack[:-1]
                     stack[-2] = 2*stack[-1]
@@ -15985,7 +15975,6 @@ class Solution(object):
             for c in children[current_node]:
                 if c in visited:
                     if colors[c] == colors[current_node]:
-                        print c, current_node
                         return visited, False
                 else:
                     queue += [c]
