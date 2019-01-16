@@ -10726,6 +10726,7 @@ Output: 1
 Explanation:The 0th and 1st students are direct friends, the 1st and 2nd students are direct friends, 
 so the 0th and 2nd students are indirect friends. All of them are in the same friend circle, so return 1.
 ```
+
 Note:
 - N is in range [1,200].
 - M[i][i] = 1 for all students.
@@ -10826,6 +10827,7 @@ There are 8 records with length 2 will be regarded as rewardable:
 "PP" , "AP", "PA", "LP", "PL", "AL", "LA", "LL"
 Only "AA" won't be regarded as rewardable owing to more than one absent times. 
 ```
+
 Note: The value of n won't exceed 100,000.
 
 ```python
