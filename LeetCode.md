@@ -17700,3 +17700,57 @@ class Solution(object):
             
         return solution
 ```
+
+## 988. Smallest String Starting From Leaf
+Given the root of a binary tree, each node has a value from 0 to 25 representing the letters 'a' to 'z': a value of 0 represents 'a', a value of 1 represents 'b', and so on.
+
+Find the lexicographically smallest string that starts at a leaf of this tree and ends at the root.
+
+(As a reminder, any shorter prefix of a string is lexicographically smaller: for example, "ab" is lexicographically smaller than "aba".  A leaf of a node is a node that has no children.)
+
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2019/01/30/tree1.png)
+```
+Input: [0,1,2,3,4,3,4]
+Output: "dba"
+```
+>
+Example 2:
+![](https://assets.leetcode.com/uploads/2019/01/30/tree2.png)
+```
+Input: [2,2,1,null,1,0,null,0]
+Output: "abc"
+```
+
+Note:
+
+- The number of nodes in the given tree will be between 1 and 1000.
+- Each node in the tree will have a value between 0 and 25.
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def smallestFromLeaf(self, root):
+        """
+        :type root: TreeNode
+        :rtype: str
+        """
+        return min(self.paths(root))
+        
+        
+    def paths(self, root):
+        if root == None:
+            return []
+        if root.left == None and root.right == None:
+            return [chr(root.val+97)]
+        l = self.paths(root.left)
+        r = self.paths(root.right)
+        return [p+chr(root.val+97) for p in l+r]
+```
