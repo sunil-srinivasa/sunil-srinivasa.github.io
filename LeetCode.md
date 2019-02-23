@@ -17828,3 +17828,86 @@ class Solution(object):
             return [root.val]
         return []
 ```
+
+## 994. Rotting Oranges
+In a given grid, each cell can have one of three values:
+
+the value 0 representing an empty cell;
+the value 1 representing a fresh orange;
+the value 2 representing a rotten orange.
+Every minute, any fresh orange that is adjacent (4-directionally) to a rotten orange becomes rotten.
+
+Return the minimum number of minutes that must elapse until no cell has a fresh orange.  If this is impossible, return -1 instead.
+
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2019/02/16/oranges.png)
+```
+Input: [[2,1,1],[1,1,0],[0,1,1]]
+Output: 4
+```
+>
+Example 2:
+```
+Input: [[2,1,1],[0,1,1],[1,0,1]]
+Output: -1
+Explanation:  The orange in the bottom left corner (row 2, column 0) is never rotten, because rotting only happens 4-directionally.
+```
+>
+Example 3:
+```
+Input: [[0,2]]
+Output: 0
+Explanation:  Since there are already no fresh oranges at minute 0, the answer is just 0.
+```
+
+Note:
+
+- 1 <= grid.length <= 10
+- 1 <= grid[0].length <= 10
+- grid[i][j] is only 0, 1, or 2.
+
+```python
+class Solution(object):
+    def orangesRotting(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        visited = {}
+        M = len(grid)
+        N = len(grid[0])
+        
+        rotten = []
+        empty = 0
+        for i in range(M):
+            for j in range(N):
+                if grid[i][j] == 2:
+                    rotten += [(i,j)]
+                elif grid[i][j] == 0:
+                    empty += 1
+                    
+        if empty == N*M:
+            return 0
+        
+        minutes = 0
+        deltas = [(1,0), (0,1), (-1,0), (0,-1)]
+        while rotten != []:
+            minutes += 1
+            temp = rotten
+            rotten = []
+            for t in temp:
+                i, j = t
+                for d in deltas:
+                    if 0 <= i+d[0] < M and 0 <= j+d[1] < N and grid[i+d[0]][j+d[1]] == 1 and (i+d[0],j+d[1]) not in visited:
+                        rotten += [(i+d[0], j+d[1])]
+                        grid[i+d[0]][j+d[1]] = 2
+                        visited[(i+d[0],j+d[1])] = True
+        
+        
+        for i in range(M):
+            for j in range(N):
+                if grid[i][j] == 1:
+                    return -1
+        return minutes-1
+```
