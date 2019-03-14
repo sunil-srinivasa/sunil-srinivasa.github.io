@@ -1030,6 +1030,64 @@ class Solution(object):
         return N
 ```
 
+## 30. Substring with Concatenation of All Words
+You are given a string, s, and a list of words, words, that are all of the same length. Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+>
+Example 1:
+```
+Input:
+  s = "barfoothefoobarman",
+  words = ["foo","bar"]
+Output: [0,9]
+Explanation: Substrings starting at index 0 and 9 are "barfoor" and "foobar" respectively.
+The output order does not matter, returning [9,0] is fine too.
+```
+>
+Example 2:
+```
+Input:
+  s = "wordgoodgoodgoodbestword",
+  words = ["word","good","best","word"]
+Output: []
+```
+
+```python
+class Solution(object):
+    def findSubstring(self, s, words):
+        """
+        :type s: str
+        :type words: List[str]
+        :rtype: List[int]
+        """
+        solution = []
+        L = len(words)
+        if L == 0:
+            return solution
+        word_len = len(words[0])
+        counts = []
+        words_dict = {}
+        for idx in range(L):
+            if words[idx] not in words_dict:
+                words_dict[words[idx]] = len(words_dict)
+                counts += [1]
+            else:
+                counts[words_dict[words[idx]]] += 1
+        
+        for i in range(len(s)-L*word_len+1):
+            string = s[i:i+word_len*L]
+            s_count = [0 for _ in range(len(counts))]
+            for index in range(L):
+                word = string[index*word_len:index*word_len+word_len]
+                if word in words_dict:
+                    s_count[words_dict[word]] += 1
+                else:
+                    break
+            if s_count == counts:
+                solution += [i]
+                
+        return solution
+```
+
 ## 31. Next Permutation
 Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
 
