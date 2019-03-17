@@ -18053,6 +18053,38 @@ class Solution(object):
         return 0
 ```
 
+## 977. Squares of a Sorted Array
+Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order.
+
+>
+Example 1:
+```
+Input: [-4,-1,0,3,10]
+Output: [0,1,9,16,100]
+```
+>
+Example 2:
+```
+Input: [-7,-3,2,3,11]
+Output: [4,9,9,49,121]
+```
+
+Note:
+
+- 1 <= A.length <= 10000
+- -10000 <= A[i] <= 10000
+- A is sorted in non-decreasing order.
+
+```python
+class Solution(object):
+    def sortedSquares(self, A):
+        """
+        :type A: List[int]
+        :rtype: List[int]
+        """
+        return [x**2 for x in sorted([abs(a) for a in A])]
+```
+
 ## 983. Minimum Cost For Tickets
 In a country popular for train travel, you have planned some train travelling one year in advance.  The days of the year that you will travel is given as an array days.  Each day is an integer from 1 to 365.
 
