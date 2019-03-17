@@ -18685,6 +18685,102 @@ class Solution(object):
         return stack == []
 ```
 
+## 1008. Construct Binary Search Tree from Preorder Traversal
+Return the root node of a binary search tree that matches the given preorder traversal.
+
+(Recall that a binary search tree is a binary tree where for every node, any descendant of node.left has a value < node.val, and any descendant of node.right has a value > node.val.  Also recall that a preorder traversal displays the value of the node first, then traverses node.left, then traverses node.right.)
+
+>
+Example 1:
+```
+Input: [8,5,1,7,10,12]
+Output: [8,5,10,1,7,null,12]
+```
+
+![](https://assets.leetcode.com/uploads/2019/03/06/1266.png)
+Note: 
+
+- 1 <= preorder.length <= 100
+- The values of preorder are distinct.
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def bstFromPreorder(self, preorder):
+        """
+        :type preorder: List[int]
+        :rtype: TreeNode
+        """
+        if preorder == []:
+            return None
+        root = TreeNode(preorder[0])
+        left = []
+        right = []
+        for p in preorder[1:]:
+            if p < preorder[0]:
+                left += [p]
+            else:
+                right += [p]
+        
+        root.left = self.bstFromPreorder(left)
+        root.right = self.bstFromPreorder(right)
+                
+        return root
+```
+
+## 1012. Complement of Base 10 Integer
+Every non-negative integer N has a binary representation.  For example, 5 can be represented as "101" in binary, 11 as "1011" in binary, and so on.  Note that except for N = 0, there are no leading zeroes in any binary representation.
+
+The complement of a binary representation is the number in binary you get when changing every 1 to a 0 and 0 to a 1.  For example, the complement of "101" in binary is "010" in binary.
+
+For a given number N in base-10, return the complement of it's binary representation as a base-10 integer.
+
+>
+Example 1:
+```
+Input: 5
+Output: 2
+Explanation: 5 is "101" in binary, with complement "010" in binary, which is 2 in base-10.
+```
+>
+Example 2:
+```
+Input: 7
+Output: 0
+Explanation: 7 is "111" in binary, with complement "000" in binary, which is 0 in base-10.
+```
+>
+Example 3:
+```
+Input: 10
+Output: 5
+Explanation: 10 is "1010" in binary, with complement "0101" in binary, which is 5 in base-10.
+``` 
+
+Note:
+
+- 0 <= N < 10^9
+
+```python
+class Solution(object):
+    def bitwiseComplement(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        start = 2
+        while start <= N:
+            start *= 2
+            
+        return start-N-1
+```
+
 ## 1014. Capacity To Ship Packages Within D Days
 A conveyor belt has packages that must be shipped from one port to another within D days.
 
