@@ -18130,7 +18130,36 @@ Note:
 - 1 <= costs[i] <= 1000
 
 ```python
-
+class Solution(object):
+    def mincostTickets(self, days, costs):
+        """
+        :type days: List[int]
+        :type costs: List[int]
+        :rtype: int
+        """
+        L = len(days)
+        dollars = [0 for _ in range(L+1)]
+        
+        dollars[L-1] = min(costs)
+        for idx in range(L-2,-1,-1):
+            current_day = days[idx]
+            day7 = False
+            day30 = False
+            for j in range(idx,L):
+                if day30:
+                    break
+                if not day7 and days[j] >= current_day+7:
+                    day7 = j
+                if not day30 and days[j] >= current_day+30:
+                    day30 = j
+            if not day7:
+                day7 = L
+            if not day30:
+                day30 = L
+            
+            dollars[idx] = min(costs[0] + dollars[idx+1], costs[1]+dollars[day7], costs[2]+dollars[day30])
+        
+        return dollars[0]
 ```
 
 ## 984. String Without AAA or BBB
