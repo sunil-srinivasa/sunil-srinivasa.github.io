@@ -9635,6 +9635,57 @@ class Solution(object):
         return solution
 ```
 
+## 416. Partition Equal Subset Sum
+Given a non-empty array containing only positive integers, find if the array can be partitioned into two subsets such that the sum of elements in both subsets is equal.
+
+Note:
+- Each of the array element will not exceed 100.
+- The array size will not exceed 200.
+
+>
+Example 1:
+```
+Input: [1, 5, 11, 5]
+Output: true
+Explanation: The array can be partitioned as [1, 5, 5] and [11].
+```
+>
+Example 2:
+```
+Input: [1, 2, 3, 5]
+Output: false
+Explanation: The array cannot be partitioned into equal sum subsets.
+```
+
+```python
+class Solution(object):
+    def canPartition(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        if sum(nums) % 2 == 1:
+            return False
+        
+        target = sum(nums)
+        L = len(nums)
+        # DP
+        grid = [[False for _ in range(target+1)] for _ in range(L)]
+        
+        for i in range(L):
+            grid[i][0] = True
+        grid[0][nums[0]] = True
+        
+        sums = nums[0]
+        for i in range(1,L):
+            sums += nums[i]
+            for j in range(sums+1):
+                if (nums[i] == j) or grid[i-1][j] or (j-nums[i] >= 0 and grid[i-1][j-nums[i]]):
+                    grid[i][j] = True
+        
+        return grid[L-1][target/2]
+```
+
 ## 417. Pacific Atlantic Water Flow
 Given an m x n matrix of non-negative integers representing the height of each unit cell in a continent, the "Pacific ocean" touches the left and top edges of the matrix and the "Atlantic ocean" touches the right and bottom edges.
 
