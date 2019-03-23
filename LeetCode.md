@@ -5209,22 +5209,16 @@ class Solution(object):
         :type wordDict: List[str]
         :rtype: bool
         """
-        if s in wordDict or len(s) == 0:
-            return True
-
+        dictionary = {w:True for w in wordDict}
+        
         L = len(s)
-
         solution = [False for _ in range(L+1)]
+        solution[0] = True
         for idx in range(1,L+1):
-            if s[:idx] in wordDict:
-                solution[idx] = True
-            else:
-                for j in range(idx):
-                    if solution[j] == True:
-                        solution[idx] |= s[j:idx] in wordDict
-                        if solution[idx] == True:
-                            break
-
+            for j in range(idx):
+                if solution[j] == True and s[j:idx] in dictionary:
+                    solution[idx] = True
+                    break
 
         return solution[-1]
 ```
