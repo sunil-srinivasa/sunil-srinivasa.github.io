@@ -1576,16 +1576,18 @@ Given an integer n, generate the nth term of the count-and-say sequence.
 
 Note: Each term of the sequence of integers will be represented as a string.
 
->Example 1:
-
->Input: 1
+>
+Example 1:
+```
+Input: 1
 Output: "1"
-
->Example 2:
-
->Input: 4
+```
+>
+Example 2:
+```
+Input: 4
 Output: "1211"
-
+```
 
 ```python
 class Solution(object):
