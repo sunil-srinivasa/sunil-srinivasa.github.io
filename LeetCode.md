@@ -10896,6 +10896,48 @@ class Solution(object):
         return False
 ```
 
+## 525. Contiguous Array
+Given a binary array, find the maximum length of a contiguous subarray with equal number of 0 and 1.
+>
+Example 1:
+```
+Input: [0,1]
+Output: 2
+Explanation: [0, 1] is the longest contiguous subarray with equal number of 0 and 1.
+```
+>
+Example 2:
+```
+Input: [0,1,0]
+Output: 2
+Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
+```
+
+Note: The length of the given binary array will not exceed 50,000.
+
+```python
+class Solution(object):
+    def findMaxLength(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        L = len(nums)
+        sums = {}
+        current_sum = 0
+        solution = 0
+        for idx in range(L):
+            current_sum += 2*nums[idx]-1
+            if current_sum == 0:
+                solution = idx+1
+            if current_sum not in sums:
+                sums[current_sum] = idx
+            else:
+                solution = max(idx-sums[current_sum],solution)
+        
+        return solution
+```
+
 ## 530. Minimum Absolute Difference in BST
 Given a binary search tree with non-negative values, find the minimum absolute difference between values of any two nodes.
 >
