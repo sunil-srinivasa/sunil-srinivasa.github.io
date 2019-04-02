@@ -19151,7 +19151,7 @@ class Solution(object):
         return start-N-1
 ```
 
-## 1014. Capacity To Ship Packages Within D Days
+## 1011. Capacity To Ship Packages Within D Days
 A conveyor belt has packages that must be shipped from one port to another within D days.
 
 The i-th package on the conveyor belt has a weight of weights[i].  Each day, we load the ship with packages on the conveyor belt (in the order given by weights). We may not load more weight than the maximum weight capacity of the ship.
@@ -19229,4 +19229,39 @@ class Solution(object):
                 current_sum = weights[idx]
         
         return D
+```
+
+## 1014. Best Sightseeing Pair
+Given an array A of positive integers, A[i] represents the value of the i-th sightseeing spot, and two sightseeing spots i and j have distance j - i between them.
+
+The score of a pair (i < j) of sightseeing spots is (A[i] + A[j] + i - j) : the sum of the values of the sightseeing spots, minus the distance between them.
+
+Return the maximum score of a pair of sightseeing spots.
+
+>
+Example 1:
+```
+Input: [8,1,5,2,6]
+Output: 11
+Explanation: i = 0, j = 2, A[i] + A[j] + i - j = 8 + 5 + 0 - 2 = 11
+``` 
+
+Note:
+
+- 2 <= A.length <= 50000
+- 1 <= A[i] <= 1000
+
+```python
+class Solution(object):
+    def maxScoreSightseeingPair(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        score = A[0]+A[1]-1
+        carryOver = A[0]-1
+        for iadx in range(2,len(A)):
+            carryOver = max(carryOver-1, A[idx-1]-1)
+            score = max(score, A[idx]+carryOver)
+        return score
 ```
