@@ -19391,3 +19391,68 @@ class Solution(object):
                 stack += [(nums[idx], idx)]
         return solution
 ```
+
+## 1020. Number of Enclaves
+Given a 2D array A, each cell is 0 (representing sea) or 1 (representing land)
+
+A move consists of walking from one land square 4-directionally to another land square, or off the boundary of the grid.
+
+Return the number of land squares in the grid for which we cannot walk off the boundary of the grid in any number of moves.
+
+>
+Example 1:
+```
+Input: [[0,0,0,0],[1,0,1,0],[0,1,1,0],[0,0,0,0]]
+Output: 3
+Explanation: 
+There are three 1s that are enclosed by 0s, and one 1 that isn't enclosed because its on the boundary.
+```
+>
+Example 2:
+```
+Input: [[0,1,1,0],[0,0,1,0],[0,0,1,0],[0,0,0,0]]
+Output: 0
+Explanation: 
+All 1s are either on the boundary or can reach the boundary.
+```
+
+Note:
+
+- 1 <= A.length <= 500
+- 1 <= A[i].length <= 500
+- 0 <= A[i][j] <= 1
+- All rows have the same size.
+
+```python
+class Solution(object):
+    def numEnclaves(self, A):
+        """
+        :type A: List[List[int]]
+        :rtype: int
+        """
+        M = len(A)
+        N = len(A[0])
+        solution = 0
+        
+        for i in range(M):
+            for j in range(N):
+                if A[i][j] == 1:
+                    num_cells, is_enclave = self.traverse(i,j,A,0,1)
+                    if is_enclave:
+                        solution += num_cells
+        return solution
+    
+    def traverse(self,i,j,A,num_cells,is_enclave):
+        M = len(A)
+        N = len(A[0])
+        deltas = [(0,1),(-1,0),(1,0),(0,-1)]
+        num_cells += 1
+        A[i][j] = 0
+        if i in [0,M-1] or j in [0,N-1]:
+            is_enclave = 0
+        for delta in deltas:
+            if 0 <= i+delta[0] < M and 0 <= j+delta[1] < N and A[i+delta[0]][j+delta[1]] == 1:
+                num_cells, is_enclave = self.traverse(i+delta[0],j+delta[1],A,num_cells,is_enclave)
+                    
+        return num_cells, is_enclave
+```
