@@ -19392,6 +19392,59 @@ class Solution(object):
         return score
 ```
 
+## 1018. Binary Prefix Divisible By 5
+Given an array A of 0s and 1s, consider N_i: the i-th subarray from A[0] to A[i] interpreted as a binary number (from most-significant-bit to least-significant-bit.)
+
+Return a list of booleans answer, where answer[i] is true if and only if N_i is divisible by 5.
+>
+Example 1:
+```
+Input: [0,1,1]
+Output: [true,false,false]
+Explanation: 
+The input numbers in binary are 0, 01, 011; which are 0, 1, and 3 in base-10.  Only the first number is divisible by 5, so answer[0] is true.
+```
+>
+Example 2:
+```
+Input: [1,1,1]
+Output: [false,false,false]
+```
+>
+Example 3:
+```
+Input: [0,1,1,1,1,1]
+Output: [true,false,false,false,true,false]
+```
+>
+Example 4:
+```
+Input: [1,1,1,0,1]
+Output: [false,false,false,false,false]
+```
+
+Note:
+
+- 1 <= A.length <= 30000
+- A[i] is 0 or 1
+
+```python
+class Solution(object):
+    def prefixesDivBy5(self, A):
+        """
+        :type A: List[int]
+        :rtype: List[bool]
+        """
+        num = A[0]
+        solution = [A[0]%5 == 0]
+        for idx in range(1,len(A)):
+            num*=2
+            num+= A[idx]
+            solution += [num % 5 == 0]
+            
+        return solution
+```
+
 ## 1019. Next Greater Node In Linked List
 We are given a linked list with head as the first node.  Let's number the nodes in the list: node_1, node_2, node_3, ... etc.
 
