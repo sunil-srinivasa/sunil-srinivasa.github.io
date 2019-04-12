@@ -10294,11 +10294,12 @@ class Solution(object):
 Given a binary array, find the maximum number of consecutive 1s in this array.
 
 >Example 1:
+```
 Input: [1,1,0,1,1,1]
 Output: 3
 Explanation: The first two digits or the last three digits are consecutive 1s.
     The maximum number of consecutive 1s is 3.
-
+```
 
 ```python
 class Solution(object):
@@ -11487,6 +11488,44 @@ class Solution(object):
             queue = tmp
             
         return depth
+```
+
+## 560. Subarray Sum Equals K
+Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k.
+>
+Example 1:
+```
+Input:nums = [1,1,1], k = 2
+Output: 2
+```
+
+Note:
+- The length of the array is in range [1, 20,000].
+- The range of numbers in the array is [-1000, 1000] and the range of the integer k is [-1e7, 1e7].
+
+```python
+class Solution(object):
+    def subarraySum(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        # Collect sums ending at each index and check
+        L = len(nums)
+        sums_dict = collections.defaultdict(int)
+        current_sum = 0
+        solution = 0
+        
+        for idx in range(L):
+            sums_dict[current_sum] += 1            
+            current_sum += nums[idx]
+            if current_sum-k in sums_dict:
+                solution += sums_dict[current_sum-k]
+            elif current_sum == k:
+                solution += 1
+        
+        return solution
 ```
 
 ## 563. Binary Tree Tilt
