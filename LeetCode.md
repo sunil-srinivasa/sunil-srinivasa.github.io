@@ -19614,3 +19614,94 @@ class Solution(object):
                     
         return num_cells, is_enclave
 ```
+
+## 1022. Sum of Root To Leaf Binary Numbers
+Given a binary tree, each node has value 0 or 1.  Each root-to-leaf path represents a binary number starting with the most significant bit.  For example, if the path is 0 -> 1 -> 1 -> 0 -> 1, then this could represent 01101 in binary, which is 13.
+
+For all leaves in the tree, consider the numbers represented by the path from the root to that leaf.
+
+Return the sum of these numbers.
+
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2019/04/04/sum-of-root-to-leaf-binary-numbers.png)
+```
+Input: [1,0,1,0,1,0,1]
+Output: 22
+Explanation: (100) + (101) + (110) + (111) = 4 + 5 + 6 + 7 = 22
+```
+
+Note:
+- The number of nodes in the tree is between 1 and 1000.
+- node.val is 0 or 1.
+- The answer will not exceed 2^31 - 1.
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def sumRootToLeaf(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        return self.sumRTL(root, 0)
+        
+    def sumRTL(self, root, val):
+        if root == None:
+            return 0
+        if root.left == None and root.right == None:
+            return 2*val+root.val
+        return self.sumRTL(root.left, 2*val+root.val) + self.sumRTL(root.right, 2*val+root.val)
+```
+
+## 1025. Divisor Game
+Alice and Bob take turns playing a game, with Alice starting first.
+
+Initially, there is a number N on the chalkboard.  On each player's turn, that player makes a move consisting of:
+
+Choosing any x with 0 < x < N and N % x == 0.
+Replacing the number N on the chalkboard with N - x.
+Also, if a player cannot make a move, they lose the game.
+
+Return True if and only if Alice wins the game, assuming both players play optimally.
+>
+Example 1:
+```
+Input: 2
+Output: true
+Explanation: Alice chooses 1, and Bob has no more moves.
+```
+>
+Example 2:
+```
+Input: 3
+Output: false
+Explanation: Alice chooses 1, Bob chooses 1, and Alice has no more moves.
+``` 
+
+Note:
+
+- 1 <= N <= 1000
+
+```python
+class Solution(object):
+    def divisorGame(self, N):
+        """
+        :type N: int
+        :rtype: bool
+        """
+        win = [False for _ in range(N+1)]
+        for i in range(1,N+1):
+            for j in range(1,i):
+                if i % j == 0 and not win[i-j]:
+                    win[i] = True
+                    break
+                    
+        return win[-1]
+```
