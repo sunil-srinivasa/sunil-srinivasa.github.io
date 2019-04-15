@@ -19705,3 +19705,86 @@ class Solution(object):
                     
         return win[-1]
 ```
+
+## 1026. Maximum Difference Between Node and Ancestor
+Given the root of a binary tree, find the maximum value V for which there exists different nodes A and B where V = |A.val - B.val| and A is an ancestor of B.
+
+(A node A is an ancestor of B if either: any child of A is equal to B, or any child of A is an ancestor of B.)
+>
+Example 1:
+![](http://i68.tinypic.com/2whqcep.jpg)
+```
+Input: [8,3,10,1,6,null,14,null,null,4,7,13]
+Output: 7
+Explanation: 
+We have various ancestor-node differences, some of which are given below :
+|8 - 3| = 5
+|3 - 7| = 4
+|8 - 1| = 7
+|10 - 13| = 3
+Among all possible differences, the maximum value of 7 is obtained by |8 - 1| = 7.
+```
+
+Note:
+- The number of nodes in the tree is between 2 and 5000.
+- Each node will have value between 0 and 100000.
+
+```python
+
+```
+
+## 1027. Longest Arithmetic Sequence
+Given an array A of integers, return the length of the longest arithmetic subsequence in A.
+
+Recall that a subsequence of A is a list A[i_1], A[i_2], ..., A[i_k] with 0 <= i_1 < i_2 < ... < i_k <= A.length - 1, and that a sequence B is arithmetic if B[i+1] - B[i] are all the same value (for 0 <= i < B.length - 1).
+
+>
+Example 1:
+```
+Input: [3,6,9,12]
+Output: 4
+Explanation: 
+The whole array is an arithmetic sequence with steps of length = 3.
+```
+>
+Example 2:
+```
+Input: [9,4,7,2,10]
+Output: 3
+Explanation: 
+The longest arithmetic subsequence is [4,7,10].
+```
+>
+Example 3:
+```
+Input: [20,1,15,3,10,5,8]
+Output: 4
+Explanation: 
+The longest arithmetic subsequence is [20,15,10,5].
+``` 
+
+Note:
+
+- 2 <= A.length <= 2000
+- 0 <= A[i] <= 10000
+
+```python
+class Solution(object):
+    def longestArithSeqLength(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        # For each index, store a dict of {diff: seq_length}
+        L = len(A)
+        LAS = [collections.defaultdict(int) for _ in range(L)]
+        for i in range(L):
+            # LAS[i][0] += 1
+            for j in range(i):
+                if A[j] - A[i] in LAS[j]:
+                    LAS[i][A[j]-A[i]] = LAS[j][A[j]-A[i]] + 1
+                else:
+                    LAS[i][A[j]-A[i]] = 1
+        
+        return 1+max([max(LAS[i].values()) for i in range(1,L)])
+```
