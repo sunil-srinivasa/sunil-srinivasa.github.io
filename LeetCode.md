@@ -13819,33 +13819,36 @@ class Solution(object):
         :type S: str
         :rtype: List[int]
         """
-        # This is equivalent to non-overlapping intervals problem
-        # Create interval lists for each letter denoting start and end positions
-        intervals = {}
-        L = len(S)
-        for idx in range(L):
-            if S[idx] in intervals:
-                intervals[S[idx]][-1] = idx
+class Solution(object):
+    def partitionLabels(self, S):
+        """
+        :type S: str
+        :rtype: List[int]
+        """
+        S_dict = {}
+        chunks = []
+        chunk_index = -1
+        chunk_dict = {}
+        for s in S:
+            if s in S_dict:
+                # Add to chunk containing s
+                chunk_index = chunk_dict[s]
+                for idx in range(chunk_index+1,len(chunks)):
+                    chunks[chunk_index] += chunks[idx]
+                for char_index in range(26):
+                    if chr(97+char_index) in chunk_dict:
+                        if chunk_index <= chunk_dict[chr(97+char_index)] < len(chunks):
+                            chunk_dict[chr(97+char_index)] = chunk_index
+                chunks[chunk_index] += 1
+                chunks = chunks[:chunk_index+1]
             else:
-                intervals[S[idx]] = [idx,idx]
-
-        # Create a list of intervals
-        intervals_list = sorted(intervals.values(),key=lambda x:x[0])
-
-        # Create non-overlapping intervals
-        NOI = []
-        first = intervals_list[0][0]
-        last = intervals_list[0][1]
-        for i in intervals_list[1:]:
-            if i[0] > last:
-                NOI += [[first,last]]
-                first = i[0]
-                last = i[1]
-            else:
-                last = max(last,i[1])
-        NOI += [[first,last]]
-
-        return [noi[1] - noi[0] + 1 for noi in NOI]
+                # Create new chunk
+                chunk_index += 1
+                S_dict[s] = True
+                chunks += [1]
+                chunk_dict[s] = chunk_index
+                
+        return chunks        
 ```
 
 ## 764. Largest Plus Sign
