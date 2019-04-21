@@ -19733,7 +19733,30 @@ Note:
 - Each node will have value between 0 and 100000.
 
 ```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
+class Solution(object):
+    def maxAncestorDiff(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        return self.maxDiff(root, -float('inf'),float('inf'),-float('inf'))[2]
+        
+    def maxDiff(self, root, maxim, minim, V):
+        if root == None:
+            return maxim, minim, V
+        lmax, lmin, lV = self.maxDiff(root.left, maxim, minim, V)
+        rmax, rmin, rV = self.maxDiff(root.right, maxim, minim, V)
+        newmax = max(lmax, rmax, root.val)
+        newmin = min(lmin, rmin, root.val)
+        newV = max(lV, rV, newmax-root.val, root.val-newmin)
+        return newmax, newmin, newV
 ```
 
 ## 1027. Longest Arithmetic Sequence
