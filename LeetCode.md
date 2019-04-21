@@ -10803,6 +10803,54 @@ class Solution(object):
         return solution
 ```
 
+## 516. Longest Palindromic Subsequence
+Given a string s, find the longest palindromic subsequence's length in s. You may assume that the maximum length of s is 1000.
+>
+Example 1:
+```
+Input:
+"bbbab"
+Output:
+4
+One possible longest palindromic subsequence is "bbbb".
+```
+>
+Example 2:
+```
+Input:
+"cbbd"
+Output:
+2
+One possible longest palindromic subsequence is "bb".
+```
+
+```python
+class Solution(object):
+    def longestPalindromeSubseq(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        L = len(s)
+        if L == 0:
+            return 0
+        LPS = [[1 for _ in range(L)] for _ in range(L)]
+        
+        for idx in range(L-1):
+            if s[idx] == s[idx+1]:
+                LPS[idx][idx+1] = 2
+        
+        for diff in range(2,L):
+            for idx in range(L):
+                if idx + diff < L:
+                    if s[idx] == s[idx+diff]:
+                        LPS[idx][idx+diff] = LPS[idx+1][idx+diff-1]+2
+                    else:
+                        LPS[idx][idx+diff] = max(LPS[idx+1][idx+diff], LPS[idx][idx+diff-1])
+                        
+        return LPS[0][-1]
+```
+
 ## 518. Coin Change 2
 You are given coins of different denominations and a total amount of money. Write a function to compute the number of combinations that make up that amount. You may assume that you have infinite number of each kind of coin.
 
