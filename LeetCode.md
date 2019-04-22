@@ -8316,33 +8316,21 @@ class Solution(object):
         :type primes: List[int]
         :rtype: int
         """
-        ugly_numbers = [1]
-        min_prime = min(primes)
-        max_ugly_number = min_prime**(n-1) # max ugly number has to be less than this
-        for idx in range(n-1):
+        from heapq import heappush, heappop
+        heap = []
+        heappush(heap,1)
+        count = 1
+        heap_dict = {1:True}
+        
+        while count < n:
+            popped = heappop(heap)
             for p in primes:
-                new_ugly_number = ugly_numbers[0]*p
-                if new_ugly_number <= max_ugly_number:
-                    ugly_numbers = self.insert(ugly_numbers,new_ugly_number,n-idx)
-            ugly_numbers.pop(0)
-        return ugly_numbers[0]
-    
-    def insert(self,A,x,n):
-        # Insert using binary search since A is already sorted
-        if x > A[-1]:
-            if len(A) > n: # if A is already longer than number of ugly numbers remaining,
-                #there is no need to append
-                return A
-            return A + [x]
-        elif x < A[0]:
-            return [x] + A
-        L = len(A)
-        if x == A[L/2]:
-            return A
-        if x < A[L/2]:
-            return self.insert(A[:L/2],x,n) + A[L/2:]
-        else:
-            return A[:L/2+1] + self.insert(A[L/2+1:],x,n-L/2)
+                if popped*p not in heap_dict:
+                    heap_dict[popped*p] = True
+                    heappush(heap, popped*p)
+            count += 1
+        
+        return heappop(heap)
 ```
 
 ## 318. Maximum Product of Word Lengths
