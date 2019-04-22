@@ -9296,16 +9296,14 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        if n == 1:
-            return 1
-        n = range(2,n+1,2)
-        while len(n) > 1:
-            n = n[::-1]            
-            n = n[1::2]
-            if len(n) == 1:
-                return n[0]
-
-        return n[0]
+        start, count, step = 1, n, 1
+        while count > 1:
+            end = start + (count - 1) * step
+            # compute the next round
+            start = end - (count % 2) * step
+            count /= 2
+            step *= -2
+        return start  
 ```
 
 ## 392. Is Subsequence
