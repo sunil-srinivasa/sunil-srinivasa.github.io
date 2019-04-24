@@ -19842,3 +19842,107 @@ class Solution(object):
         
         return 1+max([max(LAS[i].values()) for i in range(1,L)])
 ```
+
+## 1029. Two City Scheduling
+There are 2N people a company is planning to interview. The cost of flying the i-th person to city A is costs[i][0], and the cost of flying the i-th person to city B is costs[i][1].
+
+Return the minimum cost to fly every person to a city such that exactly N people arrive in each city.
+
+>
+Example 1:
+```
+Input: [[10,20],[30,200],[400,50],[30,20]]
+Output: 110
+Explanation: 
+The first person goes to city A for a cost of 10.
+The second person goes to city A for a cost of 30.
+The third person goes to city B for a cost of 50.
+The fourth person goes to city B for a cost of 20.
+The total minimum cost is 10 + 30 + 50 + 20 = 110 to have half the people interviewing in each city.
+```
+
+Note:
+
+- 1 <= costs.length <= 100
+- It is guaranteed that costs.length is even.
+- 1 <= costs[i][0], costs[i][1] <= 1000
+
+```python
+class Solution(object):
+    def twoCitySchedCost(self, costs):
+        """
+        :type costs: List[List[int]]
+        :rtype: int
+        """
+        L = len(costs)
+        diffs = [(c[0], c[1], c[1]-c[0]) for c in costs]
+        diffs = sorted(diffs, key = lambda x: x[2])
+        
+        return sum([d[1] for d in diffs[:L/2]]) + sum([d[0] for d in diffs[L/2:]])
+```
+
+## 1030. Matrix Cells in Distance Order
+We are given a matrix with R rows and C columns has cells with integer coordinates (r, c), where 0 <= r < R and 0 <= c < C.
+
+Additionally, we are given a cell in that matrix with coordinates (r0, c0).
+
+Return the coordinates of all cells in the matrix, sorted by their distance from (r0, c0) from smallest distance to largest distance.  Here, the distance between two cells (r1, c1) and (r2, c2) is the Manhattan distance, |r1 - r2| + |c1 - c2|.  (You may return the answer in any order that satisfies this condition.)
+
+>
+Example 1:
+```
+Input: R = 1, C = 2, r0 = 0, c0 = 0
+Output: [[0,0],[0,1]]
+Explanation: The distances from (r0, c0) to other cells are: [0,1]
+```
+>
+Example 2:
+```
+Input: R = 2, C = 2, r0 = 0, c0 = 1
+Output: [[0,1],[0,0],[1,1],[1,0]]
+Explanation: The distances from (r0, c0) to other cells are: [0,1,1,2]
+The answer [[0,1],[1,1],[0,0],[1,0]] would also be accepted as correct.
+```
+>
+Example 3:
+```
+Input: R = 2, C = 3, r0 = 1, c0 = 2
+Output: [[1,2],[0,2],[1,1],[0,1],[1,0],[0,0]]
+Explanation: The distances from (r0, c0) to other cells are: [0,1,1,2,2,3]
+There are other answers that would also be accepted as correct, such as [[1,2],[1,1],[0,2],[1,0],[0,1],[0,0]].
+```
+
+Note:
+
+- 1 <= R <= 100
+- 1 <= C <= 100
+- 0 <= r0 < R
+- 0 <= c0 < C
+
+```python
+class Solution(object):
+    def allCellsDistOrder(self, R, C, r0, c0):
+        """
+        :type R: int
+        :type C: int
+        :type r0: int
+        :type c0: int
+        :rtype: List[List[int]]
+        """
+        solution = []
+        deltas = [(0,1), (1,0), (-1,0), (0,-1)]
+        visited = {}
+        visited[(r0, c0)] = True        
+        from heapq import heappush, heappop
+        heap = []
+        heappush(heap, [0, r0, c0])
+        while heap != []:
+            d, x, y = heappop(heap)
+            solution += [[x,y]]
+            for delta in deltas:
+                if 0 <= x+delta[0] < R and 0 <= y+delta[1] < C and (x+delta[0],y+delta[1]) not in visited:
+                    visited[(x+delta[0], y+delta[1])] = True
+                    heappush(heap, [d+1, x+delta[0], y+delta[1]])
+            
+        return solution
+```
