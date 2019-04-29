@@ -17252,6 +17252,58 @@ class Solution(object):
         return max(0, max(A) - min(A) - 2*K)
 ```
 
+## 910. Smallest Range II
+Given an array A of integers, for each integer A[i] we need to choose either x = -K or x = K, and add x to A[i] (only once).
+
+After this process, we have some array B.
+
+Return the smallest possible difference between the maximum value of B and the minimum value of B.
+
+>
+Example 1:
+```
+Input: A = [1], K = 0
+Output: 0
+Explanation: B = [1]
+```
+>
+Example 2:
+```
+Input: A = [0,10], K = 2
+Output: 6
+Explanation: B = [2,8]
+```
+>
+Example 3:
+```
+Input: A = [1,3,6], K = 3
+Output: 3
+Explanation: B = [4,6,3]
+``` 
+
+Note:
+
+- 1 <= A.length <= 10000
+- 0 <= A[i] <= 10000
+- 0 <= K <= 10000
+
+```python
+class Solution(object):
+    def smallestRangeII(self, A, K):
+        """
+        :type A: List[int]
+        :type K: int
+        :rtype: int
+        """
+        A = sorted(A)
+        minim, maxim = A[0], A[-1]
+        solution = maxim - minim
+        for i in xrange(len(A) - 1):
+            a, b = A[i], A[i+1]
+            solution = min(solution, max(maxim-K, a+K) - min(minim+K, b-K))
+        return solution
+```
+
 ## 914. X of a Kind in a Deck of Cards
 In a deck of cards, each card has an integer written on it.
 
