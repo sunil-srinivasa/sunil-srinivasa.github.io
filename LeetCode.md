@@ -6588,6 +6588,36 @@ class Solution(object):
         return rob_sum[L-1]
 ```
 
+## 214. Shortest Palindrome
+Given a string s, you are allowed to convert it to a palindrome by adding characters in front of it. Find and return the shortest palindrome you can find by performing this transformation.
+>
+Example 1:
+```
+Input: "aacecaaa"
+Output: "aaacecaaa"
+```
+>
+Example 2:
+```
+Input: "abcd"
+Output: "dcbabcd"
+```
+
+```python
+class Solution(object):
+    def shortestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        # Find longest palindrome from start. Reverse the string after and append to the beginning.
+        r = s[::-1]
+        L = len(s)
+        for i in range(L + 1):
+            if s.startswith(r[i:]):
+                return r[:i] + s
+```
+
 ## 215. Kth Largest Element in an Array
 Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
 
