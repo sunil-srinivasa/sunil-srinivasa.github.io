@@ -13160,6 +13160,46 @@ class Solution(object):
         return str.lower()
 ```
 
+## 718. Maximum Length of Repeated Subarray
+Given two integer arrays A and B, return the maximum length of an subarray that appears in both arrays.
+>
+Example 1:
+```
+Input:
+A: [1,2,3,2,1]
+B: [3,2,1,4,7]
+Output: 3
+Explanation: 
+The repeated subarray with maximum length is [3, 2, 1].
+```
+
+Note:
+
+- 1 <= len(A), len(B) <= 1000
+- 0 <= A[i], B[i] < 100
+ 
+```python
+class Solution(object):
+    def findLength(self, A, B):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: int
+        """
+        M = len(A)
+        N = len(B)
+        grid = [[0 for _ in range(M+1)] for _ in range(N+1)]  
+        maxim = 0
+        
+        for i in range(M):
+            for j in range(N):
+                if A[i] == B[j]:
+                    grid[i+1][j+1] = grid[i][j] + 1
+                    maxim = max(maxim, grid[i+1][j+1])
+                    
+        return maxim
+```
+
 ## 728. Self Dividing Numbers
 A self-dividing number is a number that is divisible by every digit it contains.
 
