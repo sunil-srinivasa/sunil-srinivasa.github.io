@@ -17752,6 +17752,52 @@ class Solution(object):
         return ''.join(name.split('+')[0].split('.'))
 ```
 
+## 930. Binary Subarrays With Sum
+In an array A of 0s and 1s, how many non-empty subarrays have sum S?
+
+>
+Example 1:
+```
+Input: A = [1,0,1,0,1], S = 2
+Output: 4
+Explanation: 
+The 4 subarrays are bolded below:
+[1,0,1,0,1]
+[1,0,1,0,1]
+[1,0,1,0,1]
+[1,0,1,0,1]
+```
+
+Note:
+
+- A.length <= 30000
+- 0 <= S <= A.length
+- A[i] is either 0 or 1.
+
+```python
+class Solution(object):
+    def numSubarraysWithSum(self, A, S):
+        """
+        :type A: List[int]
+        :type S: int
+        :rtype: int
+        """
+        sums_dict = collections.defaultdict(int)
+        L = len(A)
+        sums = 0
+        solution = 0
+        
+        for idx in range(L):
+            sums += A[idx]
+            if sums == S:
+                solution += 1
+            if sums-S in sums_dict:
+                solution += sums_dict[sums-S]
+            sums_dict[sums] += 1
+
+        return solution
+```
+
 ## 931. Minimum Falling Path Sum
 Given a square array of integers A, we want the minimum sum of a falling path through A.
 
@@ -20076,7 +20122,7 @@ class Solution(object):
         return solution
 ```
 
-## 033. Moving Stones Until Consecutive
+## 1033. Moving Stones Until Consecutive
 Three stones are on a number line at positions a, b, and c.
 
 Each turn, let's say the stones are currently at positions x, y, z with x < y < z.  You pick up the stone at either position x or position z, and move that stone to an integer position k, with x < k < z and k != y.
