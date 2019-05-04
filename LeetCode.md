@@ -8711,6 +8711,64 @@ class Solution(object):
         return patches
 ```
 
+## 336. Palindrome Pairs
+Given a list of unique words, find all pairs of distinct indices (i, j) in the given list, so that the concatenation of the two words, i.e. words[i] + words[j] is a palindrome.
+>
+Example 1:
+```
+Input: ["abcd","dcba","lls","s","sssll"]
+Output: [[0,1],[1,0],[3,2],[2,4]] 
+Explanation: The palindromes are ["dcbaabcd","abcddcba","slls","llssssll"]
+```
+>
+Example 2:
+```
+Input: ["bat","tab","cat"]
+Output: [[0,1],[1,0]] 
+Explanation: The palindromes are ["battab","tabbat"]
+```
+
+```python
+class Solution(object):
+    def palindromePairs(self, words):
+        """
+        :type words: List[str]
+        :rtype: List[List[int]]
+        """
+        words_dict = {w: idx for idx, w in enumerate(words)}
+        L = len(words)
+        solution = [] 
+        for idx in range(L):
+            for pp in self.get_palindrome_prefixes(words[idx]):
+                reversed_pp = pp[::-1]
+                if reversed_pp in words_dict and idx != words_dict[reversed_pp]:
+                    solution += [[idx,words_dict[reversed_pp]]]
+            for ps in self.get_palindrome_suffixes(words[idx]):
+                reversed_ps = ps[::-1]
+                if reversed_ps in words_dict and idx != words_dict[reversed_ps]:
+                    solution += [[words_dict[reversed_ps], idx]]
+        return solution
+        
+    def get_palindrome_prefixes(self, word):
+        L = len(word)
+        solution = []
+        for idx in range(L):
+            if self.isPalindrome(word[idx:]):
+                solution += [word[:idx]]
+        return solution
+        
+    def get_palindrome_suffixes(self, word):       
+        L = len(word)
+        solution = []
+        for idx in range(L+1):
+            if self.isPalindrome(word[:idx]):
+                solution += [word[idx:]]
+        return solution
+            
+    def isPalindrome(self, s):
+        return s == s[::-1]
+```
+
 ## 337. House Robber III
 The thief has found himself a new place for his thievery again. There is only one entrance to this area, called the "root." Besides the root, each house has one and only one parent house. After a tour, the smart thief realized that "all houses in this place forms a binary tree". It will automatically contact the police if two directly-linked houses were broken into on the same night.
 
