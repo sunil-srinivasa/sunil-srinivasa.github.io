@@ -11958,6 +11958,59 @@ class Solution(object):
         return min(len(set(candies)), int(len(candies)/2))
 ```
 
+## 593. Valid Square
+Given the coordinates of four points in 2D space, return whether the four points could construct a square.
+
+The coordinate (x,y) of a point is represented by an integer array with two integers.
+>
+Example:
+```
+Input: p1 = [0,0], p2 = [1,1], p3 = [1,0], p4 = [0,1]
+Output: True
+```
+
+Note:
+
+- All the input integers are in the range [-10000, 10000].
+- A valid square has four equal sides with positive length and four equal angles (90-degree angles).
+- Input points have no order.
+
+```python
+class Solution(object):
+    def validSquare(self, p1, p2, p3, p4):
+        """
+        :type p1: List[int]
+        :type p2: List[int]
+        :type p3: List[int]
+        :type p4: List[int]
+        :rtype: bool
+        """
+        #if p1 = [x,y] and p3 = [w,z], p2 = [x,z] and p4 = [w,y]
+        # p1 and p3 can be chosen in 4P2 = 12 ways
+        permutations = self.permutations([p1, p2, p3, p4])
+        for points in permutations:
+            if self.isSquare(points):
+                return True
+        return False
+    
+    def permutations(self, points):
+        L = len(points)
+        if L == 1:
+            return [points]
+        partial_permutations = self.permutations(points[1:])
+        permutations = []
+        for p in partial_permutations:
+            for idx in range(L):
+                permutations += [p[:idx]+[points[0]]+p[idx:]]
+        return permutations
+            
+    def isSquare(self, points):
+        return self.distance(points[0],points[1])==self.distance(points[1],points[2])==self.distance(points[2],points[3])==self.distance(points[3],points[0])>0 and self.distance(points[0],points[2]) == self.distance(points[1],points[3])>0
+        
+    def distance(self, p1, p2):
+        return (p1[0]-p2[0])**2 + (p1[1]-p2[1])**2
+```
+
 ## 594. Longest Harmonious Subsequence
 We define a harmonious array is an array where the difference between its maximum value and its minimum value is exactly 1.
 
