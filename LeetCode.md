@@ -20449,3 +20449,97 @@ class Solution(object):
         maxim = (b-a-1) + (c-b-1)
         return [minim, maxim]
 ```
+
+## 1037. Valid Boomerang
+A boomerang is a set of 3 points that are all distinct and not in a straight line.
+
+Given a list of three points in the plane, return whether these points are a boomerang.
+
+>
+Example 1:
+```
+Input: [[1,1],[2,3],[3,2]]
+Output: true
+```
+>
+Example 2:
+```
+Input: [[1,1],[2,2],[3,3]]
+Output: false
+```
+
+Note:
+
+- points.length == 3
+- points[i].length == 2
+- 0 <= points[i][j] <= 100
+
+
+```python
+class Solution(object):
+    def isBoomerang(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: bool
+        """
+        x,y,z = points[0], points[1], points[2]
+        if x[0] == y[0] == z[0] or x[1] == y[1] == z[1]:
+            return False
+        isDistinct = not(x == y or x == z or y == z)
+        eps = 1e-5
+        slope1 = (y[1]-x[1])/(y[0]-x[0]+eps)
+        slope2 = (z[1]-x[1])/(z[0]-x[0]+eps)
+        inStraightLine = abs(slope1-slope2) < eps
+        return isDistinct and not inStraightLine
+```
+
+## 1038. Binary Search Tree to Greater Sum Tree
+Given the root of a binary search tree with distinct values, modify it so that every node has a new value equal to the sum of the values of the original tree that are greater than or equal to node.val.
+
+As a reminder, a binary search tree is a tree that satisfies these constraints:
+
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+ 
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2019/05/02/tree.png)
+```
+Input: [4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]
+Output: [30,36,21,36,35,26,15,null,null,null,33,null,null,null,8]
+```
+
+Note:
+
+- The number of nodes in the tree is between 1 and 100.
+- Each node will have value between 0 and 100.
+- The given tree is a binary search tree.
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def bstToGst(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        #Traverse tree right-center-left and sum values as you go
+        return self.traverse(root, 0)[0]
+        
+    def traverse(self, root, currentSum):
+        if root == None:
+            return root, currentSum
+        currentSum = self.traverse(root.right, currentSum)[1]
+        temp = root.val
+        root.val += currentSum
+        currentSum += temp
+        currentSum = self.traverse(root.left, currentSum)[1]
+        return root, currentSum
+```
