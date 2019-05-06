@@ -13143,6 +13143,63 @@ class Solution(object):
         return grid, area
 ```
 
+## 697. Degree of an Array
+Given a non-empty array of non-negative integers nums, the degree of this array is defined as the maximum frequency of any one of its elements.
+
+Your task is to find the smallest possible length of a (contiguous) subarray of nums, that has the same degree as nums.
+>
+Example 1:
+```
+Input: [1, 2, 2, 3, 1]
+Output: 2
+Explanation: 
+The input array has a degree of 2 because both elements 1 and 2 appear twice.
+Of the subarrays that have the same degree:
+[1, 2, 2, 3, 1], [1, 2, 2, 3], [2, 2, 3, 1], [1, 2, 2], [2, 2, 3], [2, 2]
+The shortest length is 2. So return 2.
+```
+>
+Example 2:
+```
+Input: [1,2,2,3,1,4,2]
+Output: 6
+```
+
+Note:
+
+- nums.length will be between 1 and 50,000.
+- nums[i] will be an integer between 0 and 49,999.
+
+```python
+class Solution(object):
+    def findShortestSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        from collections import defaultdict
+        degree = 0
+        counts = defaultdict(lambda : -1)
+        left = defaultdict(lambda: -1)
+        right = defaultdict(lambda: -1)
+        L = len(nums)
+        for idx in range(L):
+            n = nums[idx]
+            if left[n] == -1:
+                left[n] = right[n] = idx
+            else:
+                right[n] = idx
+            counts[n] += 1
+            degree = max(degree, counts[n])
+        
+        solution = L
+        for n in counts:
+            if counts[n] == degree:
+                solution = min(solution, right[n]-left[n]+1)
+            
+        return solution
+```
+
 ## 700. Search in a Binary Search Tree
 Given the root node of a binary search tree (BST) and a value. You need to find the node in the BST that the node's value equals the given value. Return the subtree rooted with that node. If such node doesn't exist, you should return NULL.
 >
@@ -13310,6 +13367,51 @@ class KthLargest(object):
 # Your KthLargest object will be instantiated and called as such:
 # obj = KthLargest(k, nums)
 # param_1 = obj.add(val)
+```
+
+## 704. Binary Search
+Given a sorted (in ascending order) integer array nums of n elements and a target value, write a function to search target in nums. If target exists, then return its index, otherwise return -1.
+
+>
+Example 1:
+```
+Input: nums = [-1,0,3,5,9,12], target = 9
+Output: 4
+Explanation: 9 exists in nums and its index is 4
+```
+>
+Example 2:
+```
+Input: nums = [-1,0,3,5,9,12], target = 2
+Output: -1
+Explanation: 2 does not exist in nums so return -1
+```
+
+Note:
+
+- You may assume that all elements in nums are unique.
+- n will be in the range [1, 10000].
+- The value of each element in nums will be in the range [-9999, 9999].
+
+```python
+class Solution(object):
+    def search(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                return mid
+            else:
+                if target < nums[mid]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+        return -1
 ```
 
 ## 709. To Lower Case
