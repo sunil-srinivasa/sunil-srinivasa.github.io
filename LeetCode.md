@@ -11358,7 +11358,6 @@ Return 3, which is the length of the path [4,2,1,3] or [5,2,1,3].
 
 Note: The length of path between two nodes is represented by the number of edges between them.
 
-
 ```python
 # Definition for a binary tree node.
 # class TreeNode(object):
@@ -11373,27 +11372,14 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
+        return self.get_diameter_and_max_path_len(root)[0]
+        
+    def get_diameter_and_max_path_len(self, root):
         if root == None:
-            return 0
-
-        max_depth = {}
-        diameter = {}
-        max_depth[None] = -1
-        diameter[None] = -1
-        max_depth, diameter = self.POT(root,max_depth,diameter)
-        return max(diameter.values())
-
-    def POT(self,node, max_depth, diameter): # Post-order traversal recording maxdepth and diameter as we traverse
-
-        if node == None:
-            pass
-        else:
-            self.POT(node.left, max_depth, diameter)
-            self.POT(node.right, max_depth, diameter)
-            max_depth[node] = max(max_depth[node.left], max_depth[node.right]) + 1
-            diameter[node] = max_depth[node.left] + max_depth[node.right] + 2
-
-        return max_depth, diameter
+            return 0, 0
+        dL, pL = self.get_diameter_and_max_path_len(root.left)
+        dR, pR = self.get_diameter_and_max_path_len(root.right)
+        return max(dL, dR, pL+pR), max(pL, pR)+1
 ```
 
 ## 547. Friend Circles
