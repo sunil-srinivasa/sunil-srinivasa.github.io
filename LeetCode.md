@@ -20729,3 +20729,60 @@ class Solution(object):
             heappush(heap, -(y-x))
         return 0
 ```
+
+## 1091. Shortest Path in Binary Matrix
+In an N by N square grid, each cell is either empty (0) or blocked (1).
+
+A clear path from top-left to bottom-right has length k if and only if it is composed of cells C_1, C_2, ..., C_k such that:
+
+Adjacent cells C_i and C_{i+1} are connected 8-directionally (ie., they are different and share an edge or corner)
+C_1 is at location (0, 0) (ie. has value grid[0][0])
+C_k is at location (N-1, N-1) (ie. has value grid[N-1][N-1])
+If C_i is located at (r, c), then grid[r][c] is empty (ie. grid[r][c] == 0).
+Return the length of the shortest such clear path from top-left to bottom-right.  If such a path does not exist, return -1.
+
+>
+Example 1:
+```
+Input: [[0,1],[1,0]]
+Output: 2
+```
+>
+Example 2:
+```
+Input: [[0,0,0],[1,1,0],[1,1,0]]
+Output: 4
+```
+
+Note:
+
+- 1 <= grid.length == grid[0].length <= 100
+- grid[i][j] is 0 or 1
+
+```python
+class Solution(object):
+    def shortestPathBinaryMatrix(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        from heapq import heappush, heappop
+        m, n = len(grid), len(grid[0])
+        visited = {}
+        visited[(0,0)] = True
+        heap = [[1, (0,0)]]
+        solution = -1
+        if grid[0][0] == 1 or grid[m-1][n-1] == 1:
+            return solution
+        while heap != []:
+            [path_len, (i,j)] = heappop(heap)
+            deltas = [(0,1), (1,0), (0,-1), (-1,0), (-1,1), (1,-1), (1,1), (-1,-1)]
+            for delta in deltas:
+                if (i+delta[0], j+delta[1]) not in visited and 0 <= i+delta[0] < m and 0 <= j+delta[1] < n:
+                    visited[(i+delta[0], j+delta[1])] = True
+                    if grid[i+delta[0]][j+delta[1]] == 0:
+                        heappush(heap, [path_len+1, (i+delta[0], j+delta[1])])
+                        if i+delta[0] == m-1 and j+delta[1] == n-1:
+                            return path_len+1
+        return solution
+```
