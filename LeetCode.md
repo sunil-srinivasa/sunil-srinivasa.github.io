@@ -8711,6 +8711,49 @@ class Solution(object):
         return patches
 ```
 
+## 334. Increasing Triplet Subsequence
+Given an unsorted array return whether an increasing subsequence of length 3 exists or not in the array.
+
+Formally the function should:
+>
+Return true if there exists i, j, k 
+such that arr[i] < arr[j] < arr[k] given 0 ≤ i < j < k ≤ n-1 else return false.
+
+Note: Your algorithm should run in O(n) time complexity and O(1) space complexity.
+>
+Example 1:
+```
+Input: [1,2,3,4,5]
+Output: true
+```
+>
+Example 2:
+```
+Input: [5,4,3,2,1]
+Output: false
+```
+
+```python
+class Solution(object):
+    def increasingTriplet(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        L = len(nums)
+        if L < 3:
+            return False
+        first = second = float('inf')
+        for n in nums:
+            if n <= first:
+                first = n
+            elif n <= second:
+                second = n
+            else:
+                return True
+        return False
+```
+
 ## 336. Palindrome Pairs
 Given a list of unique words, find all pairs of distinct indices (i, j) in the given list, so that the concatenation of the two words, i.e. words[i] + words[j] is a palindrome.
 >
