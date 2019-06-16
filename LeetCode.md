@@ -10279,6 +10279,76 @@ class Solution(object):
         return solution
 ```
 
+## 449. Serialize and Deserialize BST
+Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+
+Design an algorithm to serialize and deserialize a binary search tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary search tree can be serialized to a string and this string can be deserialized to the original tree structure.
+
+The encoded string should be as compact as possible.
+
+Note: Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be stateless.
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        # Pre-order or post-order will work
+        def preOrder(root, pre_order):
+            if root == None:
+                return pre_order
+            pre_order += [root.val]
+            pre_order = preOrder(root.left, pre_order)
+            pre_order = preOrder(root.right, pre_order)
+            return pre_order
+    
+        return " ".join(str(x) for x in preOrder(root, []))
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        if len(data) == 0: 
+            return None        
+        data = [int(x) for x in data.split(" ")]
+        
+        def getBST(data):
+            if len(data) == 0: 
+                return None            
+            root = TreeNode(data[0])
+            L = len(data)
+            left = []
+            right = []
+            for idx in range(1,L):
+                if data[idx] < data[0]:
+                    left += [data[idx]]
+                else:
+                    right += [data[idx]]
+            root.left = getBST(left)
+            root.right = getBST(right)
+            return root
+        
+        return getBST(data)
+        
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.deserialize(codec.serialize(root))
+```
+
 ## 451. Sort Characters By Frequency
 Given a string, sort it in decreasing order based on the frequency of characters.
 >
