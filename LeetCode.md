@@ -734,8 +734,6 @@ Given a string containing just the characters '(', ')', '{', '}', '[' and ']', d
 
 The brackets must close in the correct order, "()" and "()[]{}" are all valid but "(]" and "([)]" are not.
 
-
-
 ```python
 class Solution(object):
     def isValid(self, s):
@@ -833,7 +831,6 @@ class Solution(object):
 Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
 >
 For example, given n = 3, a solution set is:
-```
 [
   "((()))",
   "(()())",
@@ -841,7 +838,6 @@ For example, given n = 3, a solution set is:
   "()(())",
   "()()()"
 ]
-```
 
 ```python
 class Solution(object):
@@ -892,7 +888,6 @@ class Node(object):
 Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
 
 >Example:
-```
 Input:
 [
   1->4->5,
@@ -900,7 +895,6 @@ Input:
   2->6
 ]
 Output: 1->1->2->3->4->4->5->6
-```
 
 ```python
 # Definition for singly-linked list.
