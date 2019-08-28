@@ -21023,7 +21023,6 @@ Then, we go back to the start of the row, giving n + 1 candies to the first pers
 This process repeats (with us giving one more candy each time, and moving to the start of the row after we reach the end) until we run out of candies.  The last person will receive all of our remaining candies (not necessarily one more than the previous gift).
 
 Return an array (of length num_people and sum candies) that represents the final distribution of candies.
-
  
 >
 Example 1:
@@ -21071,5 +21070,60 @@ class Solution(object):
             num_candies += 1
             
         solution [idx % num_people] += candies
+        return solution
+```
+
+## 1161. Maximum Level Sum of a Binary Tree
+Given the root of a binary tree, the level of its root is 1, the level of its children is 2, and so on.
+
+Return the smallest level X such that the sum of all the values of nodes at level X is maximal.
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2019/05/03/capture.JPG)
+```
+Input: [1,7,0,7,-8,null,null]
+Output: 2
+Explanation: 
+Level 1 sum = 1.
+Level 2 sum = 7 + 0 = 7.
+Level 3 sum = 7 + -8 = -1.
+So we return the level with the maximum sum which is level 2.
+```
+
+Note:
+
+- The number of nodes in the given tree is between 1 and 10^4.
+- -10^5 <= node.val <= 10^5
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def maxLevelSum(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        sums = collections.defaultdict(int)
+        sums[1] = root.val
+        queue = [(root,1)]
+        while queue != []:
+            current_node, level = queue[0]
+            if current_node.left != None:
+                queue += [(current_node.left, level+1)]
+            if current_node.right != None:
+                queue += [(current_node.right, level+1)]
+            sums[level] += current_node.val
+            queue = queue[1:]
+        
+        solution = 1
+        for key in sums:
+            if sums[key] > sums[solution]:
+                solution = key
         return solution
 ```
