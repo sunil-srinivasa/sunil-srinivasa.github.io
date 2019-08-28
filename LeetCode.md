@@ -21073,6 +21073,76 @@ class Solution(object):
         return solution
 ```
 
+## 1114. Print in Order
+Suppose we have a class:
+
+public class Foo {
+  public void first() { print("first"); }
+  public void second() { print("second"); }
+  public void third() { print("third"); }
+}
+The same instance of Foo will be passed to three different threads. Thread A will call first(), thread B will call second(), and thread C will call third(). Design a mechanism and modify the program to ensure that second() is executed after first(), and third() is executed after second().
+
+>
+Example 1:
+```
+Input: [1,2,3]
+Output: "firstsecondthird"
+Explanation: There are three threads being fired asynchronously. The input [1,2,3] means thread A calls first(), thread B calls second(), and thread C calls third(). "firstsecondthird" is the correct output.
+```
+>
+Example 2:
+```
+Input: [1,3,2]
+Output: "firstsecondthird"
+Explanation: The input [1,3,2] means thread A calls first(), thread B calls third(), and thread C calls second(). "firstsecondthird" is the correct output.
+```
+
+Note:
+
+We do not know how the threads will be scheduled in the operating system, even though the numbers in the input seems to imply the ordering. The input format you see is mainly to ensure our tests' comprehensiveness.
+
+```python
+class Foo(object):
+    def __init__(self):
+        self.counter = 0
+
+    def first(self, printFirst):
+        """
+        :type printFirst: method
+        :rtype: void
+        """
+        while 1:
+            if self.counter == 0:
+                # printFirst() outputs "first". Do not change or remove this line.
+                printFirst()
+                self.counter = 1
+                return
+
+    def second(self, printSecond):
+        """
+        :type printSecond: method
+        :rtype: void
+        """
+        while 1:
+            if self.counter == 1:
+                # printSecond() outputs "second". Do not change or remove this line.
+                printSecond()
+                self.counter = 2
+                return
+              
+    def third(self, printThird):
+        """
+        :type printThird: method
+        :rtype: void
+        """
+        while 1:
+            if self.counter == 2:
+                # printThird() outputs "third". Do not change or remove this line.
+                printThird()
+                return
+```
+
 ## 1161. Maximum Level Sum of a Binary Tree
 Given the root of a binary tree, the level of its root is 1, the level of its children is 2, and so on.
 
