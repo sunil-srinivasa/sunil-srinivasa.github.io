@@ -21214,7 +21214,7 @@ Explanation: Distance between 0 and 1 is 1 or 9, minimum is 1.
 ```
 >
 Example 2:
-![](https://assets.leetcode.com/uploads/2019/09/03/untitled-diagram-2.jpg)
+![](https://assets.leetcode.com/uploads/2019/09/03/untitled-diagram-1-1.jpg)
 ```
 Input: distance = [1,2,3,4], start = 0, destination = 2
 Output: 3
@@ -21222,7 +21222,7 @@ Explanation: Distance between 0 and 2 is 3 or 7, minimum is 3.
 ```
 >
 Example 3:
-![](https://assets.leetcode.com/uploads/2019/09/03/untitled-diagram-3.jpg)
+![](https://assets.leetcode.com/uploads/2019/09/03/untitled-diagram-1-2.jpg)
 ```
 Input: distance = [1,2,3,4], start = 0, destination = 3
 Output: 4
