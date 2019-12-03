@@ -2449,7 +2449,7 @@ How many possible unique paths are there?
 
 Note: m and n will be at most 100.
 
-
+Mathematical solution
 ```python
 class Solution(object):
     def uniquePaths(self, m, n):
@@ -2460,6 +2460,23 @@ class Solution(object):
         """
         import math
         return math.factorial(m+n-2)/(math.factorial(m-1)*math.factorial(n-1))
+```
+
+Programmatic solution
+```python
+class Solution(object):
+    def uniquePaths(self, m, n):
+        """
+        :type m: int
+        :type n: int
+        :rtype: int
+        """
+        numWays = [[1 for _ in range(n)] for _ in range(m)]
+        for i in range(1,m):
+            for j in range(1,n):
+                numWays[i][j] = numWays[i][j-1]+numWays[i-1][j]
+                
+        return numWays[m-1][n-1]
 ```
 
 ## 63. Unique Paths II
