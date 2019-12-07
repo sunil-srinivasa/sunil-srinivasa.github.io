@@ -21301,7 +21301,78 @@ class Solution(object):
         return 0.5+0.5*(n==1)
 ```
 
- ## 1268. Search Suggestions System
+## 1254. Number of Closed Islands
+Given a 2D grid consists of 0s (land) and 1s (water).  An island is a maximal 4-directionally connected group of 0s and a closed island is an island totally (all left, top, right, bottom) surrounded by 1s.
+
+Return the number of closed islands.
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2019/10/31/sample_3_1610.png)
+```
+Input: grid = [[1,1,1,1,1,1,1,0],[1,0,0,0,0,1,1,0],[1,0,1,0,1,1,1,0],[1,0,0,0,0,1,0,1],[1,1,1,1,1,1,1,0]]
+Output: 2
+Explanation: 
+Islands in gray are closed because they are completely surrounded by water (group of 1s).
+```
+>
+Example 2:
+![](https://assets.leetcode.com/uploads/2019/10/31/sample_4_1610.png)
+```
+Input: grid = [[0,0,1,0,0],[0,1,0,1,0],[0,1,1,1,0]]
+Output: 1
+>
+```
+Example 3:
+```
+Input: grid = [[1,1,1,1,1,1,1],
+               [1,0,0,0,0,0,1],
+               [1,0,1,1,1,0,1],
+               [1,0,1,0,1,0,1],
+               [1,0,1,1,1,0,1],
+               [1,0,0,0,0,0,1],
+               [1,1,1,1,1,1,1]]
+Output: 2
+```
+
+Constraints:
+
+- 1 <= grid.length, grid[0].length <= 100
+- 0 <= grid[i][j] <=1
+
+```python
+class Solution(object):
+    def closedIsland(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        solution = 0
+        visited = {}
+        m, n = len(grid), len(grid[0])
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 0 and (i,j) not in visited:
+                    isIsland, visited =  self.traverse(grid, i, j, visited)
+                    solution += isIsland
+                visited[(i,j)] = True
+        return solution
+        
+    def traverse(self, grid, i, j, visited):
+        m, n = len(grid), len(grid[0])
+        isIsland = 1
+        visited[(i,j)] = True
+        deltas = [(0,1), (1,0), (-1,0), (0,-1)]
+        for delta in deltas:
+            if (i+delta[0]) < 0 or i+delta[0] >= m or j+delta[1] < 0 or j+delta[1] >= n:
+                isIsland = 0
+            elif (i+delta[0], j+delta[1]) not in visited and grid[i+delta[0]][j+delta[1]] == 0:
+                island, visited = self.traverse(grid, i+delta[0], j+delta[1], visited)
+                isIsland &= island
+            
+        return isIsland, visited
+```
+
+## 1268. Search Suggestions System
 Given an array of strings products and a string searchWord. We want to design a system that suggests at most three product names from products after each character of searchWord is typed. Suggested products should have common prefix with the searchWord. If there are more than three products with a common prefix return the three lexicographically minimums products.
 
 Return list of lists of the suggested products after each character of searchWord is typed. 
