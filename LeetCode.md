@@ -21090,6 +21090,67 @@ class Solution(object):
         return solution
 ```
 
+## 1105. Filling Bookcase Shelves
+We have a sequence of books: the i-th book has thickness books[i][0] and height books[i][1].
+
+We want to place these books in order onto bookcase shelves that have total width shelf_width.
+
+We choose some of the books to place on this shelf (such that the sum of their thickness is <= shelf_width), then build another level of shelf of the bookcase so that the total height of the bookcase has increased by the maximum height of the books we just put down.  We repeat this process until there are no more books to place.
+
+Note again that at each step of the above process, the order of the books we place is the same order as the given sequence of books.  For example, if we have an ordered list of 5 books, we might place the first and second book onto the first shelf, the third book on the second shelf, and the fourth and fifth book on the last shelf.
+
+Return the minimum possible height that the total bookshelf can be after placing shelves in this manner.
+
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2019/06/24/shelves.png)
+```
+Input: books = [[1,1],[2,3],[2,3],[1,1],[1,1],[1,1],[1,2]], shelf_width = 4
+Output: 6
+Explanation:
+The sum of the heights of the 3 shelves are 1 + 3 + 2 = 6.
+Notice that book number 2 does not have to be on the first shelf.
+```
+
+Constraints:
+
+- 1 <= books.length <= 1000
+- 1 <= books[i][0] <= shelf_width <= 1000
+- 1 <= books[i][1] <= 1000
+
+```python
+class Solution(object):
+    def minHeightShelves(self, books, shelf_width):
+        """
+        :type books: List[List[int]]
+        :type shelf_width: int
+        :rtype: int
+        """
+        # Recursion with memorization
+        L = len(books)
+        arrangements = {(shelf_width-books[0][0], books[0][1], books[0][1]): True}
+        # each arrangement contains [remaining_width, total_height, last_row_height]
+        num_arrangements = 0
+        
+        for i in range(1,L):
+            if books[i][0] <= shelf_width:
+                tmp = {}
+                for a in arrangements:
+                    if a[0] >= books[i][0]: # book i can fit in current shelf
+                        w = a[0] - books[i][0] # width reduces
+                        lrh = max(a[2], books[i][1]) # last row height
+                        th = a[1] - a[2] + lrh # total height
+                        tmp[(w, th, lrh)] = True
+
+                    min_height_so_far = min([a[1] for a in arrangements])
+                    arrangements = tmp
+                    # New shelf for book i
+                    arrangements[(shelf_width - books[i][0], 
+                                     min_height_so_far + books[i][1], books[i][1])] = 'new'
+
+        return min([a[1] for a in arrangements])
+```
+
 ## 1114. Print in Order
 Suppose we have a class:
 
