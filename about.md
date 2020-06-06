@@ -3,7 +3,7 @@ layout: page
 title: About Me
 permalink: /about/
 ---
-- ***Lead researcher/data scientist*** with a Ph.D. and 8+ years of industry-related experience. I am interested in opportunities relating to applied artificial intelligence (AI) research and product development.
+- ***AI Research Engineer*** with a Ph.D. and 8+ years of industry-related experience. I am interested in opportunities relating to applied artificial intelligence (AI) research and product development.
 - Experienced in applying ***deep reinforcement learning*** to several real-world problems:
   - Control fan speeds in a storage server towards optimizing efficiency (Advantage Actor-Critic)
   - Automate bid strategies in digital marketing channels towards maximizing profits (Policy Gradients) 
