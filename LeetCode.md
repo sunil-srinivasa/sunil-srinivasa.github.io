@@ -111,26 +111,6 @@ class Solution(object):
         return max_len
 ```
 
-## 4. Median of Two Sorted Arrays
-There are two sorted arrays nums1 and nums2 of size m and n respectively.
-
-Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
-
-> Example 1:
-nums1 = [1, 3]
-nums2 = [2]
-The median is 2.0
-
-> Example 2:
-nums1 = [1, 2]
-nums2 = [3, 4]
-The median is (2 + 3)/2 = 2.5
-
-
-```python
-
-```
-
 ## 5. Longest Palindromic Substring
 Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
 
@@ -4781,46 +4761,6 @@ class Solution(object):
         return s.lower()
 ```
 
-## 126. Word Ladder II
-Given two words (beginWord and endWord), and a dictionary's word list, find all shortest transformation sequence(s) from beginWord to endWord, such that:
-
-Only one letter can be changed at a time
-Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
-Note:
-
-- Return an empty list if there is no such transformation sequence.
-- All words have the same length.
-- All words contain only lowercase alphabetic characters.
-- You may assume no duplicates in the word list.
-- You may assume beginWord and endWord are non-empty and are not the same.
-
->
-Example 1:
-```
-Input:
-beginWord = "hit",
-endWord = "cog",
-wordList = ["hot","dot","dog","lot","log","cog"]
-Output:
-[
-  ["hit","hot","dot","dog","cog"],
-  ["hit","hot","lot","log","cog"]
-]
-```
->
-Example 2:
-```
-Input:
-beginWord = "hit"
-endWord = "cog"
-wordList = ["hot","dot","dog","lot","log"]
-Output: []
-Explanation: The endWord "cog" is not in wordList, therefore no possible transformation.
-```
-
-```python
-```
-
 ## 127. Word Ladder
 Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord, such that:
 
@@ -5381,6 +5321,64 @@ class Solution(object):
         return solution
 ```
 
+## 	146. LRU Cache
+Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.
+
+get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+put(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+
+The cache is initialized with a positive capacity.
+
+Follow up:
+Could you do both operations in O(1) time complexity?
+>
+Example:
+```
+LRUCache cache = new LRUCache( 2 /* capacity */ );
+
+cache.put(1, 1);
+cache.put(2, 2);
+cache.get(1);       // returns 1
+cache.put(3, 3);    // evicts key 2
+cache.get(2);       // returns -1 (not found)
+cache.put(4, 4);    // evicts key 1
+cache.get(1);       // returns -1 (not found)
+cache.get(3);       // returns 3
+cache.get(4);       // returns 4
+```
+
+```python
+from collections import OrderedDict
+
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.size = capacity
+        self.cache = OrderedDict()
+    
+    def get(self, key: int) -> int:
+        if key not in self.cache:
+            return -1
+        else:
+            self.cache.move_to_end(key)  # Gotta keep this pair fresh, move to end of OrderedDict
+            return self.cache[key]
+
+    def put(self, key: int, value: int) -> None:
+        if key not in self.cache:
+            if len(self.cache) >= self.size:
+                self.cache.popitem(last=False) # last=True, LIFO; last=False, FIFO. We want to remove in FIFO fashion. 
+        else:
+            self.cache.move_to_end(key) # Gotta keep this pair fresh, move to end of OrderedDict
+            
+        self.cache[key] = value
+        
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+```
+
 ## 149. Max Points on a Line
 Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.
 >
@@ -5891,48 +5889,6 @@ class Solution(object):
             return 0
         else:
             return n/5+self.trailingZeroes(n/5)
-```
-
-## 179. Largest Number
-Given a list of non negative integers, arrange them such that they form the largest number.
-
->For example, given [3, 30, 34, 5, 9], the largest formed number is 9534330.
-
-Note: The result may be very large, so you need to return a string instead of an integer.
-
-```python
-class Solution:
-    # @param {integer[]} nums
-    # @return {string}
-    def largestNumber(self, nums):
-        solution = ''
-        if nums == []:
-            return solution
-
-        # Find largest length of int. Make all numbers equal to same length, then sort
-        num_strs = map(str,nums)
-        max_len = max([len(string) for string in num_strs])
-        num_strs_appended = map(str,nums)
-
-        for i in range(len(num_strs)):
-            num_strs_appended[i] += num_strs[i][0]*(max_len-len(num_strs[i]))
-
-        num_dict = {}
-        for i in range(len(num_strs)):
-            if num_strs_appended[i] in num_dict.keys():
-                num_dict[num_strs_appended[i]] += num_strs[i]
-            else:
-                num_dict[num_strs_appended[i]] = num_strs[i]
-
-        # Now sort dictionary keys
-        sorted_keys = sorted([key for key in num_dict.keys()],reverse=True)
-
-        solution = reduce((lambda x, y: x + y),[num_dict[key] for key in sorted_keys])
-
-        if int(solution) == 0:
-            solution = '0'
-
-        return solution
 ```
 
 ## 187. Repeated DNA Sequences
@@ -6842,58 +6798,7 @@ There must be no consecutive horizontal lines of equal height in the output skyl
 
 
 ```python
-class Solution(object):
-    def getSkyline(self, buildings):
-        """
-        :type buildings: List[List[int]]
-        :rtype: List[List[int]]
-        """
-
-        # Storing buildings as a dict for easy sorting
-        if buildings == []:
-            return []
-        buildings_dict = {}
-        for building in buildings:
-            key = building[0]
-            value = building[2]
-            if key in buildings_dict.keys():
-                buildings_dict[key] = max(buildings_dict[key],value)
-            else:
-                buildings_dict[key] = value
-
-            key = building[1]
-            value = building[2]
-            if key in buildings_dict.keys():
-                buildings_dict[key] = max(buildings_dict[key],value)
-            else:
-                buildings_dict[key] = value
-
-        # Sort dictionary by keys
-        sorted_keys = sorted(buildings_dict.keys())
-        max_height = 0
-
-        max_height_old = buildings_dict[sorted_keys[0]]
-        building_heights = [max_height_old]
-
-        solution = [[sorted_keys[0],max_height_old]]
-
-        for key in sorted_keys[1:]:
-            max_height_old = max_height
-            if buildings_dict[key] in building_heights:
-                building_heights.remove(buildings_dict[key]) # right edge of building
-                if building_heights == []:
-                    max_height = 0
-                else:
-                    max_height = max(building_heights)
-            else:
-                building_heights.append(buildings_dict[key])
-                max_height = max(max_height,buildings_dict[key])
-
-            if max_height != max_height_old:
-                solution.append([key,max_height])
-
-
-        return solution
+TODO
 ```
 
 ## 219. Contains Duplicate II
@@ -7553,6 +7458,45 @@ class Solution(object):
         """
         node.val = node.next.val
         node.next = node.next.next
+```
+
+## 238. Product of Array Except Self
+Given an array nums of n integers where n > 1,  return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
+>
+Example:
+```
+Input:  [1,2,3,4]
+Output: [24,12,8,6]
+```
+
+Constraint: It's guaranteed that the product of the elements of any prefix or suffix of the array (including the whole array) fits in a 32 bit integer.
+
+Note: Please solve it without division and in O(n).
+
+Follow up:
+Could you solve it with constant space complexity? (The output array does not count as extra space for the purpose of space complexity analysis.)
+
+```python
+class Solution(object):
+    def productExceptSelf(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        L = len(nums)
+        left_prod = [nums[0] for _ in range(L)]
+        right_prod = [nums[L-1] for _ in range(L)]
+        
+        for idx in range(1, L):
+            left_prod[idx] = left_prod[idx-1]*nums[idx]
+            
+        for idx in range(L-2, -1, -1):
+            right_prod[idx] = right_prod[idx+1]*nums[idx]
+            
+        left_prod = [1]+left_prod[:-1]
+        right_prod = right_prod[1:]+[1]
+                
+        return map(lambda x: x[0]*x[1], zip(left_prod, right_prod))
 ```
 
 ## 240. Search a 2D Matrix II
@@ -8377,35 +8321,8 @@ Return 167
    coins =  3*1*5      +  3*5*8    +  1*3*8      + 1*8*1   = 167
 ```
 
-
 ```python
-## Recursive - times out
-class Solution(object):
-    def maxCoins(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        if len(nums) == 0:
-            return 0
-        if len(nums) == 1:
-            return nums[0]
-        else:
-            solutions = []
-            for i in range(len(nums)):
-                nums_minus_i = nums[:i]+nums[i+1:]
-                if i-1 < 0:
-                    solutions.append(self.maxCoins(nums_minus_i) + nums[i]*nums[i+1])
-                elif i+1 >= len(nums):
-                    solutions.append(self.maxCoins(nums_minus_i) + nums[i-1]*nums[i])
-                else:
-                    solutions.append(self.maxCoins(nums_minus_i) + nums[i-1]*nums[i]*nums[i+1])
-            solution = max(solutions)
-
-        return solution
-
-## DP
-
+TODO
 ```
 
 ## 313. Super Ugly Number
@@ -8602,6 +8519,59 @@ class Solution(object):
         power = math.log(n)/math.log(3)
         eps = 1e-10
         return abs(power - round(power)) < eps
+```
+
+## 328. Odd Even Linked List
+Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are talking about the node number and not the value in the nodes.
+
+You should try to do it in place. The program should run in O(1) space complexity and O(nodes) time complexity.
+>
+Example 1:
+```
+Input: 1->2->3->4->5->NULL
+Output: 1->3->5->2->4->NULL
+```
+>
+Example 2:
+```
+Input: 2->1->3->5->6->4->7->NULL
+Output: 2->3->6->7->1->5->4->NULL
+```
+
+Constraints:
+
+- The relative order inside both the even and odd groups should remain as it was in the input.
+- The first node is considered odd, the second node even and so on ...
+- The length of the linked list is between [0, 10^4].
+
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def oddEvenList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if head == None:
+            return head
+        even = head.next
+        odd = head
+        evenHead = even
+        while even != None:
+            odd.next = even.next
+            if odd.next != None:
+                even.next = odd.next.next
+            else:
+                even.next = None
+            if odd.next != None:
+                odd = odd.next
+            even = even.next
+        odd.next = evenHead
+        return head
 ```
 
 ## 329. Longest Increasing Path in a Matrix
@@ -8879,6 +8849,46 @@ class Solution(object):
         l = self.robber(node.left)
         r = self.robber(node.right)
         return max(l)+max(r), node.val+l[0]+r[0]
+```
+
+## 338. Counting Bits
+Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num calculate the number of 1's in their binary representation and return them as an array.
+>
+Example 1:
+```
+Input: 2
+Output: [0,1,1]
+```
+>
+Example 2:
+```
+Input: 5
+Output: [0,1,1,2,1,2]
+```
+
+Follow up:
+
+- It is very easy to come up with a solution with run time O(n*sizeof(integer)). But can you do it in linear time O(n) /possibly in a single pass?
+- Space complexity should be O(n).
+- Can you do it like a boss? Do it without using any builtin function like **__builtin_popcount** in c++ or in any other 
+language.
+
+```python
+class Solution:
+    def countBits(self, num: int) -> List[int]:
+        if num <= 1:
+            return [i for i in range(0, num + 1)]
+        
+        ones = [0, 1]
+        bit_mask = 0b10
+        for p in range(1, math.floor(math.log2(num)) + 1):
+            for n in range(2**p, 2**(p+1)):
+                if n > num:
+                    return ones
+                ones.append(1 + ones[n & (bit_mask - 1)])
+            bit_mask = bit_mask << 1
+            
+        return ones
 ```
 
 ## 342. Power of Four
@@ -9357,6 +9367,56 @@ class Solution(object):
                 
             count += 1
         return current_min[0]
+```
+
+## 383. Ransom Note
+Given an arbitrary ransom note string and another string containing letters from all the magazines, write a function that will return true if the ransom note can be constructed from the magazines ; otherwise, it will return false.
+
+Each letter in the magazine string can only be used once in your ransom note.
+
+>
+Example 1:
+```
+Input: ransomNote = "a", magazine = "b"
+Output: false
+```
+>
+Example 2:
+```
+Input: ransomNote = "aa", magazine = "ab"
+Output: false
+```
+>
+Example 3:
+```
+Input: ransomNote = "aa", magazine = "aab"
+Output: true
+```
+
+Constraints:
+- You may assume that both strings contain only lowercase letters.
+
+```python
+class Solution(object):
+    def canConstruct(self, ransomNote, magazine):
+        """
+        :type ransomNote: str
+        :type magazine: str
+        :rtype: bool
+        """
+        from collections import defaultdict
+        magazine_dict = defaultdict(int)
+        ransomNote_dict = defaultdict(int)
+        
+        for m in magazine:
+            magazine_dict[m] += 1
+        for r in ransomNote:
+            ransomNote_dict[r] += 1
+            
+        for key in ransomNote_dict.keys():
+            if ransomNote_dict[key] > magazine_dict[key]:
+                return False
+        return True
 ```
 
 ## 384. Shuffle an Array
@@ -10560,6 +10620,44 @@ class Solution(object):
         return solution, dictionary
 ```
 
+## 476. Number Complement
+Given a positive integer num, output its complement number. The complement strategy is to flip the bits of its binary representation.
+
+>
+Example 1:
+```
+Input: num = 5
+Output: 2
+```
+Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
+>
+Example 2:
+```
+Input: num = 1
+Output: 0
+```
+Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
+ 
+Constraints:
+
+- The given integer num is guaranteed to fit within the range of a 32-bit signed integer.
+- num >= 1
+- You could assume no leading zero bit in the integer’s binary representation.
+- This question is the same as 1009: https://leetcode.com/problems/complement-of-base-10-integer/
+
+```python
+class Solution(object):
+    def findComplement(self, num):
+        """
+        :type num: int
+        :rtype: int
+        """
+        if num == 0:
+            return 1
+        import numpy
+        return 2**(int(numpy.log2(num))+1) - 1 - num
+```
+
 ## 485. Max Consecutive Ones
 Given a binary array, find the maximum number of consecutive 1s in this array.
 
@@ -11642,7 +11740,7 @@ Only "AA" won't be regarded as rewardable owing to more than one absent times.
 Note: The value of n won't exceed 100,000.
 
 ```python
-
+TODO
 ```
 
 ## 554. Brick Wall
@@ -13015,6 +13113,50 @@ class TrieNode(object):
 # obj = MapSum()
 # obj.insert(key,val)
 # param_2 = obj.sum(prefix)
+```
+
+## 678. Valid Parenthesis String
+Given a string containing only three types of characters: '(', ')' and '*', write a function to check whether this string is valid. We define the validity of a string by these rules:
+
+Any left parenthesis '(' must have a corresponding right parenthesis ')'.
+Any right parenthesis ')' must have a corresponding left parenthesis '('.
+Left parenthesis '(' must go before the corresponding right parenthesis ')'.
+'*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string.
+An empty string is also valid.
+
+>
+Example 1:
+```
+Input: "()"
+Output: True
+```
+>
+Example 2:
+```
+Input: "(*)"
+Output: True
+```
+>
+Example 3:
+```
+Input: "(*))"
+Output: True
+```
+
+Note:
+The string size will be in the range [1, 100].
+
+```python
+class Solution(object):
+    def checkValidString(self, s):
+        lo = hi = 0
+        for c in s:
+            lo += 1 if c == '(' else -1
+            hi += 1 if c != ')' else -1
+            if hi < 0: break
+            lo = max(lo, 0)
+
+        return lo == 0
 ```
 
 ## 684. Redundant Connection
@@ -15914,6 +16056,70 @@ class Solution(object):
         return visited
 ```
 
+## 844. Backspace String Compare
+Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character.
+
+Note that after backspacing an empty text, the text will continue empty.
+
+>
+Example 1:
+``` 
+InpUt: S = "ab#c", T = "ad#c"
+Output: true
+```
+Explanation: Both S and T become "ac".
+>
+Example 2:
+```
+Input: S = "ab##", T = "c#d#"
+Output: true
+```
+Explanation: Both S and T become "".
+>
+Example 3:
+```
+Input: S = "a##c", T = "#a#c"
+Output: true
+```
+Explanation: Both S and T become "c".
+>
+Example 4:
+```
+Input: S = "a#c", T = "b"
+Output: false
+```
+Explanation: S becomes "c" while T becomes "b".
+
+Note:
+
+- 1 <= S.length <= 200
+- 1 <= T.length <= 200
+- S and T only contain lowercase letters and '#' characters.
+
+Follow up:
+
+Can you solve it in O(N) time and O(1) space?
+
+```python
+class Solution(object):
+    def backspaceCompare(self, S, T):
+        """
+        :type S: str
+        :type T: str
+        :rtype: bool
+        """
+        return self.stackify(S)==self.stackify(T)
+        
+    def stackify(self, S):
+        s_stack = []
+        for s in S:
+            if s == '#':
+                s_stack = [] or s_stack[:-1]
+            else:
+                s_stack += [s]
+        return s_stack
+```
+
 ## 845. Longest Mountain in Array
 Let's call any (contiguous) subarray B (of A) a mountain if the following properties hold:
 
@@ -16813,7 +17019,7 @@ Note:
 - 1 <= A[0] < A[1] < ... < A[A.length - 1] <= 10^9
 
 ```python
-
+TODO
 ```
 
 ## 875. Koko Eating Bananas
@@ -16981,75 +17187,7 @@ class Solution(object):
         return scores[0][-1] > 0
 ```
 
-## 884. Uncommon Words from Two Sentences
-We are given two sentences A and B.  (A sentence is a string of space separated words.  Each word consists only of lowercase letters.)
-
-A word is uncommon if it appears exactly once in one of the sentences, and does not appear in the other sentence.
-
-Return a list of all uncommon words. 
-
-You may return the list in any order.
->
-Example 1:
-```
-Input: A = "this apple is sweet", B = "this apple is sour"
-Output: ["sweet","sour"]
-```
->
-Example 2:
-```
-Input: A = "apple apple", B = "banana"
-Output: ["banana"]
-```
-
-Note:
-
-- 0 <= A.length <= 200
-- 0 <= B.length <= 200
-- A and B both contain only spaces and lowercase letters.
-
-```python
-class Solution(object):
-    def uncommonFromSentences(self, A, B):
-        """
-        :type A: str
-        :type B: str
-        :rtype: List[str]
-        """
-        words = collections.defaultdict(int)
-        for a in A.split(' '):
-            words[a] += 1
-        for b in B.split(' '):
-            words[b] += 1
-        
-        solution = []
-        for w in words:
-            if words[w] == 1:
-                solution += [w]
-                
-        return solution
-class Solution(object):
-    def uncommonFromSentences(self, A, B):
-        """
-        :type A: str
-        :type B: str
-        :rtype: List[str]
-        """
-        words = collections.defaultdict(int)
-        for a in A.split(' '):
-            words[a] += 1
-        for b in B.split(' '):
-            words[b] += 1
-        
-        solution = []
-        for w in words:
-            if words[w] == 1:
-                solution += [w]
-                
-        return solution
-```
-
-## 885. Boats to Save People
+## 881. Boats to Save People
 The i-th person has weight people[i], and each boat can carry a maximum weight of limit.
 
 Each boat carries at most 2 people at the same time, provided the sum of the weight of those people is at most limit.
@@ -17156,6 +17294,74 @@ class Solution(object):
             numBoats += 1
             
         return numBoats
+```
+
+## 884. Uncommon Words from Two Sentences
+We are given two sentences A and B.  (A sentence is a string of space separated words.  Each word consists only of lowercase letters.)
+
+A word is uncommon if it appears exactly once in one of the sentences, and does not appear in the other sentence.
+
+Return a list of all uncommon words. 
+
+You may return the list in any order.
+>
+Example 1:
+```
+Input: A = "this apple is sweet", B = "this apple is sour"
+Output: ["sweet","sour"]
+```
+>
+Example 2:
+```
+Input: A = "apple apple", B = "banana"
+Output: ["banana"]
+```
+
+Note:
+
+- 0 <= A.length <= 200
+- 0 <= B.length <= 200
+- A and B both contain only spaces and lowercase letters.
+
+```python
+class Solution(object):
+    def uncommonFromSentences(self, A, B):
+        """
+        :type A: str
+        :type B: str
+        :rtype: List[str]
+        """
+        words = collections.defaultdict(int)
+        for a in A.split(' '):
+            words[a] += 1
+        for b in B.split(' '):
+            words[b] += 1
+        
+        solution = []
+        for w in words:
+            if words[w] == 1:
+                solution += [w]
+                
+        return solution
+class Solution(object):
+    def uncommonFromSentences(self, A, B):
+        """
+        :type A: str
+        :type B: str
+        :rtype: List[str]
+        """
+        words = collections.defaultdict(int)
+        for a in A.split(' '):
+            words[a] += 1
+        for b in B.split(' '):
+            words[b] += 1
+        
+        solution = []
+        for w in words:
+            if words[w] == 1:
+                solution += [w]
+                
+        return solution
 ```
 
 ## 886. Possible Bipartition
@@ -17920,6 +18126,93 @@ class Solution(object):
             if total == 26:
                 solution += [a]
                 
+        return solution
+```
+
+## 918. Maximum Sum Circular Subarray
+Given a circular array C of integers represented by A, find the maximum possible sum of a non-empty subarray of C.
+
+Here, a circular array means the end of the array connects to the beginning of the array.  (Formally, C[i] = A[i] when 0 <= i < A.length, and C[i+A.length] = C[i] when i >= 0.)
+
+Also, a subarray may only include each element of the fixed buffer A at most once.  (Formally, for a subarray C[i], C[i+1], ..., C[j], there does not exist i <= k1, k2 <= j with k1 % A.length = k2 % A.length.)
+
+>
+Example 1:
+```
+Input: [1,-2,3,-2]
+Output: 3
+Explanation: Subarray [3] has maximum sum 3
+```
+>
+Example 2:
+```
+Input: [5,-3,5]
+Output: 10
+Explanation: Subarray [5,5] has maximum sum 5 + 5 = 10
+```
+>
+Example 3:
+```
+Input: [3,-1,2,-1]
+Output: 4
+Explanation: Subarray [2,-1,3] has maximum sum 2 + (-1) + 3 = 4
+```
+>
+Example 4:
+```
+Input: [3,-2,2,-3]
+Output: 3
+Explanation: Subarray [3] and [3,-2,2] both have maximum sum 3
+```
+>
+Example 5:
+```
+Input: [-2,-3,-1]
+Output: -1
+Explanation: Subarray [-1] has maximum sum -1
+```
+
+Note:
+
+- -30000 <= A[i] <= 30000
+- 1 <= A.length <= 30000
+
+```python
+class Solution(object):
+    def maxSubarraySumCircular(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        if max(A) < 0:
+            return self.maxSubarraySum(A)
+        
+        return max(self.maxSubarraySum(A), sum(A) - self.minSubarraySum(A))
+        
+    def maxSubarraySum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        L = len(nums)
+        solution = nums[0]
+        current_sum = nums[0]
+        for idx in range(1,L):
+            current_sum = max(current_sum+nums[idx], nums[idx]) 
+            solution = max(solution, current_sum)
+        return solution
+    
+    def minSubarraySum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        L = len(nums)
+        solution = nums[0]
+        current_sum = nums[0]
+        for idx in range(1,L):
+            current_sum = min(current_sum+nums[idx], nums[idx]) 
+            solution = min(solution, current_sum)
         return solution
 ```
 
@@ -20013,7 +20306,7 @@ class Solution(object):
         return root
 ```
 
-## 1012. Complement of Base 10 Integer
+## 1009. Complement of Base 10 Integer
 Every non-negative integer N has a binary representation.  For example, 5 can be represented as "101" in binary, 11 as "1011" in binary, and so on.  Note that except for N = 0, there are no leading zeroes in any binary representation.
 
 The complement of a binary representation is the number in binary you get when changing every 1 to a 0 and 0 to a 1.  For example, the complement of "101" in binary is "010" in binary.
@@ -20040,11 +20333,12 @@ Example 3:
 Input: 10
 Output: 5
 Explanation: 10 is "1010" in binary, with complement "0101" in binary, which is 5 in base-10.
-``` 
+```
 
 Note:
 
 - 0 <= N < 10^9
+- This question is the same as 476: https://leetcode.com/problems/number-complement/
 
 ```python
 class Solution(object):
@@ -20769,6 +21063,75 @@ class Solution(object):
         return [minim, maxim]
 ```
 
+## 1035. Uncrossed Lines
+We write the integers of A and B (in the order they are given) on two separate horizontal lines.
+
+Now, we may draw connecting lines: a straight line connecting two numbers A[i] and B[j] such that:
+
+A[i] == B[j];
+The line we draw does not intersect any other connecting (non-horizontal) line.
+Note that a connecting lines cannot intersect even at the endpoints: each number can only belong to one connecting line.
+
+Return the maximum number of connecting lines we can draw in this way.
+
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2019/04/26/142.png)
+```
+Input: A = [1,4,2], B = [1,2,4]
+Output: 2
+Explanation: We can draw 2 uncrossed lines as in the diagram.
+We cannot draw 3 uncrossed lines, because the line from A[1]=4 to B[2]=4 will intersect the line from A[2]=2 to B[1]=2.
+```
+>
+Example 2:
+```
+Input: A = [2,5,1,2,5], B = [10,5,2,1,5,2]
+Output: 3
+```
+>
+Example 3:
+```
+Input: A = [1,3,7,1,7,5], B = [1,9,2,5,1]
+Output: 2
+```
+
+Note:
+
+- 1 <= A.length <= 500
+- 1 <= B.length <= 500
+- 1 <= A[i], B[i] <= 2000
+
+```python
+class Solution(object):
+    def maxUncrossedLines(self, A, B):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: int
+        """
+        # padding one dummy -1 to represent empty list
+        A = [ -1 ] + A
+        B = [ -1 ] + B
+        
+        h, w = len(A), len(B)
+        dp_table = [ [ 0 for _ in range(w) ] for _ in range(h) ]
+        
+        for y in range(1, h):
+            for x in range(1, w):
+                
+                if A[y] == B[x]:
+                    # current number is matched, add one more uncrossed line
+                    dp_table[y][x] = dp_table[y-1][x-1] + 1
+                    
+                else:
+                    # current number is not matched, backtracking to find maximal uncrossed line
+                    dp_table[y][x] = max( dp_table[y][x-1], dp_table[y-1][x] )
+
+                    
+        return dp_table[-1][-1]        
+```
+
 ## 1037. Valid Boomerang
 A boomerang is a set of 3 points that are all distinct and not in a straight line.
 
@@ -21425,6 +21788,55 @@ class Solution(object):
         return 0.5+0.5*(n==1)
 ```
 
+## 1232. Check If It Is a Straight Line
+You are given an array coordinates, coordinates[i] = [x, y], where [x, y] represents the coordinate of a point. Check if these points make a straight line in the XY plane.
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2019/10/15/untitled-diagram-2.jpg)
+```
+Input: coordinates = [[1,2],[2,3],[3,4],[4,5],[5,6],[6,7]]
+Output: true
+```
+>
+Example 2:
+![](https://assets.leetcode.com/uploads/2019/10/09/untitled-diagram-1.jpg)
+```
+Input: coordinates = [[1,1],[2,2],[3,4],[4,5],[5,6],[7,7]]
+Output: false
+```
+
+Constraints:
+
+- 2 <= coordinates.length <= 1000
+- coordinates[i].length == 2
+- -10^4 <= coordinates[i][0], coordinates[i][1] <= 10^4
+- coordinates contains no duplicate point.
+
+```python
+class Solution(object):
+    def checkStraightLine(self, coordinates):
+        """
+        :type coordinates: List[List[int]]
+        :rtype: bool
+        """
+        L = len(coordinates)
+        if L == 2:
+            return True
+        slope = self.get_slope([coordinates[1], coordinates[0]])
+        
+        for i in range(L):
+            for j in range(i):
+                slope_ij = self.get_slope([coordinates[i], coordinates[j]])
+                if abs(slope_ij - slope) > 1e-5:
+                    return False
+        return True
+    
+    def get_slope(self, coordinates):
+        if coordinates[1][0] == coordinates[0][0]:
+            return 1e5
+        return (coordinates[1][1] - coordinates[0][1])/(coordinates[1][0] - coordinates[0][0])
+```
+
 ## 1249. Minimum Remove to Make Valid Parentheses
 Given a string s of '(' , ')' and lowercase English characters. 
 
@@ -21820,6 +22232,118 @@ class Solution(object):
         return []
 ```
 
+## 1277. Count Square Submatrices with All Ones
+Given a m * n matrix of ones and zeros, return how many square submatrices have all ones.
+>
+Example 1:
+```
+Input: matrix =
+[
+  [0,1,1,1],
+  [1,1,1,1],
+  [0,1,1,1]
+]
+Output: 15
+Explanation: 
+There are 10 squares of side 1.
+There are 4 squares of side 2.
+There is  1 square of side 3.
+Total number of squares = 10 + 4 + 1 = 15.
+```
+>
+Example 2:
+```
+Input: matrix = 
+[
+  [1,0,1],
+  [1,1,0],
+  [1,1,0]
+]
+Output: 7
+Explanation: 
+There are 6 squares of side 1.  
+There is 1 square of side 2. 
+Total number of squares = 6 + 1 = 7.
+```
+
+Constraints:
+
+- 1 <= arr.length <= 300
+- 1 <= arr[0].length <= 300
+- 0 <= arr[i][j] <= 1
+
+```python
+class Solution(object):
+    def countSquares(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: int
+        """
+        if matrix is None or len(matrix) == 0:
+            return 0
+         
+        rows = len(matrix)
+        cols = len(matrix[0])
+         
+        result = 0
+         
+        for r in range(rows):
+            for c in range(cols):
+                if matrix[r][c] == 1:   
+                    if r == 0 or c == 0: # Cases with first row or first col
+                        result += 1      # The 1 cells are square on its own               
+                    else:                # Other cells
+                        cell_val = min(matrix[r-1][c-1], matrix[r][c-1], matrix[r-1][c]) + matrix[r][c]
+                        result += cell_val
+                        matrix[r][c] = cell_val #**memoize the updated result**
+        return result
+```
+
+## 1281. Subtract the Product and Sum of Digits of an Integer
+Given an integer number n, return the difference between the product of its digits and the sum of its digits.
+ 
+>
+Example 1:
+```
+Input: n = 234
+Output: 15 
+Explanation: 
+Product of digits = 2 * 3 * 4 = 24 
+Sum of digits = 2 + 3 + 4 = 9 
+Result = 24 - 9 = 15
+```
+>
+Example 2:
+```
+Input: n = 4421
+Output: 21
+Explanation: 
+Product of digits = 4 * 4 * 2 * 1 = 32 
+Sum of digits = 4 + 4 + 2 + 1 = 11 
+Result = 32 - 11 = 21
+```
+
+Constraints:
+
+- 1 <= n <= 10^5
+
+```python
+class Solution(object):
+    def subtractProductAndSum(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        n_str = str(n)
+        total_sum = 0
+        total_prod = 1
+        for char in n_str:
+            total_sum += int(char)
+            total_prod *= int(char)
+            
+        return total_prod - total_sum
+```
+
 ## 1282. Group the People Given the Group Size They Belong To
 There are n people whose IDs go from 0 to n - 1 and each person belongs exactly to one group. Given the array groupSizes of length n telling the group size each person belongs to, return the groups there are and the people's IDs each group includes.
 
@@ -21864,49 +22388,4 @@ class Solution(object):
                 solution += [groups[g][:g]]
                 groups[g] = groups[g][g:]
         return solution
-```
-
-## 1281. Subtract the Product and Sum of Digits of an Integer
-Given an integer number n, return the difference between the product of its digits and the sum of its digits.
- 
->
-Example 1:
-```
-Input: n = 234
-Output: 15 
-Explanation: 
-Product of digits = 2 * 3 * 4 = 24 
-Sum of digits = 2 + 3 + 4 = 9 
-Result = 24 - 9 = 15
-```
->
-Example 2:
-```
-Input: n = 4421
-Output: 21
-Explanation: 
-Product of digits = 4 * 4 * 2 * 1 = 32 
-Sum of digits = 4 + 4 + 2 + 1 = 11 
-Result = 32 - 11 = 21
-``` 
-
-Constraints:
-
-- 1 <= n <= 10^5
-
-```python
-class Solution(object):
-    def subtractProductAndSum(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        n_str = str(n)
-        total_sum = 0
-        total_prod = 1
-        for char in n_str:
-            total_sum += int(char)
-            total_prod *= int(char)
-            
-        return total_prod - total_sum
 ```
