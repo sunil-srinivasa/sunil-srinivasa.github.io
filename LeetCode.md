@@ -22389,3 +22389,14 @@ class Solution(object):
                 groups[g] = groups[g][g:]
         return solution
 ```
+
+## 1426. Counting Elements
+
+## 1427. Perform String Shifts
+
+## 1428. Leftmost Column with at Least a One
+
+## 1429. First Unique Number
+
+## 1430. Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree
+
