@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Publications
-permalink: /reseach/
+permalink: /research/
 ---
 [Google Scholar Profile](https://scholar.google.com/citations?user=-F8394IAAAAJ&hl=en){:target="_blank"}
 
