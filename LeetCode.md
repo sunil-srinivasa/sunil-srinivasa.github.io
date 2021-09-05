@@ -22469,6 +22469,74 @@ class Solution(object):
         return solution
 ```
 
+1394. Find Lucky Integer in an Array
+Given an array of integers arr, a lucky integer is an integer which has a frequency in the array equal to its value.
+
+Return a lucky integer in the array. If there are multiple lucky integers return the largest of them. If there is no lucky integer return -1.
+
+>
+```
+Example 1:
+
+Input: arr = [2,2,3,4]
+Output: 2
+Explanation: The only lucky number in the array is 2 because frequency[2] == 2.
+```
+>
+```Example 2:
+
+Input: arr = [1,2,2,3,3,3]
+Output: 3
+Explanation: 1, 2 and 3 are all lucky numbers, return the largest of them.
+```
+>
+```Example 3:
+
+Input: arr = [2,2,2,3,3]
+Output: -1
+Explanation: There are no lucky numbers in the array.
+```
+>
+```
+Example 4:
+
+Input: arr = [5]
+Output: -1
+```
+>
+```
+Example 5:
+
+Input: arr = [7,7,7,7,7,7,7]
+Output: 7
+```
+
+Constraints:
+
+- 1 <= arr.length <= 500
+- 1 <= arr[i] <= 500
+
+```python
+class Solution(object):
+    def findLucky(self, arr):
+        """
+        :type arr: List[int]
+        :rtype: int
+        """
+        from collections import defaultdict
+        arr_dict = defaultdict(int)
+        
+        for element in arr:
+            arr_dict[element] += 1
+        
+        solution = -1
+        for key in arr_dict:
+            if arr_dict[key] == key:
+                solution = max(solution, key)
+        
+        return solution
+```
+
 ## 1426. Counting Elements
 
 ## 1427. Perform String Shifts
@@ -22478,4 +22546,127 @@ class Solution(object):
 ## 1429. First Unique Number
 
 ## 1430. Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree
+
+## 1436. Destination City
+You are given the array paths, where paths[i] = [cityAi, cityBi] means there exists a direct path going from cityAi to cityBi. Return the destination city, that is, the city without any path outgoing to another city.
+
+It is guaranteed that the graph of paths forms a line without any loop, therefore, there will be exactly one destination city.
+
+ 
+>
+Example 1:
+```
+Input: paths = [["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]]
+Output: "Sao Paulo" 
+Explanation: Starting at "London" city you will reach "Sao Paulo" city which is the destination city. Your trip consist of: "London" -> "New York" -> "Lima" -> "Sao Paulo".
+```
+
+>
+Example 2:
+```
+Input: paths = [["B","C"],["D","B"],["C","A"]]
+Output: "A"
+Explanation: All possible trips are: 
+"D" -> "B" -> "C" -> "A". 
+"B" -> "C" -> "A". 
+"C" -> "A". 
+"A". 
+Clearly the destination city is "A".
+```
+
+>
+Example 3:
+```
+Input: paths = [["A","Z"]]
+Output: "Z"
+```
+
+Constraints:
+
+- 1 <= paths.length <= 100
+- paths[i].length == 2
+- 1 <= cityAi.length, cityBi.length <= 10
+- cityAi != cityBi
+- All strings consist of lowercase and uppercase English letters and the space character.
+
+```python
+class Solution(object):
+    def destCity(self, paths):
+        """
+        :type paths: List[List[str]]
+        :rtype: str
+        """
+        path_dict = {}
+        for path in paths:
+            path_dict[path[0]] = False
+            if path[1] not in path_dict:
+                path_dict[path[1]] = True
+                
+        for city in path_dict:
+            if path_dict[city]:
+                return city
+```
+
+## 1905. Count Sub Islands
+You are given two m x n binary matrices grid1 and grid2 containing only 0's (representing water) and 1's (representing land). An island is a group of 1's connected 4-directionally (horizontal or vertical). Any cells outside of the grid are considered water cells.
+
+An island in grid2 is considered a sub-island if there is an island in grid1 that contains all the cells that make up this island in grid2.
+
+Return the number of islands in grid2 that are considered sub-islands.
+
+>
+Example 1:
+![](https://assets.leetcode.com/uploads/2021/06/10/test1.png)
+```
+Input: grid1 = [[1,1,1,0,0],[0,1,1,1,1],[0,0,0,0,0],[1,0,0,0,0],[1,1,0,1,1]], grid2 = [[1,1,1,0,0],[0,0,1,1,1],[0,1,0,0,0],[1,0,1,1,0],[0,1,0,1,0]]
+Output: 3
+Explanation: In the picture above, the grid on the left is grid1 and the grid on the right is grid2.
+The 1s colored red in grid2 are those considered to be part of a sub-island. There are three sub-islands.
+```
+
+>
+Example 2:
+![](https://assets.leetcode.com/uploads/2021/06/03/testcasex2.png)
+```
+Input: grid1 = [[1,0,1,0,1],[1,1,1,1,1],[0,0,0,0,0],[1,1,1,1,1],[1,0,1,0,1]], grid2 = [[0,0,0,0,0],[1,1,1,1,1],[0,1,0,1,0],[0,1,0,1,0],[1,0,0,0,1]]
+Output: 2 
+Explanation: In the picture above, the grid on the left is grid1 and the grid on the right is grid2.
+The 1s colored red in grid2 are those considered to be part of a sub-island. There are two sub-islands.
+```
+
+Constraints:
+
+- m == grid1.length == grid2.length
+- n == grid1[i].length == grid2[i].length
+- 1 <= m, n <= 500
+- grid1[i][j] and grid2[i][j] are either 0 or 1.
+
+```python
+class Solution(object):
+    def countSubIslands(self, grid1, grid2):
+        """
+        :type grid1: List[List[int]]
+        :type grid2: List[List[int]]
+        :rtype: int
+        """
+        m, n = len(grid2), len(grid2[0])
+        num_sub_islands = 0
+        for i in range(m):
+            for j in range(n):
+                if grid2[i][j] == 1:
+                    is_sub_island, grid2 = self.traverse_and_check_island(grid1, grid2, i, j, True)
+                    num_sub_islands += int(is_sub_island)
+        return num_sub_islands
+    
+    def traverse_and_check_island(self, grid1, grid2, i, j, is_sub_island):
+        m, n = len(grid2), len(grid2[0])
+        grid2[i][j] = 0
+        if grid1[i][j] == 0 or not is_sub_island:
+            is_sub_island = False
+        directions = [(0, 1), (-1, 0), (1, 0), (0, -1)]
+        for dir in directions:
+            if (0 <= i+dir[0] < m) and (0 <= j+dir[1] < n) and (grid2[i+dir[0]][j+dir[1]] == 1):
+                is_sub_island, grid2 = self.traverse_and_check_island(grid1, grid2, i+dir[0], j+dir[1], is_sub_island)
+        return is_sub_island, grid2
+```
 
